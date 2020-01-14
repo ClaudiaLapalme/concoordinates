@@ -1,11 +1,11 @@
 # pikaroute
 Lost on campus? Pikaroute will help you pick a route (SOEN 390 Project)
 
-## Set up
+## Set up for Windows and Linux
 
 ### Installations
 
-1. Install GitBash
+1. Install GitBash or any other terminal
 2. Install Node.js and / or update to the latest version
 3. `npm install -g ionic` 
 4. npm install @ionic/angular@latest --save
@@ -13,7 +13,7 @@ Lost on campus? Pikaroute will help you pick a route (SOEN 390 Project)
 
 ### Android setup
 
-Note: Use vscode to program. Android is just to launch the app on an emulator
+Note: Use vscode to program. Android is just to launch the app on a mobile android device
 
 https://code.visualstudio.com/docs/setup/setup-overview
 
