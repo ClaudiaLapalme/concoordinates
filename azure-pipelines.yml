@@ -25,7 +25,7 @@ steps:
     npm update
   displayName: 'Update modules'
 
-- script: ng test
+- script: ng test --watch=false --code-coverage
   displayName: 'Run ng test'
 
 
