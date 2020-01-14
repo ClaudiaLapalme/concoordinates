@@ -13,6 +13,10 @@ Lost on campus? Pikaroute will help you pick a route (SOEN 390 Project)
 
 ### Android setup
 
+Note: Use vscode to program. Android is just to launch the app on an emulator
+
+https://code.visualstudio.com/docs/setup/setup-overview
+
 1. Install Java 8
     - FOund on the Oracle website
     - Note: Cordova is not compatible with the latest version of Java
