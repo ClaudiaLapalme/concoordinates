@@ -9,24 +9,35 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
+jobs:
+- job: build_and_test
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.x'
+    displayName: 'Install Node.js'
 
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+  - script: |
+      npm install -g @angular/cli
+      npm install puppeteer --save-dev
+      npm install
+    displayName: 'npm install dependencies and build'
+    
+  - script: |
+      npm update
+    displayName: 'Update modules'
 
-- script: |
-    npm install -g @angular/cli
-    npm install puppeteer --save-dev
-    npm install
-  displayName: 'npm install dependencies and build'
-  
-- script: |
-    npm update
-  displayName: 'Update modules'
+  - script: ng test --watch=false --code-coverage
+    displayName: 'Run ng test'
 
-- script: ng test --watch=false --code-coverage
-  displayName: 'Run ng test'
+  - script: echo $(Agent.JobStatus)
+    displayName: 'Get Job status'
+
+- job: notify_discord
+  dependsOn:
+    build_and_test
+  steps:
+  - bash: echo "B"
+
 
 
