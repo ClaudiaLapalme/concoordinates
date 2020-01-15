@@ -3,6 +3,8 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+variables:
+  discord_webhook: https://discordapp.com/api/webhooks/666446406042648593/rxbbIKpP5sH7w-I8iTNEiiXWeTuOLCCsGX8iiPSu4ygSisGQaOgOrN830SVOHI7KUtYu
 trigger:
 - master
 
@@ -30,14 +32,15 @@ jobs:
   - script: ng test --watch=false --code-coverage
     displayName: 'Run ng test'
 
-  - script: echo $(Agent.JobStatus)
-    displayName: 'Get Job status'
+  - script: |
+       curl -X POST --data '{"content":"Pipeline run completed. Result: $(Agent.JobStatus)"}' -H "Accept: application/json" -H "Content-Type: application/json" $(discord_webhook)
+    displayName: 'Notify Discord'
 
-- job: notify_discord
-  dependsOn:
-    build_and_test
-  steps:
-  - bash: echo "B"
+# - job: notify_discord
+#   dependsOn:
+#     build_and_test
+#   steps:
+#   - bash: echo "B"
 
 
 
