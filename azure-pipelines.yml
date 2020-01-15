@@ -36,4 +36,18 @@ jobs:
        curl -X POST --data '{"content":"Pipeline completed.\nPipeline Status: $(Agent.JobStatus)\nCommit tag: $(Build.SourceVersion)\nCommit message: $(Build.SourceVersionMessage)\n"}' -H "Accept: application/json" -H "Content-Type: application/json" $(discord_webhook)
     displayName: 'Notify Discord'
 
-
+- job: sonar_scan
+  steps:
+    
+    - script: docker run -d --name sonarqube -p 9000:9000 sonarqube
+      displayName: 'Launch SonarQube instance'
+      
+    - task: SonarQubePrepare@4
+      inputs:
+        SonarQube: 'SonarQubeLocal'
+        scannerMode: 'CLI'
+        configMode: 'file'
+    - task: SonarQubeAnalyze@4
+    - task: SonarQubePublish@4
+      inputs:
+        pollingTimeoutSec: '300'
