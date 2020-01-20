@@ -31,6 +31,7 @@ docker run -d --name sonarqube -p 9000:9000 sonarqube
 - Login to <http://localhost:9000/> (default is admin:admin)
 - Wait for SonarQube to setup
 - Click add new project and follow the instructions provided by SonarQube (depends on your OS)
+- If sonar can't find typescript, run npm install -D typescript in W10
 
 ### Android setup
 
