@@ -1,14 +1,28 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-toolbar>
+  <ion-row>
+    <ion-col text-start padding-top>
+      <ion-title>Google Map</ion-title>
+    </ion-col>
+    <ion-col text-end>
+      <ion-button (click)="loadMap()" shape="round" fill="outline">
+        <ion-icon slot="start" name="locate"></ion-icon>
+        Where I Am
+      </ion-button>
+    </ion-col>
+  </ion-row>
 </ion-header>
-
 <ion-content>
+ 
+  <div class="map-wrapper">
+    <div id="map_center">
+      <img src="../../assets/icon/center_marker.png" />
+    </div>
+    <div #map id="map"></div>
+  </div>
   <div class="ion-padding">
     The world is your oyster.
     <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
   </div>
+ 
+ 
 </ion-content>
