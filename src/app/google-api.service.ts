@@ -18,9 +18,14 @@ export class GoogleApiService {
   map: any;
   address:string;
 
-  loadMap(mapElement: ElementRef) {
+  loadMap(mapElement: ElementRef, starting_latitude: number = 0.0, starting_longitude: number = 0.0) {
     this.geolocation.getCurrentPosition().then((resp) => {
-      let latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
+        let latLng: any;
+      if(starting_latitude==0.0 && starting_longitude==0.0){
+        latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
+      }else{
+        latLng = new google.maps.LatLng(starting_latitude,starting_longitude);
+      }
       let mapOptions = {
         center: latLng,
         zoom: 15,

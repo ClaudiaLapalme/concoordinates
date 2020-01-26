@@ -19,6 +19,19 @@
     </div>
     <div #map id="map"></div>
   </div>
+  
+  <form #form="ngForm" (ngSubmit)="logForm(form)" novalidate>
+    <ion-item>
+      <ion-label>Latitude</ion-label>
+      <ion-input type="number" required [(ngModel)]="coordinates.latitude" name="latitude" ngControl="latitude"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Longitude</ion-label>
+      <ion-input type="number" required [(ngModel)]="coordinates.longitude" name="longitude" ngControl="longitude"></ion-input>
+    </ion-item>
+    <button ion-button type="submit" block>Add Todo</button>
+  </form>
+
   <div class="ion-padding">
     The world is your oyster.
     <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>

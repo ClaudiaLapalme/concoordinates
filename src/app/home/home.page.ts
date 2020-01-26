@@ -12,6 +12,11 @@ import { GoogleApiService } from '../google-api.service';
 })
 export class HomePage {
 
+  coordinates = {
+    latitude: 45.5581968,
+    longitude: -73.870385
+  };
+
   @ViewChild('map',{static:false}) mapElement: ElementRef;
   map: any;
   address:string;
@@ -24,7 +29,13 @@ export class HomePage {
   }
  
  
+  logForm(form) {
+    console.log(this.coordinates)
+    this.google_api.loadMap(this.mapElement,this.coordinates.latitude,this.coordinates.longitude);
+  }
+  
   ngAfterViewInit() {
+    
     this.google_api.loadMap(this.mapElement);
   }
  
