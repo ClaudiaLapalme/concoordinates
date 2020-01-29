@@ -29,7 +29,6 @@ export class HomePage {
     this.google_api = google_api;
   }
  
- 
   reloadMap() {
     this.google_api.loadMap(this.mapElement,this.coordinates.latitude,this.coordinates.longitude);
   }
