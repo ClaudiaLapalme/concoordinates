@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ILatLng } from './directions.directive';
+import { ILatLng } from '../interfaces';
 
 
 

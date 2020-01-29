@@ -1,13 +1,7 @@
 import {Directive, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {GoogleMapsAPIWrapper} from '@agm/core';
+import { ILatLng } from '../interfaces';
 
-// You can use any other interface for origin and destination, but it must contain latlng data
-export interface ILatLng {
-  latitude: number;
-  longitude: number;
-}
-
-// the will keep typescript from throwing errors w.r.t the google object
 declare var google: any;
 
 @Directive({

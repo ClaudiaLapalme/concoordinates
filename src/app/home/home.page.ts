@@ -2,6 +2,7 @@ import { Component, ElementRef } from '@angular/core';
 
 import { ViewChild } from '@angular/core'
 import { GoogleApiService } from '../google-api.service';
+import { ILatLng } from '../interfaces';
 
 
 
@@ -12,7 +13,7 @@ import { GoogleApiService } from '../google-api.service';
 })
 export class HomePage {
 
-  coordinates = {
+  coordinates: ILatLng = {
     latitude: 45.5581968,
     longitude: -73.870385
   };
@@ -29,13 +30,11 @@ export class HomePage {
   }
  
  
-  logForm(form) {
-    console.log(this.coordinates)
+  reloadMap() {
     this.google_api.loadMap(this.mapElement,this.coordinates.latitude,this.coordinates.longitude);
   }
   
-  ngAfterViewInit() {
-    
+  ngAfterViewInit() {    
     this.google_api.loadMap(this.mapElement);
   }
  

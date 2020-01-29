@@ -1,18 +1,6 @@
-<ion-header>
-  <ion-row>
-    <ion-col text-start padding-top>
-      <ion-title>Google Map</ion-title>
-    </ion-col>
-    <ion-col text-end>
-      <ion-button (click)="getDirection()" shape="round" fill="outline">
-        <ion-icon slot="start" name="locate"></ion-icon>
-        Where I Am
-      </ion-button>
-    </ion-col>
-  </ion-row>
-</ion-header>
+ 
 <ion-content>
-
+  
   <form #form="ngForm" (ngSubmit)="getDirectionForm()" novalidate>
     <ion-item>
       <ion-label>Origin Coordinates</ion-label>
