@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { DirectionsPage } from './directions.page';
 import { AgmCoreModule } from '@agm/core';            // @agm/core
 import { AgmDirectionModule } from 'agm-direction';   // agm-direction
+import { DirectionsMapDirective } from './directions.directive';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import { AgmDirectionModule } from 'agm-direction';   // agm-direction
     IonicModule,
     RouterModule.forChild([
       {
-        path: 'directions',
+        path: '',
         component: DirectionsPage
       }
     ]),
@@ -24,6 +25,6 @@ import { AgmDirectionModule } from 'agm-direction';   // agm-direction
     }),
     AgmDirectionModule,     // agm-direction
   ],
-  declarations: [DirectionsPage]
+  declarations: [DirectionsPage,DirectionsMapDirective]
 })
 export class DirectionsPageModule {}

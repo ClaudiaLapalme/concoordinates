@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ILatLng } from './directions.directive';
 
 
 
@@ -9,30 +10,24 @@ import { Component } from '@angular/core';
 })
 export class DirectionsPage {
 
-  coordinates = {
-    latitude: 45.5581968,
-    longitude: -73.870385
+   // Washington, DC, USA
+   origin: ILatLng = {
+    latitude: 38.889931,
+    longitude: -77.009003
   };
+  // New York City, NY, USA
+  destination: ILatLng = {
+    latitude: 40.730610,
+    longitude: -73.935242
+  };
+  
+  displayDirections = false;
 
-  public lat = 24.799448;
-  public lng = 120.979021;
-  public origin: any;
-  public destination: any;
-
-  getDirectionForm(){
-    this.origin = { lat: this.coordinates.latitude, lng: this.coordinates.longitude };
-    this.destination = { lat: 40.6976637, lng: -74.119764 };
-    this.getDirection()
-  }
-
-  getDirection() {
+  ngAfterViewInit(){
+    this.displayDirections = true;
   }
   
-  ngOnInit() {
-    this.origin = { lat: 24.799448, lng: 120.979021 };
-    this.destination = { lat: 24.799524, lng: 120.975017 };
-    this.getDirection()
-  } 
+  zoom = 14;
   
 
 }

@@ -46,17 +46,19 @@ export class DirectionsMapDirective implements OnInit, OnChanges {
                 destination: {lat: this.destination.latitude, lng: this.destination.longitude},
                 waypoints: [],
                 optimizeWaypoints: true,
-                travelMode: 'DRIVING'
+                travelMode: 'TRANSIT'
             }, (response, status) => {
                 if (status === 'OK') {
                     directionsRenderer.setDirections(response);
                     // If you'll like to display an info window along the route
                     // middleStep is used to estimate the midpoint on the route where the info window will appear
-                    // const middleStep = (response.routes[0].legs[0].steps.length / 2).toFixed();
-                    // const infowindow2 = new google.maps.InfoWindow();
-                    // infowindow2.setContent(`${response.routes[0].legs[0].distance.text} <br> ${response.routes[0].legs[0].duration.text}  `);
-                    // infowindow2.setPosition(response.routes[0].legs[0].steps[middleStep].end_location);
-                    // infowindow2.open(map);
+                    const middleStep = (response.routes[0].legs[0].steps.length / 2).toFixed();
+                    const infowindow2 = new google.maps.InfoWindow();
+                    infowindow2.setContent(`
+                    ${response.routes[0].legs[0].distance.text} <br> ${response.routes[0].legs[0].duration.text}  
+                    `);
+                    infowindow2.setPosition(response.routes[0].legs[0].steps[middleStep].end_location);
+                    infowindow2.open(map);
                 } else {
                     console.log('Directions request failed due to ' + status);
                 }
