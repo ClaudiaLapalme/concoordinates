@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GoogleApiService } from './google-api.service';
+import { LocationService } from './location.service';
 
-describe('GoogleApiService', () => {
+describe('LocationService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: GoogleApiService = TestBed.get(GoogleApiService);
+    const service: LocationService = TestBed.get(LocationService);
     expect(service).toBeTruthy();
   });
 });

@@ -1,8 +1,9 @@
 import { Component, ElementRef } from '@angular/core';
 
 import { ViewChild } from '@angular/core'
-import { GoogleApiService } from '../google-api.service';
+
 import { ILatLng } from '../interfaces';
+import { MapService } from '../google-apis/map.service';
 
 
 
@@ -21,20 +22,19 @@ export class HomePage {
   @ViewChild('map',{static:false}) mapElement: ElementRef;
   map: any;
   address:string;
-  google_api: GoogleApiService;
+  // google_api: GoogleApiService;
 
   constructor(
-    google_api: GoogleApiService
+    private mapService: MapService
   ) {
-    this.google_api = google_api;
   }
  
   reloadMap() {
-    this.google_api.loadMap(this.mapElement,this.coordinates.latitude,this.coordinates.longitude);
+    this.mapService.loadMap(this.mapElement,this.coordinates.latitude,this.coordinates.longitude);
   }
   
   ngAfterViewInit() {    
-    this.google_api.loadMap(this.mapElement);
+    this.mapService.loadMap(this.mapElement);
   }
  
   

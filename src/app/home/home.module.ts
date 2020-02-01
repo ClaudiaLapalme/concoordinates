@@ -5,12 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
+import { GoogleApisModule } from '../google-apis/google-apis.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    GoogleApisModule,
     RouterModule.forChild([
       {
         path: '',

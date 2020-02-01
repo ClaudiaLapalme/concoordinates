@@ -4,13 +4,13 @@
   <form #form="ngForm" (ngSubmit)="getDirectionForm()" novalidate>
     <ion-item>
       <ion-label>Origin Coordinates</ion-label>
-      <ion-input type="number" required [(ngModel)]="origin.lat" name="latitude" ngControl="latitude"></ion-input>
-      <ion-input type="number" required [(ngModel)]="origin.lng" name="longitude" ngControl="longitude"></ion-input>
+      <ion-input type="number" required [(ngModel)]="origin.latitude" name="latitude" ngControl="latitude"></ion-input>
+      <ion-input type="number" required [(ngModel)]="origin.longitude" name="longitude" ngControl="longitude"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Destination Coordinates</ion-label>
-      <ion-input type="number" required [(ngModel)]="destination.lat" name="latitude" ngControl="latitude"></ion-input>
-      <ion-input type="number" required [(ngModel)]="destination.lng" name="longitude" ngControl="longitude"></ion-input>
+      <ion-input type="number" required [(ngModel)]="destination.latitude" name="latitude" ngControl="latitude"></ion-input>
+      <ion-input type="number" required [(ngModel)]="destination.longitude" name="longitude" ngControl="longitude"></ion-input>
     </ion-item>
     <button ion-button type="submit" block>Refresh Map</button>
   </form>
