@@ -29,6 +29,10 @@ jobs:
       npm update
     displayName: 'Update modules'
 
+  - script: |
+       sed -i 's/G_API_KEY_PLACEHOLDER/'$SECRET_API_KEY'/g' src/index.html
+    displayName: 'Update api key for tests'
+
   - script: ng test --watch=false --code-coverage
     displayName: 'Run ng test'
 
