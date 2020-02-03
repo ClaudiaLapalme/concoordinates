@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ILatLng } from '../interfaces';
+import { ILatLng } from '../models/coordinates';
 
 
 
@@ -22,12 +22,12 @@ export class DirectionsPage {
   };
   
   displayDirections = false;
+  zoom = 14;
 
   ngAfterViewInit(){
     this.displayDirections = true;
   }
   
-  zoom = 14;
   
 
 }

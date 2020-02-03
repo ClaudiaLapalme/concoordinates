@@ -1,6 +1,6 @@
 import {Directive, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {GoogleMapsAPIWrapper} from '@agm/core';
-import { ILatLng } from '../interfaces';
+import { ILatLng } from '../models/coordinates';
 
 declare var google: any;
 
