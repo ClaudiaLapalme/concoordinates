@@ -5,6 +5,7 @@ import { ViewChild } from "@angular/core";
 import { ILatLng } from "../models/coordinates";
 import { MapService } from "../services/map/map.service";
 
+declare var google: any;
 @Component({
   selector: "app-home",
   templateUrl: 'home.page.html',
@@ -19,7 +20,6 @@ export class HomePage {
   @ViewChild("map", { static: false }) mapElement: ElementRef;
   map: any;
   address: string;
-  // google_api: GoogleApiService;
 
   constructor(private mapService: MapService) {}
 

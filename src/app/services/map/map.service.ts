@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationService } from '../location/location.service';
+// import {  } from '@google/maps';
 
-declare var google;
+// declare var google: any;
 
 @Injectable({
   providedIn: 'root'
