@@ -16,6 +16,12 @@ export class MapService {
 
   map: any;
   address: string;
+  marker: any;
+
+  icon = {
+    url: '../../../assets/icon/center_marker.png',
+    scaledSize: new google.maps.Size(30, 30), // scaled size
+};
 
   loadMap(
     mapElement: ElementRef,
@@ -49,6 +55,12 @@ export class MapService {
         );
 
         this.map = new google.maps.Map(mapElement.nativeElement, mapOptions);
+
+        this.marker = new google.maps.Marker({
+          position: latLng,
+          map: this.map,  
+          icon: this.icon
+        });
 
         this.map.addListener('tilesloaded', () => {
           console.log('accuracy', this.map);

@@ -1,25 +1,7 @@
 <ion-content>
  
   <div class="map-wrapper">
-    <div id="map_center">
-      <img src="../../assets/icon/center_marker.png" />
-    </div>
     <div #map id="map"></div>
   </div>
-  
-<ion-button href="/directions">Directions Sample</ion-button>
 
-  <form #form="ngForm" (ngSubmit)="reloadMap(form)" novalidate>
-    <ion-item>
-      <ion-label>Latitude</ion-label>
-      <ion-input type="number" required [(ngModel)]="coordinates.latitude" name="latitude" ngControl="latitude"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Longitude</ion-label>
-      <ion-input type="number" required [(ngModel)]="coordinates.longitude" name="longitude" ngControl="longitude"></ion-input>
-    </ion-item>
-    <button ion-button type="submit" block>Refresh Map</button>
-  </form>
- 
- 
 </ion-content>

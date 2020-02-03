@@ -57,8 +57,9 @@ Note: Use vscode to program. Android is just to launch the app on a mobile andro
 
 ### How to run the app on an android phone
 
-1. npm i -g native-run (if first time building)
+1. `npm i -g native-run` (unecessary if the project is already set up)
 2. `ionic capacitor add android`
 3. `ionic build`
-4. `npx cap add android`
-5. `npx cap open android`
+4. `npx cap open android`
+
+**NOTE:** delete `pikaroute/android` and recreate the android folder to see the changes reflected

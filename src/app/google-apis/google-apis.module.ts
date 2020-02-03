@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DirectionsService } from './directions/directions.service';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -11,6 +10,5 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     HttpClientModule
   ],
-  providers: [DirectionsService]
 })
 export class GoogleApisModule { }
