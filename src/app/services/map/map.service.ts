@@ -13,9 +13,10 @@ export class MapService {
     private locationService: LocationService
   ) {}
 
+  // for some reason google.maps.Map causes a compiler error, so we will leave this as any for the moment
   map: any;
   address: string;
-  marker: any;
+  marker: google.maps.Marker;
 
   icon = {
     url: '../../../assets/icon/center_marker.png',
@@ -30,7 +31,7 @@ export class MapService {
     this.geolocation
       .getCurrentPosition()
       .then(resp => {
-        let latLng: any;
+        let latLng: google.maps.LatLng;
         if (startingLatitude == 0.0 && startingLongitude == 0.0) {
           latLng = new google.maps.LatLng(
             resp.coords.latitude,

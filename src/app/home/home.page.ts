@@ -14,7 +14,7 @@ export class HomePage {
     coordinates: ILatLng;
     
     @ViewChild('map', { static: false }) mapElement: ElementRef;
-    map: any;
+    map: google.maps.Map;
     address: string;
 
     constructor(private mapService: MapService) {}
