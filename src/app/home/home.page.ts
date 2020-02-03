@@ -11,11 +11,8 @@ import { MapService } from '../services/map/map.service';
     styleUrls: ['home.page.scss']
 })
 export class HomePage {
-    coordinates: ILatLng = {
-        latitude: 45.5581968,
-        longitude: -73.870385
-    };
-
+    coordinates: ILatLng;
+    
     @ViewChild('map', { static: false }) mapElement: ElementRef;
     map: any;
     address: string;

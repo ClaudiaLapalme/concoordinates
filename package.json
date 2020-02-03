@@ -75,7 +75,7 @@
     "tslint": "~5.15.0",
     "typescript": "~3.4.3"
   },
-  "description": "An Ionic project",
+  "description": "SOEN 390 2020",
   "cordova": {
     "plugins": {
       "cordova-plugin-geolocation": {
