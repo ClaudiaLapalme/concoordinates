@@ -21,7 +21,7 @@ export class MapService {
   icon = {
     url: '../../../assets/icon/center_marker.png',
     scaledSize: new google.maps.Size(30, 30), // scaled size
-};
+  };
 
   loadMap(
     mapElement: ElementRef,
