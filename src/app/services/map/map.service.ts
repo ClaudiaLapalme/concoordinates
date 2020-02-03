@@ -27,7 +27,7 @@ export class MapService {
     mapElement: ElementRef,
     startingLatitude: number = 0.0,
     startingLongitude: number = 0.0
-  ) {
+  ): void {
     this.geolocation
       .getCurrentPosition()
       .then(resp => {

@@ -19,7 +19,7 @@ export class HomePage {
 
     constructor(private mapService: MapService) {}
 
-    reloadMap() {
+    reloadMap(): void {
         this.mapService.loadMap(
             this.mapElement,
             this.coordinates.latitude,
@@ -27,7 +27,7 @@ export class HomePage {
         );
     }
 
-    ngAfterViewInit() {
+    ngAfterViewInit(): void {
         this.mapService.loadMap(this.mapElement);
     }
 }

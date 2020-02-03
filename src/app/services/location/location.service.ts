@@ -13,7 +13,7 @@ export class LocationService {
 
   address: string;
 
-  getAddressFromCoords(latitude, longitude) {
+  getAddressFromCoords(latitude, longitude): void {
     console.log('getAddressFromCoords ' + latitude + ' ' + longitude);
     let options: NativeGeocoderOptions = {
       useLocale: true,
