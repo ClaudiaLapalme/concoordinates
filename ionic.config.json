@@ -1,5 +1,8 @@
 {
   "name": "pikaroute",
-  "integrations": {},
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
   "type": "angular"
 }
