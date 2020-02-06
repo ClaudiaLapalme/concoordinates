@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, AfterViewInit } from '@angular/core';
 
 import { ViewChild } from '@angular/core';
 
@@ -10,22 +10,14 @@ import { MapService } from '../services/map/map.service';
     templateUrl: 'home.page.html',
     styleUrls: ['home.page.scss']
 })
-export class HomePage {
+export class HomePage implements AfterViewInit {
     coordinates: ILatLng;
-    
+
     @ViewChild('map', { static: false }) mapElement: ElementRef;
     map: google.maps.Map;
     address: string;
 
     constructor(private mapService: MapService) {}
-
-    reloadMap(): void {
-        this.mapService.loadMap(
-            this.mapElement,
-            this.coordinates.latitude,
-            this.coordinates.longitude
-        );
-    }
 
     ngAfterViewInit(): void {
         this.mapService.loadMap(this.mapElement);

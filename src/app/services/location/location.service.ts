@@ -11,26 +11,35 @@ import {
 export class LocationService {
   constructor(private nativeGeocoder: NativeGeocoder) {}
 
+  // TODO: move this to be returned instead of stored globally to the service
   address: string;
 
+  // TODO change return to be what it says it returns
+  /* From coordinates to an address */
   getAddressFromCoords(latitude, longitude): void {
+
     console.log('getAddressFromCoords ' + latitude + ' ' + longitude);
     let options: NativeGeocoderOptions = {
       useLocale: true,
       maxResults: 5
     };
 
-    this.nativeGeocoder
-      .reverseGeocode(latitude, longitude, options)
+    /* runs on native only (pc does not work) */
+    // TODO: push this to google-apis.service
+    // TODO: refactor this
+    this.nativeGeocoder.reverseGeocode(latitude, longitude, options)
       .then((result: NativeGeocoderResult[]) => {
+
         this.address = '';
-        let responseAddress = [];
-        for (let [key, value] of Object.entries(result[0])) {
-          if (value.length > 0) {
-            responseAddress.push(value);
-          }
+        const responseAddress = [];
+        if (result[0]) {
+          Object.values(result[0]).forEach(property => {
+            if (property) {
+              responseAddress.unshift(property);
+            }
+          });
         }
-        responseAddress.reverse();
+
         for (let value of responseAddress) {
           this.address += value + ', ';
         }
