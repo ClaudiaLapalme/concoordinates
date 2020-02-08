@@ -5,22 +5,22 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 
 describe('HomePage', () => {
-  let component: HomePage;
-  let fixture: ComponentFixture<HomePage>;
+    let component: HomePage;
+    let fixture: ComponentFixture<HomePage>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ HomePage ],
-      imports: [IonicModule.forRoot()],
-      providers: [Geolocation, NativeGeocoder]
-    }).compileComponents();
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [HomePage],
+            imports: [IonicModule.forRoot()],
+            providers: [Geolocation, NativeGeocoder]
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(HomePage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  }));
+        fixture = TestBed.createComponent(HomePage);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

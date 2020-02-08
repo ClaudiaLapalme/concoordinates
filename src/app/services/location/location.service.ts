@@ -1,52 +1,49 @@
 import { Injectable } from '@angular/core';
 import {
-  NativeGeocoderOptions,
-  NativeGeocoderResult,
-  NativeGeocoder
+    NativeGeocoderOptions,
+    NativeGeocoderResult,
+    NativeGeocoder
 } from '@ionic-native/native-geocoder/ngx';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class LocationService {
-  constructor(private nativeGeocoder: NativeGeocoder) {}
+    constructor(private nativeGeocoder: NativeGeocoder) { }
 
-  // TODO: move this to be returned instead of stored globally to the service
-  address: string;
 
-  // TODO change return to be what it says it returns
-  /* From coordinates to an address */
-  getAddressFromCoords(latitude, longitude): void {
+    public getGeoLocation(): google.maps.LatLng {
+        return new google.maps.LatLng(0, 0);
+    }
 
-    console.log('getAddressFromCoords ' + latitude + ' ' + longitude);
-    let options: NativeGeocoderOptions = {
-      useLocale: true,
-      maxResults: 5
-    };
+    // // From LatLng to an address
+    // getAddressFromLatLng(lat: number, lng: number): string {
 
-    /* runs on native only (pc does not work) */
-    // TODO: push this to google-apis.service
-    // TODO: refactor this
-    this.nativeGeocoder.reverseGeocode(latitude, longitude, options)
-      .then((result: NativeGeocoderResult[]) => {
+    //     const options: NativeGeocoderOptions = {
+    //         useLocale: true,
+    //         maxResults: 5
+    //     };
 
-        this.address = '';
-        const responseAddress = [];
-        if (result[0]) {
-          Object.values(result[0]).forEach(property => {
-            if (property) {
-              responseAddress.unshift(property);
-            }
-          });
-        }
+    //     const address = '';
+    //     this.nativeGeocoder.reverseGeocode(lat, lng, options)
+    //         .then((result: NativeGeocoderResult[]) => {
 
-        for (let value of responseAddress) {
-          this.address += value + ', ';
-        }
-        this.address = this.address.slice(0, -2);
-      })
-      .catch((error: any) => {
-        this.address = 'Address Not Available!';
-      });
-  }
+    //             const responseAddress = [];
+    //             if (result[0]) {
+    //                 Object.values(result[0]).forEach(property => {
+    //                     if (property) {
+    //                         responseAddress.unshift(property);
+    //                     }
+    //                 });
+    //             }
+
+    //             for (let value of responseAddress) {
+    //                 address += value + ', ';
+    //             }
+    //             address = address.slice(0, -2);
+    //         })
+    //         .catch((error: any) => {
+    //             address = 'Address Not Available!';
+    //         });
+    // }
 }

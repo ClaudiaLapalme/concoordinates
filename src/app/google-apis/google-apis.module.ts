@@ -5,10 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    HttpClientModule
-  ],
+    declarations: [],
+    imports: [
+        CommonModule,
+        HttpClientModule
+    ],
 })
 export class GoogleApisModule { }

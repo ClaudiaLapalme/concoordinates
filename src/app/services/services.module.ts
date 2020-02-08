@@ -7,10 +7,10 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ],
-  providers:[MapService, NativeGeocoder, Geolocation]
+    declarations: [],
+    imports: [
+        CommonModule
+    ],
+    providers: [MapService, NativeGeocoder, Geolocation]
 })
 export class ServicesModule { }

@@ -8,18 +8,18 @@ import { HomePage } from './home.page';
 import { ServicesModule } from '../services/services.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    ServicesModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: HomePage
-      }
-    ])
-  ],
-  declarations: [HomePage]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        ServicesModule,
+        RouterModule.forChild([
+            {
+                path: '',
+                component: HomePage
+            }
+        ])
+    ],
+    declarations: [HomePage]
 })
-export class HomePageModule {}
+export class HomePageModule { }
