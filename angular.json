@@ -96,10 +96,11 @@
           "options": {
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
+            "codeCoverage": true,
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "styles": [],
-            "scripts": ["src/test/mocks/maps.googleapis.com-maps-api.js"],
+            "scripts": ["src/test-mocks/maps.googleapis.com-maps-api.js"],
             "assets": [
               {
                 "glob": "favicon.ico",

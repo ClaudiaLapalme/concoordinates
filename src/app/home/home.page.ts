@@ -1,33 +1,30 @@
-import { Component, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { MapService } from '../core';
 
-import { ViewChild } from '@angular/core';
-
-import { ILatLng } from '../models/coordinates';
-import { MapService } from '../services/map/map.service';
-
+// TODO move all this map logic to MapPage and keep all Pages as routes from this page
 @Component({
     selector: 'app-home',
     templateUrl: 'home.page.html',
     styleUrls: ['home.page.scss']
 })
-export class HomePage {
-    coordinates: ILatLng;
-    
-    @ViewChild('map', { static: false }) mapElement: ElementRef;
+export class HomePage implements AfterViewInit {
+
+    // Reference to the native map html element
+    @ViewChild('map', { static: false })
+    mapElement: ElementRef;
+
+    // Map data
     map: google.maps.Map;
-    address: string;
 
-    constructor(private mapService: MapService) {}
-
-    reloadMap(): void {
-        this.mapService.loadMap(
-            this.mapElement,
-            this.coordinates.latitude,
-            this.coordinates.longitude
-        );
-    }
+    constructor(
+        private mapService: MapService
+    ) { }
 
     ngAfterViewInit(): void {
-        this.mapService.loadMap(this.mapElement);
+        this.loadMap();
+    }
+
+    private loadMap(): void {
+        this.mapService.loadMap(this.mapElement).then(mapObj => this.map = mapObj);
     }
 }

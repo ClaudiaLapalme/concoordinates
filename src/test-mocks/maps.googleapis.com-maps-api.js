@@ -1,3 +1,7 @@
+/**
+ * This file is used to mock the google api for tests.
+ * Please don't delete this file.
+ */
 var google = {
     maps : {
         OverlayView : function () {
