@@ -1,9 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { CoreModule } from '../core.module';
 import { GoogleApisService } from './google-apis.service';
 
 
 describe('GoogleApisService', () => {
-    beforeEach(() => TestBed.configureTestingModule({}));
+    beforeEach(() => TestBed.configureTestingModule({
+        imports: [CoreModule],
+    }));
 
     it('should be created', () => {
         const service: GoogleApisService = TestBed.get(GoogleApisService);

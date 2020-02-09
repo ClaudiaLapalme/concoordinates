@@ -60,7 +60,11 @@
       true,
       "single"
     ],
-    "trailing-comma": true,
+    "trailing-comma": [true, {
+      "multiline": {
+        "imports": "always"
+      }
+    }],
     "no-output-on-prefix": true,
     "no-inputs-metadata-property": true,
     "no-host-metadata-property": true,

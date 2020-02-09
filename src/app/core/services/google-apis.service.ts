@@ -1,13 +1,11 @@
 import { ElementRef, Injectable } from '@angular/core';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class GoogleApisService {
 
     constructor() { }
 
-    public createMap(mapElement: ElementRef<any>, mapOptions: google.maps.MapOptions): any {
+    public createMap(mapElement: ElementRef<any>, mapOptions: google.maps.MapOptions): google.maps.Map<Element> {
         return new google.maps.Map(mapElement.nativeElement, mapOptions);
     }
 

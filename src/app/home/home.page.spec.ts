@@ -1,18 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { HomePage } from './home.page';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
+import { IonicModule } from '@ionic/angular';
+import { MapService } from '../core/services/map.service';
+import { HomePage } from './home.page';
+import { LocationService, CoreModule } from '../core';
 
 describe('HomePage', () => {
     let component: HomePage;
     let fixture: ComponentFixture<HomePage>;
 
     beforeEach(async(() => {
+
+        class MockMapService {
+            loadMap(): Promise<google.maps.Map<Element>>{
+                return new Promise(() => {});
+            }
+        }
+
         TestBed.configureTestingModule({
             declarations: [HomePage],
             imports: [IonicModule.forRoot()],
-            providers: [Geolocation, NativeGeocoder]
+            providers: [{provide: MapService, useClass: MockMapService}]
         }).compileComponents();
 
         fixture = TestBed.createComponent(HomePage);

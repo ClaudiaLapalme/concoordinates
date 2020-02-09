@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MapService } from '../services/map/map.service';
+import { MapService } from '../core';
 
 // TODO move all this map logic to MapPage and keep all Pages as routes from this page
 @Component({
@@ -16,14 +16,15 @@ export class HomePage implements OnInit {
     // Map data
     map: google.maps.Map;
 
-    constructor(private mapService: MapService) { }
+    constructor(
+        private mapService: MapService
+    ) { }
 
     ngOnInit(): void {
         this.loadMap();
     }
 
     private loadMap(): void {
-        // this.mapService.loadMap(this.mapElement)
-        // .subscribe(map => this.map = map);
+        this.mapService.loadMap(this.mapElement).then(mapObj => this.map = mapObj);
     }
 }
