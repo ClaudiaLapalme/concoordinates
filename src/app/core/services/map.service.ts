@@ -1,9 +1,7 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
-import { map } from 'rxjs/operators';
 import { GoogleApisService } from 'src/app/core/services/google-apis.service';
 import { LocationService } from './location.service';
-
 @Injectable()
 export class MapService {
     constructor(

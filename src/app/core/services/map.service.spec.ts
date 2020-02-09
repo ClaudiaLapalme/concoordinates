@@ -1,7 +1,6 @@
 import { ElementRef } from '@angular/core';
-import { MapService } from './map.service';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
-
+import { MapService } from './map.service';
 
 describe('MapService', () => {
     // let mapService: MapService;

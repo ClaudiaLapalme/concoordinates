@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import { Platform } from '@ionic/angular';
-import { from, Observable } from 'rxjs';
 
 @Injectable()
 export class LocationService {

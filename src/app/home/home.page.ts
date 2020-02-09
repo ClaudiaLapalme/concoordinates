@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { MapService } from '../core';
 
 // TODO move all this map logic to MapPage and keep all Pages as routes from this page
@@ -7,7 +7,7 @@ import { MapService } from '../core';
     templateUrl: 'home.page.html',
     styleUrls: ['home.page.scss']
 })
-export class HomePage implements OnInit {
+export class HomePage implements AfterViewInit {
 
     // Reference to the native map html element
     @ViewChild('map', { static: false })
@@ -20,7 +20,7 @@ export class HomePage implements OnInit {
         private mapService: MapService
     ) { }
 
-    ngOnInit(): void {
+    ngAfterViewInit(): void {
         this.loadMap();
     }
 
