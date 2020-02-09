@@ -96,10 +96,6 @@ describe('MapService', () => {
 
     describe('tilesLoadedHandler()', () => {
 
-        // class MockElementRef extends ElementRef {
-        //     nativeElement = {};
-        // }
-
         it('should return a tilesloaded handler', () => {
             const { mapService, locationServiceSpy, googleApisServiceSpy } = testServiceSetup();
 
@@ -115,14 +111,6 @@ describe('MapService', () => {
             expect(locationServiceSpy.getAddressFromLatLng).toHaveBeenCalledTimes(1);
         });
 
-        // it('should call getGeoposition from locationService and get nothing', () => {
-        //     const { mapService, locationServiceSpy, googleApisServiceSpy } = testServiceSetup();
-
-        //     const mapElement = new MockElementRef({});
-        //     mapService.loadMap(mapElement);
-
-        //     expect(locationServiceSpy.getGeoposition).toHaveBeenCalledTimes(1);
-        // });
     });
 
 });

@@ -10,7 +10,6 @@ export class MapService {
         private googleApis: GoogleApisService
     ) { }
 
-    // marker: google.maps.Marker;
     icon: google.maps.Icon = {
         url: '../../../assets/icon/center_marker.png',
         scaledSize: new google.maps.Size(30, 30), // scaled size
