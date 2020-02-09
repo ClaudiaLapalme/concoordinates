@@ -1,9 +1,8 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { map } from 'rxjs/operators';
 import { GoogleApisService } from 'src/app/core/services/google-apis.service';
 import { LocationService } from './location.service';
-import { Geoposition } from '@ionic-native/geolocation/ngx';
 
 @Injectable()
 export class MapService {
@@ -30,20 +29,35 @@ export class MapService {
         };
 
         try {
-            const geoPos = await this.locationService.getGeoposition();
-            const latLng = new google.maps.LatLng(geoPos.coords.latitude, geoPos.coords.latitude);
-            mapOptions.center = latLng;
-            const mapObj = this.googleApis.createMap(mapElement, mapOptions);
-            this.googleApis.createMarker(latLng, mapObj, this.icon);
-            mapObj.addListener('tilesloaded', () => {
-                console.log('map', map);
-                this.locationService.getAddressFromLatLng(latLng.lat(), latLng.lng())
-                    .then(address => console.log);
-            });
-            return mapObj;
+            const geoPos: Geoposition = await this.locationService.getGeoposition();
+            if (geoPos) {
+
+                const latLng = this.googleApis.createLatLng(geoPos.coords.latitude, geoPos.coords.latitude);
+
+                mapOptions.center = latLng;
+
+                const mapObj = this.googleApis.createMap(mapElement, mapOptions);
+                this.googleApis.createMarker(latLng, mapObj, this.icon);
+
+                mapObj.addListener('tilesloaded',
+                    this.tilesLoadedHandler(mapObj,
+                        latLng.lat(), latLng.lng()));
+
+                return mapObj;
+
+            } else {
+                return this.googleApis.createMap(mapElement, mapOptions);
+            }
         } catch (error) {
             console.log(error);
             return this.googleApis.createMap(mapElement, mapOptions);
         }
+    }
+
+    private tilesLoadedHandler(mapObj: google.maps.Map, latitude: number, longitude: number) {
+        return () => {
+            console.log('mapObj', mapObj); // debug
+            this.locationService.getAddressFromLatLng(latitude, longitude).then(console.log);
+        };
     }
 }

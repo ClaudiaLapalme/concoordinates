@@ -49,4 +49,13 @@ describe('GoogleApisService', () => {
 
     });
 
+    describe('createLatLng()', () => {
+
+        it('should return a LatLng', () => {
+            const service: GoogleApisService = TestBed.get(GoogleApisService);
+            expect(service.createLatLng(5, 4)).toBeTruthy();
+        });
+
+    });
+
 });

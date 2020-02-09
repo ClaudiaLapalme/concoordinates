@@ -13,4 +13,8 @@ export class GoogleApisService {
         return new google.maps.Marker({ position, map, icon });
     }
 
+    public createLatLng(latitude: number, longitude: number): google.maps.LatLng {
+        return new google.maps.LatLng(latitude, longitude);
+    }
+
 }
