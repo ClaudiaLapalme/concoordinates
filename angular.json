@@ -100,7 +100,7 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "styles": [],
-            "scripts": [],
+            "scripts": ["src/test-mocks/maps.googleapis.com-maps-api.js"],
             "assets": [
               {
                 "glob": "favicon.ico",
