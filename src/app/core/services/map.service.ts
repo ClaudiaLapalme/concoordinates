@@ -21,7 +21,7 @@ export class MapService {
      */
     async loadMap(mapElement: ElementRef): Promise<google.maps.Map<Element>> {
         const mapOptions: google.maps.MapOptions = {
-            center: new google.maps.LatLng(0, 0),
+            center: new google.maps.LatLng(45.4959053, -73.5801141),
             zoom: 15,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
