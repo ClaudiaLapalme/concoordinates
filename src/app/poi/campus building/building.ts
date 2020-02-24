@@ -1,10 +1,7 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { BuildingOutline } from 'src/app/models/BuildingOutline';
+import { BuildingOutline } from 'src/app/poi/campus building/BuildingOutline';
 
 
-@Injectable({
-  providedIn: 'root'
-})
 export class Building {
 
   private buildingOutline: BuildingOutline;

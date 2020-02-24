@@ -3,6 +3,7 @@ import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { GoogleApisService } from 'src/app/core/services/google-apis.service';
 import { LocationService } from './location.service';
 import { LatLngLiteral } from '@google/maps';
+import { Building } from 'src/app/poi/campus building/building';
 
 
 @Injectable()
