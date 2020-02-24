@@ -40,6 +40,16 @@ export class MapService {
                 mapObj.addListener('tilesloaded',
                     this.tilesLoadedHandler(mapObj,
                         latLng.lat(), latLng.lng()));
+                
+                var hallCoords = [
+                    {lat: 45.496827, lng: -73.578845},
+                    {lat: 45.497369, lng: -73.578335},
+                    {lat: 45.497730, lng: -73.579049},
+                    {lat: 45.497169, lng: -73.579578}
+                ];
+                
+                var hallOverlay = this.googleApis.drawBuildingOverlay(hallCoords);
+                hallOverlay.setMap(mapObj);
 
                 return mapObj;
 
