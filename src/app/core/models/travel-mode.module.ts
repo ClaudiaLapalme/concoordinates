@@ -1,4 +1,4 @@
-enum ETravelMode {
+enum TransportMode {
     SHUTTLE,
     TRANSIT,
     DRIVING,
@@ -6,9 +6,9 @@ enum ETravelMode {
     BICYCLING
 }
 
-export class TravelMode {
+export class Transport {
 
-    constructor(speed: number, durationFactor: number, travelType: ETravelMode){
+    constructor(speed: number, durationFactor: number, travelType: TransportMode){
         this.speed = speed;
         this.durationFactor = durationFactor;
         this.travelType = travelType;
@@ -16,5 +16,5 @@ export class TravelMode {
     
     speed: number;
     durationFactor: number;
-    travelType: ETravelMode;
+    travelType: TransportMode;
 }

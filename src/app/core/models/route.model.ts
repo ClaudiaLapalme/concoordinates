@@ -1,7 +1,6 @@
-import { TravelMode } from "./travel-mode.module"
+import { Transport } from "./travel-mode.module"
 import { RouteStep } from "./route-step.model"
 import { Injectable } from '@angular/core';
-import { EEXIST } from 'constants';
 
 
 
@@ -10,7 +9,7 @@ export class Route {
 
     constructor(startCoordinates: Coordinates, endCoordinates: Coordinates, 
         startTime: Date, endTime: Date, 
-        allowedTravelModes: Array<TravelMode>, routeSteps: Array<RouteStep>) {
+        allowedTravelModes: Array<Transport>, routeSteps: Array<RouteStep>) {
         this.startCoordinates = startCoordinates;
         this.endCoordinates = endCoordinates;
         this.startTime = startTime;
@@ -23,15 +22,24 @@ export class Route {
     endCoordinates: Coordinates
     startTime: Date
     endTime: Date
-    allowedTravelModes: Array<TravelMode>
+    allowedTravelModes: Array<Transport>
     routeSteps: Array<RouteStep>
 
-    // getInstructions(){
-    //     return this.routeSteps.map(e => e.instruction);
-    // }
-    
-    // computeTotalTime(): number{
-    //     return this.endTime.getMilliseconds()-this.startTime.getMilliseconds();
-    // }
+    computeTotalDuration():number{
+        let totalDuration = 0;
+        this.routeSteps.forEach(e => totalDuration+=e.getDuration());
+        return totalDuration;
+    }
+
+    computeTotalDistance():number{
+        let totalDistance = 0;
+        this.routeSteps.forEach(e => totalDistance+=e.getDistance());
+        return totalDistance;
+    }
+
+    getInstructions():string[]{
+        return this.routeSteps.map(e => e.instruction);
+    }
+
 
 }
