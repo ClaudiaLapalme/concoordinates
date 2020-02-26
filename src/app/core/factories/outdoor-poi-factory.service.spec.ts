@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { OutdoorPOIFactoryService } from './outdoor-poi-factory.service';
 
 describe('OutdoorPoiFactoryService', () => {

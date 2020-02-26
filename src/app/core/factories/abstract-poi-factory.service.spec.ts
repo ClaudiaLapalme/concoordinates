@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { AbstractPOIFactoryService } from './abstract-poi-factory.service';
 
 describe('AbstractPoiFactoryService', () => {

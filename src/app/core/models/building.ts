@@ -1,7 +1,7 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { OutdoorPOI } from '../../outdoor-poi';
+import { OutdoorPOI } from './outdoor-poi';
 import { hasLifecycleHook } from '@angular/compiler/src/lifecycle_reflector';
-import { Coordinates } from "src/app/core/coordinates"
+import { Coordinates } from "src/app/core/models/coordinates"
 type BuildingOutline = google.maps.Polygon;
 type OutlineAttributes = google.maps.PolygonOptions;
 
@@ -25,7 +25,7 @@ export class Building extends OutdoorPOI{
 
   private setBuildingOutline() : void {
 
-    var CoorJsonFile = require("src/app/poi/outdoor/campus/building/building-outline-coordinates.json");
+    var CoorJsonFile = require("src/app/core/data/building-outline-coordinates.json");
     let name = this.getName()
 
     let outlineAttributes: OutlineAttributes = {
