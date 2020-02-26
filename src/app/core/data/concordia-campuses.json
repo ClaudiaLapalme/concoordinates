@@ -1,5 +1,5 @@
 {
-    "Sir-George-Williams": {
+    "SGW": {
         "name": "Sir-George-Williams",
         "coordinates": {"lat": 45.495619, "lng": -73.578166},
         "buildings": [
@@ -18,4 +18,5 @@
             "RA", "RF", "SC", "SH", "SI", "SP", "TA", "VE", "VL"
         ] 
     }
+    
 }

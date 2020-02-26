@@ -1,5 +1,3 @@
-import { ElementRef, Injectable } from '@angular/core';
-
 export class Coordinates {
 
     private latitude: number;

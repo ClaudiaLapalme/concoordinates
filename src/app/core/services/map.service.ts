@@ -1,17 +1,19 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
-import { GoogleApisService } from 'src/app/core/services/google-apis.service';
+import { GoogleApisService } from './google-apis.service';
 import { LocationService } from './location.service';
-import { LatLngLiteral } from '@google/maps';
-import { Building } from 'src/app/core/models/building';
-import { Coordinates } from '../models/coordinates';
+import { OutdoorPOIFactoryService } from '../factories';
+import { Coordinates, Building } from '../models';
+import ConcordiaCampuses from '../data/concordia-campuses.json';
+import ConcordiaBuildings from '../data/concordia-buildings.json';
 
 
 @Injectable()
 export class MapService {
     constructor(
         private locationService: LocationService,
-        private googleApis: GoogleApisService
+        private googleApis: GoogleApisService,
+        private outdoorPOIFactory: OutdoorPOIFactoryService
     ) { }
 
     icon: google.maps.Icon = {
@@ -26,13 +28,13 @@ export class MapService {
     async loadMap(mapElement: ElementRef): Promise<google.maps.Map<Element>> {
         let mapOptions: google.maps.MapOptions = {
             center: new google.maps.LatLng(45.4959053, -73.5801141),
-            zoom: 18,
+            zoom: 15,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
         try {
             const geoPos: Geoposition = await this.locationService.getGeoposition();
-            if (false) {
+            if (geoPos) {
 
                 const latLng = this.googleApis.createLatLng(geoPos.coords.latitude, geoPos.coords.longitude);
 
@@ -44,36 +46,12 @@ export class MapService {
                 mapObj.addListener('tilesloaded',
                     this.tilesLoadedHandler(mapObj,
                         latLng.lat(), latLng.lng()));
-                        
-
-                        let coordinates = new Coordinates(0,0,0);
-                        var hallBuilding = new Building('B', coordinates);
-                        var mbBuilding = new Building('MB', coordinates);
-                        hallBuilding.displayBuildingOutline(mapObj);
-                        mbBuilding.displayBuildingOutline(mapObj);
-
-
+                    
+                this.loadCampuses(mapObj);        
                 return mapObj;
 
             } else {
-                const latLng = this.googleApis.createLatLng(geoPos.coords.latitude, geoPos.coords.longitude);
-                const mapObj = this.googleApis.createMap(mapElement, mapOptions);
-                mapObj.addListener('tilesloaded',
-                    this.tilesLoadedHandler(mapObj,
-                        latLng.lat(), latLng.lng()));
-                        
-
-                        let coordinates = new Coordinates(0,0,0);
-                        var hallBuilding = new Building('D', coordinates);
-                        var mbBuilding = new Building('EV', coordinates);
-                        var cBuilding = new Building('GM', coordinates);
-                        cBuilding.displayBuildingOutline(mapObj);
-                        hallBuilding.displayBuildingOutline(mapObj);
-                        mbBuilding.displayBuildingOutline(mapObj);
-
-
-                return mapObj;
-                
+                return this.googleApis.createMap(mapElement, mapOptions); 
             }
         } catch (error) {
             console.log(error);
@@ -86,5 +64,59 @@ export class MapService {
             console.log('mapObj', mapObj); // debug
             this.locationService.getAddressFromLatLng(latitude, longitude).then(console.log);
         };
+    }
+
+    /**
+     * To discuss with the team:
+     * - The following three functions should be inside another file (OutdoorMap not implemented).
+     * - A json parser service should be created. 
+     */
+    private loadCampuses(mapObj: google.maps.Map<Element>):void {
+        
+        //Loop through the concordia-campuses.json
+        for(var id in ConcordiaCampuses){
+            
+            if (this.campusDataFound(id)) {
+
+                let campusName = ConcordiaCampuses[id].name;
+                let campusBuildings: Building[] = [];
+                let campusCoordinates = new Coordinates(
+                                                ConcordiaCampuses[id].coordinates.lat,
+                                                ConcordiaCampuses[id].coordinates.lng, null);
+
+                //Loop through the list of buildings of the campus
+                ConcordiaCampuses[id].buildings.forEach(id => {
+                    
+                    if (this.buildingDataFound(id)) {
+
+                        let buildingName = ConcordiaBuildings[id].name
+                        let buildingCoordinates =  new Coordinates(
+                                                            ConcordiaBuildings[id].coordinates.lat,
+                                                            ConcordiaBuildings[id].coordinates.lat, null);
+
+                        //Create building
+                        let building = this.outdoorPOIFactory.createBuilding(buildingName, buildingCoordinates, id);
+                        //Display the outline
+                        building.displayBuildingOutline(mapObj);
+                        //Add the building to the Buildings array of the campus
+                        campusBuildings.push(building);
+                    }
+                });
+
+                //Create campus
+                this.outdoorPOIFactory.createCampus(campusName, campusCoordinates, campusBuildings);
+            }
+        }
+    }
+    
+
+    private campusDataFound(id): boolean{
+
+        return ConcordiaCampuses.hasOwnProperty(id);
+    }
+
+    private buildingDataFound(id): boolean{
+
+        return ConcordiaBuildings.hasOwnProperty(id);
     }
 }

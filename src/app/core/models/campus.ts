@@ -1,4 +1,3 @@
-import { ElementRef, Injectable } from '@angular/core';
 import { OutdoorPOI } from "./outdoor-poi";
 import { Building } from './building';
 import { Coordinates } from "./coordinates";

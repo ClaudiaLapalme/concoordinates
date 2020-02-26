@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { OutdoorPOI } from '../models/outdoor-poi';
 import { Building } from '../models/building';
 import { Campus } from '../models/campus';
 import { Coordinates } from "src/app/core/models/coordinates"
@@ -11,16 +10,17 @@ export class OutdoorPOIFactoryService {
 
   createBuilding(
     name: string,
-    coordinates: Coordinates): OutdoorPOI {
-      
-      return new Building(name, coordinates);
+    coordinates: Coordinates,
+    id: string): Building {
+
+      return new Building(name, coordinates, id);
   };
 
 
   createCampus(
     name: string,
     coordinates: Coordinates,
-    buildings: Building[]): OutdoorPOI {
+    buildings: Building[]): Campus {
 
       return new Campus(name, coordinates, buildings);
   };

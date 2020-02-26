@@ -7,6 +7,7 @@ import {
     LocationService,
     MapService,
 } from './services';
+import { OutdoorPOIFactoryService, AbstractPOIFactoryService } from './factories';
 
 
 @NgModule({
@@ -20,6 +21,8 @@ import {
         NativeGeocoder,
         Geolocation,
         GoogleApisService,
+        OutdoorPOIFactoryService,
+        AbstractPOIFactoryService
     ]
 })
 export class CoreModule { }

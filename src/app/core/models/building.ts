@@ -1,7 +1,6 @@
-import { ElementRef, Injectable } from '@angular/core';
 import { OutdoorPOI } from './outdoor-poi';
-import { hasLifecycleHook } from '@angular/compiler/src/lifecycle_reflector';
-import { Coordinates } from "src/app/core/models/coordinates"
+import { Coordinates } from './coordinates';
+import BuildingsOutlineCoordinates from '../data/building-outline-coordinates.json';
 type BuildingOutline = google.maps.Polygon;
 type OutlineAttributes = google.maps.PolygonOptions;
 
@@ -11,25 +10,29 @@ export class Building extends OutdoorPOI{
 
   constructor( 
     name: string, 
-    coordinates: Coordinates) {
-      
+    coordinates: Coordinates,
+    id: string) {
+
       super(name, coordinates);
-      this.setBuildingOutline();
+
+      if (this.buildingOutlineCoordinatesFound(id)){
+
+        this.setBuildingOutline(id);
+      }
    }
 
   displayBuildingOutline(mapRef: google.maps.Map<Element>) : void {
 
-    this.buildingOutline.setMap(mapRef);
+    if (this.buildingOutline !== undefined) {
 
+      this.buildingOutline.setMap(mapRef);
+    }
   }
 
-  private setBuildingOutline() : void {
-
-    var CoorJsonFile = require("src/app/core/data/building-outline-coordinates.json");
-    let name = this.getName()
+  private setBuildingOutline(id) : void {
 
     let outlineAttributes: OutlineAttributes = {
-      paths: CoorJsonFile[name],
+      paths: BuildingsOutlineCoordinates[id],
       strokeColor: '#FF0000',
       strokeOpacity: 0.8,
       strokeWeight: 2,
@@ -37,6 +40,15 @@ export class Building extends OutdoorPOI{
       fillOpacity: 0.35};
 
     this.buildingOutline = new google.maps.Polygon(outlineAttributes);
+  }
 
+  /**
+   * Currently, not all the buildings have a outline. This is used to avoid
+   * polluting the web browser console with error.
+   * @param id: building id
+   */
+  private buildingOutlineCoordinatesFound(id): boolean{
+
+    return BuildingsOutlineCoordinates.hasOwnProperty(id);
   }
 }

@@ -1,4 +1,3 @@
-import { ElementRef, Injectable } from '@angular/core';
 import { Coordinates } from "src/app/core/models/coordinates"
 
 export abstract class POI {
