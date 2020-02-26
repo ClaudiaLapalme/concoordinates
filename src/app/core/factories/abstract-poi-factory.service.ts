@@ -9,5 +9,4 @@ export class AbstractPOIFactoryService {
   createOutdoorPOIFactory(): OutdoorPOIFactoryService {
     return new OutdoorPOIFactoryService();
   };
-  
 }

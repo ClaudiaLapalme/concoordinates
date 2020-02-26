@@ -15,21 +15,15 @@ export class Building extends OutdoorPOI{
 
       super(name, coordinates);
 
-      if (this.buildingOutlineCoordinatesFound(id)){
-
-        this.setBuildingOutline(id);
-      }
+      this.setBuildingOutline(id);
    }
 
   displayBuildingOutline(mapRef: google.maps.Map<Element>) : void {
 
-    if (this.buildingOutline !== undefined) {
-
-      this.buildingOutline.setMap(mapRef);
-    }
+    this.buildingOutline.setMap(mapRef);
   }
 
-  private setBuildingOutline(id) : void {
+  private setBuildingOutline(id: string) : void {
 
     let outlineAttributes: OutlineAttributes = {
       paths: BuildingsOutlineCoordinates[id],
@@ -40,15 +34,5 @@ export class Building extends OutdoorPOI{
       fillOpacity: 0.35};
 
     this.buildingOutline = new google.maps.Polygon(outlineAttributes);
-  }
-
-  /**
-   * Currently, not all the buildings have a outline. This is used to avoid
-   * polluting the web browser console with error.
-   * @param id: building id
-   */
-  private buildingOutlineCoordinatesFound(id): boolean{
-
-    return BuildingsOutlineCoordinates.hasOwnProperty(id);
   }
 }

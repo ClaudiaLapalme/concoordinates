@@ -17,7 +17,7 @@ export abstract class POI {
         return this.name;
     }
 
-    getCoordiantes() : Coordinates {
+    getCoordinates() : Coordinates {
         return this.coordinates;
     }
 

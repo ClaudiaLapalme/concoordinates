@@ -7,7 +7,7 @@ describe('MapService', () => {
     function testServiceSetup() {
         const locationServiceSpy = jasmine.createSpyObj('LocationService', ['getGeoposition', 'getAddressFromLatLng']);
         const googleApisServiceSpy = jasmine.createSpyObj('GoogleApisService', ['createMap', 'createMarker', 'createLatLng']);
-        const outdoorPOIFactoryServiceSpy = jasmine.createSpyObj('OutdoorPOIFactory', ['createBuilding', 'createCampus']);
+        const outdoorPOIFactoryServiceSpy = jasmine.createSpyObj('OutdoorPOIFactory', ['createBuilding', 'createCampus', 'loadCampuses']);
         const mapService: MapService = new MapService(locationServiceSpy, googleApisServiceSpy, outdoorPOIFactoryServiceSpy);
         return { mapService, locationServiceSpy, googleApisServiceSpy };
     }
