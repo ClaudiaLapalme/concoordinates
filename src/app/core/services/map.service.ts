@@ -15,14 +15,28 @@ export class MapService {
         scaledSize: new google.maps.Size(30, 30), // scaled size
     };
 
+    // const LOYALA_COORDINATES: google.maps.LatLng = new google.maps.LatLng();
+    SWG_COORDINATES: google.maps.LatLng = new google.maps.LatLng(45.4959053, -73.5801141);
+
     /**
      * Given a map reference create a map 
      * @param mapElement the reference to the html map
      */
     async loadMap(mapElement: ElementRef): Promise<google.maps.Map<Element>> {
         let mapOptions: google.maps.MapOptions = {
-            center: new google.maps.LatLng(45.4959053, -73.5801141),
+            // center: new google.maps.LatLng(45.4959053, -73.5801141),
+            center: this.SWG_COORDINATES,
             zoom: 15,
+            mapTypeControlOptions: {
+                mapTypeIds: [google.maps.MapTypeId.ROADMAP]
+            },
+            disableDefaultUI: true,
+            mapTypeControl: false,
+            scaleControl: true,
+            zoomControl: true,
+            zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.LARGE
+            },
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
@@ -44,7 +58,15 @@ export class MapService {
                 return mapObj;
 
             } else {
-                return this.googleApis.createMap(mapElement, mapOptions);
+                const map = this.googleApis.createMap(mapElement, mapOptions);
+                // var centerControlDiv = document.createElement('div');
+                // var centerControl = new CenterControl(centerControlDiv, map, this.SWG_COORDINATES);
+
+                // centerControlDiv.index = 1;
+                // centerControlDiv.style['padding-top'] = '10px';
+                // map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+
+                return map;
             }
         } catch (error) {
             console.log(error);
