@@ -1,0 +1,12 @@
+.item-container{
+    padding: 5px 10px;
+    .item-header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .steps-container{
+        display: flex;
+        flex-direction: row;
+    }
+}

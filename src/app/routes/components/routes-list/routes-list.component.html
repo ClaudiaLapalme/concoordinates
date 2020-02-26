@@ -1,0 +1,5 @@
+  <div  *ngFor="let r of routes; let i = index" >
+    <app-routes-list-item [route]="r" [routeNumber]="i+1"></app-routes-list-item>
+    <div class="divider"></div>
+
+  </div>

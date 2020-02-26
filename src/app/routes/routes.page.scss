@@ -1,0 +1,64 @@
+.routes-header-container{
+    display: flex;
+    flex-direction: row;
+    .back-button-container{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }
+    .main-input-container{
+        display: flex;
+        flex-direction: column;
+        flex-grow:1;
+        .custom-input-container{
+            border-radius: 5px;
+            border: 1px solid black;
+            height: 30px;
+    
+            margin: 10px 10px;
+        }
+    }
+}
+
+.divider{
+    border: 1px solid black;
+}
+.select-time{
+    ion-item {
+        --padding-start: 0;
+      }
+    display: flex;
+    flex-direction: row;
+    padding-right: 5px;
+    .departure-container{
+        .departure-select{
+            max-width: 100%;
+        }
+    }
+    .time-picker{
+    }
+    .options-container{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        flex-grow:1
+    }
+}
+.transport-mode{
+    display:flex;
+    flex-direction:row;
+    height: 50px;
+    ion-button{
+        flex-grow:1;
+        ion-icon{
+            font-size:40px;
+        }
+    }
+
+}
+ion-select{
+    max-width: 100% !important;
+}

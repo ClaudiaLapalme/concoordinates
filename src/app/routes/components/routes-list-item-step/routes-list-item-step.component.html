@@ -1,0 +1,18 @@
+  <div class="route-step" *ngIf="step.transportMode === 'walking'">
+    <ion-icon name="walk"></ion-icon>
+    <p >{{step?.duration}}</p>
+  </div>
+  <div class="route-step" *ngIf="step.transportMode === 'bus'">
+    <ion-icon name="bus"></ion-icon>
+    <p >{{step?.transitDetails}}</p>
+  </div>
+  <div class="route-step" *ngIf="step.transportMode === 'subway'">
+    <ion-icon name="subway"></ion-icon>
+    <p >{{step?.transitDetails}}</p>
+  </div>
+ 
+  <div class="route-step" *ngIf="step.transportMode === 'driving'">
+    <ion-icon name="car"></ion-icon>
+    <p >{{step?.duration}}</p>
+  </div>
+ 

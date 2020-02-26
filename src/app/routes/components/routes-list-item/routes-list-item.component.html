@@ -1,0 +1,10 @@
+<div class="item-container">
+  <div class="item-header">
+    <p>Route {{routeNumber}}</p>
+  <p>{{route.duration}} min</p>
+  </div>
+  <div class="steps-container" >
+    <app-routes-list-item-step *ngFor="let step of route.steps" [step]="step"></app-routes-list-item-step>
+  
+  </div>
+</div>

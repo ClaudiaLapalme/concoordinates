@@ -1,0 +1,51 @@
+
+
+<ion-content>
+  <div class="routes-header-container">
+    <div class="back-button-container">
+      <ion-icon name="arrow-back"></ion-icon>
+    </div>
+    <div class="main-input-container">
+      <ion-item class="custom-input-container">
+        <ion-input type="text" required [(ngModel)]="from"></ion-input>
+      </ion-item>
+      <ion-item  class="custom-input-container">
+        <ion-input type="text" required [(ngModel)]="to"></ion-input>
+      </ion-item>
+      
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="select-time">
+    <ion-item class="departure-container">
+      <ion-select placeholder="Depart At">
+        <ion-select-option  class="departure-select" value="depart">Depart At</ion-select-option>
+        <ion-select-option  class="departure-select" value="arrive">Arrive By</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item  class="time-picker">
+      <ion-datetime displayFormat="HH:mm" value="18:00"></ion-datetime>
+    </ion-item>
+    <div class="options-container">
+      <a>Options</a>
+    </div>
+  </div>
+  <div class="divider"></div>
+<div class="transport-mode">
+  <ion-button fill="clear">
+    <ion-icon name="walk"></ion-icon>
+  </ion-button>
+  <ion-button fill="clear">
+    <ion-icon name="bus"></ion-icon>
+  </ion-button>
+  <ion-button fill="clear">
+    <ion-icon name="bicycle"></ion-icon>
+  </ion-button>
+  <ion-button fill="clear">
+    <ion-icon name="car"></ion-icon>
+  </ion-button>
+</div>
+<div class="divider"></div>
+<app-routes-list></app-routes-list>
+</ion-content>
+
