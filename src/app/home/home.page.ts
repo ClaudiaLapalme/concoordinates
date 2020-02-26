@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, ComponentFactoryResolver, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, ComponentFactoryResolver, OnInit, ViewContainerRef } from '@angular/core';
 import { MapService } from '../core';
 import { ToggleCampusComponent } from '../core/components/toggle-campus/toggle-campus.component';
 import { ToggleCampusDirective } from '../core/directives';
@@ -9,15 +9,15 @@ import { ToggleCampusDirective } from '../core/directives';
     templateUrl: 'home.page.html',
     styleUrls: ['home.page.scss']
 })
-export class HomePage implements OnInit, AfterViewInit {
+export class HomePage implements AfterViewInit {
 
     // Reference to the native map html element
     @ViewChild('map', { static: false })
     mapElement: ElementRef;
 
     // @ViewChild('toggleCampus', {static: false})
-    @ViewChild('appToggleCampus', {read: ToggleCampusDirective, static: true})//, {static: true})
-    appToggleCampus: ToggleCampusDirective;
+    @ViewChild('appToggleCampus', { read: ViewContainerRef, static: true })//, {static: true})
+    appToggleCampus: ViewContainerRef;
 
     // Map data
     map: google.maps.Map;
@@ -28,27 +28,34 @@ export class HomePage implements OnInit, AfterViewInit {
 
     ) { }
 
-    ngOnInit(): void {
-        console.log('appToggleCampus:', this.appToggleCampus);
-    }
-
     ngAfterViewInit(): void {
         console.log('toggleCampus:', this.appToggleCampus);
         this.loadMap();
     }
 
     private loadMap(): void {
-        // this.mapService.loadMap(this.mapElement).then(mapObj => this.map = mapObj);
-        initMap();
-        console.log('map', this.map);
-        
+        this.mapService.loadMap(this.mapElement)
+            .then(mapObj => {
+                this.map = mapObj;
+                console.log('map', this.map);
 
-        // const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ToggleCampusComponent);
-        const viewContainerRef = this.appToggleCampus.viewContainerRef;
-        // viewContainerRef.clear();
+                const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ToggleCampusComponent);
 
-        // creates the ToggleCampusComponent
-        // const componentRef = viewContainerRef.createComponent(componentFactory);
+                this.appToggleCampus.clear();
+
+                const componentRef = this.appToggleCampus.createComponent(componentFactory);
+
+                let htmlElement = this.appToggleCampus.element.nativeElement as HTMLElement;
+                console.log('htmlElement', htmlElement);
+
+                this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(htmlElement);
+            });
+        // let MAP = initMap();
+        // console.log('map', this.map);
+        // console.log('MAP', MAP);
+
+
+
     }
 }
 
@@ -169,7 +176,8 @@ function initMap() {
     let centerControlDiv = document.createElement('div');
     let centerControl = new CenterControl(centerControlDiv, map);
 
-    centerControlDiv['index'] = 1;
+    // centerControlDiv['index'] = 1;
 
-    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(centerControlDiv);
+    // map.controls[google.maps.ControlPosition.RIGHT_TOP].push(centerControlDiv);
+    return map;
 }
