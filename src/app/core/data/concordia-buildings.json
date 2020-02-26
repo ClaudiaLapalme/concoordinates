@@ -1,0 +1,322 @@
+{
+    "H": {
+        "name": "Henry F. Hall Building",
+        "coordinates": {"lat": 45.497059, "lng": -73.578581}
+    },
+
+    "B": {
+        "name": "B Annex",
+        "coordinates": {"lat": 45.497858, "lng": -73.579433}
+    },
+    
+    "MU": {
+        "name": "MU Annex",
+        "coordinates": {"lat": 45.497861, "lng": -73.579548}
+    },
+
+    "D": {
+        "name": "D Annex",
+        "coordinates": {"lat": 45.497761, "lng": -73.579355}
+    },
+
+    "MI": {
+        "name": "MI Annex",
+        "coordinates": {"lat": 45.497722, "lng": -73.579264}
+    },
+
+    "S": {
+        "name": "S Annex",
+        "coordinates": {"lat": 45.497371, "lng": -73.579865}
+    },
+
+    "CI": {
+        "name": "CI Annex",
+        "coordinates": {"lat": 45.497412, "lng": -73.579951}
+    },
+
+    "V": {
+        "name": "V Annex",
+        "coordinates": {"lat": 45.497022, "lng": -73.580014}
+    },
+
+    "PR": {
+        "name": "PR Annex",
+        "coordinates": {"lat": 45.496984, "lng": -73.579939}
+    },
+
+    "Z": {
+        "name": "Z Annex",
+        "coordinates": {"lat": 45.496916, "lng": -73.579740}
+    },
+
+    "X": {
+        "name": "X Annex",
+        "coordinates": {"lat": 45.496880, "lng": -73.579677}
+    },
+
+    "LD": {
+        "name": "LD Builing",
+        "coordinates": {"lat": 45.496900, "lng": -73.579521}
+    },
+
+    "FA": {
+        "name": "FA Annex",
+        "coordinates": {"lat": 45.496798, "lng": -73.579488}
+    },
+
+    "R": {
+        "name": "R Annex",
+        "coordinates": {"lat": 45.496779, "lng": -73.579409}
+    },
+
+    "RR": {
+        "name": "RR Annex",
+        "coordinates": {"lat": 45.496749, "lng": -73.579331}
+    },
+
+    "T": {
+        "name": "T Annex",
+        "coordinates": {"lat": 45.496670, "lng": -73.579269}
+    },
+
+    "P": {
+        "name": "P Annex",
+        "coordinates": {"lat": 45.496677, "lng": -73.579146}
+    },
+
+    "Q": {
+        "name": "Q Annex",
+        "coordinates": {"lat": 45.496615, "lng": -73.579090}
+    },
+
+    "LB": {
+        "name": "McConnell Building Webster Library",
+        "coordinates": {"lat": 45.496976, "lng": -73.578173}
+    },
+
+    "LS": {
+        "name": "LS Building",
+        "coordinates": {"lat": 45.496249, "lng": -73.579475}
+    },
+
+    "GM": {
+        "name": "Guy-De Maisonneuve Building",
+        "coordinates": {"lat": 45.495828, "lng": -73.578727}
+    },
+
+    "EV": {
+        "name": "Engineering, Computer Science and Visual Arts Integrated Complex",
+        "coordinates": {"lat": 45.495499, "lng": -73.577788}
+    },
+
+    "MB": {
+        "name": "John Molson Building",
+        "coordinates": {"lat": 45.495341, "lng": -73.579000}
+    },
+
+    "GS": {
+        "name": "GS Building",
+        "coordinates": {"lat": 45.496581, "lng": -73.581197}
+    },
+
+    "FB": {
+        "name": "Faubourg Building",
+        "coordinates": {"lat": 45.494686, "lng": -73.577673}
+    },
+
+    "FG": {
+        "name": "Faubourg Ste-Catherine Building",
+        "coordinates": {"lat": 45.494250, "lng": -73.578494}
+    },
+
+    "GN": {
+        "name": "Grey Nuns Building",
+        "coordinates": {"lat": 45.493472, "lng": -73.576295}
+    },
+
+    "GA": {
+        "name": "GA Annex",
+        "coordinates": {"lat": 45.493505, "lng": -73.578939}
+    },
+
+    "CL": {
+        "name": "CL Annex",
+        "coordinates": {"lat": 45.494235, "lng": -73.579293}
+    },
+
+    "TD": {
+        "name": "Toronto-Dominion Building",
+        "coordinates": {"lat": 45.494660, "lng": -73.578665}
+    },
+
+    "SB": {
+        "name": "Samuel Bronfman Building",
+        "coordinates": {"lat": 45.496575, "lng": -73.586149}
+    },
+
+    "CB": {
+        "name": "CB Building",
+        "coordinates": {"lat": 45.495233, "lng": -73.574046}
+    },
+
+    "VA": {
+        "name": "Visual Arts Building",
+        "coordinates": {"lat": 45.495612, "lng": -73.573700}
+    },
+
+    "EN": {
+        "name": "EN Annex",
+        "coordinates": {"lat": 45.496749, "lng": -73.579699}
+    },
+
+    "ER": {
+        "name": "ER Building",
+        "coordinates": {"lat": 45.496348, "lng": -73.579939}
+    },
+
+    "K": {
+        "name": "K Annex",
+        "coordinates": {"lat": 45.497916, "lng": -73.579546}
+    },
+
+    "AD": {
+        "name": "Administration Building",
+        "coordinates": {"lat": 45.458054, "lng": -73.639812}
+    },
+
+    "FC": {
+        "name": "F. C. Smith Building",
+        "coordinates": {"lat": 45.458519, "lng": -73.639241}
+    },
+
+    "CC": {
+        "name": "Central Building",
+        "coordinates": {"lat": 45.458344, "lng": -73.640343}
+    },
+
+    "RF": {
+        "name": "Loyola Jesuit Hall and Conference Center",
+        "coordinates": {"lat": 45.458517, "lng": -73.641051}
+    },
+
+    "SP": {
+        "name": "Richard J. Renaud Science Complex",
+        "coordinates": {"lat": 45.457606, "lng": -73.641735}
+    },
+
+    "SI": {
+        "name": "St. Ignatius of Loyola Church",
+        "coordinates": {"lat": 45.457836, "lng": -73.642283}
+    },
+
+    "JR": {
+        "name": "Jesuit Residence",
+        "coordinates": {"lat": 45.458501, "lng": -73.643252}
+    },
+
+    "PY": {
+        "name": "Psychology Building",
+        "coordinates": {"lat": 45.458998, "lng": -73.640494}
+    },
+
+    "HU": {
+        "name": "Applied Science Hub",
+        "coordinates": {"lat": 45.458527, "lng": -73.641745}
+    },
+
+    "GE": {
+        "name": "Center for Structural and Functional Genomics",
+        "coordinates": {"lat": 45.457022, "lng": -73.640307}
+    },
+
+    "PS": {
+        "name": "Physical Services Building",
+        "coordinates": {"lat": 45.459675, "lng": -73.639840}
+    },
+
+    "BH": {
+        "name": "BH Annex",
+        "coordinates": {"lat": 45.459731, "lng": -73.639121}
+    },
+
+    "TA": {
+        "name": "Terrebone Building",
+        "coordinates": {"lat": 45.459998, "lng": -73.640886}
+    },
+
+    "SC": {
+        "name": "Student Center",
+        "coordinates": {"lat": 45.459160, "lng": -73.639152}
+    },
+
+    "VE": {
+        "name": "Vanier Extension",
+        "coordinates": {"lat": 45.458792, "lng": -73.638637}
+    },
+
+    "VL": {
+        "name": "Vanier Library Building",
+        "coordinates": {"lat": 45.459020, "lng": -73.638508}
+    },
+
+    "PT": {
+        "name": "Oscar Peterson Concert Hall ",
+        "coordinates": {"lat": 45.459317, "lng": -73.638910}
+    },
+
+    "BB": {
+        "name": "BB Annex",
+        "coordinates": {"lat": 45.459806, "lng": -73.639303}
+    },
+
+    "CJ": {
+        "name": "Communication Studies and Journalism Building",
+        "coordinates": {"lat": 45.457324, "lng": -73.640414}
+    },
+
+    "DO": {
+        "name": "Stinger Dome",
+        "coordinates": {"lat": 45.457636, "lng": -73.636054}
+    },
+
+    "HA": {
+        "name": "Hingston Hall, wing HA",
+        "coordinates": {"lat": 45.459456, "lng": -73.641194}
+    },
+
+    "HB": {
+        "name": "Hingston Hall, wing HB",
+        "coordinates": {"lat": 45.459140, "lng": -73.641969}
+    },
+
+    "HC": {
+        "name": "Hingston Hall, wing HC",
+        "coordinates": {"lat": 45.459672, "lng": -73.642033}
+    },
+
+    "SH": {
+        "name": "Solar House",
+        "coordinates": {"lat": 45.459490, "lng": -73.642586}
+    },
+
+    "PC": {
+        "name": "PERFORM Center",
+        "coordinates": {"lat": 45.456875, "lng": -73.637129}
+    },
+
+    "RA": {
+        "name": "Recreation and Athletics Complex",
+        "coordinates": {"lat": 45.456638, "lng": -73.637472}
+    },
+
+    "QA": {
+        "name": "Quadrangle",
+        "coordinates": {"lat": 45.458674, "lng": -73.640036}
+    },
+
+    "M": {
+        "name": "M Annex",
+        "coordinates": {"lat": 45.497326, "lng": -73.579773}
+    }
+
+}

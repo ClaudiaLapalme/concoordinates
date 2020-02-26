@@ -1,0 +1,22 @@
+{
+    "SGW": {
+        "name": "Sir-George-Williams",
+        "coordinates": {"lat": 45.495619, "lng": -73.578166},
+        "buildings": [
+            "B", "CB", "CI", "CL", "D", "EN", "ER", "EV", "FA",
+            "FB", "FG", "GA", "GM", "GN", "GS", "H", "K", "LB",
+            "LD", "LS", "M", "MB", "MI", "MU", "P", "PR", "Q",
+            "R", "RR", "S", "SB", "T", "TD", "V", "VA", "X", "Z"]
+    },
+
+    "Loyola":{
+        "name":"Loyola",
+        "coordinates": {"lat": 45.458094, "lng": -73.640566},
+        "buildings": [
+            "AD", "BB", "BH", "CC", "CJ", "DO", "FC", "GE", "HA",
+            "HB", "HC", "HU", "JR", "PC", "PS", "PT", "PY", "QA",
+            "RA", "RF", "SC", "SH", "SI", "SP", "TA", "VE", "VL"
+        ] 
+    }
+    
+}

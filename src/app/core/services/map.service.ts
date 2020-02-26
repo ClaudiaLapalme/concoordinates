@@ -1,13 +1,15 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
-import { GoogleApisService } from 'src/app/core/services/google-apis.service';
+import { GoogleApisService } from './google-apis.service';
 import { LocationService } from './location.service';
-import { LatLngLiteral } from '@google/maps';
+import { OutdoorPOIFactoryService } from '../factories';
+
 @Injectable()
 export class MapService {
     constructor(
         private locationService: LocationService,
-        private googleApis: GoogleApisService
+        private googleApis: GoogleApisService,
+        private outdoorPOIFactory: OutdoorPOIFactoryService
     ) { }
 
     icon: google.maps.Icon = {
@@ -40,11 +42,14 @@ export class MapService {
                 mapObj.addListener('tilesloaded',
                     this.tilesLoadedHandler(mapObj,
                         latLng.lat(), latLng.lng()));
-
+                    
+                //Creates campuses, buildings and draw the buildings outlines
+                this.outdoorPOIFactory.loadCampuses(mapObj);
+      
                 return mapObj;
 
             } else {
-                return this.googleApis.createMap(mapElement, mapOptions);
+                return this.googleApis.createMap(mapElement, mapOptions); 
             }
         } catch (error) {
             console.log(error);
