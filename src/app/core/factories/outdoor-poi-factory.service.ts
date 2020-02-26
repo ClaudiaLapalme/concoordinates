@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { OutdoorPOI } from './outdoor-poi';
-import { Builder } from 'protractor';
-import { Building } from './campus/building/building';
-import { Campus } from './campus/campus';
-import { build$ } from 'protractor/built/element';
-import { Coordinates } from "src/app/core/coordinates"
+import { OutdoorPOI } from '../models/outdoor-poi';
+import { Building } from '../models/building';
+import { Campus } from '../models/campus';
+import { Coordinates } from "src/app/core/models/coordinates"
 
 @Injectable()
 export class OutdoorPOIFactoryService {

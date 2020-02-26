@@ -1,0 +1,14 @@
+{
+    "H": {
+        "name": "Henry F. Hall Building",
+        "code": "H",
+        "coordinates": {"lat": 45.497059, "lng": -73.578581}
+    },
+
+    "B": {
+        "name": "B Annex",
+        "code": "B",
+        "coordinates": {"lat": 45.497059, "lng": -73.578581}
+    }
+    
+}

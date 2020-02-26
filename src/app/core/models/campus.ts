@@ -1,7 +1,7 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { OutdoorPOI } from '../outdoor-poi';
-import { Building } from './building/building';
-import { Coordinates } from "src/app/core/coordinates"
+import { OutdoorPOI } from "./outdoor-poi";
+import { Building } from './building';
+import { Coordinates } from "./coordinates";
 
 
 export class Campus extends OutdoorPOI{

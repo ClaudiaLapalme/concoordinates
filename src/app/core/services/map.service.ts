@@ -3,8 +3,8 @@ import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { GoogleApisService } from 'src/app/core/services/google-apis.service';
 import { LocationService } from './location.service';
 import { LatLngLiteral } from '@google/maps';
-import { Building } from 'src/app/poi/outdoor/campus/building/building';
-import { Coordinates } from '../coordinates';
+import { Building } from 'src/app/core/models/building';
+import { Coordinates } from '../models/coordinates';
 
 
 @Injectable()
@@ -65,8 +65,8 @@ export class MapService {
 
                         let coordinates = new Coordinates(0,0,0);
                         var hallBuilding = new Building('D', coordinates);
-                        var mbBuilding = new Building('MI', coordinates);
-                        var cBuilding = new Building('EV', coordinates);
+                        var mbBuilding = new Building('EV', coordinates);
+                        var cBuilding = new Building('GM', coordinates);
                         cBuilding.displayBuildingOutline(mapObj);
                         hallBuilding.displayBuildingOutline(mapObj);
                         mbBuilding.displayBuildingOutline(mapObj);
