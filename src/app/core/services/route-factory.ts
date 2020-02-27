@@ -37,8 +37,6 @@ export class RouteFactory {
       transitOptions: { departureTime: startTime, arrivalTime: endTime },
       provideRouteAlternatives: true
     };
-    this.routesService.getRoutes(dirRequest);
-    const tmp = [new Route()] as Route;
-    return tmp;
+    return this.routesService.getRoutes(dirRequest);
   }
 }
