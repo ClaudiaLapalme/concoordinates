@@ -1,4 +1,4 @@
-import { Transport } from './travel-mode.module';
+import { Transport } from './travel-mode';
 import { Coordinates } from './coordinates';
 
 export class RouteStep {
@@ -11,7 +11,7 @@ export class RouteStep {
         this.path = path;
         this.duration = duration;
         this.instruction = instruction;
-        this.transport = travelMode;
+        this.travelMode = travelMode;
     }
     distance: number;
     startCoordinate: Coordinates;
@@ -19,7 +19,7 @@ export class RouteStep {
     path: Array<Coordinates>;
     duration: number;
     instruction: string;
-    transport: Transport;
+    travelMode: Transport;
 
     getDuration(): number{
         return this.duration

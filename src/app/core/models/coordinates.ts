@@ -2,12 +2,12 @@ export class Coordinates {
 
     private latitude: number;
     private longitude: number;
-    private floorNumber: number;
+    private floorNumber?: number;
 
     constructor(
         latitude: number,
          longitude: number,
-          floorNumber: number) {
+          floorNumber?: number) {
 
             this.setLatitude(latitude);
             this.setLongitude(longitude);

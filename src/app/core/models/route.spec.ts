@@ -1,6 +1,6 @@
 import { async, TestBed } from '@angular/core/testing';
-import { RouteStep } from './route-step.model';
-import { Route } from './route.model';
+import { RouteStep } from './route-step';
+import { Route } from './route';
 
 describe('Route', () => {
 
