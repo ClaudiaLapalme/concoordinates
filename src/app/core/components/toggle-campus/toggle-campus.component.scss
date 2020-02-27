@@ -22,14 +22,10 @@
 
 .selected {
   background-color: var(--ion-color-primary);
-  //--ion-background-color: #6c2626;
-  //--ion-text-color: white;
   color: var(--ion-color-primary-contrast);
 }
 
 .unselected {
-  //--ion-background-color: #ffffff;
   background-color: var(--ion-color-primary-contrast);
   color: var(--ion-color-primary-shade);
-  //--ion-text-color: black;
 }
