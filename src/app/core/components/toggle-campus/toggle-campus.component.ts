@@ -9,10 +9,13 @@ export class ToggleCampusComponent {
 
   @Output() toggleChange = new EventEmitter();
 
+  isSGWToggled: boolean = true;
+
   constructor() { }
 
   toggleCampus(): void {
+    this.isSGWToggled = !this.isSGWToggled;
     this.toggleChange.emit();
   }
-
+  
 }

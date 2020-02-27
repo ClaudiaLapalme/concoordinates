@@ -4,22 +4,28 @@
   margin-right: 1vh;
 }
 
-.toggleSGW {
-  background: #6c2626;
+.leftToggle {
   border-radius: 7px 0px 0px 7px;
-  color: white;
   font-family: roboto;
   font-size: 10px;
   user-select: none;
   padding: 0px 10px 0px 12px;
 }
 
-.toggleLoyola {
-  background: #ffffff;
+.rightToggle {
   border-radius: 0px 7px 7px 0px;
-  color: black;
   font-family: roboto;
   font-size: 10px;
   user-select: none;
   padding: 0px 12px 0px 12px;
+}
+
+.selected {
+  background: #6c2626;
+  color: white;
+}
+
+.unselected {
+  background: #ffffff;
+  color: black;
 }
