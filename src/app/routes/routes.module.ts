@@ -10,6 +10,7 @@ import { RoutesListComponent } from './components/routes-list/routes-list.compon
 import { RoutesPageRoutingModule } from './routes-routing.module';
 
 import { RoutesPage } from './routes.page';
+import { ReactiveFormsModule }         from '@angular/forms';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { RoutesPage } from './routes.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    RoutesPageRoutingModule
+    RoutesPageRoutingModule,
+    ReactiveFormsModule
   ],
   declarations: [RoutesPage, RoutesListComponent, RoutesListItemComponent, RoutesListItemStepComponent ]
 })
