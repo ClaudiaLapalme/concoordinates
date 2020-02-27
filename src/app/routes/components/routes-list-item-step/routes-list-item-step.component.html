@@ -1,17 +1,23 @@
-  <div class="route-step" *ngIf="step.transportMode === 'walking'">
-    <ion-icon name="walk"></ion-icon>
+  <div class="route-step" *ngIf="step.transport.travelType === 'WALKING'">
+    <ion-icon name="walk" ></ion-icon>
     <p >{{step?.duration}}</p>
   </div>
-  <div class="route-step" *ngIf="step.transportMode === 'bus'">
-    <ion-icon name="bus"></ion-icon>
-    <p >{{step?.transitDetails}}</p>
-  </div>
-  <div class="route-step" *ngIf="step.transportMode === 'subway'">
+  <div  *ngIf="step.transport.travelType === 'TRANSIT'" >
+    <div class="route-step" *ngIf="step?.transport?.transportDetails?.line?.vehicle?.name === 'Bus'">
+      <ion-icon name="bus"></ion-icon>
+      <app-transit-line-indicator class="transit-line-indicator" [color]="step.transport.transportDetails.line.color" [line] = "step.transport.transportDetails.line.short_name"></app-transit-line-indicator>
+    </div>
+    <div class="route-step" *ngIf="step?.transport?.transportDetails?.line?.vehicle?.name === 'Subway'">
+      <ion-icon name="subway"></ion-icon>
+      <app-transit-line-indicator class="transit-line-indicator" [color]="step.transport.transportDetails.line.color" [line] = "step.transport.transportDetails.line.short_name"></app-transit-line-indicator>
+    </div>
+  </div> 
+  <!-- <div class="route-step" *ngIf="step.travelMode.travelType === 'TRANSIT'">
     <ion-icon name="subway"></ion-icon>
-    <p >{{step?.transitDetails}}</p>
-  </div>
+    <p >{{step?.travelMode.travelType}}</p>
+  </div> -->
  
-  <div class="route-step" *ngIf="step.transportMode === 'driving'">
+  <div class="route-step" *ngIf="step.transport.travelType === 'DRIVING'">
     <ion-icon name="car"></ion-icon>
     <p >{{step?.duration}}</p>
   </div>

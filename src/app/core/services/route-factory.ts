@@ -25,7 +25,7 @@ export class RouteFactory {
     startTime?: Date,
     endTime?: Date,
     travelMode?: any
-  ): Promise<void | Route[]> {
+  ): Promise<any> {
     if (travelMode !== undefined) {
       if (!(travelMode in google.maps.TravelMode)) {
         throw Error("Invalid Transitmode type used");

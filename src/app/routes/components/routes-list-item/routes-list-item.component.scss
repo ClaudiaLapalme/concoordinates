@@ -9,5 +9,13 @@
     .steps-container{
         display: flex;
         flex-direction: row;
+        .steps-overflow{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            span{
+                font-size: 20px;
+            }
+        }
     }
 }

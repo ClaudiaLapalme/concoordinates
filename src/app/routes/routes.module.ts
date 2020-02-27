@@ -11,6 +11,7 @@ import { RoutesPageRoutingModule } from './routes-routing.module';
 
 import { RoutesPage } from './routes.page';
 import { ReactiveFormsModule }         from '@angular/forms';
+import { TransitLineIndicatorComponent } from './components/transit-line-indicator/transit-line-indicator.component';
 
 
 @NgModule({
@@ -21,6 +22,6 @@ import { ReactiveFormsModule }         from '@angular/forms';
     RoutesPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [RoutesPage, RoutesListComponent, RoutesListItemComponent, RoutesListItemStepComponent ]
+  declarations: [RoutesPage, RoutesListComponent, RoutesListItemComponent, RoutesListItemStepComponent, TransitLineIndicatorComponent ]
 })
 export class RoutesPageModule {}

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { RouteStep } from '../routes-list/routes-list.component';
+import { RouteStep } from 'src/app/core/models/route-step';
 
 @Component({
   selector: 'app-routes-list-item-step',
@@ -12,6 +12,9 @@ export class RoutesListItemStepComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.step);
+    
+  }
 
 }

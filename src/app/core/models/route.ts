@@ -1,11 +1,6 @@
-import { Transport } from "./travel-mode"
 import { RouteStep } from "./route-step"
-import { Injectable } from '@angular/core';
 import { Coordinates } from './coordinates';
 
-
-
-@Injectable()
 export class Route { 
 
     constructor(startCoordinates: Coordinates, endCoordinates: Coordinates, 

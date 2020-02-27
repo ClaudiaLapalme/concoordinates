@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { Route } from "../models/route";
 import { Coordinates } from "../models";
 import { RouteStep } from "../models/route-step";
-import { Transport } from "../models/travel-mode";
 import { DirectionsRequest } from "@google/maps";
+import { Transport, TransportMode } from '../models/transport-mode';
 
 @Injectable({
   providedIn: "root"
@@ -27,15 +27,16 @@ export class RoutesService {
 
   getMappedRoutes(
     dirRequest: google.maps.DirectionsRequest
-  ): Promise<void | Route[]> {
-    let promise = this.getGoogleMapRoutes(dirRequest)
+  ): Promise<any> {
+    return this.getGoogleMapRoutes(dirRequest)
       .then(res => {
+        console.log(res);
+        
         return this.mapGoogleRoutesToRoutes(res.routes);
       })
       .catch(error => {
         console.log(error);
       });
-    return promise;
   }
 
   mapGoogleRoutesToRoutes(
@@ -85,7 +86,7 @@ export class RoutesService {
         this.getPathFromLatLngList(element.path),
         element.duration.value,
         element.instructions,
-        new Transport(null, null, null)
+        new Transport(null, null, TransportMode[element.travel_mode.toString()], element.transit)
       );
       rSteps.push(rStep);
     });

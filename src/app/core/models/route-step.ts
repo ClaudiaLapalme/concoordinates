@@ -1,17 +1,17 @@
-import { Transport } from './travel-mode';
 import { Coordinates } from './coordinates';
+import {Transport} from './transport-mode'
 
 export class RouteStep {
 
     constructor(distance: number, startCoordinate: Coordinates,endCoordinate: Coordinates,
-        path: Array<Coordinates>, duration: number, instruction: string, travelMode: Transport){
+        path: Array<Coordinates>, duration: number, instruction: string, transport: Transport){
         this.distance = distance;
         this.startCoordinate = startCoordinate;
         this.endCoordinate = endCoordinate;
         this.path = path;
         this.duration = duration;
         this.instruction = instruction;
-        this.travelMode = travelMode;
+        this.transport = transport;
     }
     distance: number;
     startCoordinate: Coordinates;
@@ -19,7 +19,7 @@ export class RouteStep {
     path: Array<Coordinates>;
     duration: number;
     instruction: string;
-    travelMode: Transport;
+    transport: Transport;
 
     getDuration(): number{
         return this.duration

@@ -51,7 +51,7 @@
   </ion-button>
 </div>
 <div class="divider"></div>
-<app-routes-list></app-routes-list>
+<app-routes-list *ngIf="routes" [routes]="routes" ></app-routes-list>
 {{form.value|json}}
 </ion-content>
 
