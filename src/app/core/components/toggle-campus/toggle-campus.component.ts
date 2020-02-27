@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-toggle-campus',
@@ -6,5 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./toggle-campus.component.scss'],
 })
 export class ToggleCampusComponent {
+
+  @Output() toggleChange = new EventEmitter();
+
+  constructor() { }
+
+  toggleCampus(): void {
+    this.toggleChange.emit();
+  }
 
 }
