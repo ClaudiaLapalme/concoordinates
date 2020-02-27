@@ -8,6 +8,7 @@ import {
     MapService,
 } from './services';
 import { OutdoorPOIFactoryService, AbstractPOIFactoryService } from './factories';
+import { RouteFactory } from './services/route-factory';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { OutdoorPOIFactoryService, AbstractPOIFactoryService } from './factories
         Geolocation,
         GoogleApisService,
         OutdoorPOIFactoryService,
-        AbstractPOIFactoryService
+        AbstractPOIFactoryService,
+        RouteFactory
     ]
 })
 export class CoreModule { }
