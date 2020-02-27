@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, ComponentFactoryResolver, OnInit, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, ComponentFactoryResolver, OnInit, ViewContainerRef, Renderer2 } from '@angular/core';
 import { MapService } from '../core';
 import { ToggleCampusComponent } from '../core/components/toggle-campus/toggle-campus.component';
 import { ToggleCampusDirective } from '../core/directives';
@@ -18,6 +18,7 @@ export class HomePage implements AfterViewInit {
     // @ViewChild('toggleCampus', {static: false})
     @ViewChild('appToggleCampus', { read: ViewContainerRef, static: true })//, {static: true})
     appToggleCampus: ViewContainerRef;
+    renderer: Renderer2;
 
     // Map data
     map: google.maps.Map;
@@ -45,21 +46,14 @@ export class HomePage implements AfterViewInit {
 
                 const componentRef = this.appToggleCampus.createComponent(componentFactory);
 
-                let htmlElement = this.appToggleCampus.element.nativeElement as HTMLElement;
-                console.log('htmlElement', htmlElement);
+                let toggleButton = this.appToggleCampus.element.nativeElement;
 
-                this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(htmlElement);
+                let centerControl = new CenterControl(toggleButton, map);
+
+                this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(toggleButton);
             });
-        // let MAP = initMap();
-        // console.log('map', this.map);
-        // console.log('MAP', MAP);
-
-
-
     }
 }
-
-
 
 
 /// bad code
@@ -94,7 +88,7 @@ function CenterControl(controlDiv, map) {
     let toggleSGW = document.createElement('div');
     toggleSGW.id = 'toggleSGW';
     toggleSGW.innerHTML = 'SGW';
-    // toggleSGW.className = 'toggleSGW';
+    toggleSGW.className = 'toggleSGW';
     const key = 'style' + '';
     toggleSGW[key] = `background:#6C2626;
                     border-radius: 7px 0px 0px 7px;
