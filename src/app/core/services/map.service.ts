@@ -32,9 +32,6 @@ export class MapService {
             mapTypeControl: false,
             scaleControl: true,
             zoomControl: true,
-            zoomControlOptions: {
-                style: google.maps.ZoomControlStyle.LARGE
-            },
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
