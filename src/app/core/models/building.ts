@@ -27,11 +27,11 @@ export class Building extends OutdoorPOI{
 
     let outlineAttributes: OutlineAttributes = {
       paths: BuildingsOutlineCoordinates[id],
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.8,
+      strokeColor: '#000000',
+      strokeOpacity: 0.6,
       strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.35};
+      fillColor: '#000000',
+      fillOpacity: 0.57};
 
     this.buildingOutline = new google.maps.Polygon(outlineAttributes);
   }
