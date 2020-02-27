@@ -5,6 +5,7 @@ import { throwError } from "rxjs";
 import { Route } from "../models/route";
 import { RoutesService } from "./routes.service";
 import { Coordinates } from "..";
+import { TransportMode } from '../models/transport-mode';
 
 @Injectable()
 export class RouteFactory {
@@ -30,7 +31,7 @@ export class RouteFactory {
       if (!(travelMode in google.maps.TravelMode)) {
         throw Error("Invalid Transitmode type used");
       }
-    }
+    }    
     const dirRequest: google.maps.DirectionsRequest = {
       origin: new google.maps.LatLng(
         startCoordinates.getLatitude(),

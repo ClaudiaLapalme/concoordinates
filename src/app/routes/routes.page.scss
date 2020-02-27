@@ -93,6 +93,20 @@ ion-select{
 .font-size-12{
     font-size:12px!important;
 }
+.routes-list-container{
+    min-height: 500px;
+    display: flex;
+    flex-direction: row;
+    // align-items: end;
+    justify-content: center;
+    .routes-list{
+        width: 100%;
+        align-self: initial;
+    }
+    .loader{
+        align-self: center;
+    }
+}
 
 
 

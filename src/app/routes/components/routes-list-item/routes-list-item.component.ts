@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Route } from 'src/app/core/models/route';
+import { TransportMode } from 'src/app/core/models/transport-mode';
 
 @Component({
   selector: 'app-routes-list-item',
@@ -10,6 +11,7 @@ export class RoutesListItemComponent implements OnInit {
 
   @Input() route: Route;
   @Input() routeNumber: number;
+  @Input() routeTransportMode: TransportMode
   constructor() { }
 
   ngOnInit() {

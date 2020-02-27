@@ -12,9 +12,7 @@ export class RoutesListItemStepComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-    console.log(this.step);
-    
+  ngOnInit() {    
   }
 
 }

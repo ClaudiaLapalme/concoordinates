@@ -12,7 +12,7 @@ import { RoutesPageRoutingModule } from './routes-routing.module';
 import { RoutesPage } from './routes.page';
 import { ReactiveFormsModule }         from '@angular/forms';
 import { TransitLineIndicatorComponent } from './components/transit-line-indicator/transit-line-indicator.component';
-
+import { SharedModule} from '../shared/shared.module'
 
 @NgModule({
   imports: [
@@ -20,7 +20,8 @@ import { TransitLineIndicatorComponent } from './components/transit-line-indicat
     FormsModule,
     IonicModule,
     RoutesPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   declarations: [RoutesPage, RoutesListComponent, RoutesListItemComponent, RoutesListItemStepComponent, TransitLineIndicatorComponent ]
 })

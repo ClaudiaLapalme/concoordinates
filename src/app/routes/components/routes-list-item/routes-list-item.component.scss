@@ -9,6 +9,12 @@
     .steps-container{
         display: flex;
         flex-direction: row;
+        .route-steps{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
         .steps-overflow{
             display: flex;
             flex-direction: row;

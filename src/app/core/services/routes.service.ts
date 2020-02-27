@@ -27,7 +27,7 @@ export class RoutesService {
 
   getMappedRoutes(
     dirRequest: google.maps.DirectionsRequest
-  ): Promise<any> {
+  ): Promise<any> {    
     return this.getGoogleMapRoutes(dirRequest)
       .then(res => {
         console.log(res);
@@ -54,8 +54,8 @@ export class RoutesService {
           routeLeg.end_location.lat(),
           gRoute.legs[0].end_location.lng()
         ),
-        routeLeg.departure_time.value,
-        routeLeg.arrival_time.value,
+        routeLeg.departure_time && routeLeg.departure_time.value ? routeLeg.departure_time.value : null,
+        routeLeg.arrival_time && routeLeg.arrival_time.value ? routeLeg.arrival_time.value : null,
         null,
         this.mapGoogleStepsToRouteSteps(routeLeg.steps)
       );
@@ -84,7 +84,7 @@ export class RoutesService {
         ),
         new Coordinates(element.end_location.lat(), element.end_location.lng()),
         this.getPathFromLatLngList(element.path),
-        element.duration.value,
+        Math.ceil(element.duration.value/60),
         element.instructions,
         new Transport(null, null, TransportMode[element.travel_mode.toString()], element.transit)
       );

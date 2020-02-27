@@ -37,21 +37,24 @@
   </form>
   <div class="divider"></div>
 <div class="transport-mode">
-  <ion-button fill="clear" (click)="getRoutes('walking')">
+  <ion-button fill="clear" (click)="getRoutes('WALKING')">
     <ion-icon name="walk"></ion-icon>
   </ion-button>
-  <ion-button fill="clear" (click)="getRoutes('transit')">
+  <ion-button fill="clear" (click)="getRoutes('TRANSIT')">
     <ion-icon name="bus"></ion-icon>
   </ion-button>
-  <ion-button fill="clear" (click)="getRoutes('cycling')">
+  <ion-button fill="clear" (click)="getRoutes('BICYCLING')">
     <ion-icon name="bicycle"></ion-icon>
   </ion-button>
-  <ion-button fill="clear" (click)="getRoutes('driving')">
+  <ion-button fill="clear" (click)="getRoutes('DRIVING')">
     <ion-icon name="car"></ion-icon>
   </ion-button>
 </div>
 <div class="divider"></div>
-<app-routes-list *ngIf="routes" [routes]="routes" ></app-routes-list>
+<div class="routes-list-container">
+  <app-routes-list *ngIf="!loading && routes" [routeTransportMode]="transportMode" [routes]="routes" class="routes-list"></app-routes-list>
+  <app-loader *ngIf="loading"></app-loader>
+</div>
 {{form.value|json}}
 </ion-content>
 
