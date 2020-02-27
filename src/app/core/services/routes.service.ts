@@ -11,22 +11,17 @@ export class RoutesService {
   googleDirectionsService = new google.maps.DirectionsService();
 
 
-  getRoutes(dirRequest: google.maps.DirectionsRequest):void {
+  getRoutes(dirRequest: google.maps.DirectionsRequest):Route[] {
+    let mappedRoutes = new Array<Route>();
     this.googleDirectionsService.route(
-      {
-          origin: 'concordia university',
-          destination: 'loyola campus',
-          travelMode: google.maps.TravelMode.TRANSIT,
-          provideRouteAlternatives: true
-      },
+      dirRequest,
       (res, status) => {
           console.log(res);
-          let mappedRoutes = this.mapGoogleStepsToRouteSteps(res.routes[0].legs[0].steps);
+          mappedRoutes = this.mapGoogleRoutesToRoutes(res.routes);
           console.log(mappedRoutes);
-          return mappedRoutes;
       }
   );
-
+  return mappedRoutes;
   }
 
 mapGoogleRoutesToRoutes(googleRoutes: google.maps.DirectionsRoute[]): Route[]{
@@ -40,7 +35,8 @@ mapGoogleRoutesToRoutes(googleRoutes: google.maps.DirectionsRoute[]): Route[]{
             routeLeg.arrival_time.value,
             null,
             this.mapGoogleStepsToRouteSteps(routeLeg.steps)
-        )
+        );
+        routes.push(route);
     });
     return routes;
 }

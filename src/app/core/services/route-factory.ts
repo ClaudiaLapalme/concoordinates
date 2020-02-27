@@ -1,10 +1,9 @@
 import { Time } from "@angular/common";
 import { Injectable } from "@angular/core";
 import { DirectionsRequest } from "@google/maps";
-import { start } from "repl";
-import { throwError } from "rxjs";
 import { Route } from "../models/route";
 import { RoutesService } from "./routes.service";
+import { Coordinates } from '../models';
 
 @Injectable()
 export class RouteFactory {
@@ -20,20 +19,21 @@ export class RouteFactory {
   };
 
   generateDefaultRoutes(
-    startCoordinates: number,
-    endCoordinates: number,
+    startCoordinates: Coordinates,
+    endCoordinates: Coordinates,
     startTime?: Date,
     endTime?: Date,
     transitMode?: any
   ): Route[] {
-    if (transitMode !== undefined) {
-      if (!transitMode[typeof google.maps.TransitMode]) {
-        throw new Error("Invalid Transitmode type used");
-      }
-    }
+    // if (transitMode !== undefined) {
+    //   if (!transitMode[typeof google.maps.TransitMode]) {
+    //     throw new Error("Invalid Transitmode type used");
+    //   }
+    // }
     const dirRequest: google.maps.DirectionsRequest = {
-      destination: new google.maps.LatLng(startCoordinates, endCoordinates),
-      travelMode: transitMode,
+      origin: new google.maps.LatLng(startCoordinates.getLatitude(),startCoordinates.getLongitude()),
+      destination: new google.maps.LatLng(endCoordinates.getLatitude(),endCoordinates.getLongitude()),
+      travelMode: google.maps.TravelMode.TRANSIT,
       transitOptions: { departureTime: startTime, arrivalTime: endTime },
       provideRouteAlternatives: true
     };

@@ -1,4 +1,4 @@
-import { Transport } from './travel-mode.module';
+import { Transport } from './travel-mode';
 import { Coordinates } from './coordinates';
 
 export class RouteStep {

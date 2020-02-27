@@ -1,4 +1,4 @@
-import { Transport } from "./travel-mode.module"
+import { Transport } from "./travel-mode"
 import { RouteStep } from "./route-step.model"
 import { Injectable } from '@angular/core';
 import { Coordinates } from './coordinates';
