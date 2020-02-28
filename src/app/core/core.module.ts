@@ -9,10 +9,11 @@ import {
 } from './services';
 import { OutdoorPOIFactoryService, AbstractPOIFactoryService } from './factories';
 import { RouteFactory } from './services/route-factory';
+import { LoaderComponent } from './components/loader/loader.component';
 
 
 @NgModule({
-    declarations: [],
+    declarations: [LoaderComponent],
     imports: [
         CommonModule
     ],
@@ -25,6 +26,7 @@ import { RouteFactory } from './services/route-factory';
         OutdoorPOIFactoryService,
         AbstractPOIFactoryService,
         RouteFactory
-    ]
+    ],
+    exports: [LoaderComponent]
 })
 export class CoreModule { }
