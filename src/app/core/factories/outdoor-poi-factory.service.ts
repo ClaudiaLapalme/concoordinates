@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Coordinates } from '../models/coordinates';
-import { POI } from '../models/poi';
-import { Campus } from '../models/campus';
-import { Building } from '../models/building';
+import { POI, Campus, Building } from '../models';
 
 import ConcordiaCampuses from '../data/concordia-campuses.json';
 import ConcordiaBuildings from '../data/concordia-buildings.json';
@@ -16,7 +14,6 @@ export class OutdoorPOIFactoryService {
 
     return new Building(name, code, coordinates);
   };
-
 
   createCampus(name: string, code: string, coordinates: Coordinates, buildings: Building[]): Campus {
 

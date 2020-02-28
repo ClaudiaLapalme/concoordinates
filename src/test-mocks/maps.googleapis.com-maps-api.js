@@ -4,7 +4,16 @@
  */
 
 class Polygon{
+
+	visible = false;
+
 	 setMap(){};
+	 setVisible(value){
+		this.visible = value;
+	 };
+	 getVisible(){
+		 return this.visible;
+	 };
 }
 
 let google = {

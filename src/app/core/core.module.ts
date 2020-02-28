@@ -8,7 +8,10 @@ import {
     LocationService, 
     MapService 
 } from './services';
-import { OutdoorPOIFactoryService, AbstractPOIFactoryService } from './factories';
+import {
+    OutdoorPOIFactoryService,
+    AbstractPOIFactoryService
+} from './factories';
 
 @NgModule({
     declarations: [ToggleCampusComponent],

@@ -20,9 +20,19 @@ export class Building extends OutdoorPOI {
     this.setBuildingOutline(code);
   }
 
-  displayBuildingOutline(mapRef: google.maps.Map<Element>): void {
+  createBuildingOutline(mapRef: google.maps.Map<Element>): void {
 
     this.buildingOutline.setMap(mapRef);
+  }
+
+  removeBuildingOutline(): void {
+
+    this.buildingOutline.setVisible(false);
+  }
+
+  displayBuildingOutline(): void{
+
+    this.buildingOutline.setVisible(true);
   }
 
   private setBuildingOutline(code: string): void {

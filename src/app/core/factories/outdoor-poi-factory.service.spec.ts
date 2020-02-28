@@ -14,7 +14,7 @@ describe('OutdoorPoiFactoryService', () => {
     expect(outdoorPOIFactory).toBeTruthy();
   });
 
-  describe('createBuidling()', () => {
+  describe('createBuilding()', () => {
 
     const testName = 'test building';
 
@@ -27,7 +27,7 @@ describe('OutdoorPoiFactoryService', () => {
       expect(testBuilding).toBeDefined();
     });
 
-    it('should return buidling name and coordinates', () => {
+    it('should return building name and coordinates', () => {
 
       const { outdoorPOIFactory, testCoordinates } = testSetup();
 
