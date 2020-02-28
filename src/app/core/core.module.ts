@@ -8,7 +8,7 @@ import {
     MapService,
 } from './services';
 import { OutdoorPOIFactoryService, AbstractPOIFactoryService } from './factories';
-import { RouteFactory } from './services/route-factory';
+import { RouteFactory } from './factories/route-factory';
 import { LoaderComponent } from './components/loader/loader.component';
 
 

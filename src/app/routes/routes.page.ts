@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { RouteFactory } from '../core/services/route-factory';
-import { Coordinates } from '../core/models/coordinates';
-import { Route } from '../core/models/route';
-import { TransportMode } from '../core/models/transport-mode';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { TransportMode, Route, RouteFactory } from '../core';
 
 @Component({
     selector: 'app-routes',

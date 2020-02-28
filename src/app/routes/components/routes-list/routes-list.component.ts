@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Route } from 'src/app/core/models/route';
-import { TransportMode } from 'src/app/core/models/transport-mode';
+import { Component, OnInit, Input } from '@angular/core';
+import { TransportMode, Route } from 'src/app/core';
+
 @Component({
     selector: 'app-routes-list',
     templateUrl: './routes-list.component.html',

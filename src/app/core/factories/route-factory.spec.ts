@@ -1,5 +1,5 @@
 import { RouteFactory } from "./route-factory";
-import { RoutesService } from "./routes.service";
+import { RoutesService } from "../services/routes.service";
 import { TransportMode } from '../models/transport-mode';
 import { TestBed } from '@angular/core/testing';
 
