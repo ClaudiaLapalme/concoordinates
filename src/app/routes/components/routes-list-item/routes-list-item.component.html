@@ -1,7 +1,7 @@
 <div class="item-container">
   <div class="item-header">
     <p>Route {{routeNumber}}</p>
-  <p>{{route.computeTotalDuration()}} min</p>
+  <p>{{routeDuration}} min</p>
   </div>
   <div class="steps-container" *ngIf="routeTransportMode === 'TRANSIT'"  >
     <div class="route-steps" *ngFor="let step of route?.routeSteps; let i =index">

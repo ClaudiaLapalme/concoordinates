@@ -12,9 +12,14 @@ export class RoutesListItemComponent implements OnInit {
   @Input() route: Route;
   @Input() routeNumber: number;
   @Input() routeTransportMode: TransportMode
+
+  routeDuration: number;
   constructor() { }
 
   ngOnInit() {
+    if(this.route){
+      this.routeDuration = this.route.computeTotalDuration();
+    }
   }
 
 }

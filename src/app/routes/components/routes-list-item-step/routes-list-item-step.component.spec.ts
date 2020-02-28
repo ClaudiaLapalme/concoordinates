@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { RoutesListItemStepComponent } from './routes-list-item-step.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('RoutesListItemStepComponent', () => {
   let component: RoutesListItemStepComponent;
@@ -10,7 +11,8 @@ describe('RoutesListItemStepComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ RoutesListItemStepComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot()],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(RoutesListItemStepComponent);

@@ -84,6 +84,7 @@
 .transport-mode{
     display:flex;
     flex-direction:row;
+    align-items: center;
     height: 50px;
     border-bottom: 1px solid black;
     padding: 2px 0px;
@@ -112,7 +113,6 @@ ion-select{
     flex-direction: row;
     justify-content: center;
     min-height: 200px;
-    overflow: scroll;
     .routes-list{
         width: 100%;
         align-self: initial;

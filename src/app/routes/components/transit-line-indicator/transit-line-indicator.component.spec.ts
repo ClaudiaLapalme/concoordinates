@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { TransitLineIndicatorComponent } from './transit-line-indicator.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('TransitLineIndicatorComponent', () => {
   let component: TransitLineIndicatorComponent;
@@ -10,7 +11,8 @@ describe('TransitLineIndicatorComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TransitLineIndicatorComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot()],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransitLineIndicatorComponent);
