@@ -13,8 +13,6 @@
         <ion-item  class="custom-input-container">
           <ion-input class="ion-text-center" formControlName="to" type="text"></ion-input>
         </ion-item>
-
-        
       </div>
     </div>
     <div class="divider"></div>
@@ -37,16 +35,16 @@
   </form>
   <div class="divider"></div>
 <div class="transport-mode">
-  <ion-button fill="clear" (click)="getRoutes('WALKING')">
+  <ion-button fill="clear" (click)="setTransportMode('WALKING')">
     <ion-icon name="walk"></ion-icon>
   </ion-button>
-  <ion-button fill="clear" (click)="getRoutes('TRANSIT')">
+  <ion-button fill="clear" (click)="setTransportMode('TRANSIT')">
     <ion-icon name="bus"></ion-icon>
   </ion-button>
-  <ion-button fill="clear" (click)="getRoutes('BICYCLING')">
+  <ion-button fill="clear" (click)="setTransportMode('BICYCLING')">
     <ion-icon name="bicycle"></ion-icon>
   </ion-button>
-  <ion-button fill="clear" (click)="getRoutes('DRIVING')">
+  <ion-button fill="clear" (click)="setTransportMode('DRIVING')">
     <ion-icon name="car"></ion-icon>
   </ion-button>
 </div>
@@ -55,6 +53,8 @@
   <app-routes-list *ngIf="!loading && routes" [routeTransportMode]="transportMode" [routes]="routes" class="routes-list"></app-routes-list>
   <app-loader *ngIf="loading"></app-loader>
 </div>
-{{form.value|json}}
+<div class="submit-button">
+  <ion-button (click)="submit()" color="primary"  >Submit</ion-button>
+</div>
 </ion-content>
 

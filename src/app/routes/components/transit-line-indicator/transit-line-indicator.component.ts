@@ -7,8 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TransitLineIndicatorComponent implements OnInit {
 
-  @Input() line;
-  @Input() color;
+  @Input() line: string;
+  @Input() color: string;
   constructor() { }
 
   ngOnInit() {}

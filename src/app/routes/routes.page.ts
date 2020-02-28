@@ -11,24 +11,15 @@ import { TransportMode } from '../core/models/transport-mode';
     styleUrls: ['./routes.page.scss']
 })
 export class RoutesPage implements OnInit {
-    from: string;
-    to: string;
-
     form: FormGroup;
-
-    startCoord = new Coordinates(45.4867157, -73.5772517);
-    endCoord = new Coordinates(45.5138, -73.6829);
 
     routes: Route[];
 
-    transportMode: TransportMode = TransportMode.WALKING;
+    transportMode: TransportMode = TransportMode.TRANSIT;
 
     loading: boolean;
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private routeFactory: RouteFactory
-    ) {}
+    constructor(private formBuilder: FormBuilder, private routeFactory: RouteFactory) {}
 
     ngOnInit() {
         this.form = this.formBuilder.group({
@@ -37,21 +28,31 @@ export class RoutesPage implements OnInit {
             departAt: ['Depart At'],
             time: ['18:00']
         });
-        this.getRoutes(this.transportMode);
+        this.getRoutes();
     }
 
-    async getRoutes(transportMode: string) {
+    async getRoutes() {
         this.loading = true;
 
-        let startTime = new Date(2020, 1, 21, 6, 55, 0);
+        let date = new Date();
+        let minHours = this.form.value['time'].split(':');
+        date.setHours(minHours[0]);
+        date.setMinutes(minHours[1]);
+
         this.routes = await this.routeFactory.generateDefaultRoutes(
-            this.startCoord,
-            this.endCoord,
-            startTime,
+            this.form.value['from'],
+            this.form.value['to'],
+            date,
             null,
-            TransportMode[transportMode]
+            this.transportMode
         );
-        this.transportMode = TransportMode[transportMode];
         this.loading = false;
+    }
+    setTransportMode(transportMode: string) {
+        this.transportMode = TransportMode[transportMode];
+        this.getRoutes();
+    }
+    submit() {
+        this.getRoutes();
     }
 }

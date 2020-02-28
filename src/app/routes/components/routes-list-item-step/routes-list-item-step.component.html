@@ -1,5 +1,6 @@
   <div class="route-step" *ngIf="step.transport.travelType === 'WALKING'">
     <ion-icon name="walk" ></ion-icon>
+    <p *ngIf="routeTransportMode === 'TRANSIT'">{{step.duration}}</p>
   </div>
   <div  *ngIf="step.transport.travelType === 'TRANSIT'" >
     <div class="route-step" *ngIf="step?.transport?.transportDetails?.line?.vehicle?.name === 'Bus'">
@@ -10,11 +11,15 @@
       <ion-icon name="subway"></ion-icon>
       <app-transit-line-indicator class="transit-line-indicator" [color]="step.transport.transportDetails.line.color" [line] = "step.transport.transportDetails.line.short_name"></app-transit-line-indicator>
     </div>
+    <div class="route-step" *ngIf="step?.transport?.transportDetails?.line?.vehicle?.name === 'Train'">
+      <ion-icon name="train"></ion-icon>
+      <app-transit-line-indicator class="transit-line-indicator" [color]="step.transport.transportDetails.line.color" [line] = "step.transport.transportDetails.line.short_name"></app-transit-line-indicator>
+    </div>
   </div> 
-  <div class="route-step" *ngIf="step.transport.travelType === 'DRIVING'">
+  <div class="route-step" *ngIf="step?.transport?.travelType === 'DRIVING'">
     <ion-icon name="car"></ion-icon>
   </div>
-  <div class="route-step" *ngIf="step.transport.travelType === 'BICYCLING'">
+  <div class="route-step" *ngIf="step?.transport?.travelType === 'BICYCLING'">
     <ion-icon name="bicycle"></ion-icon>
   </div>
  

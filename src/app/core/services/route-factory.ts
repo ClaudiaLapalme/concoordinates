@@ -21,8 +21,8 @@ export class RouteFactory {
   };
 
   async generateDefaultRoutes(
-    startCoordinates: Coordinates,
-    endCoordinates: Coordinates,
+    startCoordinates: Coordinates | string,
+    endCoordinates: Coordinates | string,
     startTime?: Date,
     endTime?: Date,
     travelMode?: any
@@ -31,16 +31,12 @@ export class RouteFactory {
       if (!(travelMode in google.maps.TravelMode)) {
         throw Error("Invalid Transitmode type used");
       }
-    }    
+    }  
     const dirRequest: google.maps.DirectionsRequest = {
-      origin: new google.maps.LatLng(
-        startCoordinates.getLatitude(),
-        startCoordinates.getLongitude()
-      ),
-      destination: new google.maps.LatLng(
-        endCoordinates.getLatitude(),
-        endCoordinates.getLongitude()
-      ),
+      origin: startCoordinates.toString(),
+      destination: 
+        endCoordinates.toString()
+      ,
       travelMode,
       transitOptions: { departureTime: startTime, arrivalTime: endTime },
       provideRouteAlternatives: true

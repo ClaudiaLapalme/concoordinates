@@ -107,6 +107,12 @@ ion-select{
         align-self: center;
     }
 }
+.submit-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 20px;
+}
 
 
 
