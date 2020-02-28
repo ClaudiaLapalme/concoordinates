@@ -38,14 +38,24 @@ export class RoutesPage implements OnInit {
         let minHours = this.form.value['time'].split(':');
         date.setHours(minHours[0]);
         date.setMinutes(minHours[1]);
-
-        this.routes = await this.routeFactory.generateDefaultRoutes(
-            this.form.value['from'],
-            this.form.value['to'],
-            date,
-            null,
-            this.transportMode
-        );
+        if(this.form.value['departAt'] === 'Depart At'){
+            this.routes = await this.routeFactory.generateDefaultRoutes(
+                this.form.value['from'],
+                this.form.value['to'],
+                date,
+                null,
+                this.transportMode
+            );
+        }
+        else{
+            this.routes = await this.routeFactory.generateDefaultRoutes(
+                this.form.value['from'],
+                this.form.value['to'],
+                null,
+                date,
+                this.transportMode
+            );
+        }
         this.loading = false;
     }
     setTransportMode(transportMode: string) {

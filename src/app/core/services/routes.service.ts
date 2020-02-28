@@ -29,9 +29,7 @@ export class RoutesService {
     dirRequest: google.maps.DirectionsRequest
   ): Promise<any> {    
     return this.getGoogleMapRoutes(dirRequest)
-      .then(res => {
-        console.log(res);
-        
+      .then(res => {                
         return this.mapGoogleRoutesToRoutes(res.routes);
       })
       .catch(error => {

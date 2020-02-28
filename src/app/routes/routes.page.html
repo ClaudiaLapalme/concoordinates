@@ -35,16 +35,16 @@
   </form>
   <div class="divider"></div>
 <div class="transport-mode">
-  <ion-button fill="clear" (click)="setTransportMode('WALKING')">
+  <ion-button [ngClass]="{'selected': transportMode === 'WALKING'}" fill="clear" (click)="setTransportMode('WALKING')">
     <ion-icon name="walk"></ion-icon>
   </ion-button>
-  <ion-button fill="clear" (click)="setTransportMode('TRANSIT')">
+  <ion-button  [ngClass]="{'selected': transportMode === 'TRANSIT'}" fill="clear" (click)="setTransportMode('TRANSIT')">
     <ion-icon name="bus"></ion-icon>
   </ion-button>
-  <ion-button fill="clear" (click)="setTransportMode('BICYCLING')">
+  <ion-button  [ngClass]="{'selected': transportMode === 'BICYCLING'}" fill="clear" (click)="setTransportMode('BICYCLING')">
     <ion-icon name="bicycle"></ion-icon>
   </ion-button>
-  <ion-button fill="clear" (click)="setTransportMode('DRIVING')">
+  <ion-button  [ngClass]="{'selected': transportMode === 'DRIVING'}" fill="clear" (click)="setTransportMode('DRIVING')">
     <ion-icon name="car"></ion-icon>
   </ion-button>
 </div>
