@@ -1,14 +1,20 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
-import { GoogleApisService } from 'src/app/core/services/google-apis.service';
+import { GoogleApisService } from './google-apis.service';
 import { LocationService } from './location.service';
-import { LatLngLiteral } from '@google/maps';
+import { Map, Building } from '../models';
+import { OutdoorMap } from '../models/outdoor-map';
+import { OutdoorPOIFactoryService } from '../factories';
+
 @Injectable()
 export class MapService {
+
+    private outdoorMap: Map;
+
     constructor(
         private locationService: LocationService,
         private googleApis: GoogleApisService
-    ) { }
+    ){ this.loadOutdoorMap(); }
 
     icon: google.maps.Icon = {
         url: '../../../assets/icon/center_marker.png',
@@ -46,6 +52,8 @@ export class MapService {
                 const mapObj = this.googleApis.createMap(mapElement, mapOptions);
                 this.googleApis.createMarker(latLng, mapObj, this.icon);
 
+                this.displayBuildingsOutline(mapObj);
+
                 mapObj.addListener('tilesloaded',
                     this.tilesLoadedHandler(mapObj,
                         latLng.lat(), latLng.lng()));
@@ -65,6 +73,42 @@ export class MapService {
         return () => {
             console.log('mapObj', mapObj); // debug
             this.locationService.getAddressFromLatLng(latitude, longitude).then(console.log);
+            this.trackHallBuildingDisplay(mapObj.getZoom());
         };
+    }
+
+    private loadOutdoorMap(): void {
+
+        let outdoorPOIFactory = new OutdoorPOIFactoryService();
+
+        this.outdoorMap = new OutdoorMap(outdoorPOIFactory.loadOutdoorPOIs());
+    }
+
+    private displayBuildingsOutline(mapRef: google.maps.Map<Element>) {
+
+        let outdoorPOIs = this.outdoorMap.getPOIs();
+
+        for (let outdoorPOI of outdoorPOIs) {
+
+            if (outdoorPOI instanceof Building) {
+                outdoorPOI.createBuildingOutline(mapRef);
+            }
+        }
+
+    }
+
+    private trackHallBuildingDisplay(zoomValue: number): void {
+
+        let hallBuildingName = 'Henry F. Hall Building';
+        let building = this.outdoorMap.getPOI(hallBuildingName);
+
+        if (building instanceof Building) {
+            if (zoomValue >= 20) {
+                building.removeBuildingOutline();
+            }
+            else {
+                building.displayBuildingOutline();
+            }
+        }
     }
 }

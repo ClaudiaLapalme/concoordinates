@@ -2,7 +2,21 @@
  * This file is used to mock the google api for tests.
  * Please don't delete this file.
  */
-var google = {
+
+class Polygon{
+
+	visible = false;
+
+	 setMap(){};
+	 setVisible(value){
+		this.visible = value;
+	 };
+	 getVisible(){
+		 return this.visible;
+	 };
+}
+
+let google = {
     maps : {
         OverlayView : function () {
         },
@@ -18,6 +32,9 @@ var google = {
 		},
 		Size: function(){
 
+		},
+		Polygon: function(){
+			return new Polygon;
 		},
         MapTypeId: {ROADMAP: true},
         places: {
