@@ -1,7 +1,8 @@
 .routes-header-container{
-    margin: 5% 0;
+    margin: 5px 0;
     display: flex;
     flex-direction: row;
+    border-bottom: 1px solid black;
     .back-button-container{
         display: flex;
         flex-direction: row;
@@ -32,17 +33,19 @@
     border: 1px solid black;
 }
 .time-options{
+    border-bottom: 1px solid black;
+    height: 46px;
     display: flex;
     flex-direction: row;
     font-size: 12px;
-    margin: 0px 20px;
+    padding: 0px 10px;
 
     .select-time{
         ion-select{
             display: flex;
     flex-direction: row;
     align-items: center;
-            padding:0px;
+            padding:1px 5px;
         }
         ion-item {
             --padding-start: 0;
@@ -50,10 +53,9 @@
         display: flex;
         flex-direction: row;
         padding-right: 5px;
-        .departure-container{
             .departure-select{
                 max-width: 100%;
-            }
+            
         }
 
     }
@@ -83,8 +85,11 @@
     display:flex;
     flex-direction:row;
     height: 50px;
+    border-bottom: 1px solid black;
+    padding: 2px 0px;
     ion-button{
         flex-grow:1;
+        margin:0px;
         ion-icon{
             font-size:25px;
         }
@@ -102,15 +107,15 @@ ion-select{
     font-size:12px!important;
 }
 .routes-list-container{
+    height:100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    min-height: 200px;
+    overflow: scroll;
     .routes-list{
         width: 100%;
         align-self: initial;
-    }
-    .loader{
-        align-self: center;
     }
 }
 
