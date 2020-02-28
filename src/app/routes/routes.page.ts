@@ -33,7 +33,6 @@ export class RoutesPage implements OnInit {
 
     async getRoutes() {
         this.loading = true;
-
         let date = new Date();
         let minHours = this.form.value['time'].split(':');
         date.setHours(minHours[0]);

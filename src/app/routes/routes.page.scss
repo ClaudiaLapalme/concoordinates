@@ -70,6 +70,14 @@
          flex-grow:1;
 
     }
+    .submit-button{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        margin-right: 20px;
+        flex-grow:1;
+    }
 }
 .transport-mode{
     display:flex;
@@ -78,7 +86,7 @@
     ion-button{
         flex-grow:1;
         ion-icon{
-            font-size:35px;
+            font-size:25px;
         }
     }
 
@@ -94,10 +102,8 @@ ion-select{
     font-size:12px!important;
 }
 .routes-list-container{
-    min-height: 500px;
     display: flex;
     flex-direction: row;
-    // align-items: end;
     justify-content: center;
     .routes-list{
         width: 100%;
@@ -107,12 +113,7 @@ ion-select{
         align-self: center;
     }
 }
-.submit-button{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    margin-right: 20px;
-}
+
 .selected{
     background-color: rgba(#000000, 0.1);
 }

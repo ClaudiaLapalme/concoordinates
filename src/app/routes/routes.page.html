@@ -31,6 +31,9 @@
           <div class="options-container">
             <a>Options</a>
           </div>
+          <div class="submit-button">
+            <a (click)="submit()" >Get Directions</a>
+          </div>
     </div>
   </form>
   <div class="divider"></div>
@@ -52,9 +55,6 @@
 <div class="routes-list-container">
   <app-routes-list *ngIf="!loading && routes" [routeTransportMode]="transportMode" [routes]="routes" class="routes-list"></app-routes-list>
   <app-loader *ngIf="loading"></app-loader>
-</div>
-<div class="submit-button">
-  <ion-button (click)="submit()" color="primary"  >Submit</ion-button>
 </div>
 </ion-content>
 
