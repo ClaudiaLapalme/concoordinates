@@ -8,9 +8,13 @@ import {
     LocationService, 
     MapService 
 } from './services';
+import { ToggleFloorsComponent } from './components/toggle-floors/toggle-floors.component';
 
 @NgModule({
-    declarations: [ToggleCampusComponent],
+    declarations: [
+        ToggleCampusComponent,
+        ToggleFloorsComponent,
+    ],
     imports: [
         CommonModule
     ],
@@ -23,6 +27,7 @@ import {
     ],
     exports: [
         ToggleCampusComponent,
+        ToggleFloorsComponent,
     ],
     entryComponents: []
 })

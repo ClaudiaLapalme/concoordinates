@@ -1,0 +1,24 @@
+.toggle-floor {
+    display: flex;
+    font-size: 20px;
+    border-radius: 2px 2px 2px 2px;
+}
+
+.eigthToggle {
+    border-radius: 10px 0px 10px 0px;
+    border: 10px solid;
+}
+
+.ninthToggle {
+    border: 10px solid;
+}
+
+.selected {
+    background-color: var(--ion-color-light-contrast-rgb);
+    color: var(--ion-color-primary-shade);
+}
+
+.unselected {
+    background-color: var(--ion-color-primary-contrast);
+    color: var(--ion-color-primary-tint);
+}

@@ -20,10 +20,13 @@ export class HomePage implements AfterViewInit {
     @ViewChild('toggle', { read: ElementRef, static: false })
     toggle: ElementRef;
 
+    @ViewChild('toggleFloor', { read: ElementRef, static: false })
+    toggleFloor: ElementRef;
+
     // Map data
     map: google.maps.Map;
 
-    constructor(
+    constructor (
         private mapService: MapService,
     ) { 
         this.currentCenter = this.SGW;
@@ -43,7 +46,9 @@ export class HomePage implements AfterViewInit {
                 this.map = mapObj;
 
                 let toggleButton = this.toggle.nativeElement;
+                let toggleFloor = this.toggleFloor.nativeElement;
 
+                this.map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(toggleFloor);
                 this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(toggleButton);
             });
     }
@@ -56,5 +61,9 @@ export class HomePage implements AfterViewInit {
             this.map.setCenter(this.SGW);
             this.setCurrentCenter(this.SGW);
         }
+    }
+
+    switchFloors(): void {
+        console.log('you have penetrated switchFloors() in the homepage');
     }
 }
