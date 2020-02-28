@@ -1,0 +1,6 @@
+<div>
+	<div title='Click to switch campus' class='toggle-campus' (click)='toggleCampus()'>
+		<div class='leftToggle' [class.selected]='isSGWToggled' [class.unselected]='!isSGWToggled'>SGW</div>
+		<div class='rightToggle' [class.selected]='!isSGWToggled' [class.unselected]='isSGWToggled'>LOY</div>
+	</div>
+</div>

@@ -17,14 +17,23 @@ export class MapService {
         scaledSize: new google.maps.Size(30, 30), // scaled size
     };
 
+    SGW_COORDINATES: google.maps.LatLng = new google.maps.LatLng(45.4959053, -73.5801141);
+
     /**
      * Given a map reference create a map 
      * @param mapElement the reference to the html map
      */
     async loadMap(mapElement: ElementRef): Promise<google.maps.Map<Element>> {
         let mapOptions: google.maps.MapOptions = {
-            center: new google.maps.LatLng(45.4959053, -73.5801141),
+            center: this.SGW_COORDINATES,
             zoom: 15,
+            mapTypeControlOptions: {
+                mapTypeIds: [google.maps.MapTypeId.ROADMAP]
+            },
+            disableDefaultUI: true,
+            mapTypeControl: false,
+            scaleControl: true,
+            zoomControl: true,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
