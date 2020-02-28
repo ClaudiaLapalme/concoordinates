@@ -4,35 +4,40 @@ import { RoutesService } from './routes.service';
 import { Coordinates } from '../models';
 
 describe('RoutesService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
 
+  let gRequestMock: google.maps.DirectionsRequest;
+  let service: RoutesService;
 
-  // var gResultMock: google.maps.DirectionsResult = jasmine.createSpyObj('gResult',[]);
-  var gRequestMock: google.maps.DirectionsRequest = jasmine.createSpyObj('gRequest',['somemethod']);
+  beforeEach(async() => TestBed.configureTestingModule({
+  }));
+
+  beforeEach(()=> {
+   gRequestMock = jasmine.createSpyObj('gRequest',['somemethod']);
+    service = TestBed.get(RoutesService);
+  })
+
 
   it('should be created', () => {
-    const service: RoutesService = TestBed.get(RoutesService);
     expect(service).toBeTruthy();
   });
 
-  const routeUnderTest: RoutesService = TestBed.get(RoutesService);
 
-  it('Should call all underlying methods at least once', () =>{
-    routeUnderTest.getMappedRoutes(gRequestMock);
-    expect(routeUnderTest.mapGoogleStepsToRouteSteps).toHaveBeenCalled();
-    expect(routeUnderTest.mapGoogleRoutesToRoutes).toHaveBeenCalled();
-    expect(routeUnderTest.getPathFromLatLngList).toHaveBeenCalled();
+  it('Should call all underlying methods at least once', done =>{
+    service.getMappedRoutes(gRequestMock).then(()=> done());
+    expect(service.mapGoogleStepsToRouteSteps).toHaveBeenCalled();
+    expect(service.mapGoogleRoutesToRoutes).toHaveBeenCalled();
+    expect(service.getPathFromLatLngList).toHaveBeenCalled();
   });
 
-  it('Should convert LatLng list to a list of Coordinates', () =>{
-    let testLatLng = new google.maps.LatLng(6,7);
-    let testLatLngs = [testLatLng,testLatLng]
-    let testCoord = new Coordinates(6,7);
-    let testCoords = [testCoord,testCoord]
-    expect(routeUnderTest.getPathFromLatLngList(testLatLngs)).toEqual(testCoords)
-  });
+  // it('Should convert LatLng list to a list of Coordinates', () =>{
+  //   let testLatLng = new google.maps.LatLng(6,7);
+  //   let testLatLngs = [testLatLng,testLatLng]
+  //   let testCoord = new Coordinates(6,7);
+  //   let testCoords = [testCoord,testCoord]
+  //   expect(routeUnderTest.getPathFromLatLngList(testLatLngs)).toEqual(testCoords)
+  // });
 
-  it('Should convert gSteps to Route Steps', () =>{
-    // routeUnderTest.mapGoogleStepsToRouteSteps()
-  })
+  // it('Should convert gSteps to Route Steps', () =>{
+  //   // routeUnderTest.mapGoogleStepsToRouteSteps()
+  // })
 });
