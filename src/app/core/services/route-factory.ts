@@ -1,8 +1,5 @@
 import { Time } from "@angular/common";
 import { Injectable } from "@angular/core";
-import { DirectionsRequest } from "@google/maps";
-import { throwError } from "rxjs";
-import { Route } from "../models/route";
 import { RoutesService } from "./routes.service";
 import { Coordinates } from "..";
 import { TransportMode } from '../models/transport-mode';
@@ -25,19 +22,19 @@ export class RouteFactory {
     endCoordinates: Coordinates | string,
     startTime?: Date,
     endTime?: Date,
-    travelMode?: any
+    transportMode?: any
   ): Promise<any> {
-    if (travelMode !== undefined) {
-      if (!(travelMode in google.maps.TravelMode)) {
-        throw Error("Invalid Transitmode type used");
+    if (transportMode !== undefined) {
+      if (!(transportMode in TransportMode)) {
+        throw Error("Invalid TransportMode type used");
       }
-    }  
+    }
     const dirRequest: google.maps.DirectionsRequest = {
       origin: startCoordinates.toString(),
       destination: 
         endCoordinates.toString()
       ,
-      travelMode,
+      travelMode: google.maps.TravelMode[transportMode.toString()],
       transitOptions: { departureTime: startTime, arrivalTime: endTime },
       provideRouteAlternatives: true
     };
