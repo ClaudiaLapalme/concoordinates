@@ -1,14 +1,13 @@
 import { ElementRef } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
-import { MapService } from './map.service';
+import { MapService } from './';
 
 describe('MapService', () => {
     // let mapService: MapService;
     function testServiceSetup() {
         const locationServiceSpy = jasmine.createSpyObj('LocationService', ['getGeoposition', 'getAddressFromLatLng']);
         const googleApisServiceSpy = jasmine.createSpyObj('GoogleApisService', ['createMap', 'createMarker', 'createLatLng']);
-        const outdoorPOIFactoryServiceSpy = jasmine.createSpyObj('OutdoorPOIFactory', ['createBuilding', 'createCampus', 'loadCampuses']);
-        const mapService: MapService = new MapService(locationServiceSpy, googleApisServiceSpy, outdoorPOIFactoryServiceSpy);
+        const mapService: MapService = new MapService(locationServiceSpy, googleApisServiceSpy);
         return { mapService, locationServiceSpy, googleApisServiceSpy };
     }
 

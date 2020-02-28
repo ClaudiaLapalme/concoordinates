@@ -2,14 +2,19 @@ import { ElementRef, Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { GoogleApisService } from './google-apis.service';
 import { LocationService } from './location.service';
+import { Map } from '../models/map';
+import { OutdoorMap } from '../models/outdoor-map';
 import { OutdoorPOIFactoryService } from '../factories';
+import { Building } from '../models';
 
 @Injectable()
 export class MapService {
+
+    private outdoorMap: Map;
+
     constructor(
         private locationService: LocationService,
         private googleApis: GoogleApisService,
-        private outdoorPOIFactory: OutdoorPOIFactoryService
     ) { }
 
     icon: google.maps.Icon = {
@@ -51,14 +56,14 @@ export class MapService {
                 mapObj.addListener('tilesloaded',
                     this.tilesLoadedHandler(mapObj,
                         latLng.lat(), latLng.lng()));
-                    
-                //Creates campuses, buildings and draw the buildings outlines
-                this.outdoorPOIFactory.loadCampuses(mapObj);
-      
+
+                this.loadOutdoorMap();
+                this.displayBuildings(mapObj);
+
                 return mapObj;
 
             } else {
-                return this.googleApis.createMap(mapElement, mapOptions); 
+                return this.googleApis.createMap(mapElement, mapOptions);
             }
         } catch (error) {
             console.log(error);
@@ -71,5 +76,25 @@ export class MapService {
             console.log('mapObj', mapObj); // debug
             this.locationService.getAddressFromLatLng(latitude, longitude).then(console.log);
         };
+    }
+
+    private loadOutdoorMap(): void {
+
+        let outdoorPOIFactory = new OutdoorPOIFactoryService();
+
+        this.outdoorMap = new OutdoorMap(outdoorPOIFactory.loadOutdoorPOIs());
+    }
+
+    private displayBuildings(mapRef: google.maps.Map<Element>) {
+
+        let outdoorPOIs = this.outdoorMap.getPOIs();
+
+        for (let outdoorPOI of outdoorPOIs) {
+
+            if (outdoorPOI instanceof Building) {
+                outdoorPOI.displayBuildingOutline(mapRef);
+            }
+        }
+
     }
 }

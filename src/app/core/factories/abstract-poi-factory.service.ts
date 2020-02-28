@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OutdoorPOIFactoryService } from 'src/app/core/factories/outdoor-poi-factory.service';
+import { OutdoorPOIFactoryService } from './outdoor-poi-factory.service';
 
 @Injectable()
 export class AbstractPOIFactoryService {

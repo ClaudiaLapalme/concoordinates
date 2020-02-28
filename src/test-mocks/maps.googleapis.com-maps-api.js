@@ -7,7 +7,7 @@ class Polygon{
 	 setMap(){};
 }
 
-var google = {
+let google = {
     maps : {
         OverlayView : function () {
         },

@@ -7,8 +7,8 @@ export class OutdoorPOI extends POI {
     constructor(
         name: string,
         coordinates: Coordinates) {
-            
-            super(name, coordinates)
-        }
-    
+
+        super(name, coordinates)
+    }
+
 }
