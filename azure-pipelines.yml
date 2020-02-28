@@ -37,12 +37,7 @@ jobs:
     displayName: 'Run ng test'
 
   - script: |
-       echo "Status: $(Agent.JobStatus)"
-       echo "Commit tag: $(Build.SourceVersion)"
-       echo "Commit message: $(Build.SourceVersionMessage)"
-       export COMMIT_MSG=$(Build.SourceVersionMessage)
-       echo "To URL: $(discord_webhook)"
-       curl -X POST --data '{"content":"Pipeline completed.\nPipeline Status: $(Agent.JobStatus)\nCommit tag: $(Build.SourceVersion)\nCommit message: $COMMIT_MSG\n"}' -H "Accept: application/json" -H "Content-Type: application/json" $(discord_webhook)
+       curl -X POST --data '{"content":"Pipeline completed.\nPipeline Status: $(Agent.JobStatus)\nCommit tag: $(Build.SourceVersion)\n"}' -H "Accept: application/json" -H "Content-Type: application/json" $(discord_webhook)
     displayName: 'Notify Discord'
 
 
