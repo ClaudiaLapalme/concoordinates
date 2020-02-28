@@ -48,7 +48,7 @@ export class HomePage implements AfterViewInit {
                 let toggleButton = this.toggle.nativeElement;
                 let toggleFloor = this.toggleFloor.nativeElement;
 
-                this.map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(toggleFloor);
+                this.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(toggleFloor);
                 this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(toggleButton);
             });
     }

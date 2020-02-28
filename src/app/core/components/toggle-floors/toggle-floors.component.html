@@ -1,6 +1,5 @@
-<div>
-    <div title='Click to change floor' class='toggle-floor' (click)='toggleFloor()'>
-        <div class='eightToggle' [class.selected]='isEigthToggled' [class.unselected]='!isEigthToggled'>8</div>
-        <div class='ninthToggle' [class.selected]='!isEigthToggled' [class.unselected]='isEigthToggled'>9</div>
+<div class="select-floor" title='Click to change floor'>
+    <div *ngFor="let floorLevel of availableFloors" (click)=selectFloor(floorLevel)>
+        <div [class.unselected]="true" [class.selected]="floorLevel===selectedFloor">{{floorLevel}}</div>
     </div>
-</div>>
+</div>

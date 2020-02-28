@@ -7,16 +7,17 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class ToggleFloorsComponent {
 
-    @Output() emitToggledFloor = new EventEmitter();
+    @Output() emitToggledFloor = new EventEmitter<number>();
+    
+    selectedFloor: number;
 
-    isEightToggled: boolean = true;
+    availableFloors: number[] = [9, 8];
 
     constructor() { }
 
-    toggleFloor(): void {
-        this.isEightToggled = !this.isEightToggled;
-        console.log('toggleFloor() function has been penetrated');
-        this.emitToggledFloor.emit();
+    selectFloor(floorNumber: number): void {
+        this.selectedFloor = floorNumber;
+        this.emitToggledFloor.emit(this.selectedFloor);
     }
 
 }
