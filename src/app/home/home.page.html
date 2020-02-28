@@ -4,7 +4,9 @@
         <div #map id="map"></div>
     </div>
 
+    <app-indoor-map [map]='this.map'></app-indoor-map>
     <app-toggle-campus #toggle (toggleChange)='switchCampus()'></app-toggle-campus>
-    <app-toggle-floors #toggleFloor (emitToggledFloor)='switchFloors()'></app-toggle-floors>
+    <app-toggle-floors #switchFloor (emitToggledFloor)='switchFloors()'></app-toggle-floors>
+
 
 </ion-content>
