@@ -119,14 +119,14 @@ describe('MapService', () => {
 
     describe('trackHallBuildingDisplay', () => {
 
-        const hallBuildingName = 'Henry F. Hall Building';
+        const testBuildingName = 'Henry F. Hall Building';
        
         class MockBuilding extends Building {
 
             removeOutlineCalled = false;
 
             constructor(){
-                super(hallBuildingName, null, null);
+                super(testBuildingName, null, null);
             }
 
             removeBuildingOutline(): void{
@@ -140,7 +140,7 @@ describe('MapService', () => {
             displayOutlineCalled = false;
 
             constructor(){
-                super(hallBuildingName, null, null, null);
+                super(testBuildingName, null, null, null);
             }
 
             removeBuildingOutline(): void{
@@ -158,7 +158,7 @@ describe('MapService', () => {
 
             mapService['trackHallBuildingDisplay'](20);
 
-            const hallBuilding = mapService['outdoorMap'].getPOI(hallBuildingName);
+            const hallBuilding = mapService['outdoorMap'].getPOI(testBuildingName);
 
             expect(hallBuilding['buildingOutline'].getVisible()).toBeFalsy;
         });
@@ -174,6 +174,67 @@ describe('MapService', () => {
 
             expect(campusMock.removeOutlineCalled).toBeFalsy();
             expect(campusMock.displayOutlineCalled).toBeFalsy();
+        });
+
+    });
+
+    describe('trackBuildingCodeDisplay', () => {
+
+        const testBuildingName = 'Henry F. Hall Building';
+       
+        class MockBuilding extends Building {
+
+            removeCodeCalled = false;
+
+            constructor(){
+                super(testBuildingName, null, null);
+            }
+
+            removeBuildingOutline(): void{
+                this.removeCodeCalled = true;
+            }
+        }
+
+        class MockCampus extends Campus {
+
+            removeCodeCalled = false;
+            displayCodeCalled = false;
+
+            constructor(){
+                super(testBuildingName, null, null, null);
+            }
+
+            removeBuildingCode(): void{
+                this.removeCodeCalled = true;
+            }
+            
+            displayBuildingCode(): void{
+                this.removeCodeCalled = true;
+            }
+
+        }
+
+        it('should display building code at zoom 18 or more', () => {
+            const { mapService } = testServiceSetup();
+
+            mapService['trackHallBuildingDisplay'](18);
+
+            const hallBuilding = mapService['outdoorMap'].getPOI(testBuildingName);
+
+            expect(hallBuilding['buildingOutline'].getVisible()).toBeTruthy;
+        });
+        
+
+        it('should not try to display the code of a no building object', () => {
+            const { mapService } = testServiceSetup();
+
+            let campusMock = new MockCampus();
+
+            mapService['outdoorMap'] = new OutdoorMap([campusMock]);
+            mapService['trackBuildingCodeDisplay'](20);
+
+            expect(campusMock.removeCodeCalled).toBeFalsy();
+            expect(campusMock.displayCodeCalled).toBeFalsy();
         });
 
     });

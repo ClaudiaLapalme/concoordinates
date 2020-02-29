@@ -3,6 +3,7 @@ import { Coordinates } from './coordinates';
 
 import BuildingsOutlineCoordinates from '../data/building-outline-coordinates.json';
 import ConcordiaBuildings from '../data/concordia-buildings.json'
+import { isDefined } from '@angular/compiler/src/util';
 
 type BuildingOutline = google.maps.Polygon;
 type OutlineAttributes = google.maps.PolygonOptions;
@@ -83,21 +84,23 @@ export class Building extends OutdoorPOI {
     let i: number;
     let latLngCoords = [];    
     let coords = BuildingsOutlineCoordinates[code];
-    let bounds = new google.maps.LatLngBounds();
-    
-    //Center the building code markers
-    for(i=0; i<coords.length;i++){
-      latLngCoords.push(new google.maps.LatLng(coords[i].lat, coords[i].lng)) 
+    let bounds: google.maps.LatLngBounds;
+
+    if(latLngCoords != null && coords != null && bounds != null){
+      //Center the building code markers
+      for(i=0; i<coords.length;i++){
+        latLngCoords.push(new google.maps.LatLng(coords[i].lat, coords[i].lng)) 
+      }
+      for(i=0; i<coords.length;i++){
+        bounds.extend(latLngCoords[i]);
+      }
+      //Set building code marker
+      this.marker = new google.maps.Marker({
+        label: {text: code, color: 'white'},
+        icon:'../assets/icon/TransparentMarker.png',
+        position: bounds.getCenter()
+      });
     }
-    for(i=0; i<coords.length;i++){
-      bounds.extend(latLngCoords[i]);
-    }
-    //Set building code marker
-    this.marker = new google.maps.Marker({
-      label: {text: code, color: 'white'},
-      icon:'../assets/icon/TransparentMarker.png',
-      position: bounds.getCenter()
-    });
    /* 
     * Set building information fields by placeId.
     * Loyola campus has many buildings SHARING a placeId, meaning they will yield the same info.
