@@ -4,6 +4,21 @@
         <div #map id="map"></div>
     </div>
 
+    <app-indoor-map 
+        *ngIf="mapLoaded" 
+        [map]="mapModel"
+        [indoorMapBuildingCode]="indoorMapBuildingCode"
+        [indoorMapLevel]="indoorMapLevel">
+    </app-indoor-map>
+
     <app-toggle-campus #toggle (toggleChange)='switchCampus()'></app-toggle-campus>
+
+    <app-toggle-floors 
+        #switchFloor 
+        [availableFloors]="availableFloors" 
+        (toggledFloor)='switchFloors($event)'>
+    </app-toggle-floors>
+
+
 
 </ion-content>

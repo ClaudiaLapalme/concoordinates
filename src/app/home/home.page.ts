@@ -17,44 +17,69 @@ export class HomePage implements AfterViewInit {
     @ViewChild('map', { static: false })
     mapElement: ElementRef;
 
+    // Reference to the native toggle campus html element
     @ViewChild('toggle', { read: ElementRef, static: false })
     toggle: ElementRef;
 
+    // Reference to the native switch floors buttons html element
+    @ViewChild('switchFloor', { read: ElementRef, static: false })
+    switchFloor: ElementRef;
+
     // Map data
-    map: google.maps.Map;
+    public mapModel: google.maps.Map;
+    public mapLoaded: boolean;
+
+    public indoorMapBuildingCode: string;
+    public indoorMapLevel: number;
+    public availableFloors: number[];
 
     constructor(
         private mapService: MapService,
-    ) { 
+    ) {
         this.currentCenter = this.SGW;
+
+        // TODO: Remove initial indoorMap when we will be able to click
+        // on the building or zoom in close enough to switch
+        // from showing the building overlay to showing indoor maps.
+        this.indoorMapBuildingCode = 'H';
+        this.availableFloors = [9, 8];
+        this.indoorMapLevel = 9;
     }
 
     ngAfterViewInit(): void {
         this.loadMap();
     }
-    
+
     setCurrentCenter(newCenter: google.maps.LatLng): void {
         this.currentCenter = newCenter;
-    }    
+    }
 
     private loadMap(): void {
         this.mapService.loadMap(this.mapElement)
             .then(mapObj => {
-                this.map = mapObj;
+                this.mapModel = mapObj;
+                this.mapLoaded = true;
 
-                let toggleButton = this.toggle.nativeElement;
+                const toggleButtonNE = this.toggle.nativeElement;
+                const switchFloorsNE = this.switchFloor.nativeElement;
 
-                this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(toggleButton);
+
+                this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(switchFloorsNE);
+                this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].push(toggleButtonNE);
             });
     }
 
     switchCampus(): void {
         if (this.currentCenter === this.SGW) {
-            this.map.setCenter(this.LOYOLA);
+            this.mapModel.setCenter(this.LOYOLA);
             this.setCurrentCenter(this.LOYOLA);
         } else {
-            this.map.setCenter(this.SGW);
+            this.mapModel.setCenter(this.SGW);
             this.setCurrentCenter(this.SGW);
         }
+    }
+
+    switchFloors(newIndoorMapLevel: number): void {
+        this.indoorMapLevel = newIndoorMapLevel;
     }
 }
