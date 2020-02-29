@@ -1,6 +1,11 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { 
+    AfterViewInit, 
+    Component, 
+    ElementRef, 
+    Input, 
+    ViewChild 
+} from '@angular/core';
 import { IndoorMap } from '../../models';
-import { GoogleApisService } from '../../services';
 
 @Component({
     selector: 'app-indoor-map',
@@ -12,8 +17,8 @@ export class IndoorMapComponent implements AfterViewInit {
     @Input() map: google.maps.Map; // map reference
 
     @Input() indoorMapLevel: number;
-    @Input() indoorMapBuildingCode: string;
 
+    @Input() indoorMapBuildingCode: string;
 
     @ViewChild('indoorMapDiv', { read: ElementRef, static: false })
     indoorMapDiv: ElementRef;   // html div reference

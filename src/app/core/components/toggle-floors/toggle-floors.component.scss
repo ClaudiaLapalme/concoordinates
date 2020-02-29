@@ -4,7 +4,7 @@
   overflow: hidden;
   border: 0px hidden;
   border-radius: 8px;
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
   margin-right: 2vh;
   margin-bottom: 6vh;
 }
@@ -21,6 +21,5 @@
   color: var(--ion-color-primary-shade);
   font-size: 14px;
   padding: 6px 9px 6px 9px;
-
   border: 0px hidden var(--ion-color-primary-contrast-rgb);
 }

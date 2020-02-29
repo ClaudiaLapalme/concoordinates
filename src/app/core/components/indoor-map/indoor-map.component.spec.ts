@@ -1,7 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { 
+    async, 
+    ComponentFixture, 
+    TestBed 
+} from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { IndoorMapComponent } from './indoor-map.component';
-import { GoogleApisService } from '../../services';
 
 
 describe('IndoorMapComponent', () => {
