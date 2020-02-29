@@ -2,10 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
+import { IonicModule } from '@ionic/angular';
 import {
     IndoorMapComponent,
     ToggleCampusComponent,
     ToggleFloorsComponent,
+    SearchComponent
 } from './components';
 import {
     AbstractPOIFactoryService,
@@ -15,6 +17,7 @@ import {
     GoogleApisService,
     LocationService,
     MapService,
+    PlacesService
 } from './services';
 
 @NgModule({
@@ -22,9 +25,11 @@ import {
         ToggleCampusComponent,
         ToggleFloorsComponent,
         IndoorMapComponent,
+        SearchComponent
     ],
     imports: [
-        CommonModule
+        CommonModule,
+        IonicModule.forRoot(),
     ],
     providers: [
         LocationService,
@@ -33,12 +38,14 @@ import {
         Geolocation,
         GoogleApisService,
         OutdoorPOIFactoryService,
-        AbstractPOIFactoryService
+        AbstractPOIFactoryService,
+        PlacesService
     ],
     exports: [
         ToggleCampusComponent,
         ToggleFloorsComponent,
         IndoorMapComponent,
+        SearchComponent
     ],
     entryComponents: []
 })
