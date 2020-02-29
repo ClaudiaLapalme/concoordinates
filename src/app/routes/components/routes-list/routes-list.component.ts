@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { TransportMode, Route } from 'src/app/core';
+import { Component, Input, OnInit  } from '@angular/core';
+import { Route, TransportMode  } from 'src/app/core';
 
 @Component({
     selector: 'app-routes-list',
@@ -11,7 +11,5 @@ export class RoutesListComponent implements OnInit {
     @Input() routeTransportMode: TransportMode;
     constructor() {}
 
-    ngOnInit() {        
-
-    }
+    ngOnInit() {}
 }

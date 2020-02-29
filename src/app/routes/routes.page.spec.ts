@@ -1,29 +1,28 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { RoutesPage } from './routes.page';
-import { ReactiveFormsModule, FormsModule, FormGroup } from '@angular/forms';
-import { CoreModule, TransportMode, RouteFactory, RoutesService } from '../core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule , ReactiveFormsModule} from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { IonicModule } from '@ionic/angular';
+import { CoreModule, TransportMode } from '../core';
+import { RoutesPage } from './routes.page';
 
 describe('RoutesPage', () => {
   let component: RoutesPage;
   let fixture: ComponentFixture<RoutesPage>;
 
-  let mockFactory = jasmine.createSpyObj('mockComponent',['generateDefaultRoutes']);
-  let mockFormbuilder = jasmine.createSpyObj('mockFormbuilder',['group'])
+  const mockFactory = jasmine.createSpyObj('mockComponent', ['generateDefaultRoutes']);
+  const mockFormbuilder = jasmine.createSpyObj('mockFormbuilder', ['group']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ RoutesPage  ],
-      imports: [IonicModule.forRoot(), ReactiveFormsModule, FormsModule, CoreModule,  RouterTestingModule.withRoutes([])], 
+      imports: [IonicModule.forRoot(), ReactiveFormsModule, FormsModule, CoreModule,  RouterTestingModule.withRoutes([])],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(RoutesPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    
   }));
 
   it('should create', () => {
@@ -37,27 +36,27 @@ describe('RoutesPage', () => {
   });
 
   it('should generateDefaultRoutes with departAt NOT filled', async () => {
-    component.form.value['departAt'] = null
-    let componentUnderTest = new RoutesPage(mockFormbuilder,mockFactory);
-    componentUnderTest.form = component.form;
-    let parsedDate = new Date();
+    component.form.value['departAt'] = null;
+    const mockedComponent = new RoutesPage(mockFormbuilder, mockFactory);
+    mockedComponent.form = component.form;
+    const parsedDate = new Date();
     parsedDate.setHours(18);
     parsedDate.setMinutes(0);
-    await componentUnderTest.getRoutes();
-    expect(mockFactory.generateDefaultRoutes).toHaveBeenCalled()
+    await mockedComponent.getRoutes();
+    expect(mockFactory.generateDefaultRoutes).toHaveBeenCalled();
     expect(mockFactory.generateDefaultRoutes).toHaveBeenCalledWith(
-      componentUnderTest.form.value['from'],
-      componentUnderTest.form.value['to'],
+      mockedComponent.form.value['from'],
+      mockedComponent.form.value['to'],
       null,
       parsedDate,
-      componentUnderTest.transportMode
-    )
-  })
+      mockedComponent.transportMode
+    );
+  });
 
   it('should call getRoutes() on submit()', () => {
-    let componentUnderTest = new RoutesPage(mockFormbuilder,mockFactory);
-    spyOn(componentUnderTest,'getRoutes');
-    componentUnderTest.submit()
-    expect(componentUnderTest.getRoutes).toHaveBeenCalled()
+    const mockedComponent = new RoutesPage(mockFormbuilder, mockFactory);
+    spyOn(mockedComponent, 'getRoutes');
+    mockedComponent.submit();
+    expect(mockedComponent.getRoutes).toHaveBeenCalled();
   });
 });

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RouteStep, TransportMode } from 'src/app/core';
 
 
@@ -14,7 +14,6 @@ export class RoutesListItemStepComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {        
-  }
+  ngOnInit() {}
 
 }

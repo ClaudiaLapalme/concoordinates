@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { TransportMode, Route, RouteFactory } from '../core';
+import { FormBuilder, FormGroup  } from '@angular/forms';
+import { Route, RouteFactory, TransportMode } from '../core';
 
 @Component({
     selector: 'app-routes',
@@ -28,15 +28,15 @@ export class RoutesPage implements OnInit {
     }
 
     async getRoutes() {
-        if(!this.transportMode){
+        if(!this.transportMode) {
             this.transportMode = TransportMode.TRANSIT;
         }
         this.loading = true;
-        let date = new Date();
-        let minHours = this.form.value['time'].split(':');
+        const date = new Date();
+        const minHours = this.form.value['time'].split(':');
         date.setHours(minHours[0]);
         date.setMinutes(minHours[1]);
-        if(this.form.value['departAt'] === 'Depart At'){
+        if (this.form.value['departAt'] === 'Depart At') {
             this.routes = await this.routeFactory.generateDefaultRoutes(
                 this.form.value['from'],
                 this.form.value['to'],
@@ -44,8 +44,7 @@ export class RoutesPage implements OnInit {
                 null,
                 this.transportMode
             );
-        }
-        else{
+        } else {
             this.routes = await this.routeFactory.generateDefaultRoutes(
                 this.form.value['from'],
                 this.form.value['to'],

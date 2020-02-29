@@ -1,15 +1,14 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
-import { RoutesListItemComponent } from './routes-list-item.component';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { MockData } from 'src/app/shared/test-mock-data';
+import { RoutesListItemComponent } from './routes-list-item.component';
 
 describe('RoutesListItemComponent', () => {
   let component: RoutesListItemComponent;
   let fixture: ComponentFixture<RoutesListItemComponent>;
 
-  let mockData = new MockData()
+  const mockData = new MockData();
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ RoutesListItemComponent ],
@@ -27,9 +26,9 @@ describe('RoutesListItemComponent', () => {
   });
 
   it('should compute route duration', () => {
-    component.route = jasmine.createSpyObj('route',['computeTotalDuration'])
-    spyOn(mockData,'getTestRoute')
-    component.ngOnInit()
-    expect(component.route.computeTotalDuration).toHaveBeenCalled()
-  })
+    component.route = jasmine.createSpyObj('route', ['computeTotalDuration']);
+    spyOn(mockData, 'getTestRoute');
+    component.ngOnInit();
+    expect(component.route.computeTotalDuration).toHaveBeenCalled();
+  });
 });

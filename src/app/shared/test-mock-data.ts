@@ -1,29 +1,27 @@
-import { Coordinates, TransportMode, Transport, RouteStep, Route } from '../core/models';
+import { jasmine } from 'jasmine-core';
+import { Coordinates, Route, RouteStep , Transport , TransportMode} from '../core/models';
 export class MockData {
-    startCoordinates = "Loyla"
-    endCoordinates = "Ohio"
-    startTimeAsDate:Date = new Date(1000);
-    endTimeAsDate:Date = new Date(1000);
-    testGoogleTransportModeMockDriving:any = jasmine.createSpyObj('transportMode',{
-        'toString': 'DRIVING'
-      });
-    testGoogleTravelModeMockDriving:any = jasmine.createSpyObj('transportMode',{
-        'toString': 'DRIVING'
-      });
+    startCoordinates = 'Loyola';
+    endCoordinates = 'Ohio';
+    startTimeAsDate: Date = new Date(1000);
+    endTimeAsDate: Date = new Date(1000);
+    testGoogleTransportModeMockDriving: any = jasmine.createSpyObj('transportMode',
+      { toString : 'DRIVING' });
+    testGoogleTravelModeMockDriving: any = jasmine.createSpyObj('transportMode',
+      { toString : 'DRIVING' });
+    testTransportModeDriving = TransportMode.DRIVING;
 
-    testTransportModeDriving = TransportMode.DRIVING
+    testLatNum = 6;
+    testLngNum = 7;
+    testFloorNum: number = null;
+    testCoordinate: Coordinates = new Coordinates(this.testLatNum, this.testLngNum, this.testFloorNum);
+    testGoogleLatLng = jasmine.createSpyObj('testGoogleLatLng', { lat: this.testLatNum, lng: this.testLngNum});
+    testInstructions = 'turn left';
+    testGoogleDistance: google.maps.Distance = {text: 'text', value: 15};
+    testGoogleDuration: google.maps.Duration = {text: 'text', value: 20};
 
-    testLatNum:number = 6;
-    testLngNum:number = 7;
-    testFloorNum:number = null;
-    testCoordinate:Coordinates = new Coordinates(this.testLatNum,this.testLngNum,this.testFloorNum)
-    testGoogleLatLng = jasmine.createSpyObj('testGoogleLatLng',{'lat': this.testLatNum, 'lng': this.testLngNum});
-    testInstructions:string = "turn left"
-    testGoogleDistance:google.maps.Distance = {text:'text',value: 15}
-    testGoogleDuration:google.maps.Duration = {text:'text',value: 20}
-
-    getTestDirectionsRequest(){
-        let dirRequest: google.maps.DirectionsRequest = {
+    getTestDirectionsRequest() {
+        const dirRequest: google.maps.DirectionsRequest = {
             origin: this.startCoordinates.toString(),
             destination: this.endCoordinates.toString(),
             travelMode: this.testGoogleTravelModeMockDriving.toString(),
@@ -33,8 +31,8 @@ export class MockData {
         return dirRequest;
     }
 
-    getTestDirectionsRoute(){
-        let dirRoute: google.maps.DirectionsRoute = {
+    getTestDirectionsRoute() {
+        const dirRoute: google.maps.DirectionsRoute = {
             bounds: null,
             copyrights: null,
             fare: null,
@@ -45,9 +43,9 @@ export class MockData {
             legs: [{
                 start_location: this.testGoogleLatLng,
                 end_location: this.testGoogleLatLng,
-                departure_time: {text: "", time_zone: "GMT", value: this.startTimeAsDate},
+                departure_time: {text: '', time_zone: 'GMT', value: this.startTimeAsDate},
                 steps: this.getTestDirectionsSteps(),
-                arrival_time: {text: "", time_zone: "GMT", value: this.endTimeAsDate},
+                arrival_time: {text: '', time_zone: 'GMT', value: this.endTimeAsDate},
                 distance: this.testGoogleDistance,
                 duration: this.testGoogleDuration,
                 duration_in_traffic: null,
@@ -55,16 +53,16 @@ export class MockData {
                 start_address: null,
                 via_waypoints: null
               }]
-        }
-        return dirRoute
+        };
+        return dirRoute;
     }
 
-    getTestDirectionsRoutes(){
-        return [this.getTestDirectionsRoute(),this.getTestDirectionsRoute()]
+    getTestDirectionsRoutes() {
+        return [this.getTestDirectionsRoute(), this.getTestDirectionsRoute()];
     }
 
-    getTestDirectionsStep(){
-        let mockStep:google.maps.DirectionsStep = {
+    getTestDirectionsStep() {
+        const mockStep: google.maps.DirectionsStep = {
             steps: [],
             distance: this.testGoogleDistance,
             duration: this.testGoogleDuration,
@@ -78,53 +76,53 @@ export class MockData {
         return mockStep;
     }
 
-    getTestDirectionsSteps(){
-        return [this.getTestDirectionsStep(),this.getTestDirectionsStep()]
+    getTestDirectionsSteps() {
+        return [this.getTestDirectionsStep(), this.getTestDirectionsStep()];
     }
 
-    getTestRoute(){
-        let testRoute = new Route(
+    getTestRoute() {
+        const testRoute = new Route(
             this.testCoordinate,
             this.testCoordinate,
             this.startTimeAsDate,
             this.endTimeAsDate,
             this.getTestAllowedTravelModes(),
             this.getTestRouteSteps()
-          )
+          );
         return testRoute;
     }
 
-    getTestListOfCoordinates(){
-        return [this.testCoordinate,this.testCoordinate]
+    getTestListOfCoordinates() {
+        return [this.testCoordinate, this.testCoordinate];
     }
 
-    getTestListOfGoogleLatLngs(){
-        return [this.testGoogleLatLng,this.testGoogleLatLng]
+    getTestListOfGoogleLatLngs() {
+        return [this.testGoogleLatLng, this.testGoogleLatLng];
     }
 
-    getTestAllowedTravelModes(){
-        return null
+    getTestAllowedTravelModes() {
+        return null;
     }
 
-    getTestRouteStep(){
-        let testRoute = new RouteStep(
+    getTestRouteStep() {
+        const testRoute = new RouteStep(
             this.testGoogleDistance.value,
             this.testCoordinate,
             this.testCoordinate,
             this.getTestListOfCoordinates(),
-            Math.ceil(this.testGoogleDuration.value/60),
+            Math.ceil(this.testGoogleDuration.value / 60),
             this.testInstructions,
             this.getTestTransport()
           );
-        return testRoute
+        return testRoute;
     }
 
-    getTestRouteSteps(){
-        return [this.getTestRouteStep(),this.getTestRouteStep()]
+    getTestRouteSteps() {
+        return [this.getTestRouteStep(), this.getTestRouteStep()];
     }
 
-    getTestTransport(){
-        let transport = new Transport(null,null,this.testTransportModeDriving,null)
+    getTestTransport() {
+        const transport = new Transport(null, null, this.testTransportModeDriving, null);
         return transport;
     }
 }
