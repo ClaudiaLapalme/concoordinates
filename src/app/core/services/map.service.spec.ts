@@ -227,10 +227,7 @@ describe('MapService', () => {
 
             expect(hallBuilding['buildingCode'].getVisible()).toBeTruthy;
         });
-
-
         
-
         it('should not try to display the code of a no building object', () => {
             const { mapService } = testServiceSetup();
 
