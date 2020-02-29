@@ -22,17 +22,13 @@ export class RouteFactory {
         endCoordinates: Coordinates | string,
         startTime?: Date,
         endTime?: Date,
-        transportMode?: any
+        transportMode?: TransportMode
     ): Promise<any> {
-        if (transportMode !== undefined) {
-            if (!(transportMode in TransportMode)) {
-                throw Error('Invalid TransportMode type used');
-            }
-        }
+        let hackyTransportMode:any = transportMode
         const dirRequest: google.maps.DirectionsRequest = {
             origin: startCoordinates.toString(),
             destination: endCoordinates.toString(),
-            travelMode: transportMode,
+            travelMode: hackyTransportMode,
             transitOptions: { departureTime: startTime, arrivalTime: endTime },
             provideRouteAlternatives: true
         };
