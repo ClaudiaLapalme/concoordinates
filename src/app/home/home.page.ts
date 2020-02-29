@@ -41,9 +41,9 @@ export class HomePage implements AfterViewInit {
         // TODO: Remove initial indoorMap when we will be able to click
         // on the building or zoom in close enough to switch
         // from showing the building overlay to showing indoor maps.
-        this.indoorMapBuildingCode = 'H';    // initial buildingCode
-        this.availableFloors = [9, 8];  // initial floors available
-        this.indoorMapLevel = 9;    // initial floor
+        this.indoorMapBuildingCode = 'H';
+        this.availableFloors = [9, 8];
+        this.indoorMapLevel = 9;
     }
 
     ngAfterViewInit(): void {
@@ -57,10 +57,9 @@ export class HomePage implements AfterViewInit {
     private loadMap(): void {
         this.mapService.loadMap(this.mapElement)
             .then(mapObj => {
-                this.mapModel = mapObj;     // Set the map reference to this component
-                this.mapLoaded = true;      // Necessary to pass mapLoaded to indoor maps after its loaded
+                this.mapModel = mapObj;
+                this.mapLoaded = true;
 
-                // Toggle buttons
                 const toggleButtonNE = this.toggle.nativeElement;
                 const switchFloorsNE = this.switchFloor.nativeElement;
 
