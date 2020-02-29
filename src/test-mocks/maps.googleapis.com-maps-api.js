@@ -3,10 +3,20 @@
  * Please don't delete this file.
  */
 
+class Polygon{
 
+	visible = false;
 
- 
-var google = {
+	 setMap(){};
+	 setVisible(value){
+		this.visible = value;
+	 };
+	 getVisible(){
+		 return this.visible;
+	 };
+}
+
+let google = {
     maps : {
         OverlayView : function () {
 			return {
@@ -29,6 +39,9 @@ var google = {
 		},
 		Size: function(){
 
+		},
+		Polygon: function(){
+			return new Polygon;
 		},
         MapTypeId: {ROADMAP: true},
         places: {

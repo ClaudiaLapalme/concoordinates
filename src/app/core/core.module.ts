@@ -10,6 +10,10 @@ import {
     LocationService,
     MapService,
 } from './services';
+import {
+    OutdoorPOIFactoryService,
+    AbstractPOIFactoryService
+} from './factories';
 
 @NgModule({
     declarations: [
@@ -26,6 +30,8 @@ import {
         NativeGeocoder,
         Geolocation,
         GoogleApisService,
+        OutdoorPOIFactoryService,
+        AbstractPOIFactoryService
     ],
     exports: [
         ToggleCampusComponent,
