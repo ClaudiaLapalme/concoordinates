@@ -65,7 +65,7 @@ export class RoutesService {
   getPathFromLatLngList(latLngList: google.maps.LatLng[]): Coordinates[] {
     let coordinatesList = new Array<Coordinates>();
     latLngList.forEach(latlng => {
-      let coordinate = new Coordinates(latlng.lat(), latlng.lng());
+      let coordinate = new Coordinates(latlng.lat(),latlng.lng());
       coordinatesList.push(coordinate);
     });
     return coordinatesList;

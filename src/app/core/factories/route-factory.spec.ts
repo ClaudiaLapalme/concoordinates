@@ -31,12 +31,14 @@ describe("RouteFactory", () => {
     let endCoordinates = "Ohio"
     let startTime:Date = new Date(3);
     let endTime:Date = new Date(5);
-    let transportMode = TransportMode['DRIVING'];
+    let transportMode:any = jasmine.createSpyObj('transportMode',{
+      'toString': 'DRIVING'
+    });
     routeFactory.generateDefaultRoutes(startCoordinates,endCoordinates, startTime, endTime, transportMode);
     let dirRequest: google.maps.DirectionsRequest = {
       origin: startCoordinates.toString(),
       destination: endCoordinates.toString(),
-      travelMode: google.maps.TravelMode['DRIVING'],
+      travelMode: transportMode,
       transitOptions: { departureTime: startTime, arrivalTime: endTime },
       provideRouteAlternatives: true
     };
