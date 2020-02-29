@@ -53,6 +53,7 @@ export class MapService {
                 this.googleApis.createMarker(latLng, mapObj, this.icon);
 
                 this.displayBuildingsOutline(mapObj);
+                this.displayBuildingsInformation(mapObj);
 
                 mapObj.addListener('tilesloaded',
                     this.tilesLoadedHandler(mapObj,
@@ -92,6 +93,19 @@ export class MapService {
 
             if (outdoorPOI instanceof Building) {
                 outdoorPOI.createBuildingOutline(mapRef);
+            }
+        }
+
+    }
+
+    private displayBuildingsInformation(mapRef: google.maps.Map<Element>) {
+
+        let outdoorPOIs = this.outdoorMap.getPOIs();
+
+        for (let outdoorPOI of outdoorPOIs) {
+
+            if (outdoorPOI instanceof Building) {
+                outdoorPOI.displayBuildingInformation(mapRef);
             }
         }
 
