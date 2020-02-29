@@ -12,7 +12,7 @@ export class RoutesPage implements OnInit {
 
     routes: Route[];
 
-    transportMode: TransportMode = TransportMode.TRANSIT;
+    transportMode: TransportMode;
 
     loading: boolean;
 
@@ -20,15 +20,17 @@ export class RoutesPage implements OnInit {
 
     ngOnInit() {
         this.form = this.formBuilder.group({
-            from: ['Concordia University'],
-            to: ['Cote Vertu'],
+            from: [''],
+            to: [''],
             departAt: ['Depart At'],
             time: ['18:00']
         });
-        this.getRoutes();
     }
 
     async getRoutes() {
+        if(!this.transportMode){
+            this.transportMode = TransportMode.TRANSIT;
+        }
         this.loading = true;
         let date = new Date();
         let minHours = this.form.value['time'].split(':');
