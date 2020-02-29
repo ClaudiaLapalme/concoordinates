@@ -2,7 +2,7 @@
   <form [formGroup]="form">
       <div class="routes-header-container">
           <div class="back-button-container">
-              <ion-icon name="arrow-back"></ion-icon>
+              <ion-icon [routerLink]="['/home']"  name="arrow-back"></ion-icon>
           </div>
           <div class="main-input-container">
               <ion-item class="custom-input-container">
@@ -96,5 +96,4 @@
       ></app-routes-list>
       <app-loader *ngIf="loading"></app-loader>
   </div>
-
 </div>

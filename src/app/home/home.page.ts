@@ -8,23 +8,29 @@ import { MapService } from '../core';
     styleUrls: ['home.page.scss']
 })
 export class HomePage implements AfterViewInit {
-
     // Reference to the native map html element
     @ViewChild('map', { static: false })
     mapElement: ElementRef;
 
+    @ViewChild('directions', { read: ElementRef, static: false })
+    directionsButton: ElementRef;
+
     // Map data
     map: google.maps.Map;
 
-    constructor(
-        private mapService: MapService
-    ) { }
+    constructor(private mapService: MapService) {}
 
     ngAfterViewInit(): void {
         this.loadMap();
     }
 
     private loadMap(): void {
-        this.mapService.loadMap(this.mapElement).then(mapObj => this.map = mapObj);
+        this.mapService.loadMap(this.mapElement).then(mapObj => {
+           this.map = mapObj;
+
+            let directionsButton = this.directionsButton.nativeElement;
+
+            this.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(directionsButton);
+        });
     }
 }

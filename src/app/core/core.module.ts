@@ -10,12 +10,15 @@ import {
 import { OutdoorPOIFactoryService, AbstractPOIFactoryService } from './factories';
 import { RouteFactory } from './factories/route-factory';
 import { LoaderComponent } from './components/loader/loader.component';
+import { DirectionsButtonComponent } from './components/directions-button/directions-button.component';
+import { IonicModule } from '@ionic/angular';
 
 
 @NgModule({
-    declarations: [LoaderComponent],
+    declarations: [LoaderComponent, DirectionsButtonComponent],
     imports: [
-        CommonModule
+        CommonModule,
+        IonicModule
     ],
     providers: [
         LocationService,
@@ -27,6 +30,6 @@ import { LoaderComponent } from './components/loader/loader.component';
         AbstractPOIFactoryService,
         RouteFactory
     ],
-    exports: [LoaderComponent]
+    exports: [LoaderComponent, DirectionsButtonComponent]
 })
 export class CoreModule { }
