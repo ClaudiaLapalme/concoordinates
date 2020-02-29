@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { ToggleCampusComponent } from './components/toggle-campus/toggle-campus.component';
+import { BuildingInfoComponent } from './components/building-info/building-info.component';
 import { 
     GoogleApisService, 
     LocationService, 
@@ -14,7 +15,10 @@ import {
 } from './factories';
 
 @NgModule({
-    declarations: [ToggleCampusComponent],
+    declarations: [
+        ToggleCampusComponent,
+        BuildingInfoComponent
+    ],
     imports: [
         CommonModule
     ],
@@ -29,6 +33,7 @@ import {
     ],
     exports: [
         ToggleCampusComponent,
+        BuildingInfoComponent
     ],
     entryComponents: []
 })
