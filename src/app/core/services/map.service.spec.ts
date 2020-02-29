@@ -1,14 +1,14 @@
 import { ElementRef } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { MapService } from './map.service';
+import { OutdoorMap, Campus, Building } from '../models';
 
 describe('MapService', () => {
     // let mapService: MapService;
     function testServiceSetup() {
         const locationServiceSpy = jasmine.createSpyObj('LocationService', ['getGeoposition', 'getAddressFromLatLng']);
         const googleApisServiceSpy = jasmine.createSpyObj('GoogleApisService', ['createMap', 'createMarker', 'createLatLng']);
-        const outdoorPOIFactoryServiceSpy = jasmine.createSpyObj('OutdoorPOIFactory', ['createBuilding', 'createCampus', 'loadCampuses']);
-        const mapService: MapService = new MapService(locationServiceSpy, googleApisServiceSpy, outdoorPOIFactoryServiceSpy);
+        const mapService: MapService = new MapService(locationServiceSpy, googleApisServiceSpy);
         return { mapService, locationServiceSpy, googleApisServiceSpy };
     }
 
@@ -17,16 +17,19 @@ describe('MapService', () => {
         expect(mapService).toBeTruthy();
     });
 
+    class MockMaps extends google.maps.Map {
+        addListener() {
+            return null;
+        }
+        getZoom(): number {
+            return null;
+        }
+    }
+
     describe('loadMap()', () => {
 
         class MockElementRef extends ElementRef {
             nativeElement = {};
-        }
-
-        class MockMaps extends google.maps.Map {
-            addListener() {
-                return null;
-            }
         }
 
         it('should return a map', () => {
@@ -103,7 +106,7 @@ describe('MapService', () => {
             const mockAddress = 'test address';
             locationServiceSpy.getAddressFromLatLng.and.returnValue(Promise.resolve(mockAddress));
 
-            const mockMap = new google.maps.Map(null);
+            const mockMap = new MockMaps (null);
 
             const handlerFunction = 'tilesLoadedHandler';
             const handler = mapService[handlerFunction](mockMap, 12, 34);
@@ -114,4 +117,64 @@ describe('MapService', () => {
 
     });
 
+    describe('trackHallBuildingDisplay', () => {
+
+        const hallBuildingName = 'Henry F. Hall Building';
+       
+        class MockBuilding extends Building {
+
+            removeOutlineCalled = false;
+
+            constructor(){
+                super(hallBuildingName, null, null);
+            }
+
+            removeBuildingOutline(): void{
+                this.removeOutlineCalled = true;
+            }
+        }
+
+        class MockCampus extends Campus {
+
+            removeOutlineCalled = false;
+            displayOutlineCalled = false;
+
+            constructor(){
+                super(hallBuildingName, null, null, null);
+            }
+
+            removeBuildingOutline(): void{
+                this.removeOutlineCalled = true;
+            }
+            
+            displayBuildingOutline(): void{
+                this.removeOutlineCalled = true;
+            }
+
+        }
+
+        it('should remove hall building outline at zoom 20 or more', () => {
+            const { mapService } = testServiceSetup();
+
+            mapService['trackHallBuildingDisplay'](20);
+
+            const hallBuilding = mapService['outdoorMap'].getPOI(hallBuildingName);
+
+            expect(hallBuilding['buildingOutline'].getVisible()).toBeFalsy;
+        });
+        
+
+        it('should not try to display the outline of a no building object', () => {
+            const { mapService } = testServiceSetup();
+
+            let campusMock = new MockCampus();
+
+            mapService['outdoorMap'] = new OutdoorMap([campusMock]);
+            mapService['trackHallBuildingDisplay'](20);
+
+            expect(campusMock.removeOutlineCalled).toBeFalsy();
+            expect(campusMock.displayOutlineCalled).toBeFalsy();
+        });
+
+    });
 });

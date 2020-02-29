@@ -5,8 +5,8 @@ describe('OutdoorPoiFactoryService', () => {
 
   function testSetup() {
     const outdoorPOIFactory = new OutdoorPOIFactoryService();
-    const testCoordinates = new Coordinates(0,0,0);
-    return {outdoorPOIFactory, testCoordinates}
+    const testCoordinates = new Coordinates(0, 0, 0);
+    return { outdoorPOIFactory, testCoordinates }
   }
 
   it('should be created', () => {
@@ -14,7 +14,7 @@ describe('OutdoorPoiFactoryService', () => {
     expect(outdoorPOIFactory).toBeTruthy();
   });
 
-  describe('createBuidling()', () => {
+  describe('createBuilding()', () => {
 
     const testName = 'test building';
 
@@ -22,16 +22,16 @@ describe('OutdoorPoiFactoryService', () => {
 
       const { outdoorPOIFactory, testCoordinates } = testSetup();
 
-      const testBuilding = outdoorPOIFactory.createBuilding(testName, testCoordinates, 'no outline');
+      const testBuilding = outdoorPOIFactory.createBuilding(testName, 'no outline', testCoordinates);
 
       expect(testBuilding).toBeDefined();
     });
 
-    it('should return buidling name and coordinates', () => {
+    it('should return building name and coordinates', () => {
 
-      const { outdoorPOIFactory, testCoordinates } = testSetup(); 
+      const { outdoorPOIFactory, testCoordinates } = testSetup();
 
-      const testBuilding = outdoorPOIFactory.createBuilding(testName, testCoordinates, 'no outline');
+      const testBuilding = outdoorPOIFactory.createBuilding(testName, 'no outline', testCoordinates);
 
       const testBuildingName = testBuilding.getName();
       const testBuildingCoordinates = testBuilding.getCoordinates();
@@ -52,21 +52,22 @@ describe('OutdoorPoiFactoryService', () => {
   describe('createCampus()', () => {
 
     const testName = "test campus"
+    const testCode = "test"
 
     it('should return a campus with no buildings', () => {
 
       const { outdoorPOIFactory, testCoordinates } = testSetup();
 
-      const testCampus = outdoorPOIFactory.createCampus(testName, testCoordinates, []);
+      const testCampus = outdoorPOIFactory.createCampus(testName, testCode, testCoordinates, []);
 
       expect(testCampus).toBeDefined();
     });
 
     it('should return campus name and coordinates', () => {
 
-      const { outdoorPOIFactory, testCoordinates } = testSetup(); 
+      const { outdoorPOIFactory, testCoordinates } = testSetup();
 
-      const testCampus = outdoorPOIFactory.createCampus(testName, testCoordinates, []);
+      const testCampus = outdoorPOIFactory.createCampus(testName, testCode, testCoordinates, []);
 
       const testCampusCoordinates = testCampus.getCoordinates();
       const testCampusName = testCampus.getName();
@@ -80,7 +81,7 @@ describe('OutdoorPoiFactoryService', () => {
 
     class MockMaps extends google.maps.Map {
       addListener() {
-          return null;
+        return null;
       }
     }
 
@@ -89,8 +90,8 @@ describe('OutdoorPoiFactoryService', () => {
       const { outdoorPOIFactory } = testSetup();
       const mockMap = new MockMaps(null);
 
-      const campuses = outdoorPOIFactory.loadCampuses(mockMap);
-      const campus = campuses[0]; 
+      const campuses = outdoorPOIFactory.loadCampuses();
+      const campus = campuses[0];
       const buildings = campus.getBuildings();
 
       expect(campuses).toBeDefined();

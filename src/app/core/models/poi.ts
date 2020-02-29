@@ -1,4 +1,4 @@
-import { Coordinates } from "src/app/core/models/coordinates"
+import { Coordinates } from "./coordinates"
 
 export abstract class POI {
 
@@ -8,20 +8,20 @@ export abstract class POI {
     constructor(
         name: string,
         coordinates: Coordinates) {
-            
-            this.name = name;
-            this.setCoordinates(coordinates);
-        }
+
+        this.name = name;
+        this.setCoordinates(coordinates);
+    }
 
     getName(): string {
         return this.name;
     }
 
-    getCoordinates() : Coordinates {
+    getCoordinates(): Coordinates {
         return this.coordinates;
     }
 
-    setCoordinates(coordinates: Coordinates): void {
+    private setCoordinates(coordinates: Coordinates): void {
         this.coordinates = coordinates;
     }
 }

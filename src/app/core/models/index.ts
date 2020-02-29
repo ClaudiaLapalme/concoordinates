@@ -1,3 +1,4 @@
+export * from './indoor-map';
 export * from './building';
 export * from './campus';
 export * from './coordinates';
@@ -6,3 +7,5 @@ export * from './poi';
 export * from './route';
 export * from './route-step';
 export * from './transport-mode';
+export * from './map';
+export * from './outdoor-map';

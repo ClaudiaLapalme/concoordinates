@@ -6,6 +6,9 @@ import { RouterModule } from '@angular/router';
 import { CoreModule } from '../core';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { ToggleCampusComponent } from '../core/components/toggle-campus/toggle-campus.component';
+import { ToggleFloorsComponent } from '../core/components/toggle-floors/toggle-floors.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('HomePage', () => {
     let component: HomePage;
@@ -20,9 +23,21 @@ describe('HomePage', () => {
         }
 
         TestBed.configureTestingModule({
-            declarations: [HomePage],
-            imports: [IonicModule.forRoot(), RouterModule, CoreModule, RouterTestingModule.withRoutes([])],
-            providers: [{ provide: MapService, useClass: MockMapService }]
+            declarations: [
+                HomePage,
+                ToggleCampusComponent, 
+                ToggleFloorsComponent],
+            imports: [
+                IonicModule.forRoot(),
+                RouterModule, 
+                CoreModule, 
+                RouterTestingModule.withRoutes([])],
+            providers: [
+                { provide: MapService, useClass: MockMapService }
+            ],
+            schemas: [
+                NO_ERRORS_SCHEMA,
+            ]
         }).compileComponents();
 
         fixture = TestBed.createComponent(HomePage);
@@ -33,4 +48,44 @@ describe('HomePage', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    describe('switchCampus()', () => {
+
+        class MockMaps extends google.maps.Map {
+            setCenter(): void { }
+        }
+
+        it('current center should default to SGW coordinates', () => {
+            const mockLatLng = new google.maps.LatLng(45.4959053, -73.5801141);
+            expect(component.currentCenter).toEqual(mockLatLng);
+        });
+
+        it('current center should change from SGW to LOY coordinates', () => {
+            const mockLatLng = new google.maps.LatLng(45.4582, -73.6405);
+            const mockMap = new MockMaps(null);
+            component.mapModel = mockMap;
+            component.switchCampus();
+            expect(component.currentCenter).toEqual(mockLatLng);
+        });
+
+        it('current center change from LOY to SGW coordinates', () => {
+            const mockLatLng = new google.maps.LatLng(45.4959053, -73.5801141);
+            const mockMap = new MockMaps(null);
+            component.mapModel = mockMap;
+            component.switchCampus();
+            component.switchCampus();
+            expect(component.currentCenter).toEqual(mockLatLng);
+        });
+    });
+
+    describe('switchFloors()', () => {
+
+        it('should set a new indoorMapLevel', () => {
+            component.switchFloors(5);
+            expect(component.indoorMapLevel).toEqual(5);
+            component.switchFloors(10);
+            expect(component.indoorMapLevel).toEqual(10);
+        });
+    });
+
 });

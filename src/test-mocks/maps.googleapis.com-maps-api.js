@@ -4,12 +4,25 @@
  */
 
 class Polygon{
+
+	visible = false;
+
 	 setMap(){};
+	 setVisible(value){
+		this.visible = value;
+	 };
+	 getVisible(){
+		 return this.visible;
+	 };
 }
 
-var google = {
+let google = {
     maps : {
         OverlayView : function () {
+			return {
+				setMap : function () {
+				},
+			}
         },
         Marker : function () {
         },
@@ -17,7 +30,10 @@ var google = {
         },
         LatLng: function(lat, lng){
         	return [lat, lng];
-        },
+		},
+		LatLngBounds: function(sw, ne) {
+			return null;
+		},
         Map: function(obj){
 
 		},
