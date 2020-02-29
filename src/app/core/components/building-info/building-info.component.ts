@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Output } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-building-info',
@@ -7,8 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BuildingInfoComponent {
 
+  @Output() displayInfo:boolean = false;
+  buildingName: string = "Hall Building";
+  buildingAddress: string = "123 Address Street";
+  buildingPhoneNumber: string = "514 444 4444";
+  buildingWebsite: string = "website.com";
+  buildingPicturePath: string;
+
   constructor() { }
 
-  ngOnInit() {}
+  displayBuidlingInfo(){
+    this.displayInfo = true;
+  }
 
+
+  hideBuildingInfo(){
+    this.displayInfo = false;
+  }
+
+
+
+  
 }

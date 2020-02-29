@@ -33,6 +33,8 @@ export class HomePage implements AfterViewInit {
     public indoorMapLevel: number;
     public availableFloors: number[];
 
+    public displayInfo: boolean;
+
     constructor(
         private mapService: MapService,
     ) {

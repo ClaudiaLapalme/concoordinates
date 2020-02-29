@@ -1,9 +1,9 @@
 import { OutdoorPOI } from './outdoor-poi';
 import { Coordinates } from './coordinates';
+import { BuildingInfoComponent } from '../components/building-info';
 
 import BuildingsOutlineCoordinates from '../data/building-outline-coordinates.json';
-import ConcordiaBuildings from '../data/concordia-buildings.json'
-import { isDefined } from '@angular/compiler/src/util';
+import ConcordiaBuildings from '../data/concordia-buildings.json';
 
 type BuildingOutline = google.maps.Polygon;
 type OutlineAttributes = google.maps.PolygonOptions;
@@ -47,6 +47,7 @@ export class Building extends OutdoorPOI {
   displayBuildingOutline(): void{
 
     this.buildingOutline.setVisible(true);
+    // this.buildingOutline.addListener('click', )
   }
   displayBuildingCode() : void {
     
