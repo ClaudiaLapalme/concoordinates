@@ -24,9 +24,7 @@ describe('HomePage', () => {
 
         TestBed.configureTestingModule({
             declarations: [
-                HomePage,
-                ToggleCampusComponent, 
-                ToggleFloorsComponent],
+                HomePage],
             imports: [
                 IonicModule.forRoot(),
                 RouterModule, 
