@@ -1,12 +1,30 @@
 import { TestBed } from '@angular/core/testing';
 
 import { RoutesService } from './routes.service';
-import { Coordinates, TransportMode, Transport, RouteStep } from '../models';
+import { Coordinates, TransportMode, Transport, RouteStep, Route } from '../models';
 
 describe('RoutesService', () => {
 
   let gRequestMock: google.maps.DirectionsRequest;
   let service: RoutesService;
+  let mockTravelMode:any = jasmine.createSpyObj('mockTravelMode',{
+    'toString': "TRANSIT"
+  })
+  let mockLatLng = jasmine.createSpyObj('mockLatLng',{
+    'lat': 6,
+    'lng': 7
+  })
+  let mockStep:google.maps.DirectionsStep = {
+    steps: [],
+    distance: {text:'text',value: 7},
+    duration: {text:'text',value: 7},
+    end_location: mockLatLng,
+    instructions: "instructions",
+    path: [mockLatLng,mockLatLng],
+    start_location: mockLatLng,
+    transit: null,
+    travel_mode: mockTravelMode
+  };
 
   beforeEach(async() => TestBed.configureTestingModule({
   }));
@@ -36,11 +54,10 @@ describe('RoutesService', () => {
   });
 
   it('Should convert LatLng list to a list of Coordinates', () =>{
-    let testLatLng = jasmine.createSpyObj('testLatLng',{
+    let testLatLng = jasmine.createSpyObj('mockLatLng',{
       'lat': 6,
       'lng': 7
     })
-
     let testLatLngs = [testLatLng,testLatLng]
     let testCoord = new Coordinates(6,7);
     let testCoords = [testCoord,testCoord]
@@ -50,24 +67,6 @@ describe('RoutesService', () => {
   });
 
   it('Should convert gSteps to Route Steps', () =>{
-    let mockTravelMode:any = jasmine.createSpyObj('mockTravelMode',{
-      'toString': "TRANSIT"
-    })
-    let testLatLng = jasmine.createSpyObj('testLatLng',{
-      'lat': 6,
-      'lng': 7
-    })
-    let mockStep:google.maps.DirectionsStep = {
-      steps: [],
-      distance: {text:'text',value: 7},
-      duration: {text:'text',value: 7},
-      end_location: testLatLng,
-      instructions: "instructions",
-      path: [testLatLng,testLatLng],
-      start_location: testLatLng,
-      transit: null,
-      travel_mode: mockTravelMode
-    };
 
     let expectedRoute = new RouteStep(
       mockStep.distance.value,
@@ -85,4 +84,28 @@ describe('RoutesService', () => {
     let mockSteps = [mockStep,mockStep]
     expect(service.mapGoogleStepsToRouteSteps(mockSteps)).toEqual([expectedRoute,expectedRoute])
   })
+
+  it('Should convert gRoutes to Routes', () => {
+    let mockRoutes:any = [{
+        legs: [{
+          start_location: mockLatLng,
+          end_location: mockLatLng,
+          departure_time: new Date(5),
+          steps: [mockStep,mockStep]
+        }]
+      }]
+
+    let expectedRoute = new Route(
+      new Coordinates(mockStep.start_location.lat(),mockStep.start_location.lng()),
+      new Coordinates(mockStep.end_location.lat(), mockStep.end_location.lng()),
+      new Date(5),
+      null,
+      null,
+      service.mapGoogleStepsToRouteSteps([mockStep,mockStep])
+    )
+
+    
+    expect(service.mapGoogleRoutesToRoutes(mockRoutes).length).toBe(1);
+    expect(service.mapGoogleRoutesToRoutes(mockRoutes)[0]).toEqual(expectedRoute)
+  });
 });

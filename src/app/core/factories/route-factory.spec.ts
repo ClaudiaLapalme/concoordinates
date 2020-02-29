@@ -19,13 +19,6 @@ describe("RouteFactory", () => {
     expect(routeFactory).toBeTruthy();
   });
 
-  // it("should return error", () => {
-  //   const routeFactory = new RouteFactory(new RoutesService());
-  //   expect(routeFactory.generateDefaultRoutes(null, null, null, null, "apple")
-  //     .then(res => res))
-  //     .toThrowError("Invalid Transitmode type used");
-  // });
-
   it('Should call routes service with a directions request',() =>{
     let startCoordinates = "Loyla"
     let endCoordinates = "Ohio"
@@ -44,5 +37,9 @@ describe("RouteFactory", () => {
     };
 
     expect(mockService.getMappedRoutes).toHaveBeenCalledWith(dirRequest)
+  })
+
+  it('Should return null when calling generateAccessibleRoutes', () => {
+    expect(routeFactory.generateAccesibleRoutes(null,null,null,null)).toEqual(null);
   })
 });
