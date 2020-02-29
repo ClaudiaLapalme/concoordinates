@@ -19,6 +19,10 @@ class Polygon{
 let google = {
     maps : {
         OverlayView : function () {
+			return {
+				setMap : function () {
+				},
+			}
         },
         Marker : function () {
         },
@@ -26,7 +30,10 @@ let google = {
         },
         LatLng: function(lat, lng){
         	return [lat, lng];
-        },
+		},
+		LatLngBounds: function(sw, ne) {
+			return null;
+		},
         Map: function(obj){
 
 		},

@@ -1,3 +1,4 @@
+export * from './indoor-map';
 export * from './building';
 export * from './campus';
 export * from './coordinates';
