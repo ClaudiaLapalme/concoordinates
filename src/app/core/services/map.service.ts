@@ -31,7 +31,7 @@ export class MapService {
             disableDefaultUI: true,
             mapTypeControl: false,
             scaleControl: true,
-            zoomControl: true,
+            zoomControl: false,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 

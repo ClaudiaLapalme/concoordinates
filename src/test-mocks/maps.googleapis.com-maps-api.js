@@ -2,9 +2,17 @@
  * This file is used to mock the google api for tests.
  * Please don't delete this file.
  */
+
+
+
+ 
 var google = {
     maps : {
         OverlayView : function () {
+			return {
+				setMap : function () {
+				},
+			}
         },
         Marker : function () {
         },
@@ -12,7 +20,10 @@ var google = {
         },
         LatLng: function(lat, lng){
         	return [lat, lng];
-        },
+		},
+		LatLngBounds: function(sw, ne) {
+			return null;
+		},
         Map: function(obj){
 
 		},

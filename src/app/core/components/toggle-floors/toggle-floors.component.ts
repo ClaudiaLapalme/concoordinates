@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
     selector: 'app-toggle-floors',
@@ -7,17 +7,17 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class ToggleFloorsComponent {
 
-    @Output() emitToggledFloor = new EventEmitter<number>();
+    @Output() toggledFloor = new EventEmitter<number>();
     
     selectedFloor: number;
 
-    availableFloors: number[] = [9, 8];
+    @Input() availableFloors: number[];
 
     constructor() { }
 
     selectFloor(floorNumber: number): void {
         this.selectedFloor = floorNumber;
-        this.emitToggledFloor.emit(this.selectedFloor);
+        this.toggledFloor.emit(this.selectedFloor);
     }
 
 }
