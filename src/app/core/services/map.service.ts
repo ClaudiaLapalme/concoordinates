@@ -75,6 +75,7 @@ export class MapService {
             console.log('mapObj', mapObj); // debug
             this.locationService.getAddressFromLatLng(latitude, longitude).then(console.log);
             this.trackHallBuildingDisplay(mapObj.getZoom());
+            this.trackBuildingCodeDisplay(mapObj.getZoom());
         };
     }
 
@@ -124,5 +125,24 @@ export class MapService {
                 building.displayBuildingOutline();
             }
         }
+    }
+
+    private trackBuildingCodeDisplay(zoomValue: number): void {
+        
+        let outdoorPOIs = this.outdoorMap.getPOIs();
+
+        for (let outdoorPOI of outdoorPOIs) {
+
+            if (outdoorPOI instanceof Building) {
+                if (zoomValue >= 18) {
+                    outdoorPOI.displayBuildingCode();
+                }
+                else {
+                    outdoorPOI.removeBuildingCode();
+                }
+            }
+
+        }
+
     }
 }
