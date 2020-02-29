@@ -17,7 +17,7 @@ export class MapService {
     ){ this.loadOutdoorMap(); }
 
     icon: google.maps.Icon = {
-        url: '../../../assets/icon/center_marker.png',
+        url: '../../../assets/icon/location_marker.png',
         scaledSize: new google.maps.Size(30, 30), // scaled size
     };
 
@@ -37,7 +37,7 @@ export class MapService {
             disableDefaultUI: true,
             mapTypeControl: false,
             scaleControl: true,
-            zoomControl: true,
+            zoomControl: false,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 

@@ -2,22 +2,28 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
-import { ToggleCampusComponent } from './components/toggle-campus/toggle-campus.component';
-import { BuildingInfoComponent } from './components/building-info/building-info.component';
-import { 
-    GoogleApisService, 
-    LocationService, 
-    MapService 
-} from './services';
 import {
+    IndoorMapComponent,
+    ToggleCampusComponent,
+    ToggleFloorsComponent,
+    BuildingInfoComponent,
+} from './components';
+import {
+    AbstractPOIFactoryService,
     OutdoorPOIFactoryService,
-    AbstractPOIFactoryService
 } from './factories';
+import {
+    GoogleApisService,
+    LocationService,
+    MapService,
+} from './services';
 
 @NgModule({
     declarations: [
         ToggleCampusComponent,
-        BuildingInfoComponent
+        BuildingInfoComponent,
+        ToggleFloorsComponent,
+        IndoorMapComponent
     ],
     imports: [
         CommonModule
@@ -33,7 +39,9 @@ import {
     ],
     exports: [
         ToggleCampusComponent,
-        BuildingInfoComponent
+        BuildingInfoComponent,
+        ToggleFloorsComponent,
+        IndoorMapComponent
     ],
     entryComponents: []
 })
