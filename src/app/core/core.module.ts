@@ -6,6 +6,7 @@ import {
     IndoorMapComponent,
     ToggleCampusComponent,
     ToggleFloorsComponent,
+    BuildingInfoComponent,
 } from './components';
 import {
     AbstractPOIFactoryService,
@@ -20,8 +21,9 @@ import {
 @NgModule({
     declarations: [
         ToggleCampusComponent,
+        BuildingInfoComponent,
         ToggleFloorsComponent,
-        IndoorMapComponent,
+        IndoorMapComponent
     ],
     imports: [
         CommonModule
@@ -37,8 +39,9 @@ import {
     ],
     exports: [
         ToggleCampusComponent,
+        BuildingInfoComponent,
         ToggleFloorsComponent,
-        IndoorMapComponent,
+        IndoorMapComponent
     ],
     entryComponents: []
 })

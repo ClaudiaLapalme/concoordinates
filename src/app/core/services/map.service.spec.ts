@@ -185,13 +185,17 @@ describe('MapService', () => {
         class MockBuilding extends Building {
 
             removeCodeCalled = false;
+            displayCodeCalled = false;
 
             constructor(){
-                super(testBuildingName, null, null);
+                super(testBuildingName, 'H', null);
             }
 
-            removeBuildingOutline(): void{
+            removeBuildingCode(): void{
                 this.removeCodeCalled = true;
+            }
+            displayBuildingCode(): void{
+                this.displayCodeCalled = true;
             }
         }
 
@@ -201,7 +205,7 @@ describe('MapService', () => {
             displayCodeCalled = false;
 
             constructor(){
-                super(testBuildingName, null, null, null);
+                super(testBuildingName, 'SGW', null, null);
             }
 
             removeBuildingCode(): void{
@@ -209,7 +213,7 @@ describe('MapService', () => {
             }
             
             displayBuildingCode(): void{
-                this.removeCodeCalled = true;
+                this.displayCodeCalled = true;
             }
 
         }
@@ -217,12 +221,14 @@ describe('MapService', () => {
         it('should display building code at zoom 18 or more', () => {
             const { mapService } = testServiceSetup();
 
-            mapService['trackHallBuildingDisplay'](18);
+            mapService['trackBuildingCodeDisplay'](18);
 
             const hallBuilding = mapService['outdoorMap'].getPOI(testBuildingName);
 
-            expect(hallBuilding['buildingOutline'].getVisible()).toBeTruthy;
+            expect(hallBuilding['buildingCode'].getVisible()).toBeTruthy;
         });
+
+
         
 
         it('should not try to display the code of a no building object', () => {

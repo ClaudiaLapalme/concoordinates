@@ -38,8 +38,10 @@ export class Building extends OutdoorPOI {
   }
 
   removeBuildingCode(): void {
-    
-    this.marker.setVisible(false);
+
+    if(this.marker != undefined){
+      this.marker.setVisible(false);
+    }  
   }
 
   displayBuildingOutline(): void{
@@ -86,29 +88,37 @@ export class Building extends OutdoorPOI {
     let coords = BuildingsOutlineCoordinates[code];
     let bounds: google.maps.LatLngBounds;
 
-    if(latLngCoords != null && coords != null && bounds != null){
+    if(coords != null){
       //Center the building code markers
       for(i=0; i<coords.length;i++){
         latLngCoords.push(new google.maps.LatLng(coords[i].lat, coords[i].lng)) 
       }
-      for(i=0; i<coords.length;i++){
-        bounds.extend(latLngCoords[i]);
+    
+
+      if(latLngCoords != null && bounds != null){
+        for(i=0; i<coords.length;i++){
+          bounds.extend(latLngCoords[i]);
+        }
+        //Set building code marker
+        this.marker = new google.maps.Marker({
+          label: {text: code, color: 'white'},
+          icon:'../assets/icon/TransparentMarker.png',
+          position: bounds.getCenter()
+        });
       }
-      //Set building code marker
-      this.marker = new google.maps.Marker({
-        label: {text: code, color: 'white'},
-        icon:'../assets/icon/TransparentMarker.png',
-        position: bounds.getCenter()
-      });
+
     }
+    
    /* 
     * Set building information fields by placeId.
     * Loyola campus has many buildings SHARING a placeId, meaning they will yield the same info.
     * We will need to find a way to differentiate between buildings that share a placeId
     */
-    this.buildingInformation = {
-      placeId: ConcordiaBuildings[code].placeId,
-      fields: ['name', 'formatted_address', 'formatted_phone_number', 'opening_hours', 'website']
-    };
+   if(ConcordiaBuildings[code] != null){
+      this.buildingInformation = {
+        placeId: ConcordiaBuildings[code].placeId,
+        fields: ['name', 'formatted_address', 'formatted_phone_number', 'opening_hours', 'website']
+      };
+    }
   }
 }

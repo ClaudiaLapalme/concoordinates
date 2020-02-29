@@ -1,0 +1,117 @@
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--ion-color-primary);
+ }
+ 
+ .picture{
+    width: 125px;
+    height: 125px;
+    display: inline-block;
+    object-fit: cover;
+ }
+
+.container-top-block{
+    margin: 30px 0px 10px 25px;
+    vertical-align: middle;
+}
+
+.container-bottom-block{
+    margin: 5px 0px 25px 25px;
+    vertical-align: middle;
+}
+
+.container-bottom-left{
+    margin: 0px 50px 0px 25px;
+    display: inline-block;
+}
+
+.container-bottom-right{
+    margin: 0px 50px 25px 25px;
+    float: right;
+    text-align: right;
+}
+
+.container-icon{
+    margin: 25px 15px 0px 0px;
+    display: inline-block;
+}
+
+.container-info{
+    margin: 25px 0px 0px 0px;
+}
+
+.container-left-title{
+    margin: 0px 50px 0px 0px;
+}
+
+.info{
+    padding-top: 25px;
+    display: inline-block;
+}
+
+.container-schedule{
+    margin: 20px 0px 0px 0px;
+    display: inline-block;
+}
+
+.schedule-day{
+    text-align: left;
+    padding: 0px 20px 0px 0px;
+}
+
+.container-name-directions{
+    position: relative;
+    bottom: 30px;
+    display: inline-block;
+    margin: 0px 0px 0px 25px;
+    line-height: normal;
+    text-align: right;
+}
+
+ .text{
+    color: var(--ion-color-primary-contrast);
+    font-family: Roboto, sans-serif;
+ }
+
+ .building-name{
+    font-size: 24px;
+    margin: 0px 0px 20px 0px;
+ }
+
+ .button-directions{
+    background-color: var(--ion-color-primary-tint);
+    border-radius: 7px 7px 7px 7px;
+    padding: 8px 18px 8px 18px;
+    text-align: center;
+    max-width: 135px;
+ }
+
+ .line {
+    width:87%;
+    border-bottom: 1px solid var(--ion-color-primary-contrast);
+    margin: auto;
+  }
+
+.exit-button{
+    float: right;
+    margin: 0px 35px 0px 0px;
+}
+
+.title-schedule{
+    font-size: 18px;
+}
+
+.top{
+    vertical-align: top;
+}
+
+.schedule-arrow{
+    padding: 10px 0px 10px 0px;
+}
+
+.schedule-icon{
+    padding: 0px 25px 0px 0px;
+}
