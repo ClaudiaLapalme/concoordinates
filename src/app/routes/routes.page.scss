@@ -1,127 +1,128 @@
-.routes-header-container{
+:host {
+    background-color: var(--ion-color-primary);
+}
+.routes-header-container {
     margin: 5px 0;
     display: flex;
     flex-direction: row;
-    border-bottom: 1px solid black;
-    .back-button-container{
+    border-bottom: 1px solid var(--ion-color-primary-contrast);
+    .back-button-container {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
         padding: 10px;
+        ion-icon {
+            color: var(--ion-color-primary-contrast);
+        }
     }
 
-    .main-input-container{
+    .main-input-container {
         display: flex;
         flex-direction: column;
-        flex-grow:1;
-        .custom-input-container{
+        flex-grow: 1;
+        .custom-input-container {
             border-radius: 5px;
-            border: 1px solid black;
             height: 25px;
             display: flex;
             flex-direction: row;
             align-items: center;
             font-size: 10px;
-    
+
             margin: 10px 10px;
         }
     }
 }
 
-.divider{
-    border: 1px solid black;
-}
-.time-options{
-    border-bottom: 1px solid black;
+.time-options {
+    border-bottom: 1px solid var(--ion-color-primary-contrast);
     height: 46px;
     display: flex;
     flex-direction: row;
     font-size: 12px;
     padding: 0px 10px;
-
-    .select-time{
-        ion-select{
+    a {
+        color: var(--ion-color-primary-contrast);
+    }
+    .select-time {
+        ion-select {
             display: flex;
-    flex-direction: row;
-    align-items: center;
-            padding:1px 5px;
+            flex-direction: row;
+            align-items: center;
+            padding: 1px 5px;
         }
         ion-item {
+
             --padding-start: 0;
+            --ion-background-color: var(--ion-color-primary);
+            color: var(--ion-color-primary-contrast)
         }
         display: flex;
         flex-direction: row;
         padding-right: 5px;
-            .departure-select{
-                max-width: 100%;
-            
-        }
-
-    }
-    .time-picker{
-        ion-datetime{
-            padding:0px
+        .departure-select {
+            max-width: 100%;
         }
     }
-    .options-container{
+    .time-picker {
+        ion-datetime {
+            padding: 0px;
+        }
+    }
+    .options-container {
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
         align-items: center;
-         flex-grow:1;
-
+        flex-grow: 1;
     }
-    .submit-button{
+    .submit-button {
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
         align-items: center;
         margin-right: 20px;
-        flex-grow:1;
+        flex-grow: 1;
     }
 }
-.transport-mode{
-    display:flex;
-    flex-direction:row;
+.transport-mode {
+    display: flex;
+    flex-direction: row;
     align-items: center;
     height: 50px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--ion-color-primary-contrast);
     padding: 2px 0px;
-    ion-button{
-        flex-grow:1;
-        margin:0px;
-        ion-icon{
-            font-size:25px;
+    background-color: rgba(#000000, 0.4);
+    ion-button {
+        flex-grow: 1;
+        margin: 0px;
+        ion-icon {
+            color: var(--ion-color-primary-contrast);
+            font-size: 25px;
         }
     }
-
 }
-ion-select{
+ion-select {
     max-width: 100% !important;
 }
-.item-interactive.ion-valid{
+.item-interactive.ion-valid {
     --highlight-background: none;
-
 }
-.font-size-12{
-    font-size:12px!important;
+.font-size-12 {
+    font-size: 12px !important;
 }
-.routes-list-container{
-    height:100%;
+.routes-list-container {
+    height: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
     min-height: 200px;
-    .routes-list{
+    .routes-list {
         width: 100%;
         align-self: initial;
     }
 }
 
-.selected{
-    background-color: rgba(#000000, 0.1);
+.selected {
+    background-color: rgba(#ffffff, 0.1);
 }
-
-
-

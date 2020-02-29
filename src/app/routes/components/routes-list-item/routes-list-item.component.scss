@@ -5,6 +5,10 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        p{
+           color:var(--ion-color-primary-contrast);
+
+        }
     }
     .steps-container{
         display: flex;
@@ -14,6 +18,9 @@
             flex-direction: row;
             align-items: center;
             justify-content: center;
+            ion-icon{
+                color: var(--ion-color-primary-contrast);
+            }
         }
         .steps-overflow{
             display: flex;
@@ -21,6 +28,8 @@
             align-items: center;
             span{
                 font-size: 20px;
+                color:var(--ion-color-primary-contrast);
+
             }
         }
     }
