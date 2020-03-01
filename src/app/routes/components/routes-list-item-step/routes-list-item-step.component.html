@@ -3,19 +3,19 @@
     <p *ngIf="routeTransportMode === 'TRANSIT'">{{step.duration}}</p>
 </div>
 <div *ngIf="step?.transport?.travelType === 'TRANSIT'">
-    <div class="route-step" *ngIf="step?.transport?.transportDetails?.line?.vehicle?.name === 'Bus'">
+    <div class="route-step" *ngIf="vehicleType === 'BUS'">
         <ion-icon name="bus"></ion-icon>
         <app-transit-line-indicator class="transit-line-indicator"
             [color]="step?.transport?.transportDetails?.line?.color"
             [line]="step?.transport?.transportDetails?.line?.short_name"></app-transit-line-indicator>
     </div>
-    <div class="route-step" *ngIf="step?.transport?.transportDetails?.line?.vehicle?.name === 'Subway'">
+    <div class="route-step" *ngIf="vehicleType === 'SUBWAY'">
         <ion-icon name="subway"></ion-icon>
         <app-transit-line-indicator class="transit-line-indicator"
             [color]="step?.transport?.transportDetails?.line?.color"
             [line]="step?.transport?.transportDetails?.line?.short_name"></app-transit-line-indicator>
     </div>
-    <div class="route-step" *ngIf="step?.transport?.transportDetails?.line?.vehicle?.name === 'Train'">
+    <div class="route-step" *ngIf="vehicleType === 'COMMUTER_TRAIN' || vehicleType === 'HEAVY_RAIL'">
         <ion-icon name="train"></ion-icon>
         <app-transit-line-indicator class="transit-line-indicator"
             [color]="step?.transport?.transportDetails?.line?.color"

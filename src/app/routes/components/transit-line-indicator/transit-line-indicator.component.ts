@@ -9,8 +9,13 @@ export class TransitLineIndicatorComponent implements OnInit {
 
   @Input() line: string;
   @Input() color: string;
+  isBlackColor: boolean = false;
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {    
+    if(this.line === '9' && this.color.toLowerCase() === '#1f1f1f'){
+      this.isBlackColor = true;
+    }
+  }
 
 }
