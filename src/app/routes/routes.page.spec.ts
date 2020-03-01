@@ -40,8 +40,9 @@ describe('RoutesPage', () => {
     const mockedComponent = new RoutesPage(mockFormbuilder, mockFactory);
     mockedComponent.form = component.form;
     const parsedDate = new Date();
-    parsedDate.setHours(18);
-    parsedDate.setMinutes(0);
+    const actualTime = component.form.value['time'].split(':');
+    parsedDate.setHours(actualTime[0]);
+    parsedDate.setMinutes(actualTime[1]);
     await mockedComponent.getRoutes();
     expect(mockFactory.generateDefaultRoutes).toHaveBeenCalled();
     expect(mockFactory.generateDefaultRoutes).toHaveBeenCalledWith(

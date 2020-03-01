@@ -1,5 +1,5 @@
 import { Coordinates } from './coordinates';
-import {Transport} from './transport-mode';
+import { Transport } from './transport-mode';
 
 export class RouteStep {
 
@@ -7,22 +7,22 @@ export class RouteStep {
         distance: number,
         startCoordinate: Coordinates,
         endCoordinate: Coordinates,
-        path: Array<Coordinates>,
+        path: Coordinates[],
         duration: number,
         instruction: string,
         transport: Transport) {
-            this.distance = distance;
-            this.startCoordinate = startCoordinate;
-            this.endCoordinate = endCoordinate;
-            this.path = path;
-            this.duration = duration;
-            this.instruction = instruction;
-            this.transport = transport;
+        this.distance = distance;
+        this.startCoordinate = startCoordinate;
+        this.endCoordinate = endCoordinate;
+        this.path = path;
+        this.duration = duration;
+        this.instruction = instruction;
+        this.transport = transport;
     }
     distance: number;
     startCoordinate: Coordinates;
     endCoordinate: Coordinates;
-    path: Array<Coordinates>;
+    path: Coordinates[];
     duration: number;
     instruction: string;
     transport: Transport;

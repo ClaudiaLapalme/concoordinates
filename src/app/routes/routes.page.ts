@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Route, RouteFactory, TransportMode } from '../core';
 
 @Component({
@@ -13,7 +13,7 @@ export class RoutesPage implements OnInit {
     transportMode: TransportMode;
     loading: boolean;
 
-    constructor(private formBuilder: FormBuilder, private routeFactory: RouteFactory) {}
+    constructor(private formBuilder: FormBuilder, private routeFactory: RouteFactory) { }
 
     ngOnInit() {
         const currentTime = new Date(Date.now());

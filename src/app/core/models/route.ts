@@ -10,13 +10,13 @@ export class Route {
         endTime: Date,
         allowedTravelModes: Array<Transport>,
         routeSteps: Array<RouteStep>) {
-            this.startCoordinates = startCoordinates;
-            this.endCoordinates = endCoordinates;
-            this.startTime = startTime;
-            this.endTime = endTime;
-            this.allowedTravelModes = allowedTravelModes;
-            this.routeSteps = routeSteps;
-            }
+        this.startCoordinates = startCoordinates;
+        this.endCoordinates = endCoordinates;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.allowedTravelModes = allowedTravelModes;
+        this.routeSteps = routeSteps;
+    }
 
     startCoordinates: Coordinates;
     endCoordinates: Coordinates;

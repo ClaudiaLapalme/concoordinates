@@ -10,7 +10,7 @@ describe('RoutesListItemStepComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RoutesListItemStepComponent ],
+      declarations: [RoutesListItemStepComponent],
       imports: [IonicModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
