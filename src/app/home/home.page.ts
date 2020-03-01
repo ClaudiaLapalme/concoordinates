@@ -19,6 +19,7 @@ export class HomePage implements AfterViewInit {
 
     @ViewChild('directions', { read: ElementRef, static: false })
     directionsButton: ElementRef;
+    
     // Reference to the native toggle campus html element
     @ViewChild('toggle', { read: ElementRef, static: false })
     toggle: ElementRef;
