@@ -1,0 +1,18 @@
+<div class="item-container">
+  <div class="item-header">
+    <p>Route {{routeNumber}}</p>
+  <p>{{routeDuration}} min</p>
+  </div>
+  <div class="steps-container" *ngIf="routeTransportMode === 'TRANSIT'"  >
+    <div class="route-steps" *ngFor="let step of route?.routeSteps; let i =index">
+      <app-routes-list-item-step *ngIf="i < 3"  [step]="step" [routeTransportMode]="routeTransportMode"></app-routes-list-item-step>
+      <ion-icon name="arrow-forward" *ngIf="i < 2 && i !=route?.routeSteps?.length-1"></ion-icon>
+    </div>
+    <div class="steps-overflow" *ngIf="route?.routeSteps?.length >= 3"><span>...</span></div>
+  </div>
+  <div class="steps-container" *ngIf="routeTransportMode !== 'TRANSIT'"  >
+    <div class="route-steps" >
+      <app-routes-list-item-step  [step]="route?.routeSteps[0]"></app-routes-list-item-step>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+    .container{
+        height: 20px;
+        width: 40px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        background-color: #009ee0;
+
+        span{
+            color:black;
+        }
+        .black{
+            color: white;
+        }
+    }
+

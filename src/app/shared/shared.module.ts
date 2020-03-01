@@ -11,13 +11,12 @@ import { RouterModule } from '@angular/router';
         HttpClientModule,
         RouterModule
     ],
-    declarations: [
-    ],
+    declarations: [],
     exports: [
         CommonModule,
         FormsModule,
         HttpClientModule,
-        RouterModule,
+        RouterModule
     ]
 })
 export class SharedModule { }
