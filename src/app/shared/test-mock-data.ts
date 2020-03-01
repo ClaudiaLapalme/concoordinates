@@ -1,4 +1,3 @@
-import { jasmine } from 'jasmine-core';
 import { Coordinates, Route, RouteStep , Transport , TransportMode} from '../core/models';
 export class MockData {
     startCoordinates = 'Loyola';
