@@ -188,7 +188,7 @@ describe('MapService', () => {
             displayCodeCalled = false;
 
             constructor(){
-                super(testBuildingName, 'H', null);
+                super(testBuildingName, null, null);
             }
 
             removeBuildingCode(): void{
@@ -205,7 +205,7 @@ describe('MapService', () => {
             displayCodeCalled = false;
 
             constructor(){
-                super(testBuildingName, 'SGW', null, null);
+                super(testBuildingName, null, null, null);
             }
 
             removeBuildingCode(): void{

@@ -14,10 +14,10 @@ export class BuildingInfoComponent {
   buildingPhoneNumber: string = "514 444 4444";
   buildingWebsite: string = "website.com";
   buildingPicturePath: string;
-
+  
   constructor() { }
 
-  displayBuidlingInfo(){
+  displayBuidlingsInfo(){
     this.displayInfo = true;
   }
 

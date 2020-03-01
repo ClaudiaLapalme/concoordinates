@@ -15,6 +15,7 @@ export class Building extends OutdoorPOI {
   private buildingInformation: BuildingInformation;
   private marker: google.maps.Marker;
   private outlineAttributes: OutlineAttributes;
+  private buildingInfoComponent: BuildingInfoComponent;
 
   constructor(
     name: string,
@@ -47,7 +48,9 @@ export class Building extends OutdoorPOI {
   displayBuildingOutline(): void{
 
     this.buildingOutline.setVisible(true);
-    // this.buildingOutline.addListener('click', )
+    this.buildingOutline.addListener('click', function(){
+      console.log('clicked on building');
+    });
   }
   displayBuildingCode() : void {
     

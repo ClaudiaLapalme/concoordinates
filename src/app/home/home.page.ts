@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { MapService } from '../core';
 
+
 // TODO move all this map logic to MapPage and keep all Pages as routes from this page
 @Component({
     selector: 'app-home',
@@ -83,5 +84,9 @@ export class HomePage implements AfterViewInit {
 
     switchFloors(newIndoorMapLevel: number): void {
         this.indoorMapLevel = newIndoorMapLevel;
+    }
+
+    showBuildingInfo(): void {
+        console.log("Page launched")
     }
 }
