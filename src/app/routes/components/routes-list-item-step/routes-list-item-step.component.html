@@ -7,19 +7,22 @@
         <ion-icon name="bus"></ion-icon>
         <app-transit-line-indicator class="transit-line-indicator"
             [color]="step?.transport?.transportDetails?.line?.color"
-            [line]="step?.transport?.transportDetails?.line?.short_name"></app-transit-line-indicator>
+            [line]="step?.transport?.transportDetails?.line?.short_name">
+        </app-transit-line-indicator>
     </div>
     <div class="route-step" *ngIf="vehicleType === 'SUBWAY'">
         <ion-icon name="subway"></ion-icon>
         <app-transit-line-indicator class="transit-line-indicator"
             [color]="step?.transport?.transportDetails?.line?.color"
-            [line]="step?.transport?.transportDetails?.line?.short_name"></app-transit-line-indicator>
+            [line]="step?.transport?.transportDetails?.line?.short_name">
+        </app-transit-line-indicator>
     </div>
     <div class="route-step" *ngIf="vehicleType === 'COMMUTER_TRAIN' || vehicleType === 'HEAVY_RAIL'">
         <ion-icon name="train"></ion-icon>
         <app-transit-line-indicator class="transit-line-indicator"
             [color]="step?.transport?.transportDetails?.line?.color"
-            [line]="step?.transport?.transportDetails?.line?.short_name"></app-transit-line-indicator>
+            [line]="step?.transport?.transportDetails?.line?.short_name">
+        </app-transit-line-indicator>
     </div>
 </div>
 <div class="route-step" *ngIf="step?.transport?.travelType === 'DRIVING'">
