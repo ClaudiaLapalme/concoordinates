@@ -9,26 +9,25 @@ import { Route, RouteFactory, TransportMode } from '../core';
 })
 export class RoutesPage implements OnInit {
     form: FormGroup;
-
     routes: Route[];
-
     transportMode: TransportMode;
-
     loading: boolean;
 
     constructor(private formBuilder: FormBuilder, private routeFactory: RouteFactory) {}
 
     ngOnInit() {
+        const currentTime = new Date(Date.now());
+        const hourMinutes = currentTime.getHours() + ':' + currentTime.getMinutes();
         this.form = this.formBuilder.group({
             from: ['', Validators.required],
             to: ['', Validators.required],
             departAt: ['Depart At'],
-            time: ['18:00']
+            time: [hourMinutes]
         });
     }
 
     async getRoutes() {
-        if(!this.transportMode) {
+        if (!this.transportMode) {
             this.transportMode = TransportMode.TRANSIT;
         }
         this.loading = true;

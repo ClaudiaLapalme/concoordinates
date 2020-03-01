@@ -20,6 +20,11 @@ import { RoutesPage } from './routes.page';
     ReactiveFormsModule,
     CoreModule
   ],
-  declarations: [RoutesPage, RoutesListComponent, RoutesListItemComponent, RoutesListItemStepComponent, TransitLineIndicatorComponent ]
+  declarations: [
+    RoutesPage,
+    RoutesListComponent,
+    RoutesListItemComponent,
+    RoutesListItemStepComponent,
+    TransitLineIndicatorComponent ]
 })
 export class RoutesPageModule {}
