@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { MockData } from '../../shared/test-mock-data';
-import { RoutesService } from './routes.service';
+import { Coordinates, Route, RouteStep, Transport, TransportMode } from '../models';
+import { RoutesService } from '../services';
 
 describe('RoutesService', () => {
 
-    let mockData = new MockData();
     let service: RoutesService;
 
     beforeEach(async () => TestBed.configureTestingModule({
@@ -12,7 +11,6 @@ describe('RoutesService', () => {
 
     beforeEach(() => {
         service = TestBed.get(RoutesService);
-        mockData = new MockData();
     });
 
 
@@ -22,11 +20,18 @@ describe('RoutesService', () => {
 
 
     xit('Should call all underlying methods at least once', done => {
+        const dirRequest: google.maps.DirectionsRequest = {
+            origin: 'start',
+            destination: 'end',
+            travelMode: this.testGoogleTravelModeMockDriving.toString(),
+            transitOptions: { departureTime: null, arrivalTime: null },
+            provideRouteAlternatives: true
+        };
         spyOn(service, 'mapGoogleStepsToRouteSteps');
         spyOn(service, 'mapGoogleRoutesToRoutes');
         spyOn(service, 'getPathFromLatLngList');
 
-        service.getMappedRoutes(mockData.getTestDirectionsRequest()).then(() => {
+        service.getMappedRoutes(dirRequest).then(() => {
             expect(service.mapGoogleStepsToRouteSteps).toHaveBeenCalled();
             expect(service.mapGoogleRoutesToRoutes).toHaveBeenCalled();
             expect(service.getPathFromLatLngList).toHaveBeenCalled();
@@ -35,17 +40,80 @@ describe('RoutesService', () => {
     });
 
     it('Should convert LatLng list to a list of Coordinates', () => {
-        expect(service.getPathFromLatLngList(mockData.getTestListOfGoogleLatLngs())).toEqual(mockData.getTestListOfCoordinates());
-        expect(mockData.testGoogleLatLng.lat).toHaveBeenCalledTimes(2);
-        expect(mockData.testGoogleLatLng.lng).toHaveBeenCalledTimes(2);
+        const testLatNum = 6;
+        const testLngNum = 7;
+        const testGoogleLatLng = jasmine.createSpyObj('testGoogleLatLng', { lat: testLatNum, lng: testLngNum });
+        const testCoordinate: Coordinates = new Coordinates(testLatNum, testLngNum, null);
+
+        expect(service.getPathFromLatLngList([testGoogleLatLng, testGoogleLatLng])).toEqual([testCoordinate, testCoordinate]);
+        expect(testGoogleLatLng.lat).toHaveBeenCalledTimes(2);
+        expect(testGoogleLatLng.lng).toHaveBeenCalledTimes(2);
     });
 
     it('Should convert gSteps to Route Steps', () => {
-        expect(service.mapGoogleStepsToRouteSteps(mockData.getTestDirectionsSteps())).toEqual(mockData.getTestRouteSteps());
+        const testLatNum = 6;
+        const testLngNum = 7;
+        const testGoogleLatLng = jasmine.createSpyObj('testGoogleLatLng', { lat: testLatNum, lng: testLngNum });
+        const testCoordinate: Coordinates = new Coordinates(testLatNum, testLngNum, null);
+        const testGoogleTravelModeMockDriving: any = jasmine.createSpyObj('transportMode',
+            { toString: 'DRIVING' });
+
+        const mockStep: google.maps.DirectionsStep = {
+            steps: [],
+            distance: { value: 1, text: 'abc' },
+            duration: { value: 60, text: 'abc' }, // in Seconds
+            end_location: testGoogleLatLng,
+            instructions: null,
+            path: [testGoogleLatLng, testGoogleLatLng],
+            start_location: testGoogleLatLng,
+            transit: null,
+            travel_mode: testGoogleTravelModeMockDriving
+        };
+
+        const testRoute = new RouteStep(
+            1,
+            testCoordinate,
+            testCoordinate,
+            [testCoordinate, testCoordinate],
+            1, // in Minutes
+            null,
+            new Transport(null, null, TransportMode.DRIVING, null)
+        );
+        expect(service.mapGoogleStepsToRouteSteps([mockStep, mockStep])).toEqual([testRoute, testRoute]);
     });
 
     it('Should convert gRoutes to Routes', () => {
-        expect(service.mapGoogleRoutesToRoutes(mockData.getTestDirectionsRoutes()).length).toBe(2);
-        expect(service.mapGoogleRoutesToRoutes(mockData.getTestDirectionsRoutes())[0]).toEqual(mockData.getTestRoute());
+        const testLatNum = 6;
+        const testLngNum = 7;
+        const testGoogleLatLng = jasmine.createSpyObj('testGoogleLatLng', { lat: testLatNum, lng: testLngNum });
+        const testCoordinate: Coordinates = new Coordinates(testLatNum, testLngNum, null);
+
+        const dirRoute: google.maps.DirectionsRoute = {
+            bounds: null,
+            copyrights: null,
+            fare: null,
+            overview_path: null,
+            overview_polyline: null,
+            warnings: null,
+            waypoint_order: null,
+            legs: [{
+                start_location: testGoogleLatLng,
+                end_location: testGoogleLatLng,
+                departure_time: { text: '', time_zone: 'GMT', value: null },
+                steps: [],
+                arrival_time: { text: '', time_zone: 'GMT', value: null },
+                distance: null,
+                duration: null,
+                duration_in_traffic: null,
+                end_address: null,
+                start_address: null,
+                via_waypoints: null
+            }]
+        };
+
+        const testRoute = new Route(testCoordinate, testCoordinate, null, null, null, []);
+
+        expect(service.mapGoogleRoutesToRoutes([dirRoute, dirRoute]).length).toBe(2);
+        expect(service.mapGoogleRoutesToRoutes([dirRoute, dirRoute])[0]).toEqual(testRoute);
     });
 });

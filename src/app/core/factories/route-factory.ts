@@ -6,16 +6,7 @@ import { RoutesService } from '../services/routes.service';
 
 @Injectable()
 export class RouteFactory {
-    constructor(private routesService: RoutesService) {}
-
-    generateAccesibleRoutes = (
-        startCoordinates: Coordinates,
-        endCoordinates: Coordinates,
-        startTime: Time,
-        endTime: Time
-    ) => {
-        return null;
-    }
+    constructor(private routesService: RoutesService) { }
 
     async generateDefaultRoutes(
         startCoordinates: Coordinates | string,

@@ -1,31 +1,41 @@
 import { TestBed } from '@angular/core/testing';
-import { MockData } from 'src/app/shared/test-mock-data';
-import { RoutesService } from '../services/routes.service';
-import { RouteFactory } from './route-factory';
+import { RouteFactory } from '../factories';
+import { TransportMode } from '../models';
+import { RoutesService } from '../services';
 
 describe('RouteFactory', () => {
-  let mockData = new MockData();
-  let mockService: RoutesService;
-  let routeFactory: RouteFactory;
-  beforeEach(async () => TestBed.configureTestingModule({}));
-  beforeEach( () => {
-    mockService = jasmine.createSpyObj('mockService', ['getMappedRoutes']);
-    routeFactory = new RouteFactory(mockService);
-    mockData = new MockData();
-  });
+    let mockService: RoutesService;
+    let routeFactory: RouteFactory;
+    beforeEach(async () => TestBed.configureTestingModule({}));
+    beforeEach(() => {
+        mockService = jasmine.createSpyObj('mockService', ['getMappedRoutes']);
+        routeFactory = new RouteFactory(mockService);
+    });
 
 
-  it('should create factory', () => {
-    expect(routeFactory).toBeTruthy();
-  });
+    it('should create factory', () => {
+        expect(routeFactory).toBeTruthy();
+    });
 
-  it('Should call routes service with a directions request', () => {
-    routeFactory.generateDefaultRoutes(mockData.startCoordinates, mockData.endCoordinates,
-      mockData.startTimeAsDate, mockData.endTimeAsDate, mockData.testTransportModeDriving);
-    expect(mockService.getMappedRoutes).toHaveBeenCalledWith(mockData.getTestDirectionsRequest());
-  });
+    it('Should call routes service with a directions request', () => {
+        const startCoordinates = 'Loyola';
+        const endCoordinates = 'Ohio';
+        const startTimeAsDate: Date = new Date(1000);
+        const endTimeAsDate: Date = new Date(1000);
+        const testTransportModeDriving = TransportMode.DRIVING;
+        const testGoogleTravelModeMockDriving: any = jasmine.createSpyObj('transportMode',
+            { toString: 'DRIVING' });
 
-  it('Should return null when calling generateAccessibleRoutes', () => {
-    expect(routeFactory.generateAccesibleRoutes(null, null, null, null)).toEqual(null);
-  });
+        const dirRequest: google.maps.DirectionsRequest = {
+            origin: startCoordinates.toString(),
+            destination: endCoordinates.toString(),
+            travelMode: testGoogleTravelModeMockDriving.toString(),
+            transitOptions: { departureTime: startTimeAsDate, arrivalTime: endTimeAsDate },
+            provideRouteAlternatives: true
+        };
+
+        routeFactory.generateDefaultRoutes(startCoordinates, endCoordinates,
+            startTimeAsDate, endTimeAsDate, testTransportModeDriving);
+        expect(mockService.getMappedRoutes).toHaveBeenCalledWith(dirRequest);
+    });
 });

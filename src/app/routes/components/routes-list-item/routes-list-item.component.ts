@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Route , TransportMode} from 'src/app/core';
+import { Route, TransportMode } from 'src/app/core';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class RoutesListItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if ( this.route ) {
+    if (this.route) {
       this.routeDuration = this.route.computeTotalDuration();
     }
   }
