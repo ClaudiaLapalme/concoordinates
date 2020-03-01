@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup  } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
 import { Route, RouteFactory, TransportMode } from '../core';
 
 @Component({
@@ -20,8 +20,8 @@ export class RoutesPage implements OnInit {
 
     ngOnInit() {
         this.form = this.formBuilder.group({
-            from: [''],
-            to: [''],
+            from: ['', Validators.required],
+            to: ['', Validators.required],
             departAt: ['Depart At'],
             time: ['18:00']
         });

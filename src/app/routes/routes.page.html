@@ -11,6 +11,7 @@
                       formControlName="from"
                       type="text" 
                       color="primary"
+                      placeholder="From"
                   ></ion-input>
               </ion-item>
               <ion-item class="custom-input-container">
@@ -19,6 +20,7 @@
                       formControlName="to"
                       type="text"
                       color="primary"
+                      placeholder="To"
                   ></ion-input>
               </ion-item>
           </div>
@@ -55,7 +57,7 @@
               <a>Options</a>
           </div>
           <div class="submit-button">
-              <a (click)="submit()">Get Directions</a>
+              <ion-button (click)="submit()" color="secondary" [disabled]="form.invalid">Get Directions</ion-button>
           </div>
       </div>
   </form>
@@ -64,6 +66,7 @@
           [ngClass]="{'selected': transportMode === 'WALKING'}"
           fill="clear"
           (click)="setTransportMode('WALKING')"
+          [disabled]="form.invalid"
       >
           <ion-icon name="walk"></ion-icon>
       </ion-button>
@@ -71,6 +74,7 @@
           [ngClass]="{'selected': transportMode === 'TRANSIT'}"
           fill="clear"
           (click)="setTransportMode('TRANSIT')"
+          [disabled]="form.invalid"
       >
           <ion-icon name="bus"></ion-icon>
       </ion-button>
@@ -78,6 +82,7 @@
           [ngClass]="{'selected': transportMode === 'BICYCLING'}"
           fill="clear"
           (click)="setTransportMode('BICYCLING')"
+          [disabled]="form.invalid"
       >
           <ion-icon name="bicycle"></ion-icon>
       </ion-button>
@@ -85,6 +90,7 @@
           [ngClass]="{'selected': transportMode === 'DRIVING'}"
           fill="clear"
           (click)="setTransportMode('DRIVING')"
+          [disabled]="form.invalid"
       >
           <ion-icon name="car"></ion-icon>
       </ion-button>
