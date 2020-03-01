@@ -7,14 +7,14 @@ import {
     IndoorMapComponent,
     ToggleCampusComponent,
     ToggleFloorsComponent,
+    DirectionsButtonComponent,
+    LoaderComponent,
 } from './components';
-import { DirectionsButtonComponent } from './components/directions-button/directions-button.component';
-import { LoaderComponent } from './components/loader/loader.component';
 import {
     AbstractPOIFactoryService,
     OutdoorPOIFactoryService,
+    RouteFactory,
 } from './factories';
-import { RouteFactory } from './factories/route-factory';
 import {
     GoogleApisService,
     LocationService,
