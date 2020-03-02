@@ -33,6 +33,11 @@ docker run -d --name sonarqube -p 9000:9000 sonarqube
 - Click add new project and follow the instructions provided by SonarQube (depends on your OS)
 - If sonar can't find typescript, run npm install -D typescript in W10
 
+### Running sonarqube
+
+1. open bash
+2. `sonar-scanner`
+
 ### Android setup
 
 Note: Use vscode to program. Android is just to launch the app on a mobile android device
