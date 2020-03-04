@@ -3,25 +3,23 @@ import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { LocationService } from './location.service';
 import { GoogleApisService } from './google-apis.service';
 
-
 @Injectable()
 export class PlacesService {
-
-    searchResultsResolved = new EventEmitter<Array<google.maps.places.PlaceResult>>();
+    searchResultsResolved = new EventEmitter<
+        Array<google.maps.places.PlaceResult>
+    >();
 
     constructor(
-        private locationService: LocationService,
-        private googleApisService: GoogleApisService
-    ) { }
+        private locationService: LocationService
+    ) {}
 
     /**
      * Given a map reference and input string, search locations
-     * in radius range 
+     * in radius range
      * @param map the reference to the html map
-     * @param input the query string 
+     * @param input the query string
      */
-    async textSearch(map: google.maps.Map, input: string) {
-
+    async textSearch(map: google.maps.Map, input: string): Promise<any> {
         // Retrieve users current location from locationService
         const geoPos: Geoposition = await this.locationService.getGeoposition();
 
@@ -31,58 +29,25 @@ export class PlacesService {
             timeout: 5000,
             maximumAge: 0
         };
-
-        // Create service obj using map reference passed 
+                // Create service obj using map reference passed
         // Send current location, radius and text input
-        var service = new google.maps.places.PlacesService(map);
-        await service.textSearch({
-            location: { lat: geoPos.coords.latitude, lng: geoPos.coords.longitude },
-            radius: 1000,
-            query: input
-        }, (results, status) => {
-            // If 200 response from google, emit event to search component indicating results are in
-            if (status === google.maps.places.PlacesServiceStatus.OK) {
-                this.searchResultsResolved.emit(results);
-            }
+        return new Promise<google.maps.places.PlaceResult[]>(resolve => {
+            new google.maps.places.PlacesService(map).textSearch(
+                {location: {
+                        lat: geoPos.coords.latitude,
+                        lng: geoPos.coords.longitude
+                    },
+                    radius: 1000,
+                    query: input
+                },
+                (res, status) => {
+                    if (status === 'OK') {
+                        resolve(res);
+                    } else {
+                        throw new Error('Error the status is: ' + status);
+                    }
+                }
+            );
         });
-    }
-
-    /**
-     * Given both map and place objects, infowindow on
-     * map for given place, and automatically recenter map +
-     * trigger infowindow popup
-     * @param map the reference to the html map
-     * @param place the google place result object
-     */
-    createMarker(place, map: google.maps.Map) {
-        let infowindow: any;
-        let icon = {
-            url: '../../../assets/icon/location_marker.png',
-            scaledSize: new google.maps.Size(30, 30), // scaled size
-        };
-        infowindow = new google.maps.InfoWindow();
-
-        // Create marker object based on place parameter
-        var placeLoc = place.geometry.location;
-        var marker = this.googleApisService.createMarker(placeLoc, map, icon);
-
-        // Make marker clickable, once clicked shows a popup with more information
-        google.maps.event.addListener(marker, 'click', function () {
-            infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
-                'Place ID: ' + place.place_id + '</div>');
-            infowindow.open(map, this);
-        });
-
-        // Re-center map at place object + trigger popup for given Place Object
-        setTimeout(() => {
-            map.setCenter(placeLoc);
-            google.maps.event.trigger(marker, 'click', function () {
-                infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
-                    'Place ID: ' + place.place_id + '</div>');
-                infowindow.open(map, this);
-            });
-        }, 1000);
-
-
     }
 }

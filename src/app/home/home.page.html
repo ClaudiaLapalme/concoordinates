@@ -3,8 +3,9 @@
 
   </ion-header>
 <ion-content>
-    <app-search [map]="mapModel">
-  
+    <app-search 
+        [map]="mapModel"  
+        (placeSelection)="createMarker($event)">
     </app-search>
     <div class="map-wrapper">
         <div #map id="map"></div>

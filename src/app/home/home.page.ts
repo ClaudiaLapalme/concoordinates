@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { MapService } from '../core';
+import { MapService, GoogleApisService } from '../core';
 
 // TODO move all this map logic to MapPage and keep all Pages as routes from this page
 @Component({
@@ -35,6 +35,7 @@ export class HomePage implements AfterViewInit {
 
     constructor(
         private mapService: MapService,
+        private googleApisService: GoogleApisService
     ) {
         this.currentCenter = this.SGW;
 
@@ -81,5 +82,43 @@ export class HomePage implements AfterViewInit {
 
     switchFloors(newIndoorMapLevel: number): void {
         this.indoorMapLevel = newIndoorMapLevel;
+    }
+
+    
+    /**
+     * Given both map and place objects, infowindow on
+     * map for given place, and automatically recenter map +
+     * trigger infowindow popup
+     * @param map the reference to the html map
+     * @param place the google place result object
+     */
+    createMarker(place) {
+        let infowindow: any;
+        let icon = {
+            url: '../../../assets/icon/place_marker.svg',
+            scaledSize: new google.maps.Size(30, 30), // scaled size
+        };
+        infowindow = new google.maps.InfoWindow();
+
+        // Create marker object based on place parameter
+        var placeLoc = place.geometry.location;
+        var marker = this.googleApisService.createMarker(placeLoc, this.mapModel, icon);
+
+        // Make marker clickable, once clicked shows a popup with more information
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+                'Place ID: ' + place.place_id + '</div>');
+            infowindow.open(this.mapModel, this);
+        });
+
+        // Re-center map at place object + trigger popup for given Place Object
+        setTimeout(() => {
+            this.mapModel.setCenter(placeLoc);
+            google.maps.event.trigger(marker, 'click', function () {
+                infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+                    'Place ID: ' + place.place_id + '</div>');
+                infowindow.open(this.map, this);
+            });
+        }, 1000);
     }
 }

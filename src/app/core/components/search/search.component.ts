@@ -13,9 +13,10 @@ import { PlacesService } from '../../services';
 export class SearchComponent implements OnInit {
 
   @Input() map: google.maps.Map;
+  @Output() placeSelection: EventEmitter<google.maps.places.PlaceResult> = new EventEmitter<google.maps.places.PlaceResult>();
 
-  showOverlay: boolean;
-  searching: boolean;
+  showOverlay: boolean = false;
+  searching: boolean = false;
   searchResultsArray: google.maps.places.PlaceResult[];
 
 
@@ -38,7 +39,6 @@ export class SearchComponent implements OnInit {
       // Only call search function when input is size 3
       // or larger to help preserve resources (Library is not free)
       if (input.length >= 3) {
-        this.searching = true;
         this.showOverlay = true;
         this.searchPOIs(input);
       }
@@ -50,8 +50,12 @@ export class SearchComponent implements OnInit {
    * Call textSearch function from placesService
    * @param input text input from the user
    */
-  searchPOIs(input: string): void {
-    this.placesService.textSearch(this.map, input);
+  async searchPOIs(input: string) {
+    this.searching = true;
+    this.placesService.textSearch(this.map, input).then(res => {
+      this.searchResultsArray = res;
+      this.searching = false;
+    })
   }
 
 
@@ -62,7 +66,7 @@ export class SearchComponent implements OnInit {
 
   focusPOI(place: google.maps.places.PlaceResult) {
     this.restoreSearchBar();
-    this.placesService.createMarker(place, this.map)
+    this.placeSelection.emit(place);
   }
 
 
@@ -81,19 +85,7 @@ export class SearchComponent implements OnInit {
   * OnInit, set searching false, hide overlay div and subscribe 
   * to placesService  function that emits array of PlaceResults
   */
-  ngOnInit() {
-
-    this.showOverlay = false;
-    this.searching = false;
-
-    this.placesService.searchResultsResolved.subscribe((data) => {
-      console.log(data); // debug
-      this.searchResultsArray = data;
-      this.searching = false;
-    });
-
-
-  }
+  ngOnInit() {}
 
 
 
