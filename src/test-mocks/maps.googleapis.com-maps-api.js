@@ -16,6 +16,11 @@ class Polygon{
 	 };
 }
 
+class LatLngBounds{
+    extend(){};
+    getCenter(){};
+}
+
 let google = {
     maps : {
         OverlayView : function () {
@@ -27,13 +32,13 @@ let google = {
         Marker : function () {
         },
         InfoWindow : function () {
-        },
-        LatLng: function(lat, lng){
+		},
+		LatLng: function(lat, lng){
         	return [lat, lng];
 		},
 		LatLngBounds: function(sw, ne) {
-			return null;
-		},
+            return new LatLngBounds
+        },
         Map: function(obj){
 
 		},

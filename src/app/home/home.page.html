@@ -2,7 +2,7 @@
 
     <div class="map-wrapper">
         <div #map id="map"></div>
-    </div>
+    </div> 
 
     <app-directions-button [routerLink]="['/routes']"  #directions ></app-directions-button>
     <app-indoor-map 
@@ -11,7 +11,6 @@
         [indoorMapBuildingCode]="indoorMapBuildingCode"
         [indoorMapLevel]="indoorMapLevel">
     </app-indoor-map>
-
     <app-toggle-campus #toggle (toggleChange)='switchCampus()'></app-toggle-campus>
 
     <app-toggle-floors 
@@ -20,6 +19,7 @@
         (toggledFloor)='switchFloors($event)'>
     </app-toggle-floors>
 
-
-
+    <app-building-info
+        *ngIf="displayBuildingInfo">
+    </app-building-info> <!-- [displayInfo]="displayInfo" -->
 </ion-content>

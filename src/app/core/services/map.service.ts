@@ -53,6 +53,7 @@ export class MapService {
                 this.googleApis.createMarker(latLng, mapObj, this.icon);
 
                 this.displayBuildingsOutline(mapObj);
+                this.displayBuildingsInformation(mapObj);
 
                 mapObj.addListener('tilesloaded',
                     this.tilesLoadedHandler(mapObj,
@@ -74,6 +75,7 @@ export class MapService {
             console.log('mapObj', mapObj); // debug
             this.locationService.getAddressFromLatLng(latitude, longitude).then(console.log);
             this.trackHallBuildingDisplay(mapObj.getZoom());
+            this.trackBuildingCodeDisplay(mapObj.getZoom());
         };
     }
 
@@ -97,6 +99,19 @@ export class MapService {
 
     }
 
+    private displayBuildingsInformation(mapRef: google.maps.Map<Element>) {
+
+        let outdoorPOIs = this.outdoorMap.getPOIs();
+
+        for (let outdoorPOI of outdoorPOIs) {
+
+            if (outdoorPOI instanceof Building) {
+                outdoorPOI.displayBuildingInformation(mapRef);
+            }
+        }
+
+    }
+
     private trackHallBuildingDisplay(zoomValue: number): void {
 
         let hallBuildingName = 'Henry F. Hall Building';
@@ -110,5 +125,24 @@ export class MapService {
                 building.displayBuildingOutline();
             }
         }
+    }
+
+    private trackBuildingCodeDisplay(zoomValue: number): void {
+        
+        let outdoorPOIs = this.outdoorMap.getPOIs();
+
+        for (let outdoorPOI of outdoorPOIs) {
+
+            if (outdoorPOI instanceof Building) {
+                if (zoomValue >= 18) {
+                    outdoorPOI.displayBuildingCode();
+                }
+                else {
+                    outdoorPOI.removeBuildingCode();
+                }
+            }
+
+        }
+
     }
 }
