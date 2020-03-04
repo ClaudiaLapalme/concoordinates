@@ -25,6 +25,9 @@ export class HomePage implements AfterViewInit {
     @ViewChild('switchFloor', { read: ElementRef, static: false })
     switchFloor: ElementRef;
 
+    @ViewChild('searchBar', {read: ElementRef, static: false})
+    searchBar: ElementRef;
+
     // Map data
     public mapModel: google.maps.Map;
     public mapLoaded: boolean;
@@ -63,10 +66,12 @@ export class HomePage implements AfterViewInit {
 
                 const toggleButtonNE = this.toggle.nativeElement;
                 const switchFloorsNE = this.switchFloor.nativeElement;
+                const searchBarNE = this.searchBar.nativeElement;
 
 
                 this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(switchFloorsNE);
                 this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].push(toggleButtonNE);
+                this.mapModel.controls[google.maps.ControlPosition.TOP_LEFT].push(searchBarNE);
             });
     }
 

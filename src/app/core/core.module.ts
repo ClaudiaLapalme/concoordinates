@@ -19,6 +19,7 @@ import {
     MapService,
     PlacesService
 } from './services';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -30,6 +31,7 @@ import {
     imports: [
         CommonModule,
         IonicModule.forRoot(),
+        FormsModule
     ],
     providers: [
         LocationService,

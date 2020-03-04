@@ -12,3 +12,12 @@
       justify-content: center;
       text-align: center;
   }
+  ion-searchbar{
+      position: relative;
+    --placeholder-color: var(--ion-color-primary-contrast);
+    .searchbar-input-container{
+        .searchbar-input{
+            border-radius: 30px !important;
+        }
+    }
+  }

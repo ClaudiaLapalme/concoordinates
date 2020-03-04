@@ -18,7 +18,7 @@ export class SearchComponent implements OnInit {
   showOverlay: boolean = false;
   searching: boolean = false;
   searchResultsArray: google.maps.places.PlaceResult[];
-
+  searchValue: string;
 
   constructor(
     private placesService: PlacesService,
@@ -29,7 +29,7 @@ export class SearchComponent implements OnInit {
    * @param ev event from ionChange in searchbar
    */
   search(ev: any) {
-    let input = ev.target.value;
+    let input = this.searchValue;
 
     // Reset search when input is empty
     if (input.length == 0) {
@@ -81,10 +81,6 @@ export class SearchComponent implements OnInit {
   }
 
 
-  /**
-  * OnInit, set searching false, hide overlay div and subscribe 
-  * to placesService  function that emits array of PlaceResults
-  */
   ngOnInit() {}
 
 

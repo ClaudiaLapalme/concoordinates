@@ -4,6 +4,7 @@
   </ion-header>
 <ion-content>
     <app-search 
+    #searchBar
         [map]="mapModel"  
         (placeSelection)="createMarker($event)">
     </app-search>
