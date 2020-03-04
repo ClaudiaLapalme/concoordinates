@@ -1,6 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { LocationService } from './location.service';
+import { GoogleApisService } from './google-apis.service';
 
 
 @Injectable()
@@ -10,6 +11,7 @@ export class PlacesService {
 
     constructor(
         private locationService: LocationService,
+        private googleApisService: GoogleApisService
     ) { }
 
     /**
@@ -54,14 +56,15 @@ export class PlacesService {
      */
     createMarker(place, map: google.maps.Map) {
         let infowindow: any;
+        let icon = {
+            url: '../../../assets/icon/location_marker.png',
+            scaledSize: new google.maps.Size(30, 30), // scaled size
+        };
         infowindow = new google.maps.InfoWindow();
 
         // Create marker object based on place parameter
         var placeLoc = place.geometry.location;
-        var marker = new google.maps.Marker({
-            map: map,
-            position: placeLoc
-        });
+        var marker = this.googleApisService.createMarker(placeLoc, map, icon);
 
         // Make marker clickable, once clicked shows a popup with more information
         google.maps.event.addListener(marker, 'click', function () {

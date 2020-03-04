@@ -1,7 +1,7 @@
 <ion-searchbar showCancelButton="focus" (ionChange)="search($event)" (ionCancel)="restoreSearchBar()" debounce="1000">
   </ion-searchbar>
 
-  <div *ngIf="searching">
+  <div class="loading" *ngIf="searching">
     <ion-spinner>
     </ion-spinner>
   </div>

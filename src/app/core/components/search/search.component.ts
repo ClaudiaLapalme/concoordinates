@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { PlacesService } from '../../services/places.service'; 
 import { mapToMapExpression } from '@angular/compiler/src/render3/util';
+import { PlacesService } from '../../services';
 
 
 
