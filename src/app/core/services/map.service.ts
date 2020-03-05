@@ -5,15 +5,17 @@ import { LocationService } from './location.service';
 import { Map, Building } from '../models';
 import { OutdoorMap } from '../models/outdoor-map';
 import { OutdoorPOIFactoryService } from '../factories';
+import { PlaceService } from './place.service';
 
 @Injectable()
 export class MapService {
 
     private outdoorMap: Map;
+    private placeService: PlaceService;
 
     constructor(
         private locationService: LocationService,
-        private googleApis: GoogleApisService
+        private googleApis: GoogleApisService,
     ){ this.loadOutdoorMap(); }
 
     icon: google.maps.Icon = {
@@ -51,9 +53,9 @@ export class MapService {
 
                 const mapObj = this.googleApis.createMap(mapElement, mapOptions);
                 this.googleApis.createMarker(latLng, mapObj, this.icon);
+                this.placeService = new PlaceService(mapObj); 
 
                 this.displayBuildingsOutline(mapObj);
-                this.displayBuildingsInformation(mapObj);
 
                 mapObj.addListener('tilesloaded',
                     this.tilesLoadedHandler(mapObj,
@@ -93,20 +95,7 @@ export class MapService {
         for (let outdoorPOI of outdoorPOIs) {
 
             if (outdoorPOI instanceof Building) {
-                outdoorPOI.createBuildingOutline(mapRef);
-            }
-        }
-
-    }
-
-    private displayBuildingsInformation(mapRef: google.maps.Map<Element>) {
-
-        let outdoorPOIs = this.outdoorMap.getPOIs();
-
-        for (let outdoorPOI of outdoorPOIs) {
-
-            if (outdoorPOI instanceof Building) {
-                outdoorPOI.displayBuildingInformation(mapRef);
+                outdoorPOI.createBuildingOutline(mapRef, this.placeService);
             }
         }
 
@@ -118,7 +107,7 @@ export class MapService {
         let building = this.outdoorMap.getPOI(hallBuildingName);
 
         if (building instanceof Building) {
-            if (zoomValue >= 20) {
+            if (zoomValue >= 18) {
                 building.removeBuildingOutline();
             }
             else {
@@ -144,5 +133,9 @@ export class MapService {
 
         }
 
+    }
+
+    getPlaceService(): PlaceService{
+        return this.placeService;
     }
 }

@@ -1,4 +1,6 @@
 .footer {
+    white-space: nowrap;
+    font-size: 12px;
     position: fixed;
     left: 0;
     bottom: 0;
@@ -19,28 +21,30 @@
 }
 
 .container-bottom-block{
-    margin: 5px 0px 25px 25px;
-    vertical-align: middle;
+    padding-bottom: 10px;
+    display: flex;
+    text-align: middle;
 }
 
 .container-bottom-left{
-    margin: 0px 50px 0px 25px;
+    width: 100%;
+    margin: auto;
     display: inline-block;
 }
 
 .container-bottom-right{
-    margin: 0px 50px 25px 25px;
+    margin: 0px 30px 25px 25px;
     float: right;
     text-align: right;
 }
 
 .container-icon{
-    margin: 25px 15px 0px 0px;
+    margin: 25px 10px 0px 0px;
     display: inline-block;
 }
 
-.container-info{
-    margin: 25px 0px 0px 0px;
+.left{
+    padding: 0px 0px 0px 20px;
 }
 
 .container-left-title{
@@ -48,8 +52,7 @@
 }
 
 .info{
-    padding-top: 25px;
-    display: inline-block;
+    padding-top: 20px;
 }
 
 .container-schedule{
@@ -59,7 +62,7 @@
 
 .schedule-day{
     text-align: left;
-    padding: 0px 20px 0px 0px;
+    padding: 5px 5px 0px 0px;
 }
 
 .container-name-directions{
@@ -77,7 +80,7 @@
  }
 
  .building-name{
-    font-size: 24px;
+    font-size: 20px;
     margin: 0px 0px 20px 0px;
  }
 
@@ -101,17 +104,18 @@
 }
 
 .title-schedule{
-    font-size: 18px;
+    font-size: 14px;
+    padding: 0px 0px 0px 0px;
 }
 
 .top{
     vertical-align: top;
 }
 
-.schedule-arrow{
-    padding: 10px 0px 10px 0px;
+.schedule-icon{
+    padding: 0px 10px 0px 0px;
 }
 
-.schedule-icon{
-    padding: 0px 25px 0px 0px;
+.schedule-arrow{
+    padding-left: 25px;
 }

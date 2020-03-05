@@ -1,32 +1,49 @@
-import { Component, Output } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { PlaceService } from '../../services';
 
 @Component({
   selector: 'app-building-info',
   templateUrl: './building-info.component.html',
-  styleUrls: ['./building-info.component.scss'],
+  styleUrls: ['./building-info.component.scss']
 })
 export class BuildingInfoComponent {
 
-  @Output() displayInfo:boolean = false;
-  buildingName: string = "Hall Building";
-  buildingAddress: string = "123 Address Street";
-  buildingPhoneNumber: string = "514 444 4444";
-  buildingWebsite: string = "website.com";
-  buildingPicturePath: string;
-  
-  constructor() { }
+  @Output() toggleBuildingInfo: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  displayBuidlingsInfo(){
-    this.displayInfo = true;
+  buildingName: string = "Hall Building";
+  buildingAddress: string;
+  buildingPhoneNumber: string;
+  buildingWebsite: string;
+  buildingPicturePath: string;
+  buildingSchedule: boolean = false;
+  displaySchedule: boolean = true;
+  
+  constructor(
+    private placeService: PlaceService
+  ){
+    this.placeService.placeResultObservable.subscribe(buildingInfo => {
+      this.buildingAddress = buildingInfo.formatted_address;
+    })
   }
 
+  ngOnInit(){
+    this.displayBuildingInfo();
+  }
+
+  displayBuildingInfo(){
+    this.toggleBuildingInfo.emit(true);
+  }
 
   hideBuildingInfo(){
-    this.displayInfo = false;
+    this.toggleBuildingInfo.emit(false);
   }
 
-
-
-  
+  toggleSchedule(){
+    if (this.displaySchedule){
+      this.displaySchedule = false;
+    }
+    else{
+      this.displaySchedule = true;
+    }
+  }
 }

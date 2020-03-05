@@ -29,6 +29,9 @@ export class HomePage implements AfterViewInit {
     @ViewChild('switchFloor', { read: ElementRef, static: false })
     switchFloor: ElementRef;
 
+    @ViewChild('builingInformation', { read: ElementRef, static: false })
+    builingInformation: ElementRef;
+
     // Map data
     public mapModel: google.maps.Map;
     public mapLoaded: boolean;
@@ -36,8 +39,7 @@ export class HomePage implements AfterViewInit {
     public indoorMapBuildingCode: string;
     public indoorMapLevel: number;
     public availableFloors: number[];
-
-    public displayInfo: boolean;
+    public buildingInfoDisplayed: boolean = true;
 
     constructor(
         private mapService: MapService,
@@ -91,7 +93,7 @@ export class HomePage implements AfterViewInit {
         this.indoorMapLevel = newIndoorMapLevel;
     }
 
-    showBuildingInfo(): void {
-        console.log("Page launched")
+    toggleBuildingInfo(value: boolean){
+        this.buildingInfoDisplayed = value;
     }
 }

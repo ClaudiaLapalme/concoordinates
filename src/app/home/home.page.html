@@ -20,6 +20,7 @@
     </app-toggle-floors>
 
     <app-building-info
-        *ngIf="displayBuildingInfo">
-    </app-building-info> <!-- [displayInfo]="displayInfo" -->
+        *ngIf="buildingInfoDisplayed" 
+        (toggleBuildingInfo)='toggleBuildingInfo($event)'>
+    </app-building-info>
 </ion-content>

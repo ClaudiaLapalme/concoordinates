@@ -20,6 +20,7 @@ import {
     GoogleApisService,
     LocationService,
     MapService,
+    PlaceService
 } from './services';
 
 @NgModule({
@@ -29,7 +30,7 @@ import {
         ToggleFloorsComponent,
         IndoorMapComponent,
         LoaderComponent,
-        DirectionsButtonComponent
+        DirectionsButtonComponent,
         IndoorMapComponent
     ],
     imports: [
@@ -44,7 +45,8 @@ import {
         GoogleApisService,
         OutdoorPOIFactoryService,
         AbstractPOIFactoryService,
-        RouteFactory
+        RouteFactory,
+        PlaceService
     ],
     exports: [
         ToggleCampusComponent,
@@ -52,7 +54,7 @@ import {
         ToggleFloorsComponent,
         IndoorMapComponent,
         LoaderComponent,
-        DirectionsButtonComponent
+        DirectionsButtonComponent,
         IndoorMapComponent
     ],
     entryComponents: []

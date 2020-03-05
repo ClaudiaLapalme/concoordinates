@@ -1,6 +1,6 @@
 import { OutdoorPOI } from './outdoor-poi';
 import { Coordinates } from './coordinates';
-import { BuildingInfoComponent } from '../components/building-info';
+import { PlaceService } from '../services';
 
 import BuildingsOutlineCoordinates from '../data/building-outline-coordinates.json';
 import ConcordiaBuildings from '../data/concordia-buildings.json';
@@ -15,7 +15,6 @@ export class Building extends OutdoorPOI {
   private buildingInformation: BuildingInformation;
   private marker: google.maps.Marker;
   private outlineAttributes: OutlineAttributes;
-  private buildingInfoComponent: BuildingInfoComponent;
 
   constructor(
     name: string,
@@ -26,11 +25,14 @@ export class Building extends OutdoorPOI {
 
     this.setBuildingOutline(code);
     this.setBuildingInformation(code);
+    this.setBuildingLabel(code);
   }
 
-  createBuildingOutline(mapRef: google.maps.Map<Element>): void {
+  createBuildingOutline(mapRef: google.maps.Map<Element>, placeService: PlaceService): void {
 
     this.buildingOutline.setMap(mapRef);
+    this.marker.setMap(mapRef);
+    this.enableOutlineListener(placeService, this.buildingInformation);
   }
 
   removeBuildingOutline(): void {
@@ -48,27 +50,17 @@ export class Building extends OutdoorPOI {
   displayBuildingOutline(): void{
 
     this.buildingOutline.setVisible(true);
-    this.buildingOutline.addListener('click', function(){
-      console.log('clicked on building');
-    });
   }
+
   displayBuildingCode() : void {
-    
+
     this.marker.setVisible(true);
   }
 
-  displayBuildingInformation(mapRef: google.maps.Map<Element>) : void {
-
-    this.marker.setMap(mapRef);
-
-    let service = new google.maps.places.PlacesService(mapRef);
-      
-    service.getDetails(this.buildingInformation, function(place, status) {
-
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        console.log( place.name + ', Address: ' + place.formatted_address + ', Website: ' + place.website + '</div>');
-      }
-    });  
+  private enableOutlineListener(placeService: PlaceService, buildingInformation: BuildingInformation){
+    this.buildingOutline.addListener('click', function(){
+      placeService.displayBuildingInformation(buildingInformation)
+    });
   }
 
   private setBuildingOutline(code: string): void {
@@ -85,17 +77,18 @@ export class Building extends OutdoorPOI {
     this.buildingOutline = new google.maps.Polygon(this.outlineAttributes);
   }
 
-  private setBuildingInformation(code: string): void {
-
+  private setBuildingLabel(code: string): void{
     let boundsCenter = this.centerOfPolygon(code);
 
-      //Set building code marker
-      this.marker = new google.maps.Marker({
-        label: {text: code, color: 'white'},
-        icon:'../assets/icon/TransparentMarker.png',
-        position: boundsCenter
-      }); 
-    
+    //Set building code marker
+    this.marker = new google.maps.Marker({
+      label: {text: code, color: 'white'},
+      icon:'../assets/icon/TransparentMarker.png',
+      position: boundsCenter
+    }); 
+  }
+
+  private setBuildingInformation(code: string): void {
 
    if(ConcordiaBuildings[code] != null){
       this.buildingInformation = {
@@ -104,6 +97,7 @@ export class Building extends OutdoorPOI {
       };
     }
   }
+
   private centerOfPolygon(code: string){
     let i: number;
     let latLngCoords = [];    
