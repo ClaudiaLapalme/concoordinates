@@ -1,49 +1,55 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { PlaceService } from '../../services';
+import { PlaceService } from '../../../core';
 
 @Component({
-  selector: 'app-building-info',
-  templateUrl: './building-info.component.html',
-  styleUrls: ['./building-info.component.scss']
+    selector: 'app-building-info',
+    templateUrl: './building-info.component.html',
+    styleUrls: ['./building-info.component.scss']
 })
 export class BuildingInfoComponent {
 
-  @Output() toggleBuildingInfo: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() toggleBuildingInfo: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
-  buildingName: string = "Hall Building";
-  buildingAddress: string;
-  buildingPhoneNumber: string;
-  buildingWebsite: string;
-  buildingPicturePath: string;
-  buildingSchedule: boolean = false;
-  displaySchedule: boolean = true;
-  
-  constructor(
-    private placeService: PlaceService
-  ){
-    this.placeService.placeResultObservable.subscribe(buildingInfo => {
-      this.buildingAddress = buildingInfo.formatted_address;
-    })
-  }
+    buildingName: string;
+    buildingAddress: string;
+    buildingPhoneNumber: string;
+    buildingWebsite: string;
+    buildingPicturePath: string;
+    buildingSchedule = [];
+    displaySchedule: boolean = true;
+    displayAll: boolean = false;
+    openNow: boolean = true;
 
-  ngOnInit(){
-    this.displayBuildingInfo();
-  }
-
-  displayBuildingInfo(){
-    this.toggleBuildingInfo.emit(true);
-  }
-
-  hideBuildingInfo(){
-    this.toggleBuildingInfo.emit(false);
-  }
-
-  toggleSchedule(){
-    if (this.displaySchedule){
-      this.displaySchedule = false;
+    constructor(
+        private placeService: PlaceService
+    ) {
+        this.placeService.placeResultObservable.subscribe(buildingInfo => {
+            if (buildingInfo.length !== 0) {
+                this.buildingAddress = buildingInfo[0].formatted_address;
+                this.buildingWebsite = buildingInfo[0].website;
+                this.buildingPhoneNumber = buildingInfo[0].formatted_phone_number;
+                this.buildingName = buildingInfo[0].name;
+                this.buildingSchedule = buildingInfo[0].opening_hours;
+                console.log(buildingInfo[0].opening_hours);
+                this.displayBuildingInfo();
+            }
+        })
     }
-    else{
-      this.displaySchedule = true;
+
+    displayBuildingInfo() {
+        this.displayAll = true;
     }
-  }
+
+    hideBuildingInfo() {
+        this.displayAll = false;
+    }
+
+    toggleSchedule() {
+        if (this.displaySchedule) {
+            this.displaySchedule = false;
+        }
+        else {
+            this.displaySchedule = true;
+        }
+    }
 }

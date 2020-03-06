@@ -7,21 +7,23 @@ export class PlaceService {
   private googlePlacesService: google.maps.places.PlacesService;
   private placeResult: google.maps.places.PlaceResult;
 
-  private eventEmitter = new BehaviorSubject(this.placeResult);
+  private eventEmitter = new BehaviorSubject([]);
   public placeResultObservable = this.eventEmitter.asObservable();
 
-  constructor(mapRef: google.maps.Map<Element>) { 
+  constructor() {}
 
-    this.googlePlacesService = new google.maps.places.PlacesService(mapRef);
-  }
+  public displayBuildingInformation(buildingInformation: google.maps.places.PlaceDetailsRequest, buildingName: string){
 
-  public displayBuildingInformation(buildingInformation: google.maps.places.PlaceDetailsRequest){
-
-    this.googlePlacesService.getDetails(buildingInformation, function(place, status) {
-
+    this.googlePlacesService.getDetails(buildingInformation, (result, status) => {
+      
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        this.eventEmitter = place;
+        this.eventEmitter.next([result, buildingName]);
       }
     });  
+    
+  }
+
+  public setService(mapRef: google.maps.Map<Element>): void{
+    this.googlePlacesService = new google.maps.places.PlacesService(mapRef);
   }
 }

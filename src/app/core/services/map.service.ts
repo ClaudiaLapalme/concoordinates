@@ -11,11 +11,11 @@ import { PlaceService } from './place.service';
 export class MapService {
 
     private outdoorMap: Map;
-    private placeService: PlaceService;
 
     constructor(
         private locationService: LocationService,
         private googleApis: GoogleApisService,
+        private placeService: PlaceService
     ){ this.loadOutdoorMap(); }
 
     icon: google.maps.Icon = {
@@ -53,7 +53,7 @@ export class MapService {
 
                 const mapObj = this.googleApis.createMap(mapElement, mapOptions);
                 this.googleApis.createMarker(latLng, mapObj, this.icon);
-                this.placeService = new PlaceService(mapObj); 
+                this.placeService.setService(mapObj);
 
                 this.displayBuildingsOutline(mapObj);
 
@@ -107,7 +107,7 @@ export class MapService {
         let building = this.outdoorMap.getPOI(hallBuildingName);
 
         if (building instanceof Building) {
-            if (zoomValue >= 18) {
+            if (zoomValue >= 20) {
                 building.removeBuildingOutline();
             }
             else {

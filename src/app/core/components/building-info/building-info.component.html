@@ -1,4 +1,4 @@
-<div class='footer'>
+<div *ngIf="displayAll" class='footer'>
     <div class='container-top-block'>
         <img class='picture' src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Henry_F._Hall_Building_09.JPG/1024px-Henry_F._Hall_Building_09.JPG">
         <div class='container-name-directions'>
@@ -36,7 +36,8 @@
                         <table class='text container-schedule'>
                             <tr>
                                 <td class='schedule-icon'><svg width="25" height="25" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99 0C4.47 0 0 4.48 0 10C0 15.52 4.47 20 9.99 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 9.99 0ZM10 18C5.58 18 2 14.42 2 10C2 5.58 5.58 2 10 2C14.42 2 18 5.58 18 10C18 14.42 14.42 18 10 18Z" fill=var(--ion-color-secondary)/><path d="M10.5 5H9V11L14.25 14.15L15 12.92L10.5 10.25V5Z" fill=var(--ion-color-secondary)/></svg></td>
-                                <td class='title-schedule'>Open Now</td>
+                                <td *ngIf="openNow" class='title-schedule'>Open Now</td>
+                                <td *ngIf="!openNow" class='title-schedule'>Closed</td>
                                 <td *ngIf="displaySchedule" class='schedule-arrow'><svg (click)="toggleSchedule()" width="20" height="20" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.41 12.41L6 7.83L10.59 12.41L12 11L6 5L0 11L1.41 12.41Z" fill=var(--ion-color-primary-contrast)/></svg></td>
                                 <td *ngIf="!displaySchedule" class='schedule-arrow'><svg (click)="toggleSchedule()" width="20" height="20" viewBox="0 -4 10 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.59 0.59L6 5.17L1.41 0.59L0 2L6 8L12 2L10.59 0.59Z" fill="white"/></svg></td>
                             </tr>

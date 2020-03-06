@@ -32,7 +32,7 @@ export class Building extends OutdoorPOI {
 
     this.buildingOutline.setMap(mapRef);
     this.marker.setMap(mapRef);
-    this.enableOutlineListener(placeService, this.buildingInformation);
+    this.enableOutlineListener(placeService);
   }
 
   removeBuildingOutline(): void {
@@ -57,9 +57,9 @@ export class Building extends OutdoorPOI {
     this.marker.setVisible(true);
   }
 
-  private enableOutlineListener(placeService: PlaceService, buildingInformation: BuildingInformation){
-    this.buildingOutline.addListener('click', function(){
-      placeService.displayBuildingInformation(buildingInformation)
+  private enableOutlineListener(placeService: PlaceService){
+    this.buildingOutline.addListener('click', () =>{
+      placeService.displayBuildingInformation(this.buildingInformation, this.getName());
     });
   }
 
@@ -93,7 +93,7 @@ export class Building extends OutdoorPOI {
    if(ConcordiaBuildings[code] != null){
       this.buildingInformation = {
         placeId: ConcordiaBuildings[code].placeId,
-        fields: ['name', 'formatted_address', 'formatted_phone_number', 'opening_hours', 'website']
+        fields: ['formatted_address', 'formatted_phone_number', 'opening_hours', 'website', 'photo', 'name']
       };
     }
   }
