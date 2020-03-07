@@ -2,7 +2,7 @@
     <div *ngIf="buildingInfoLoaded" class='footer'>
         <div class='container-top-block'>
             <div class='container-top-right'>
-                <img class='picture' src="../../../../assets/buildings/{{buildingPicturePath}}">
+                <img class='picture' src="../../../../assets/buildings/{{buildingPicture}}">
                 <div class='container-name-directions'>
                     <div *ngIf="buildingName" class='text building-name'>{{buildingName}}</div>
                     <div *ngIf="!buildingName" class='text building-name'>Unavalaible</div>
@@ -66,14 +66,13 @@
                 </tr>
                 <tr *ngIf="displaySchedule">
                     <td></td>
-                    <td *ngIf=!buildingSchedule>Unavailable</td>
-                    <td *ngIf=buildingSchedule colspan="2" style="text-align: right">
+                    <td *ngIf=!buildingSchedule colspan="2">Unavailable</td>
+                    <td *ngIf=buildingSchedule colspan="2" class="container-days">
                         <table>
-                            <tr *ngFor="let day of buildingSchedule">
+                            <tr *ngFor="let day of buildingSchedule" class="schedule-row">
                                 <td></td>
                                 <td class='schedule-day'>{{getDayOfWeek(day.close.day)}}</td>
-                                <td>{{day.open.hours}}:{{convertOneZeroToTwo(day.open.minutes)}}-{{day.close.hours}}:{{convertOneZeroToTwo(day.close.minutes)}}
-                                </td>
+                                <td>{{day.open.hours}}:{{convertOneZeroToTwo(day.open.minutes)}}-{{day.close.hours}}:{{convertOneZeroToTwo(day.close.minutes)}}</td>
                             </tr>
                         </table>
                     </td>

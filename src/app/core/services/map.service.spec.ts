@@ -8,7 +8,8 @@ describe('MapService', () => {
     function testServiceSetup() {
         const locationServiceSpy = jasmine.createSpyObj('LocationService', ['getGeoposition', 'getAddressFromLatLng']);
         const googleApisServiceSpy = jasmine.createSpyObj('GoogleApisService', ['createMap', 'createMarker', 'createLatLng']);
-        const mapService: MapService = new MapService(locationServiceSpy, googleApisServiceSpy);
+        const placeServiceSpy = jasmine.createSpyObj('PlaceService', ['enableService']);
+        const mapService: MapService = new MapService(locationServiceSpy, googleApisServiceSpy, placeServiceSpy);
         return { mapService, locationServiceSpy, googleApisServiceSpy };
     }
 
@@ -225,7 +226,7 @@ describe('MapService', () => {
 
             const hallBuilding = mapService['outdoorMap'].getPOI(testBuildingName);
 
-            expect(hallBuilding['buildingCode'].getVisible()).toBeTruthy;
+            expect(hallBuilding['buildingLabel'].getVisible()).toBeTruthy;
         });
         
         it('should not try to display the code of a no building object', () => {
@@ -239,6 +240,5 @@ describe('MapService', () => {
             expect(campusMock.removeCodeCalled).toBeFalsy();
             expect(campusMock.displayCodeCalled).toBeFalsy();
         });
-
     });
 });

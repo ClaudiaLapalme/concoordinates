@@ -13,7 +13,7 @@ export class Building extends OutdoorPOI {
 
   private buildingOutline: BuildingOutline;
   private buildingInformation: BuildingInformation;
-  private marker: google.maps.Marker;
+  private buildingLabel: google.maps.Marker;
   private outlineAttributes: OutlineAttributes;
   private buildingPicture: string;
 
@@ -32,7 +32,7 @@ export class Building extends OutdoorPOI {
   createBuildingOutline(mapRef: google.maps.Map<Element>, placeService: PlaceService): void {
 
     this.buildingOutline.setMap(mapRef);
-    this.marker.setMap(mapRef);
+    this.buildingLabel.setMap(mapRef);
     this.enableOutlineListener(placeService);
   }
 
@@ -41,10 +41,10 @@ export class Building extends OutdoorPOI {
     this.buildingOutline.setVisible(false);
   }
 
-  removeBuildingCode(): void {
+  removeBuildingLabel(): void {
 
-    if(this.marker != null){
-      this.marker.setVisible(false);
+    if(this.buildingLabel != null){
+      this.buildingLabel.setVisible(false);
     }  
   }
 
@@ -53,9 +53,9 @@ export class Building extends OutdoorPOI {
     this.buildingOutline.setVisible(true);
   }
 
-  displayBuildingCode() : void {
+  displayBuildingLabel() : void {
 
-    this.marker.setVisible(true);
+    this.buildingLabel.setVisible(true);
   }
 
   /**
@@ -87,7 +87,7 @@ export class Building extends OutdoorPOI {
     let boundsCenter = this.centerOfPolygon(code);
 
     //Set building code marker
-    this.marker = new google.maps.Marker({
+    this.buildingLabel = new google.maps.Marker({
       label: {text: code, color: 'white'},
       icon:'../assets/icon/TransparentMarker.png',
       position: boundsCenter
@@ -106,18 +106,22 @@ export class Building extends OutdoorPOI {
   }
 
   private centerOfPolygon(code: string){
-    let i: number;
-    let latLngCoords = [];    
-    let coords = BuildingsOutlineCoordinates[code];
-    let bounds = new google.maps.LatLngBounds();
 
-    for(i=0; i<coords.length;i++){
-      latLngCoords.push(new google.maps.LatLng(coords[i].lat, coords[i].lng)) 
-    }
-    for(i=0; i<coords.length;i++){
-      bounds.extend(latLngCoords[i]);
-    }
+    if(ConcordiaBuildings[code] != null){
 
-    return bounds.getCenter();
+      let i: number;
+      let latLngCoords = [];    
+      let coords = BuildingsOutlineCoordinates[code];
+      let bounds = new google.maps.LatLngBounds();
+
+      for(i=0; i<coords.length;i++){
+        latLngCoords.push(new google.maps.LatLng(coords[i].lat, coords[i].lng)) 
+      }
+      for(i=0; i<coords.length;i++){
+        bounds.extend(latLngCoords[i]);
+      }
+
+      return bounds.getCenter();
+    }
   }
 }

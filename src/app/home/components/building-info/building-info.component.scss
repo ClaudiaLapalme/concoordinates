@@ -97,14 +97,8 @@
     display: inline-block;
 }
 
-.schedule-day{
-    text-align: left;
-    padding: 5px 5px 0px 0px;
-}
-
-.text{
-    color: var(--ion-color-primary-contrast);
-    font-family: Roboto, sans-serif;
+.container-days{
+    text-align: right;
 }
 
 .title-schedule{
@@ -118,4 +112,18 @@
 
 .schedule-arrow{
     padding-left: 25px;
+}
+
+.schedule-day{
+    text-align: left;
+    padding: 0px 5px 0px 0px;
+}
+
+.schedule-row{
+    padding: 5px 0px 0px 0px;
+}
+
+.text{
+    color: var(--ion-color-primary-contrast);
+    font-family: Roboto, sans-serif;
 }

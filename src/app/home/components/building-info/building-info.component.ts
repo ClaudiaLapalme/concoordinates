@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonPullUpFooterState } from 'ionic-pullup';
 import { PlaceService } from '../../../core';
-import { NavController } from '@ionic/angular';
 
 enum daysOfWeek {
     Sun,
@@ -37,8 +36,7 @@ export class BuildingInfoComponent {
     openNow: boolean = false;
 
     constructor(
-        private placeService: PlaceService,
-        public navCtrl: NavController
+        private placeService: PlaceService
     ) {
         this.placeService.placeResultObservable.subscribe(buildingInfo => {
             if (buildingInfo.length !== 0) {
@@ -88,10 +86,10 @@ export class BuildingInfoComponent {
         }
     }
 
-    private setBuildingSchedule(schedule: []): void{
+    private setBuildingSchedule(schedule): void{
 
         if (schedule !== undefined) {
-            this.buildingSchedule = schedule;
+            this.buildingSchedule = schedule.periods;
         }
         else {
             this.buildingSchedule = undefined;

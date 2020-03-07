@@ -11,7 +11,7 @@ export class PlaceService {
 
   constructor() {}
 
-  public setService(mapRef: google.maps.Map<Element>): void{
+  public enableService(mapRef: google.maps.Map<Element>): void{
     this.googlePlacesService = new google.maps.places.PlacesService(mapRef);
   }
 

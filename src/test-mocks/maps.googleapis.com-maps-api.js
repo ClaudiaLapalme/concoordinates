@@ -7,13 +7,31 @@ class Polygon{
 
 	visible = false;
 
-	 setMap(){};
-	 setVisible(value){
+	setMap(){};
+	setVisible(value){
 		this.visible = value;
-	 };
-	 getVisible(){
-		 return this.visible;
-	 };
+	};
+	getVisible(){
+		return this.visible;
+	};
+	addListener(){};
+}
+
+class Marker{
+
+	visible = false;
+
+	setMap(){};
+	setVisible(value){
+	   this.visible = value;
+	};
+	getVisible(){
+		return this.visible;
+	};
+}
+
+class DirectionsService{
+	route(dirRequest, res, status){};
 }
 
 class LatLngBounds{
@@ -30,6 +48,7 @@ let google = {
 			}
         },
         Marker : function () {
+			return new Marker;
         },
         InfoWindow : function () {
 		},
@@ -48,6 +67,9 @@ let google = {
 		Polygon: function(){
 			return new Polygon;
 		},
+		DirectionsService: function(){
+			return new DirectionsService;
+		},
         MapTypeId: {ROADMAP: true},
         places: {
         	AutocompleteService: function(){
@@ -63,7 +85,10 @@ let google = {
 	        		},
 	        		nearbySearch: function(query){
 	        			return [];
-	        		}
+					},
+					getDetails: function(){
+						return ['details'];
+					}
     			};	
     		}
         }

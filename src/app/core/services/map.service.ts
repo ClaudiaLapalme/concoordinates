@@ -53,7 +53,7 @@ export class MapService {
 
                 const mapObj = this.googleApis.createMap(mapElement, mapOptions);
                 this.googleApis.createMarker(latLng, mapObj, this.icon);
-                this.placeService.setService(mapObj);
+                this.placeService.enableService(mapObj);
 
                 this.displayBuildingsOutline(mapObj);
 
@@ -124,18 +124,14 @@ export class MapService {
 
             if (outdoorPOI instanceof Building) {
                 if (zoomValue >= 18) {
-                    outdoorPOI.displayBuildingCode();
+                    outdoorPOI.displayBuildingLabel();
                 }
                 else {
-                    outdoorPOI.removeBuildingCode();
+                    outdoorPOI.removeBuildingLabel();
                 }
             }
 
         }
 
-    }
-
-    getPlaceService(): PlaceService{
-        return this.placeService;
     }
 }
