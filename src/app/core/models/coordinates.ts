@@ -2,7 +2,7 @@ export class Coordinates {
 
     private latitude: number;
     private longitude: number;
-    private floorNumber: number;
+    private floorNumber?: number;
 
     constructor(
         latitude: number,

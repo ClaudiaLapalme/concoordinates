@@ -1,12 +1,12 @@
-import { OutdoorPOIFactoryService } from './outdoor-poi-factory.service';
 import { Coordinates } from '../models';
+import { OutdoorPOIFactoryService } from './outdoor-poi-factory.service';
 
 describe('OutdoorPoiFactoryService', () => {
 
   function testSetup() {
     const outdoorPOIFactory = new OutdoorPOIFactoryService();
     const testCoordinates = new Coordinates(0, 0, 0);
-    return { outdoorPOIFactory, testCoordinates }
+    return { outdoorPOIFactory, testCoordinates };
   }
 
   it('should be created', () => {
@@ -51,8 +51,8 @@ describe('OutdoorPoiFactoryService', () => {
 
   describe('createCampus()', () => {
 
-    const testName = "test campus"
-    const testCode = "test"
+    const testName = 'test campus';
+    const testCode = 'test';
 
     it('should return a campus with no buildings', () => {
 

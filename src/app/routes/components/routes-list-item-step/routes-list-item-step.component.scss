@@ -1,0 +1,21 @@
+.route-step{
+    display: flex;
+    flex-direction: row;
+    margin: 10px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    p{
+        color: var(--ion-color-primary-contrast)
+    }
+}
+ion-icon{
+    font-size:25px;
+    color: var(--ion-color-primary-contrast);
+}
+.transit-line-indicator{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 5px;
+}

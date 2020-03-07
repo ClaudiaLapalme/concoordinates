@@ -1,10 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { MapService } from '../core/services/map.service';
-import { HomePage } from './home.page';
-import { ToggleCampusComponent } from '../core/components/toggle-campus/toggle-campus.component';
-import { ToggleFloorsComponent } from '../core/components/toggle-floors/toggle-floors.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { IonicModule } from '@ionic/angular';
+import { CoreModule } from '../core';
+import { MapService } from '../core/services/';
+import { HomePage } from './home.page';
 
 describe('HomePage', () => {
     let component: HomePage;
@@ -20,12 +21,15 @@ describe('HomePage', () => {
 
         TestBed.configureTestingModule({
             declarations: [
-                HomePage,
-                ToggleCampusComponent,
-                ToggleFloorsComponent,
+                HomePage],
+            imports: [
+                IonicModule.forRoot(),
+                RouterModule,
+                CoreModule,
+                RouterTestingModule.withRoutes([])],
+            providers: [
+                { provide: MapService, useClass: MockMapService }
             ],
-            imports: [IonicModule.forRoot()],
-            providers: [{ provide: MapService, useClass: MockMapService }],
             schemas: [
                 NO_ERRORS_SCHEMA,
             ]

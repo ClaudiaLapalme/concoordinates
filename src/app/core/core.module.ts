@@ -7,11 +7,14 @@ import {
     IndoorMapComponent,
     ToggleCampusComponent,
     ToggleFloorsComponent,
-    SearchComponent
+    SearchComponent,
+    DirectionsButtonComponent,
+    LoaderComponent,
 } from './components';
 import {
     AbstractPOIFactoryService,
     OutdoorPOIFactoryService,
+    RouteFactory,
 } from './factories';
 import {
     GoogleApisService,
@@ -26,7 +29,9 @@ import { FormsModule } from '@angular/forms';
         ToggleCampusComponent,
         ToggleFloorsComponent,
         IndoorMapComponent,
-        SearchComponent
+        SearchComponent,
+        LoaderComponent,
+        DirectionsButtonComponent
     ],
     imports: [
         CommonModule,
@@ -41,13 +46,16 @@ import { FormsModule } from '@angular/forms';
         GoogleApisService,
         OutdoorPOIFactoryService,
         AbstractPOIFactoryService,
-        PlacesService
+        PlacesService,
+        RouteFactory
     ],
     exports: [
         ToggleCampusComponent,
         ToggleFloorsComponent,
         IndoorMapComponent,
-        SearchComponent
+        SearchComponent,
+        LoaderComponent,
+        DirectionsButtonComponent
     ],
     entryComponents: []
 })

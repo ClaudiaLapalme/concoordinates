@@ -17,6 +17,9 @@ export class HomePage implements AfterViewInit {
     @ViewChild('map', { static: false })
     mapElement: ElementRef;
 
+    @ViewChild('directions', { read: ElementRef, static: false })
+    directionsButton: ElementRef;
+    
     // Reference to the native toggle campus html element
     @ViewChild('toggle', { read: ElementRef, static: false })
     toggle: ElementRef;
@@ -59,16 +62,18 @@ export class HomePage implements AfterViewInit {
     }
 
     private loadMap(): void {
+
         this.mapService.loadMap(this.mapElement)
             .then(mapObj => {
                 this.mapModel = mapObj;
                 this.mapLoaded = true;
-
                 const toggleButtonNE = this.toggle.nativeElement;
                 const switchFloorsNE = this.switchFloor.nativeElement;
                 const searchBarNE = this.searchBar.nativeElement;
+                const directionsButton = this.directionsButton.nativeElement;
 
 
+                this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(directionsButton);
                 this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(switchFloorsNE);
                 this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].push(toggleButtonNE);
                 this.mapModel.controls[google.maps.ControlPosition.TOP_LEFT].push(searchBarNE);
