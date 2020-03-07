@@ -15,6 +15,7 @@ export class Building extends OutdoorPOI {
   private buildingInformation: BuildingInformation;
   private marker: google.maps.Marker;
   private outlineAttributes: OutlineAttributes;
+  private buildingPicture: string;
 
   constructor(
     name: string,
@@ -57,9 +58,14 @@ export class Building extends OutdoorPOI {
     this.marker.setVisible(true);
   }
 
+  /**
+   * Adds an event listener on the building outline.
+   * Whenever it is clicked, ask the PlaceService to display the building information.
+   * @param placeService
+   */
   private enableOutlineListener(placeService: PlaceService){
     this.buildingOutline.addListener('click', () =>{
-      placeService.displayBuildingInformation(this.buildingInformation, this.getName());
+      placeService.displayBuildingInformation(this.buildingInformation, this.getName(), this.buildingPicture);
     });
   }
 
@@ -93,8 +99,9 @@ export class Building extends OutdoorPOI {
    if(ConcordiaBuildings[code] != null){
       this.buildingInformation = {
         placeId: ConcordiaBuildings[code].placeId,
-        fields: ['formatted_address', 'formatted_phone_number', 'opening_hours', 'website', 'photo', 'name']
+        fields: ['formatted_address', 'formatted_phone_number', 'opening_hours', 'website']
       };
+      this.buildingPicture =  ConcordiaBuildings[code].picture;
     }
   }
 

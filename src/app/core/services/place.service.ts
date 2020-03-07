@@ -5,25 +5,30 @@ import { BehaviorSubject } from 'rxjs';
 export class PlaceService {
 
   private googlePlacesService: google.maps.places.PlacesService;
-  private placeResult: google.maps.places.PlaceResult;
 
-  private eventEmitter = new BehaviorSubject([]);
-  public placeResultObservable = this.eventEmitter.asObservable();
+  private placeResult = new BehaviorSubject([]);
+  public placeResultObservable = this.placeResult.asObservable();
 
   constructor() {}
 
-  public displayBuildingInformation(buildingInformation: google.maps.places.PlaceDetailsRequest, buildingName: string){
+  public setService(mapRef: google.maps.Map<Element>): void{
+    this.googlePlacesService = new google.maps.places.PlacesService(mapRef);
+  }
+
+  /**
+   * This function is called whenever a building outline is clicked.
+   * Updates the observable so that the BuildingComponent can receives the data.
+   * @param buildingInformation
+   * @param buildingName 
+   * @param buildingPicture 
+   */
+  public displayBuildingInformation(buildingInformation: google.maps.places.PlaceDetailsRequest, buildingName: string, buildingPicture: string){
 
     this.googlePlacesService.getDetails(buildingInformation, (result, status) => {
       
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        this.eventEmitter.next([result, buildingName]);
+        this.placeResult.next([result, buildingName, buildingPicture]);
       }
     });  
-    
-  }
-
-  public setService(mapRef: google.maps.Map<Element>): void{
-    this.googlePlacesService = new google.maps.places.PlacesService(mapRef);
   }
 }

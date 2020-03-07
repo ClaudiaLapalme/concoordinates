@@ -1,0 +1,121 @@
+.footer {
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    font-size: 12px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--ion-color-primary);
+}
+ 
+.container-top-block{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 10px 10px 10px;
+}
+
+.picture{
+    order: 1;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.container-name-directions{
+    order: 2;
+    margin: 0px 0px 0px 15px;
+    text-align: right;
+    display: inline-block;
+}
+
+.container-top-right{
+    display: flex;
+    align-items: center;
+}
+
+.building-name{
+    font-size: 20px;
+    max-width: 150px;
+    white-space: pre-line;
+    text-align: left;
+    word-wrap: break-word;
+    margin: 0px 0px 10px 0px;
+    padding: 10px 0px 0px 0px;
+}
+
+.button-directions{
+    background-color: var(--ion-color-secondary);
+    border-radius: 7px 7px 7px 7px;
+    padding: 8px 18px 8px 18px;
+    text-align: center;
+    flex-basis: 135px;
+    font-size: 14px;
+}
+
+.exit-button{
+    order: 3;
+    align-self: stretch;
+}
+
+.line {
+    width:87%;
+    border-bottom: 1px solid var(--ion-color-primary-contrast);
+    margin: auto;
+}
+
+.container-bottom-block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0px 0px 20px 10px;
+}
+
+.container-left-info{
+    display:flex;
+    align-items: center;
+    margin: 10px 0px 0px 0px;
+}
+
+.container-icon{
+    display: inline-block;
+}
+
+.info{
+    margin: 0px 0px 0px 10px;
+    max-width: 120px;
+    white-space: pre-line;
+    text-align: left;
+    word-wrap: break-word;
+}
+
+.container-schedule{
+    margin: 10px 10px 0px 0px;
+    display: inline-block;
+}
+
+.schedule-day{
+    text-align: left;
+    padding: 5px 5px 0px 0px;
+}
+
+.text{
+    color: var(--ion-color-primary-contrast);
+    font-family: Roboto, sans-serif;
+}
+
+.title-schedule{
+    font-size: 14px;
+    padding: 0px 0px 0px 0px;
+}
+
+.schedule-icon{
+    padding: 0px 10px 0px 0px;
+}
+
+.schedule-arrow{
+    padding-left: 25px;
+}
