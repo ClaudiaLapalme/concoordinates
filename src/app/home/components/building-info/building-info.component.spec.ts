@@ -13,25 +13,14 @@ describe('BuildingInfoComponent', () => {
     let component: BuildingInfoComponent;
     let fixture: ComponentFixture<BuildingInfoComponent>;
 
-    class MockMap extends google.maps.Map {
-    }
+    class MockMap extends google.maps.Map {}
 
-    class MockPlaceService extends PlaceService{
+    class MockPlaceService extends PlaceService {
         constructor(){
             super();
             this.enableService(new MockMap(null))
         }
     };
-
-    let buildingInfo: any = 
-        {
-            formatted_address: "0000",
-            website: "website",
-            formatted_phone_number: "514-444-4444",
-            opening_hours: {
-                periods:[]
-            }
-        }
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({

@@ -101,6 +101,10 @@ export class MapService {
 
     }
 
+    /**
+     * When the zoom value on the map is 20 or higher, the H building outline is hidden.
+     * @param zoomValue 
+     */
     private trackHallBuildingDisplay(zoomValue: number): void {
 
         let hallBuildingName = 'Henry F. Hall Building';
@@ -116,6 +120,10 @@ export class MapService {
         }
     }
 
+    /**
+     * When the zoom value on the map is 18 or higher, the labels on the Concordia Buildings are displayed.
+     * @param zoomValue 
+     */
     private trackBuildingCodeDisplay(zoomValue: number): void {
         
         let outdoorPOIs = this.outdoorMap.getPOIs();

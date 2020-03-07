@@ -22,7 +22,7 @@ export class PlaceService {
    * @param buildingName 
    * @param buildingPicture 
    */
-  public displayBuildingInformation(buildingInformation: google.maps.places.PlaceDetailsRequest, buildingName: string, buildingPicture: string){
+  public displayBuildingInformation(buildingInformation: google.maps.places.PlaceDetailsRequest, buildingName: string, buildingPicture: string): void{
 
     this.googlePlacesService.getDetails(buildingInformation, (result, status) => {
       

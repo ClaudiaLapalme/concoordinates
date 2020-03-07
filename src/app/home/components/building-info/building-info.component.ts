@@ -30,10 +30,6 @@ export class BuildingInfoComponent {
 
     displaySchedule: boolean = false;
     buildingInfoLoaded: boolean = false;
-    
-    //TODO
-    //isOpen() in the buildingInfo[0].opening_hours doesn't work
-    openNow: boolean = false;
 
     constructor(
         private placeService: PlaceService
@@ -113,6 +109,9 @@ export class BuildingInfoComponent {
         return minutes == 0 ? '00' : minutes
     }
 
+    /**
+     * Display or hide the schedule within the footer.
+     */
     toggleSchedule() {
         this.displaySchedule = this.displaySchedule == true ? false : true;
     }
