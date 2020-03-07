@@ -6,7 +6,8 @@
     <app-search 
     #searchBar
         [map]="mapModel"  
-        (placeSelection)="createMarker($event)">
+        (placeSelection)="createMarker($event)"
+        (cancelSelection)="removeMarker()">
     </app-search>
     <div class="map-wrapper">
         <div #map id="map"></div>

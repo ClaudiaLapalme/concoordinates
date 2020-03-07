@@ -1,5 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { mapToMapExpression } from '@angular/compiler/src/render3/util';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PlacesService } from '../../services';
 
 
@@ -14,9 +13,10 @@ export class SearchComponent implements OnInit {
 
   @Input() map: google.maps.Map;
   @Output() placeSelection: EventEmitter<google.maps.places.PlaceResult> = new EventEmitter<google.maps.places.PlaceResult>();
+  @Output() cancelSelection: EventEmitter<any> = new EventEmitter();
 
-  showOverlay: boolean = false;
-  searching: boolean = false;
+  showOverlay = false;
+  searching = false;
   searchResultsArray: google.maps.places.PlaceResult[];
   searchValue: string;
 
@@ -29,10 +29,10 @@ export class SearchComponent implements OnInit {
    * @param ev event from ionChange in searchbar
    */
   search(ev: any) {
-    let input = this.searchValue;
+    const input = this.searchValue;
 
     // Reset search when input is empty
-    if (input.length == 0) {
+    if (input.length === 0) {
       this.restoreSearchBar();
     } else {
 
@@ -51,12 +51,17 @@ export class SearchComponent implements OnInit {
    * @param input text input from the user
    */
   async searchPOIs(input: string) {
+
     this.searching = true;
+
     this.placesService.textSearch(this.map, input).then(res => {
+
       this.searchResultsArray = res;
       this.searching = false;
-    })
+
+    });
   }
+
 
 
   /**
@@ -78,6 +83,15 @@ export class SearchComponent implements OnInit {
     this.searchResultsArray = [];
     this.showOverlay = false;
     this.searching = false;
+  }
+
+  /**
+   * Restores search bar and emits a cancel event
+   *
+   */
+  cancelSearch() {
+    this.restoreSearchBar();
+    this.cancelSelection.emit();
   }
 
 

@@ -1,16 +1,17 @@
-<ion-searchbar [(ngModel)]="searchValue" color="primary" showCancelButton="focus" (ionChange)="search($event)" (ionCancel)="restoreSearchBar()" (ionClear)="restoreSearchBar()" debounce="1000">
+<ion-searchbar [(ngModel)]="searchValue" color="primary" showCancelButton="focus" (ionChange)="search($event)" (ionCancel)="cancelSearch()" (ionClear)="cancelSearch()" debounce="1000">
   </ion-searchbar>
-  <div class="my-overlay" padding [hidden] ="!showOverlay">
+  <div class="my-overlay" [hidden] ="!showOverlay">
     <ion-list>
         <div class="loading" *ngIf="searching">
-          <ion-spinner >
+          <ion-spinner color="primary" >
           </ion-spinner>
         </div>
       <ion-item *ngFor="let item of searchResultsArray" (click)="focusPOI(item)">
-        <div >
-          <p><b>{{item.name}}</b></p>
-          <p>{{item.formatted_address}}</p>
-        </div>
+          <ion-label>
+            <p><b>{{item.name}}</b></p>
+            <p>{{item.formatted_address}}</p>
+          </ion-label>        
+        <ion-icon color="primary" name="navigate" slot="start"></ion-icon>
       </ion-item>
     </ion-list>
   </div>

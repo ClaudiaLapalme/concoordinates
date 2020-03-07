@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { IonicModule } from '@ionic/angular';
 import {
+    DirectionsButtonComponent,
     IndoorMapComponent,
+    LoaderComponent,
+    SearchComponent,
     ToggleCampusComponent,
     ToggleFloorsComponent,
-    SearchComponent,
-    DirectionsButtonComponent,
-    LoaderComponent,
 } from './components';
 import {
     AbstractPOIFactoryService,
@@ -20,9 +21,8 @@ import {
     GoogleApisService,
     LocationService,
     MapService,
-    PlacesService
+    PlacesService,
 } from './services';
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [

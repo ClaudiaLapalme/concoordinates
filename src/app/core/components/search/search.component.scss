@@ -4,8 +4,7 @@
     height: 100%;
     // background: rgba(0,0,0,0.7);
     z-index: 20;
-    top: 0;
-    left: 0;
+    overflow-y: scroll;
   }
 
   .loading{
@@ -14,10 +13,7 @@
   }
   ion-searchbar{
       position: relative;
-    --placeholder-color: var(--ion-color-primary-contrast);
-    .searchbar-input-container{
-        .searchbar-input{
-            border-radius: 30px !important;
-        }
-    }
+  }
+  ion-item{
+      --min-height: 75px;
   }

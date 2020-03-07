@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { MapService, GoogleApisService } from '../core';
+import { GoogleApisService, MapService } from '../core';
 
 // TODO move all this map logic to MapPage and keep all Pages as routes from this page
 @Component({
@@ -19,7 +19,6 @@ export class HomePage implements AfterViewInit {
 
     @ViewChild('directions', { read: ElementRef, static: false })
     directionsButton: ElementRef;
-    
     // Reference to the native toggle campus html element
     @ViewChild('toggle', { read: ElementRef, static: false })
     toggle: ElementRef;
@@ -38,6 +37,8 @@ export class HomePage implements AfterViewInit {
     public indoorMapBuildingCode: string;
     public indoorMapLevel: number;
     public availableFloors: number[];
+
+    searchedPlaceMarker: google.maps.Marker;
 
     constructor(
         private mapService: MapService,
@@ -94,41 +95,51 @@ export class HomePage implements AfterViewInit {
         this.indoorMapLevel = newIndoorMapLevel;
     }
 
-    
     /**
      * Given both map and place objects, infowindow on
      * map for given place, and automatically recenter map +
      * trigger infowindow popup
-     * @param map the reference to the html map
      * @param place the google place result object
      */
     createMarker(place) {
-        let infowindow: any;
-        let icon = {
+
+        const infowindow = new google.maps.InfoWindow();
+        const icon = {
             url: '../../../assets/icon/place_marker.svg',
             scaledSize: new google.maps.Size(30, 30), // scaled size
+            animation: google.maps.Animation.DROP
         };
-        infowindow = new google.maps.InfoWindow();
 
         // Create marker object based on place parameter
-        var placeLoc = place.geometry.location;
-        var marker = this.googleApisService.createMarker(placeLoc, this.mapModel, icon);
+        const placeLoc = place.geometry.location;
+        this.searchedPlaceMarker = this.googleApisService.createMarker(placeLoc, this.mapModel, icon);
 
         // Make marker clickable, once clicked shows a popup with more information
-        google.maps.event.addListener(marker, 'click', function () {
+        google.maps.event.addListener(this.searchedPlaceMarker, 'click', function() {
+
             infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
                 'Place ID: ' + place.place_id + '</div>');
+
             infowindow.open(this.mapModel, this);
+
         });
 
         // Re-center map at place object + trigger popup for given Place Object
         setTimeout(() => {
-            this.mapModel.setCenter(placeLoc);
-            google.maps.event.trigger(marker, 'click', function () {
-                infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
-                    'Place ID: ' + place.place_id + '</div>');
-                infowindow.open(this.map, this);
-            });
-        }, 1000);
+
+            this.mapModel.panTo(placeLoc);
+            google.maps.event.trigger(this.searchedPlaceMarker, 'click');
+
+        }, 500);
+    }
+
+    /**
+     * Removes the searched place marker from the map
+     *
+     */
+    removeMarker() {
+        if (this.searchedPlaceMarker) {
+            this.searchedPlaceMarker.setMap(null);
+        }
     }
 }
