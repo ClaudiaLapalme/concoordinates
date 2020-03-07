@@ -14,7 +14,6 @@ export class Building extends OutdoorPOI {
   private buildingOutline: BuildingOutline;
   private buildingInformation: BuildingInformation;
   private buildingLabel: google.maps.Marker;
-  private outlineAttributes: OutlineAttributes;
   private buildingPicture: string;
 
   constructor(
@@ -64,6 +63,7 @@ export class Building extends OutdoorPOI {
    * @param placeService
    */
   private enableOutlineListener(placeService: PlaceService){
+
     this.buildingOutline.addListener('click', () =>{
       placeService.displayBuildingInformation(this.buildingInformation, this.getName(), this.buildingPicture);
     });
@@ -71,7 +71,7 @@ export class Building extends OutdoorPOI {
 
   private setBuildingOutline(code: string): void {
 
-    this.outlineAttributes = {
+    let outlineAttributes: OutlineAttributes = {
       paths: BuildingsOutlineCoordinates[code],
       strokeColor: '#000000',
       strokeOpacity: 0.6,
@@ -80,27 +80,29 @@ export class Building extends OutdoorPOI {
       fillOpacity: 0.57
     };
 
-    this.buildingOutline = new google.maps.Polygon(this.outlineAttributes);
+    this.buildingOutline = new google.maps.Polygon(outlineAttributes);
   }
 
   private setBuildingLabel(code: string): void{
+
     let boundsCenter = this.centerOfPolygon(code);
 
-    //Set building code marker
     this.buildingLabel = new google.maps.Marker({
       label: {text: code, color: 'white'},
       icon:'../assets/icon/TransparentMarker.png',
       position: boundsCenter
-    }); 
+    });
   }
 
   private setBuildingInformation(code: string): void {
 
    if(ConcordiaBuildings[code] != null){
+
       this.buildingInformation = {
         placeId: ConcordiaBuildings[code].placeId,
         fields: ['formatted_address', 'formatted_phone_number', 'opening_hours', 'website']
       };
+
       this.buildingPicture =  ConcordiaBuildings[code].picture;
     }
   }

@@ -6,7 +6,6 @@ describe('OutdoorPoiFactoryService', () => {
   function testSetup() {
     const outdoorPOIFactory = new OutdoorPOIFactoryService();
     const testCoordinates = new Coordinates(0, 0, 0);
-
     return { outdoorPOIFactory, testCoordinates }
   }
 
