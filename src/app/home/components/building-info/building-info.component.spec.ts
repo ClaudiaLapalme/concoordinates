@@ -56,9 +56,9 @@ describe('BuildingInfoComponent', () => {
             expect(component["buildingName"]).toBeDefined();
         });
 
-        it('setBuildingPicture()', () => {
-            component["setBuildingPicture"]("test picture");
-            expect(component["buildingPicture"]).toBeDefined();
+        it('setBuildingPicturePath()', () => {
+            component["setBuildingPicturePath"]("test picture");
+            expect(component["setBuildingPicturePath"]).toBeDefined();
         });
 
         it('setBuildingAddress()', () => {
@@ -102,19 +102,6 @@ describe('BuildingInfoComponent', () => {
         it('should return Tue', () => {
             let day = component["getDayOfWeek"](2);
             expect(day === 'Tue').toBeTruthy();
-        });
-    });
-
-    describe('convertOneZeroToTwo()', () => {
-
-        it('should return 00', () => {
-            let value = component["convertOneZeroToTwo"](0);
-            expect(value === '00').toBeTruthy();
-        });
-
-        it('should not change value', () => {
-            let value = component["convertOneZeroToTwo"](15);
-            expect(value === 15).toBeTruthy();
         });
     });
 
