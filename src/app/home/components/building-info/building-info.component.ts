@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonPullUpFooterState } from 'ionic-pullup';
 import { PlaceService } from '../../../core';
 
+import IconsMovetoPath from '../../../../assets/icon/icons-moveto-paths.json';
+
 enum daysOfWeek {
     Sun,
     Mon,
@@ -19,13 +21,22 @@ enum daysOfWeek {
 })
 export class BuildingInfoComponent {
 
+    exitIcon: string = IconsMovetoPath['exit'];
+    locationIcon: string = IconsMovetoPath['location'];
+    websiteIcon: string = IconsMovetoPath['website'];
+    phoneIcon: string = IconsMovetoPath['phone'];
+    clockCircleIcon: string = IconsMovetoPath['clock-circle'];
+    clockHandsIcon: string = IconsMovetoPath['clock-hands'];
+    downArrowIcon: string = IconsMovetoPath['up-arrow'];
+    upArrowIcon: string = IconsMovetoPath['down-arrow'];
+
     footerState: IonPullUpFooterState = IonPullUpFooterState.Collapsed;
 
     buildingName: string;
     buildingAddress: string;
     buildingPhoneNumber: string;
     buildingWebsite: string;
-    buildingPicture: string;
+    buildingPicturePath: string;
     buildingSchedule = [];
 
     displaySchedule: boolean = false;
@@ -38,7 +49,7 @@ export class BuildingInfoComponent {
             if (buildingInfo.length !== 0) {
 
                 this.setBuildingName(buildingInfo[1]);
-                this.setBuildingPicture(buildingInfo[2]);
+                this.setBuildingPicturePath(buildingInfo[2]);
                 this.setBuildingAddress(buildingInfo[0].formatted_address);
                 this.setBuildingWebsite(buildingInfo[0].website);
                 this.setBuildingPhoneNumber(buildingInfo[0].formatted_phone_number);
@@ -54,8 +65,8 @@ export class BuildingInfoComponent {
         this.buildingName = name;
     }
 
-    private setBuildingPicture(pictureName: string): void{
-        this.buildingPicture = pictureName;
+    private setBuildingPicturePath(picturePath: string): void{
+        this.buildingPicturePath = picturePath;
     }
 
     private setBuildingAddress(address: string): void{
@@ -95,28 +106,19 @@ export class BuildingInfoComponent {
     /**
      * Google days of the week are codified. This function converts them into
      * strings using the enum at the top of the file.
-     * @param dayNumber 
      */
-    getDayOfWeek(dayNumber: number) {
+    getDayOfWeek(dayNumber: number): string {
         return daysOfWeek[dayNumber];
-    }
-
-    /**
-     * If the number of minutes is 0, convert it to "00" for nicer display.
-     * @param minutes 
-     */
-    convertOneZeroToTwo(minutes: number) {
-        return minutes == 0 ? '00' : minutes
     }
 
     /**
      * Display or hide the schedule within the footer.
      */
-    toggleSchedule() {
+    toggleSchedule(): void {
         this.displaySchedule = this.displaySchedule == true ? false : true;
     }
 
-    toggleFooter() {
+    toggleFooter(): void {
         this.footerState = this.footerState == IonPullUpFooterState.Expanded ? IonPullUpFooterState.Collapsed : IonPullUpFooterState.Expanded;
     }
 }

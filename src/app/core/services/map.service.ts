@@ -72,7 +72,8 @@ export class MapService {
         }
     }
 
-    private tilesLoadedHandler(mapObj: google.maps.Map, latitude: number, longitude: number) {
+    private tilesLoadedHandler(mapObj: google.maps.Map, latitude: number, longitude: number): () => void {
+
         return () => {
             console.log('mapObj', mapObj); // debug
             this.locationService.getAddressFromLatLng(latitude, longitude).then(console.log);
@@ -83,14 +84,14 @@ export class MapService {
 
     private loadOutdoorMap(): void {
 
-        let outdoorPOIFactory = new OutdoorPOIFactoryService();
+        const outdoorPOIFactory = new OutdoorPOIFactoryService();
 
         this.outdoorMap = new OutdoorMap(outdoorPOIFactory.loadOutdoorPOIs());
     }
 
-    private displayBuildingsOutline(mapRef: google.maps.Map<Element>) {
+    private displayBuildingsOutline(mapRef: google.maps.Map<Element>): void {
 
-        let outdoorPOIs = this.outdoorMap.getPOIs();
+        const outdoorPOIs = this.outdoorMap.getPOIs();
 
         for (let outdoorPOI of outdoorPOIs) {
 
@@ -98,17 +99,15 @@ export class MapService {
                 outdoorPOI.createBuildingOutline(mapRef, this.placeService);
             }
         }
-
     }
 
     /**
      * When the zoom value on the map is 20 or higher, the H building outline is hidden.
-     * @param zoomValue 
      */
     private trackHallBuildingDisplay(zoomValue: number): void {
 
-        let hallBuildingName = 'Henry F. Hall Building';
-        let building = this.outdoorMap.getPOI(hallBuildingName);
+        const hallBuildingName = 'Henry F. Hall Building';
+        const building = this.outdoorMap.getPOI(hallBuildingName);
 
         if (building instanceof Building) {
             if (zoomValue >= 20) {
@@ -122,11 +121,10 @@ export class MapService {
 
     /**
      * When the zoom value on the map is 18 or higher, the labels on the Concordia Buildings are displayed.
-     * @param zoomValue 
      */
     private trackBuildingCodeDisplay(zoomValue: number): void {
         
-        let outdoorPOIs = this.outdoorMap.getPOIs();
+        const outdoorPOIs = this.outdoorMap.getPOIs();
 
         for (let outdoorPOI of outdoorPOIs) {
 
@@ -138,8 +136,6 @@ export class MapService {
                     outdoorPOI.removeBuildingLabel();
                 }
             }
-
         }
-
     }
 }
