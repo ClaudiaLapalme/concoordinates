@@ -44,6 +44,7 @@ export class PlacesService {
                     if (status === 'OK') {
                         resolve(res);
                     } else {
+                        resolve([]);
                         throw new Error('Error the status is: ' + status);
                     }
                 }

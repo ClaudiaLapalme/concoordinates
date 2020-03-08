@@ -11,6 +11,7 @@ import { PlacesService } from '../../services';
 })
 export class SearchComponent implements OnInit {
 
+
   @Input() map: google.maps.Map;
   @Output() placeSelection: EventEmitter<google.maps.places.PlaceResult> = new EventEmitter<google.maps.places.PlaceResult>();
   @Output() cancelSelection: EventEmitter<any> = new EventEmitter();
@@ -19,7 +20,7 @@ export class SearchComponent implements OnInit {
   searching = false;
   searchResultsArray: google.maps.places.PlaceResult[];
   searchValue: string;
-
+  resultFound = false;
   constructor(
     private placesService: PlacesService,
   ) { }
@@ -55,10 +56,21 @@ export class SearchComponent implements OnInit {
     this.searching = true;
 
     this.placesService.textSearch(this.map, input).then(res => {
-
+      if (res.length != 0){
       this.searchResultsArray = res;
+      this.resultFound = true;
+      }
+      else {
+        this.resultFound = false;
+      }
       this.searching = false;
+      console.log(res);
+      
 
+    }).catch(error=> {
+      console.log(error);
+      this.resultFound =false;
+      this.searching = false;
     });
   }
 
