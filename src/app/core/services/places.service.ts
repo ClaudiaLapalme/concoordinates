@@ -19,7 +19,7 @@ export class PlacesService {
      * @param map the reference to the html map
      * @param input the query string
      */
-    async textSearch(map: google.maps.Map, input: string): Promise<any> {
+    async textSearch(map: google.maps.Map, input: string): Promise<google.maps.places.PlaceResult[]> {
         // Retrieve users current location from locationService
         const geoPos: Geoposition = await this.locationService.getGeoposition();
 
@@ -45,7 +45,7 @@ export class PlacesService {
                         resolve(res);
                     } else {
                         resolve([]);
-                        throw new Error('Error the status is: ' + status);
+                        //throw new Error('Error the status is: ' + status);
                     }
                 }
             );
