@@ -60,7 +60,7 @@ describe('SearchComponent', () => {
   });
 
   describe('handleSearchForPOIs()', () => {
-    it('should search for the points of intersts ', () => {
+    it('should handle the search the points of intersts ', () => {
       let fnName = 'handleSearchForPOIs';
       component[fnName]([]);
       component[fnName](["concordia"]);
@@ -69,7 +69,7 @@ describe('SearchComponent', () => {
   });
 
   describe('handleSearchForPOIsError()', () => {
-    it('should search for the points of intersts ', () => {
+    it('should handle error for the points of intersts ', () => {
       let fnName = 'handleSearchForPOIsError';
       component[fnName]([]);
       expect(component.resultFound).toBeFalsy();

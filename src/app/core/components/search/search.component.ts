@@ -76,6 +76,7 @@ export class SearchComponent implements OnInit {
     }
     this.searching = false;
   }
+
   private handleSearchForPOIsError(error: any): void {
     console.log(error);
     this.resultFound = false;
