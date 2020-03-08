@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { GoogleApisService, MapService } from '../core';
+import { MenuController } from '@ionic/angular';
 
 // TODO move all this map logic to MapPage and keep all Pages as routes from this page
 @Component({
@@ -27,8 +28,8 @@ export class HomePage implements AfterViewInit {
     @ViewChild('switchFloor', { read: ElementRef, static: false })
     switchFloor: ElementRef;
 
-    @ViewChild('searchBar', {read: ElementRef, static: false})
-    searchBar: ElementRef;
+    @ViewChild('menuBar', {read: ElementRef, static: false})
+    menuBar: ElementRef;
 
     // Map data
     public mapModel: google.maps.Map;
@@ -40,9 +41,12 @@ export class HomePage implements AfterViewInit {
 
     searchedPlaceMarker: google.maps.Marker;
 
+    controlsShown = true;
+
     constructor(
         private mapService: MapService,
-        private googleApisService: GoogleApisService
+        private googleApisService: GoogleApisService,
+        private menu: MenuController
     ) {
         this.currentCenter = this.SGW;
 
@@ -58,6 +62,10 @@ export class HomePage implements AfterViewInit {
         this.loadMap();
     }
 
+    openMenu(){
+        this.menu.open();
+    }
+
     setCurrentCenter(newCenter: google.maps.LatLng): void {
         this.currentCenter = newCenter;
     }
@@ -70,16 +78,34 @@ export class HomePage implements AfterViewInit {
                 this.mapLoaded = true;
                 const toggleButtonNE = this.toggle.nativeElement;
                 const switchFloorsNE = this.switchFloor.nativeElement;
-                const searchBarNE = this.searchBar.nativeElement;
                 const directionsButton = this.directionsButton.nativeElement;
+                const menuBar = this.menuBar.nativeElement;
 
 
+                this.mapModel.controls[google.maps.ControlPosition.TOP_CENTER].push(menuBar);
                 this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(directionsButton);
                 this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(switchFloorsNE);
                 this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].push(toggleButtonNE);
-                this.mapModel.controls[google.maps.ControlPosition.TOP_LEFT].push(searchBarNE);
+                this.controlsShown = true;
+
             });
     }
+    showControls(){
+        if(!this.controlsShown){
+            this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].push(this.toggle.nativeElement);
+            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.directionsButton.nativeElement);
+            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.switchFloor.nativeElement);
+            this.controlsShown = true;
+        }
+    }
+    removeControls() {
+        if(this.controlsShown){
+            this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].clear();
+            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].clear();
+            this.controlsShown = false;
+        }
+    }
+
 
     switchCampus(): void {
         if (this.currentCenter === this.SGW) {

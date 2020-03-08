@@ -1,34 +1,56 @@
-<!-- Home Page Header Section containing searchbar  -->
-<ion-header>
-
-  </ion-header>
-<ion-content>
-    <app-search 
-    #searchBar
-        [map]="mapModel"  
+<ion-menu side="start" content-id="main-content">
+    <ion-content color="primary" id="main-content">
+        <ion-item lines="none" color="primary">
+            <ion-icon color="secondary" name="calendar" slot="start"></ion-icon>
+            <ion-label>Calendar</ion-label>
+        </ion-item>
+        <ion-item lines="none" color="primary">
+            <ion-icon color="secondary" name="settings" slot="start"></ion-icon>
+            <ion-label>Settings</ion-label>
+        </ion-item>
+    </ion-content>
+</ion-menu>
+<div>
+    
+</div>
+<div class="menu"  #menuBar>
+    <ion-icon name="menu" (click)="openMenu()"></ion-icon>
+    <app-search
+        [map]="mapModel"
+        (showControls)="showControls()"
+        (removeControls)="removeControls()"
         (placeSelection)="createMarker($event)"
-        (cancelSelection)="removeMarker()">
+        (cancelSelection)="removeMarker()"
+    >
     </app-search>
+</div>
+
+<ion-content>
     <div class="map-wrapper">
         <div #map id="map"></div>
     </div>
 
-    <app-directions-button [routerLink]="['/routes']"  #directions ></app-directions-button>
-    <app-indoor-map 
-        *ngIf="mapLoaded" 
+    <app-directions-button
+        [routerLink]="['/routes']"
+        #directions
+    ></app-directions-button>
+    <app-indoor-map
+        *ngIf="mapLoaded"
         [map]="mapModel"
         [indoorMapBuildingCode]="indoorMapBuildingCode"
-        [indoorMapLevel]="indoorMapLevel">
+        [indoorMapLevel]="indoorMapLevel"
+    >
     </app-indoor-map>
 
-    <app-toggle-campus #toggle (toggleChange)='switchCampus()'></app-toggle-campus>
+    <app-toggle-campus
+        #toggle
+        (toggleChange)="switchCampus()"
+    ></app-toggle-campus>
 
-    <app-toggle-floors 
-        #switchFloor 
-        [availableFloors]="availableFloors" 
-        (toggledFloor)='switchFloors($event)'>
+    <app-toggle-floors
+        #switchFloor
+        [availableFloors]="availableFloors"
+        (toggledFloor)="switchFloors($event)"
+    >
     </app-toggle-floors>
-
-
-
 </ion-content>

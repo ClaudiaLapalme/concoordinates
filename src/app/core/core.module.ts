@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { IonicModule } from '@ionic/angular';
@@ -36,7 +36,8 @@ import {
     imports: [
         CommonModule,
         IonicModule.forRoot(),
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
     ],
     providers: [
         LocationService,

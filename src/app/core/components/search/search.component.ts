@@ -1,114 +1,112 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { PlacesService } from '../../services';
-
-
-
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+    @Input() map: google.maps.Map;
+    @Output() placeSelection: EventEmitter<google.maps.places.PlaceResult> = new EventEmitter<google.maps.places.PlaceResult>();
+    @Output() cancelSelection: EventEmitter<any> = new EventEmitter();
+    @Output() showControls: EventEmitter<any> = new EventEmitter();
+    @Output() removeControls: EventEmitter<any> = new EventEmitter();
 
+    showOverlay = false;
+    searching = false;
+    searchResultsArray: google.maps.places.PlaceResult[];
+    resultFound = false;
+    searchInput: FormControl = new FormControl();
+    onDestroy = new Subject<void>();
 
-  @Input() map: google.maps.Map;
-  @Output() placeSelection: EventEmitter<google.maps.places.PlaceResult> = new EventEmitter<google.maps.places.PlaceResult>();
-  @Output() cancelSelection: EventEmitter<any> = new EventEmitter();
+    constructor(private placesService: PlacesService) {}
 
-  showOverlay = false;
-  searching = false;
-  searchResultsArray: google.maps.places.PlaceResult[];
-  searchValue: string;
-  resultFound = false;
-  constructor(
-    private placesService: PlacesService,
-  ) { }
-
-  /**
-   * Call searchPOIs function based on input size
-   * @param ev event from ionChange in searchbar
-   */
-  search(ev: any) {
-    const input = this.searchValue;
-
-    // Reset search when input is empty
-    if (input.length === 0) {
-      this.restoreSearchBar();
-    } else {
-
-      // Only call search function when input is size 3
-      // or larger to help preserve resources (Library is not free)
-      if (input.length >= 3) {
-        this.showOverlay = true;
-        this.searchPOIs(input);
-      }
-
+    ngOnInit() {
+        this.searchInput.valueChanges
+            .pipe(takeUntil(this.onDestroy = new Subject<void>()
+            ))
+            .subscribe(() => {
+                this.search();
+            });
     }
-  }
+    /**
+     * Call searchPOIs function based on input size
+     * @param ev event from ionChange in searchbar
+     */
+    search() {
+        const input = this.searchInput.value;
 
-  /**
-   * Call textSearch function from placesService
-   * @param input text input from the user
-   */
-  async searchPOIs(input: string) {
+        // Reset search when input is empty
+        if (!input || input.length === 0) {
+            this.restoreSearchBar();
+        } else {
+            // Only call search function when input is size 3
+            // or larger to help preserve resources (Library is not free)
+            if (input.length >= 3) {
+                this.showOverlay = true;
+                this.searchPOIs(input);
+                this.removeControls.emit();
+            }
+        }
+    }
 
-    this.searching = true;
+    /**
+     * Call textSearch function from placesService
+     * @param input text input from the user
+     */
+    async searchPOIs(input: string) {
+        this.searching = true;
 
-    this.placesService.textSearch(this.map, input).then(res => {
-      if (res.length != 0){
-      this.searchResultsArray = res;
-      this.resultFound = true;
-      }
-      else {
-        this.resultFound = false;
-      }
-      this.searching = false;
-      console.log(res);
-      
+        this.placesService
+            .textSearch(this.map, input)
+            .then(res => {
+                if (res.length > 0) {
+                    this.searchResultsArray = res;
+                    this.resultFound = true;
+                } else {
+                    this.resultFound = false;
+                }
+                this.searching = false;
+            })
+            .catch(error => {
+                console.log(error);
+                this.resultFound = false;
+                this.searching = false;
+            });
+    }
 
-    }).catch(error=> {
-      console.log(error);
-      this.resultFound =false;
-      this.searching = false;
-    });
-  }
+    /**
+     * Empty current searchResults and hide overlay
+     * @param place Google Place Result Object
+     */
 
+    focusPOI(place: google.maps.places.PlaceResult) {
+        this.restoreSearchBar();
+        this.cancelSelection.emit();
+        this.placeSelection.emit(place);
+    }
 
+    /**
+     * Empty current searchResults and hide overlay
+     */
+    restoreSearchBar(): void {
+        this.searchResultsArray = [];
+        this.showOverlay = false;
+        this.searching = false;
+        this.showControls.emit();
+    }
 
-  /**
-   * Empty current searchResults and hide overlay
-   * @param place Google Place Result Object
-   */
-
-  focusPOI(place: google.maps.places.PlaceResult) {
-    this.restoreSearchBar();
-    this.placeSelection.emit(place);
-  }
-
-
-  /**
-   * Empty current searchResults and hide overlay
-   */
-  restoreSearchBar(): void {
-    console.log('restoring'); // debug
-    this.searchResultsArray = [];
-    this.showOverlay = false;
-    this.searching = false;
-  }
-
-  /**
-   * Restores search bar and emits a cancel event
-   *
-   */
-  cancelSearch() {
-    this.restoreSearchBar();
-    this.cancelSelection.emit();
-  }
-
-
-  ngOnInit() {}
-
-
-
+    /**
+     * Restores search bar and emits a cancel event
+     *
+     */
+    cancelSearch() {
+        this.searchInput.reset();
+        this.restoreSearchBar();
+        this.cancelSelection.emit();
+    }
 }

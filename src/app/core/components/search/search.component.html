@@ -1,7 +1,16 @@
-<ion-searchbar [(ngModel)]="searchValue" color="primary" showCancelButton="focus" (ionChange)="search($event)" (ionCancel)="cancelSearch()" (ionClear)="cancelSearch()" debounce="1000" clearIcon="'none'">
-  </ion-searchbar>
+  <div class="search-input-container">
+    <ion-item color="primary" class="custom-input-container">
+        <ion-icon *ngIf="!searchInput?.value" name="search" slot="start"></ion-icon>
+            <ion-icon *ngIf="searchInput?.value"  (click)="cancelSearch()" class="clear-icon" slot="start" name="close"></ion-icon>
+        <ion-input 
+            class="ion-text-center"
+            [formControl]="searchInput"
+            type="text" 
+            placeholder="Search"
+        ></ion-input>
+    </ion-item>
+</div>
   <div class="my-overlay" [hidden] ="!showOverlay">
-   
     <ion-list>
       <div *ngIf = "!searching && resultFound">
         <ion-item *ngFor="let item of searchResultsArray" (click)="focusPOI(item)">
