@@ -118,7 +118,7 @@ describe('MapService', () => {
 
     });
 
-    describe('trackHallBuildingDisplay', () => {
+    describe('trackBuildingsOutlinesDisplay', () => {
 
         const testBuildingName = 'Henry F. Hall Building';
        
@@ -157,7 +157,7 @@ describe('MapService', () => {
         it('should remove hall building outline at zoom 20 or more', () => {
             const { mapService } = testServiceSetup();
 
-            mapService['trackHallBuildingDisplay'](20);
+            mapService['trackBuildingsOutlinesDisplay'](20);
 
             const hallBuilding = mapService['outdoorMap'].getPOI(testBuildingName);
 
@@ -171,7 +171,7 @@ describe('MapService', () => {
             let campusMock = new MockCampus();
 
             mapService['outdoorMap'] = new OutdoorMap([campusMock]);
-            mapService['trackHallBuildingDisplay'](20);
+            mapService['trackBuildingsOutlinesDisplay'](20);
 
             expect(campusMock.removeOutlineCalled).toBeFalsy();
             expect(campusMock.displayOutlineCalled).toBeFalsy();

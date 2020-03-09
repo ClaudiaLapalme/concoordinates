@@ -6,6 +6,7 @@ import { SharedModule } from '../shared';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { BuildingInfoComponent } from './components'; 
+import { ConvertToDayOfWeek } from './pipes';
 
 @NgModule({
     imports: [
@@ -18,6 +19,7 @@ import { BuildingInfoComponent } from './components';
     declarations: [
         HomePage,
         BuildingInfoComponent,
+        ConvertToDayOfWeek
     ]
 })
 export class  HomeModule {}

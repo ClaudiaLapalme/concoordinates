@@ -4,16 +4,6 @@ import { PlaceService } from '../../../core';
 
 import IconsMovetoPath from '../../../../assets/icon/icons-moveto-paths.json';
 
-enum daysOfWeek {
-    Sun,
-    Mon,
-    Tue,
-    Wed,
-    Thu,
-    Fri,
-    Sat
-}
-
 @Component({
     selector: 'app-building-info',
     templateUrl: './building-info.component.html',
@@ -75,7 +65,7 @@ export class BuildingInfoComponent {
 
     private setBuildingWebsite(website: string): void{
 
-        if (website !== undefined) {
+        if (website) {
             this.buildingWebsite = website;
         }
         else {
@@ -85,7 +75,7 @@ export class BuildingInfoComponent {
 
     private setBuildingPhoneNumber(phoneNumber: string): void{
 
-        if (phoneNumber !== undefined) {
+        if (phoneNumber) {
             this.buildingPhoneNumber = phoneNumber;
         }
         else {
@@ -95,21 +85,13 @@ export class BuildingInfoComponent {
 
     private setBuildingSchedule(schedule): void{
 
-        if (schedule !== undefined) {
+        if (schedule) {
             this.buildingSchedule = schedule.periods;
         }
         else {
             this.buildingSchedule = undefined;
         }
     }    
-
-    /**
-     * Google days of the week are codified. This function converts them into
-     * strings using the enum at the top of the file.
-     */
-    getDayOfWeek(dayNumber: number): string {
-        return daysOfWeek[dayNumber];
-    }
 
     /**
      * Display or hide the schedule within the footer.

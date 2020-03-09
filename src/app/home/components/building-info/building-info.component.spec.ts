@@ -2,11 +2,11 @@ import { BuildingInfoComponent } from './building-info.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { CoreModule } from '../../../core';
+import { CoreModule, PlaceService } from '../../../core';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PlaceService } from '../../../core';
 import { IonPullUpFooterState } from 'ionic-pullup';
+import { ConvertToDayOfWeek } from '../../pipes';
 
 describe('BuildingInfoComponent', () => {
 
@@ -25,7 +25,8 @@ describe('BuildingInfoComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [
-                BuildingInfoComponent],
+                BuildingInfoComponent,
+                ConvertToDayOfWeek],
             imports: [
                 IonicModule.forRoot(),
                 RouterModule,
@@ -94,14 +95,6 @@ describe('BuildingInfoComponent', () => {
         it('setBuildingPhoneNumber() with valid string', () => {
             component["setBuildingSchedule"]({periods:["some random schedule"]});
             expect(component["buildingSchedule"]).toBeDefined();
-        });
-    });
-
-    describe('getDayOfWeek()', () => {
-
-        it('should return Tue', () => {
-            let day = component["getDayOfWeek"](2);
-            expect(day === 'Tue').toBeTruthy();
         });
     });
 
