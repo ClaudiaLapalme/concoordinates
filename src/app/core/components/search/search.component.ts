@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { PlacesService } from '../../services';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { stringify } from 'querystring';
+import { PlaceService } from '../../services';
 
 @Component({
   selector: 'app-search',
@@ -24,7 +24,7 @@ export class SearchComponent implements OnInit {
   searchInput: FormControl = new FormControl();
   onDestroy = new Subject<void>();
 
-  constructor(private placesService: PlacesService) { }
+  constructor(private placeService: PlaceService) { }
 
   ngOnInit() {
     this.searchInput.valueChanges
@@ -56,12 +56,12 @@ export class SearchComponent implements OnInit {
   }
 
   /**
-   * Call textSearch function from placesService
+   * Call textSearch function from placeService
    * @param input text input from the user
    */
   async searchPOIs(input: string) {
     this.searching = true;
-    this.placesService
+    this.placeService
       .textSearch(this.map, input)
       .then((res: google.maps.places.PlaceResult[]) => this.handleSearchForPOIs(res))
       .catch(error => this.handleSearchForPOIsError(error));

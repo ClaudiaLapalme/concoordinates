@@ -3,20 +3,21 @@ import { IonicModule, IonInput } from '@ionic/angular';
 
 import { SearchComponent } from './search.component';
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
-import { PlacesService } from '../../services';
+import { PlaceService } from '../../services';
+
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
   let fixture: ComponentFixture<SearchComponent>;
-  let placesServiceSpy;
+  let placeServiceSpy;
   beforeEach(async(() => {
-     placesServiceSpy = jasmine.createSpyObj('PlacesService', ['textSearch']);
+     placeServiceSpy = jasmine.createSpyObj('PlaceService', ['textSearch']);
     TestBed.configureTestingModule({
       declarations: [SearchComponent,],
       imports: [IonicModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: PlacesService, useValue: placesServiceSpy },
+        { provide: PlaceService, useValue: placeServiceSpy },
       ]
     }).compileComponents();
 
@@ -55,7 +56,7 @@ describe('SearchComponent', () => {
     it('should search for the points of intersts ', () => {
       component.searchPOIs("concordia");
       expect(component.searching).toBeTruthy;
-      placesServiceSpy.textSearch.and.returnValue(Promise.resolve("Concordia"));
+      placeServiceSpy.textSearch.and.returnValue(Promise.resolve("Concordia"));
     });
   });
 
@@ -79,7 +80,7 @@ describe('SearchComponent', () => {
 
   describe('focusPOI()', () => {
     it('should focus on the point of interests', () => { 
-      component.focusPOI(PlacesService);
+      component.focusPOI(PlaceService);
     });
   });
 

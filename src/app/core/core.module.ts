@@ -48,13 +48,8 @@ import {
         GoogleApisService,
         OutdoorPOIFactoryService,
         AbstractPOIFactoryService,
-<<<<<<< HEAD
-        PlacesService,
-        RouteFactory
-=======
         RouteFactory,
         PlaceService
->>>>>>> origin/f/US-3-building-info-display
     ],
     exports: [
         ToggleCampusComponent,
