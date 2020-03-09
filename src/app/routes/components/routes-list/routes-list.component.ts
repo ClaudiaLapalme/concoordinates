@@ -1,21 +1,21 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { Route, TransportMode } from "src/app/core";
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Route, TransportMode } from 'src/app/core';
+import { StateService } from 'src/app/shared/state.service';
 
 @Component({
-  selector: "app-routes-list",
-  templateUrl: "./routes-list.component.html",
-  styleUrls: ["./routes-list.component.scss"]
+  selector: 'app-routes-list',
+  templateUrl: './routes-list.component.html',
+  styleUrls: ['./routes-list.component.scss']
 })
 export class RoutesListComponent implements OnInit {
   @Input() routes: Route[];
   @Input() routeTransportMode: TransportMode;
-  constructor() {}
+  constructor(private router: Router, private stateService: StateService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
   displayRoute(i: number) {
-    const selectedRoute = this.routes[i];
-    console.log(selectedRoute);
-
-    // redirect to other page and send route along with it
+    this.stateService.sharedRoute = this.routes[i];;
+    this.router.navigateByUrl('rendered-routes');
   }
 }
