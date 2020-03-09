@@ -7,7 +7,11 @@ const routes: Routes = [
     {
         path: 'routes',
         loadChildren: () => import('./routes/routes.module').then(m => m.RoutesPageModule)
-    }
+    },  {
+    path: 'rendered-routes',
+    loadChildren: () => import('./rendered-routes/rendered-routes.module').then( m => m.RenderedRoutesPageModule)
+  }
+
 
 ];
 
