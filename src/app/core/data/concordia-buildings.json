@@ -1,322 +1,450 @@
 {
     "H": {
         "name": "Henry F. Hall Building",
-        "coordinates": {"lat": 45.497059, "lng": -73.578581}
+        "coordinates": {"lat": 45.497059, "lng": -73.578581},
+        "placeId": "ChIJOdZtY2oayUwR8CdYQcbKhZ4",
+        "picture": "hall.jpg"
     },
 
     "B": {
         "name": "B Annex",
-        "coordinates": {"lat": 45.497858, "lng": -73.579433}
+        "coordinates": {"lat": 45.497858, "lng": -73.579433},
+        "placeId": "ChIJe3KOJ0AayUwR9sonRY4HQTU",
+        "picture": "sgw-annex.jpg"
     },
     
     "MU": {
         "name": "MU Annex",
-        "coordinates": {"lat": 45.497861, "lng": -73.579548}
+        "coordinates": {"lat": 45.497861, "lng": -73.579548},
+        "placeId": "ChIJr1inJ0AayUwRIGIX6RGGpAs",
+        "picture": "sgw-annex.jpg"
     },
 
     "D": {
         "name": "D Annex",
-        "coordinates": {"lat": 45.497761, "lng": -73.579355}
+        "coordinates": {"lat": 45.497761, "lng": -73.579355},
+        "placeId": "ChIJ92PKgmoayUwR6yekNmZG9o0",
+        "picture": "sgw-annex.jpg"
     },
 
     "MI": {
         "name": "MI Annex",
-        "coordinates": {"lat": 45.497722, "lng": -73.579264}
+        "coordinates": {"lat": 45.497722, "lng": -73.579264},
+        "placeId": "ChIJYdCegmoayUwR3YmcOi2PeiQ",
+        "picture": "sgw-annex.jpg"
     },
 
     "S": {
         "name": "S Annex",
-        "coordinates": {"lat": 45.497371, "lng": -73.579865}
+        "coordinates": {"lat": 45.497371, "lng": -73.579865},
+        "placeId": "ChIJBaBammoayUwRIBV2ky9Lt-A",
+        "picture": "sgw-annex.jpg"
     },
 
     "CI": {
         "name": "CI Annex",
-        "coordinates": {"lat": 45.497412, "lng": -73.579951}
+        "coordinates": {"lat": 45.497412, "lng": -73.579951},
+        "placeId": "ChIJleIxmmoayUwRfhCxEIMeY5Q",
+        "picture": "sgw-annex.jpg"
     },
 
     "V": {
         "name": "V Annex",
-        "coordinates": {"lat": 45.497022, "lng": -73.580014}
+        "coordinates": {"lat": 45.497022, "lng": -73.580014},
+        "placeId": "ChIJFUO_kWoayUwR_PYA8AHTEzo",
+        "picture": "sgw-annex.jpg"
     },
 
     "PR": {
         "name": "PR Annex",
-        "coordinates": {"lat": 45.496984, "lng": -73.579939}
+        "coordinates": {"lat": 45.496984, "lng": -73.579939},
+        "placeId": "ChIJ_TMcjmoayUwR_34ZfTTm7J4",
+        "picture": "sgw-annex.jpg"
     },
 
     "Z": {
         "name": "Z Annex",
-        "coordinates": {"lat": 45.496916, "lng": -73.579740}
+        "coordinates": {"lat": 45.496916, "lng": -73.579740},
+        "placeId": "ChIJN-DXjWoayUwRqFCovJjmZho",
+        "picture": "sgw-annex.jpg"
     },
 
     "X": {
         "name": "X Annex",
-        "coordinates": {"lat": 45.496880, "lng": -73.579677}
+        "coordinates": {"lat": 45.496880, "lng": -73.579677},
+        "placeId": "ChIJoYskjGoayUwRviwt9dpuY0A",
+        "picture": "sgw-annex.jpg"
     },
 
     "LD": {
         "name": "LD Builing",
-        "coordinates": {"lat": 45.496900, "lng": -73.579521}
+        "coordinates": {"lat": 45.496900, "lng": -73.579521},
+        "placeId": "ChIJXesHE2oayUwR_TryAMUYRfw",
+        "picture": "sgw.jpg"
     },
 
     "FA": {
         "name": "FA Annex",
-        "coordinates": {"lat": 45.496798, "lng": -73.579488}
+        "coordinates": {"lat": 45.496798, "lng": -73.579488},
+        "placeId": "ChIJ5zeNi2oayUwRJ1P35TbVH1E",
+        "picture": "sgw-annex.jpg"
     },
 
     "R": {
         "name": "R Annex",
-        "coordinates": {"lat": 45.496779, "lng": -73.579409}
+        "coordinates": {"lat": 45.496779, "lng": -73.579409},
+        "placeId": "ChIJfZELi2oayUwRwTj4X8RGrWA",
+        "picture": "sgw-annex.jpg"
     },
 
     "RR": {
         "name": "RR Annex",
-        "coordinates": {"lat": 45.496749, "lng": -73.579331}
+        "coordinates": {"lat": 45.496749, "lng": -73.579331},
+        "placeId": "ChIJi1JZimoayUwRJK1MvEVZK74",
+        "picture": "sgw-annex.jpg"
     },
 
     "T": {
         "name": "T Annex",
-        "coordinates": {"lat": 45.496670, "lng": -73.579269}
+        "coordinates": {"lat": 45.496670, "lng": -73.579269},
+        "placeId": "ChIJtzq-imoayUwRcpplCi7U6Vw",
+        "picture": "sgw-annex.jpg"
     },
 
     "P": {
         "name": "P Annex",
-        "coordinates": {"lat": 45.496677, "lng": -73.579146}
+        "coordinates": {"lat": 45.496677, "lng": -73.579146},
+        "placeId": "ChIJkbDSYWoayUwRje6rOs4wz_A",
+        "picture": "sgw-annex.jpg"
     },
 
     "Q": {
         "name": "Q Annex",
-        "coordinates": {"lat": 45.496615, "lng": -73.579090}
+        "coordinates": {"lat": 45.496615, "lng": -73.579090},
+        "placeId": "ChIJtZBuYGoayUwRj6vt1LAVN9g",
+        "picture": "sgw-annex.jpg"
     },
 
     "LB": {
         "name": "McConnell Building Webster Library",
-        "coordinates": {"lat": 45.496976, "lng": -73.578173}
+        "coordinates": {"lat": 45.496976, "lng": -73.578173},
+        "placeId": "ChIJz2SwbmoayUwR5_D4CXsr5eM",
+        "picture": "lb.jpg"
     },
 
     "LS": {
         "name": "LS Building",
-        "coordinates": {"lat": 45.496249, "lng": -73.579475}
+        "coordinates": {"lat": 45.496249, "lng": -73.579475},
+        "placeId": "ChIJq2Uq9moayUwRvgUECV4Brnc",
+        "picture": "sgw.jpg"
     },
 
     "GM": {
         "name": "Guy-De Maisonneuve Building",
-        "coordinates": {"lat": 45.495828, "lng": -73.578727}
+        "coordinates": {"lat": 45.495828, "lng": -73.578727},
+        "placeId": "ChIJxw8fUGoayUwRids8rbfwhNI",
+        "picture": "sgw.jpg"
     },
 
     "EV": {
-        "name": "Engineering, Computer Science and Visual Arts Integrated Complex",
-        "coordinates": {"lat": 45.495499, "lng": -73.577788}
+        "name": "EV Building",
+        "coordinates": {"lat": 45.495499, "lng": -73.577788},
+        "placeId": "ChIJV45txj4byUwR_lSF--cnY2M",
+        "picture": "ev.jpg"
     },
 
     "MB": {
         "name": "John Molson Building",
-        "coordinates": {"lat": 45.495341, "lng": -73.579000}
+        "coordinates": {"lat": 45.495341, "lng": -73.579000},
+        "placeId": "ChIJgSlJUmoayUwR--CfmxFvtcM",
+        "picture": "mb.jpg"
     },
 
     "GS": {
         "name": "GS Building",
-        "coordinates": {"lat": 45.496581, "lng": -73.581197}
+        "coordinates": {"lat": 45.496581, "lng": -73.581197},
+        "placeId": "ChIJdbiBwWoayUwRZNEPhzrP1Gk",
+        "picture": "sgw.jpg"
     },
 
     "FB": {
         "name": "Faubourg Building",
-        "coordinates": {"lat": 45.494686, "lng": -73.577673}
+        "coordinates": {"lat": 45.494686, "lng": -73.577673},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "sgw.jpg"
     },
 
     "FG": {
         "name": "Faubourg Ste-Catherine Building",
-        "coordinates": {"lat": 45.494250, "lng": -73.578494}
+        "coordinates": {"lat": 45.494250, "lng": -73.578494},
+        "placeId": "ChIJWS880msayUwRUTGA2lqg0LA",
+        "picture": "fg.jpg"
     },
 
     "GN": {
         "name": "Grey Nuns Building",
-        "coordinates": {"lat": 45.493472, "lng": -73.576295}
+        "coordinates": {"lat": 45.493472, "lng": -73.576295},
+        "placeId": "ChIJ_aAMaWkayUwRl5tahnXtNt8",
+        "picture": "sgw.jpg"
     },
 
     "GA": {
         "name": "GA Annex",
-        "coordinates": {"lat": 45.493505, "lng": -73.578939}
+        "coordinates": {"lat": 45.493505, "lng": -73.578939},
+        "placeId": "ChIJ4Qwd3GsayUwRbthZ9YIe90M",
+        "picture": "sgw.jpg"
     },
 
     "CL": {
         "name": "CL Annex",
-        "coordinates": {"lat": 45.494235, "lng": -73.579293}
+        "coordinates": {"lat": 45.494235, "lng": -73.579293},
+        "placeId": "ChIJ-aOOv2sayUwR_yIIibMljzc",
+        "picture": "sgw.jpg"
     },
 
     "TD": {
         "name": "Toronto-Dominion Building",
-        "coordinates": {"lat": 45.494660, "lng": -73.578665}
+        "coordinates": {"lat": 45.494660, "lng": -73.578665},
+        "placeId": "ChIJhRaZymsayUwRuhlYx-hXCOU",
+        "picture": "sgw.jpg"
     },
 
     "SB": {
         "name": "Samuel Bronfman Building",
-        "coordinates": {"lat": 45.496575, "lng": -73.586149}
+        "coordinates": {"lat": 45.496575, "lng": -73.586149},
+        "placeId": "ChIJUTVSqhUayUwRFJGgrRDet0c",
+        "picture": "sgw.jpg"
     },
 
     "CB": {
         "name": "CB Building",
-        "coordinates": {"lat": 45.495233, "lng": -73.574046}
+        "coordinates": {"lat": 45.495233, "lng": -73.574046},
+        "placeId": "ChIJt-pRrmkayUwRV93o8J3Yhrg",
+        "picture": "sgw.jpg"
     },
 
     "VA": {
         "name": "Visual Arts Building",
-        "coordinates": {"lat": 45.495612, "lng": -73.573700}
+        "coordinates": {"lat": 45.495612, "lng": -73.573700},
+        "placeId": "ChIJrQ3XtmkayUwRIF17i36u0uk",
+        "picture": "va.jpg"
     },
 
     "EN": {
         "name": "EN Annex",
-        "coordinates": {"lat": 45.496749, "lng": -73.579699}
+        "coordinates": {"lat": 45.496749, "lng": -73.579699},
+        "placeId": "ChIJ5T8fjGoayUwR1huYd9qMH-o",
+        "picture": "sgw.jpg"
     },
 
     "ER": {
         "name": "ER Building",
-        "coordinates": {"lat": 45.496348, "lng": -73.579939}
+        "coordinates": {"lat": 45.496348, "lng": -73.579939},
+        "placeId": "ChIJa59j8GoayUwR1ntPbcep6Qw",
+        "picture": "sgw.jpg"
     },
 
     "K": {
         "name": "K Annex",
-        "coordinates": {"lat": 45.497916, "lng": -73.579546}
+        "coordinates": {"lat": 45.497916, "lng": -73.579546},
+        "placeId": "ChIJC_JDnWoayUwRjavnG6oPjeo",
+        "picture": "sgw-annex.jpg"
     },
 
     "AD": {
         "name": "Administration Building",
-        "coordinates": {"lat": 45.458054, "lng": -73.639812}
+        "coordinates": {"lat": 45.458054, "lng": -73.639812},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "FC": {
         "name": "F. C. Smith Building",
-        "coordinates": {"lat": 45.458519, "lng": -73.639241}
+        "coordinates": {"lat": 45.458519, "lng": -73.639241},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "CC": {
         "name": "Central Building",
-        "coordinates": {"lat": 45.458344, "lng": -73.640343}
+        "coordinates": {"lat": 45.458344, "lng": -73.640343},
+        "placeId": "ChIJp3MoHy4XyUwRkr_5bwBScNw",
+        "picture": "loyola.jpg"
     },
 
     "RF": {
         "name": "Loyola Jesuit Hall and Conference Center",
-        "coordinates": {"lat": 45.458517, "lng": -73.641051}
+        "coordinates": {"lat": 45.458517, "lng": -73.641051},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "SP": {
         "name": "Richard J. Renaud Science Complex",
-        "coordinates": {"lat": 45.457606, "lng": -73.641735}
+        "coordinates": {"lat": 45.457606, "lng": -73.641735},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "SI": {
         "name": "St. Ignatius of Loyola Church",
-        "coordinates": {"lat": 45.457836, "lng": -73.642283}
+        "coordinates": {"lat": 45.457836, "lng": -73.642283},
+        "placeId": "ChIJq9xZyi8XyUwRone8HcAc-WM",
+        "picture": "loyola.jpg"
     },
 
     "JR": {
         "name": "Jesuit Residence",
-        "coordinates": {"lat": 45.458501, "lng": -73.643252}
+        "coordinates": {"lat": 45.458501, "lng": -73.643252},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "PY": {
         "name": "Psychology Building",
-        "coordinates": {"lat": 45.458998, "lng": -73.640494}
+        "coordinates": {"lat": 45.458998, "lng": -73.640494},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "HU": {
         "name": "Applied Science Hub",
-        "coordinates": {"lat": 45.458527, "lng": -73.641745}
+        "coordinates": {"lat": 45.458527, "lng": -73.641745},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "GE": {
         "name": "Center for Structural and Functional Genomics",
-        "coordinates": {"lat": 45.457022, "lng": -73.640307}
+        "coordinates": {"lat": 45.457022, "lng": -73.640307},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "PS": {
         "name": "Physical Services Building",
-        "coordinates": {"lat": 45.459675, "lng": -73.639840}
+        "coordinates": {"lat": 45.459675, "lng": -73.639840},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "BH": {
         "name": "BH Annex",
-        "coordinates": {"lat": 45.459731, "lng": -73.639121}
+        "coordinates": {"lat": 45.459731, "lng": -73.639121},
+        "placeId": "ChIJKV9cljEXyUwR9ttxutzGRio",
+        "picture": "loyola.jpg"
     },
 
     "TA": {
         "name": "Terrebone Building",
-        "coordinates": {"lat": 45.459998, "lng": -73.640886}
+        "coordinates": {"lat": 45.459998, "lng": -73.640886},
+        "placeId": "ChIJd2AzszEXyUwRUSc9Qf3t_F8",
+        "picture": "loyola.jpg"
     },
 
     "SC": {
         "name": "Student Center",
-        "coordinates": {"lat": 45.459160, "lng": -73.639152}
+        "coordinates": {"lat": 45.459160, "lng": -73.639152},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "VE": {
         "name": "Vanier Extension",
-        "coordinates": {"lat": 45.458792, "lng": -73.638637}
+        "coordinates": {"lat": 45.458792, "lng": -73.638637},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "VL": {
         "name": "Vanier Library Building",
-        "coordinates": {"lat": 45.459020, "lng": -73.638508}
+        "coordinates": {"lat": 45.459020, "lng": -73.638508},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "PT": {
         "name": "Oscar Peterson Concert Hall ",
-        "coordinates": {"lat": 45.459317, "lng": -73.638910}
+        "coordinates": {"lat": 45.459317, "lng": -73.638910},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "BB": {
         "name": "BB Annex",
-        "coordinates": {"lat": 45.459806, "lng": -73.639303}
+        "coordinates": {"lat": 45.459806, "lng": -73.639303},
+        "placeId": "EjIzNTAyIEF2ZW51ZSBCZWxtb3JlLCBNb250csOpYWwsIFFDIEg0QiAyQjksIENhbmFkYSIxEi8KFAoSCdMwbZExF8lMEVnDyhhhq1H4EK4bKhQKEglFNrVPOhfJTBEbKo7UYTAfow",
+        "picture": "loyola.jpg"
     },
 
     "CJ": {
         "name": "Communication Studies and Journalism Building",
-        "coordinates": {"lat": 45.457324, "lng": -73.640414}
+        "coordinates": {"lat": 45.457324, "lng": -73.640414},
+        "placeId": "ChIJp3MoHy4XyUwRkr_5bwBScNw",
+        "picture": "loyola.jpg"
     },
 
     "DO": {
         "name": "Stinger Dome",
-        "coordinates": {"lat": 45.457636, "lng": -73.636054}
+        "coordinates": {"lat": 45.457636, "lng": -73.636054},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "stinger-dome.jpg"
     },
 
     "HA": {
         "name": "Hingston Hall, wing HA",
-        "coordinates": {"lat": 45.459456, "lng": -73.641194}
+        "coordinates": {"lat": 45.459456, "lng": -73.641194},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "HB": {
         "name": "Hingston Hall, wing HB",
-        "coordinates": {"lat": 45.459140, "lng": -73.641969}
+        "coordinates": {"lat": 45.459140, "lng": -73.641969},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "HC": {
         "name": "Hingston Hall, wing HC",
-        "coordinates": {"lat": 45.459672, "lng": -73.642033}
+        "coordinates": {"lat": 45.459672, "lng": -73.642033},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "SH": {
         "name": "Solar House",
-        "coordinates": {"lat": 45.459490, "lng": -73.642586}
+        "coordinates": {"lat": 45.459490, "lng": -73.642586},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "PC": {
         "name": "PERFORM Center",
-        "coordinates": {"lat": 45.456875, "lng": -73.637129}
+        "coordinates": {"lat": 45.456875, "lng": -73.637129},
+        "placeId": "ChIJK-bmBy4XyUwRK1OxRHQDNP4",
+        "picture": "loyola.jpg"
     },
 
     "RA": {
         "name": "Recreation and Athletics Complex",
-        "coordinates": {"lat": 45.456638, "lng": -73.637472}
+        "coordinates": {"lat": 45.456638, "lng": -73.637472},
+        "placeId": "ChIJK-bmBy4XyUwRK1OxRHQDNP4",
+        "picture": "loyola.jpg"
     },
 
     "QA": {
         "name": "Quadrangle",
-        "coordinates": {"lat": 45.458674, "lng": -73.640036}
+        "coordinates": {"lat": 45.458674, "lng": -73.640036},
+        "placeId": "ChIJL7mz8TEXyUwRxy-bkbOuSBE",
+        "picture": "loyola.jpg"
     },
 
     "M": {
         "name": "M Annex",
-        "coordinates": {"lat": 45.497326, "lng": -73.579773}
+        "coordinates": {"lat": 45.497326, "lng": -73.579773},
+        "placeId": "ChIJf9KSmmoayUwRNvoDLZmSFR4",
+        "picture": "sgw-annex.jpg"
     }
 
 }
