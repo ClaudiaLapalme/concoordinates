@@ -15,6 +15,7 @@ export class Building extends OutdoorPOI {
     private buildingInformation: BuildingInformation;
     private buildingLabel: google.maps.Marker;
     private buildingPicturePath: string;
+    private buildingCode: string;
 
     constructor(
         name: string,
@@ -23,9 +24,10 @@ export class Building extends OutdoorPOI {
 
         super(name, coordinates);
 
-        this.setBuildingOutline(code);
-        this.setBuildingInformation(code);
-        this.setBuildingLabel(code);
+        this.buildingCode = code;
+        this.setBuildingOutline();
+        this.setBuildingInformation();
+        this.setBuildingLabel();
     }
 
     createBuildingOutline(mapRef: google.maps.Map<Element>, placeService: PlaceService): void {
@@ -42,10 +44,7 @@ export class Building extends OutdoorPOI {
 
     removeBuildingLabel(): void {
 
-        if(this.buildingLabel != null) {
-
-            this.buildingLabel.setVisible(false);
-        }
+        this.buildingLabel.setVisible(false);
     }
 
     displayBuildingOutline(): void {
@@ -69,10 +68,10 @@ export class Building extends OutdoorPOI {
         });
     }
 
-    private setBuildingOutline(code: string): void {
+    private setBuildingOutline(): void {
 
         const outlineAttributes: OutlineAttributes = {
-            paths: BuildingsOutlineCoordinates[code],
+            paths: BuildingsOutlineCoordinates[this.buildingCode],
             strokeColor: '#000000',
             strokeOpacity: 0.6,
             strokeWeight: 2,
@@ -83,35 +82,35 @@ export class Building extends OutdoorPOI {
         this.buildingOutline = new google.maps.Polygon(outlineAttributes);
     }
 
-    private setBuildingLabel(code: string): void {
+    private setBuildingLabel(): void {
 
-        const boundsCenter = this.centerOfPolygon(code);
+        const boundsCenter = this.getCenterOfPolygon();
 
         this.buildingLabel = new google.maps.Marker({
-            label: {text: code, color: 'white'},
+            label: {text: this.buildingCode, color: 'white'},
             icon:'../assets/icon/TransparentMarker.png',
             position: boundsCenter
         });
     }
 
-    private setBuildingInformation(code: string): void {
+    private setBuildingInformation(): void {
 
-        if(ConcordiaBuildings[code] != null) {
+        if(ConcordiaBuildings[this.buildingCode] != null) {
 
             this.buildingInformation = {
-                placeId: ConcordiaBuildings[code].placeId,
+                placeId: ConcordiaBuildings[this.buildingCode].placeId,
                 fields: ['formatted_address', 'formatted_phone_number', 'opening_hours', 'website']
             };
 
-            this.buildingPicturePath =  ConcordiaBuildings[code].picture;
+            this.buildingPicturePath =  ConcordiaBuildings[this.buildingCode].picture;
         }
     }
 
-    private centerOfPolygon(code: string): google.maps.LatLng {
+    private getCenterOfPolygon(): google.maps.LatLng {
 
-        if (ConcordiaBuildings[code] != null) {
+        if (ConcordiaBuildings[this.buildingCode] != null) {
 
-            const coordinates = BuildingsOutlineCoordinates[code];
+            const coordinates = BuildingsOutlineCoordinates[this.buildingCode];
             const bounds = new google.maps.LatLngBounds();
 
             coordinates.forEach((coord: google.maps.LatLng) => bounds.extend(coord));

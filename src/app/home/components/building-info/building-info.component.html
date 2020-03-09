@@ -86,7 +86,7 @@
                         <table>
                             <tr *ngFor="let day of buildingSchedule" class="schedule-row">
                                 <td></td>
-                                <td class='schedule-day'>{{getDayOfWeek(day.close.day)}}</td>
+                                <td class='schedule-day'>{{day.close.day | convertToDayOfWeek}}</td>
                                 <td>{{day.open.time | slice:0:2}}:{{day.open.time | slice:2:4}}-{{day.close.time | slice:0:2}}:{{day.close.time | slice:2:4}}
                                 </td>
                             </tr>

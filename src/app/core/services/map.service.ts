@@ -77,7 +77,7 @@ export class MapService {
         return () => {
             console.log('mapObj', mapObj); // debug
             this.locationService.getAddressFromLatLng(latitude, longitude).then(console.log);
-            this.trackHallBuildingDisplay(mapObj.getZoom());
+            this.trackBuildingsOutlinesDisplay(mapObj.getZoom());
             this.trackBuildingCodeDisplay(mapObj.getZoom());
         };
     }
@@ -102,9 +102,11 @@ export class MapService {
     }
 
     /**
-     * When the zoom value on the map is 20 or higher, the H building outline is hidden.
+     * When the zoom value on the map is 20 or higher, the outline of the focused building is removed.
+     * Right now, only the H building is affected by this feature since it is the only building with
+     * indoor map implemented.
      */
-    private trackHallBuildingDisplay(zoomValue: number): void {
+    private trackBuildingsOutlinesDisplay(zoomValue: number): void {
 
         const hallBuildingName = 'Henry F. Hall Building';
         const building = this.outdoorMap.getPOI(hallBuildingName);
