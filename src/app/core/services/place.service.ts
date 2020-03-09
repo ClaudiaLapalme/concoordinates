@@ -8,6 +8,7 @@ export class PlaceService {
 
   public searchResultsResolved = new EventEmitter<Array<google.maps.places.PlaceResult>>();
   private googlePlacesService: google.maps.places.PlacesService;
+  
 
   private placeResult = new BehaviorSubject([]);
   public placeResultObservable = this.placeResult.asObservable();
@@ -44,17 +45,8 @@ export class PlaceService {
    * @param input the query string
    */
   async textSearch(map: google.maps.Map, input: string): Promise<google.maps.places.PlaceResult[]> {
-    // Retrieve users current location from locationService
     const geoPos: Geoposition = await this.locationService.getGeoposition();
 
-    // Extra options for Google Places Service
-    let options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-    };
-    // Create service obj using map reference passed
-    // Send current location, radius and text input
     return new Promise<google.maps.places.PlaceResult[]>(resolve => {
         new google.maps.places.PlacesService(map).textSearch(
             {location: {

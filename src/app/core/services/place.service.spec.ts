@@ -2,8 +2,9 @@ import { PlaceService } from './place.service';
 
 describe('PlaceService', () => {
     function testServiceSetup() {
-        const placeService: PlaceService = new PlaceService();
-        return { placeService };
+        const locationServiceSpy = jasmine.createSpyObj('LocationService', ['getGeoposition']);
+        const placeService: PlaceService = new PlaceService(locationServiceSpy);
+        return { placeService, locationServiceSpy };
     }
 
     it('should be created', () => {
