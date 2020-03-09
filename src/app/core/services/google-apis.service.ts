@@ -16,5 +16,4 @@ export class GoogleApisService {
     public createLatLng(latitude: number, longitude: number): google.maps.LatLng {
         return new google.maps.LatLng(latitude, longitude);
     }
-
 }

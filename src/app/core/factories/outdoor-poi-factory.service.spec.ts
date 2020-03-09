@@ -6,7 +6,7 @@ describe('OutdoorPoiFactoryService', () => {
   function testSetup() {
     const outdoorPOIFactory = new OutdoorPOIFactoryService();
     const testCoordinates = new Coordinates(0, 0, 0);
-    return { outdoorPOIFactory, testCoordinates };
+    return { outdoorPOIFactory, testCoordinates }
   }
 
   it('should be created', () => {
@@ -31,7 +31,7 @@ describe('OutdoorPoiFactoryService', () => {
 
       const { outdoorPOIFactory, testCoordinates } = testSetup();
 
-      const testBuilding = outdoorPOIFactory.createBuilding(testName, 'no outline', testCoordinates);
+      const testBuilding = outdoorPOIFactory.createBuilding(testName, 'H', testCoordinates);
 
       const testBuildingName = testBuilding.getName();
       const testBuildingCoordinates = testBuilding.getCoordinates();

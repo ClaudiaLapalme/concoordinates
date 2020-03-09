@@ -5,6 +5,7 @@ import { LocationService } from './location.service';
 import { Map, Building } from '../models';
 import { OutdoorMap } from '../models/outdoor-map';
 import { OutdoorPOIFactoryService } from '../factories';
+import { PlaceService } from './place.service';
 
 @Injectable()
 export class MapService {
@@ -13,7 +14,8 @@ export class MapService {
 
     constructor(
         private locationService: LocationService,
-        private googleApis: GoogleApisService
+        private googleApis: GoogleApisService,
+        private placeService: PlaceService
     ){ this.loadOutdoorMap(); }
 
     icon: google.maps.Icon = {
@@ -51,6 +53,7 @@ export class MapService {
 
                 const mapObj = this.googleApis.createMap(mapElement, mapOptions);
                 this.googleApis.createMarker(latLng, mapObj, this.icon);
+                this.placeService.enableService(mapObj);
 
                 this.displayBuildingsOutline(mapObj);
 
@@ -69,38 +72,44 @@ export class MapService {
         }
     }
 
-    private tilesLoadedHandler(mapObj: google.maps.Map, latitude: number, longitude: number) {
+    private tilesLoadedHandler(mapObj: google.maps.Map, latitude: number, longitude: number): () => void {
+
         return () => {
             console.log('mapObj', mapObj); // debug
             this.locationService.getAddressFromLatLng(latitude, longitude).then(console.log);
-            this.trackHallBuildingDisplay(mapObj.getZoom());
+            this.trackBuildingsOutlinesDisplay(mapObj.getZoom());
+            this.trackBuildingCodeDisplay(mapObj.getZoom());
         };
     }
 
     private loadOutdoorMap(): void {
 
-        let outdoorPOIFactory = new OutdoorPOIFactoryService();
+        const outdoorPOIFactory = new OutdoorPOIFactoryService();
 
         this.outdoorMap = new OutdoorMap(outdoorPOIFactory.loadOutdoorPOIs());
     }
 
-    private displayBuildingsOutline(mapRef: google.maps.Map<Element>) {
+    private displayBuildingsOutline(mapRef: google.maps.Map<Element>): void {
 
-        let outdoorPOIs = this.outdoorMap.getPOIs();
+        const outdoorPOIs = this.outdoorMap.getPOIs();
 
         for (let outdoorPOI of outdoorPOIs) {
 
             if (outdoorPOI instanceof Building) {
-                outdoorPOI.createBuildingOutline(mapRef);
+                outdoorPOI.createBuildingOutline(mapRef, this.placeService);
             }
         }
-
     }
 
-    private trackHallBuildingDisplay(zoomValue: number): void {
+    /**
+     * When the zoom value on the map is 20 or higher, the outline of the focused building is removed.
+     * Right now, only the H building is affected by this feature since it is the only building with
+     * indoor map implemented.
+     */
+    private trackBuildingsOutlinesDisplay(zoomValue: number): void {
 
-        let hallBuildingName = 'Henry F. Hall Building';
-        let building = this.outdoorMap.getPOI(hallBuildingName);
+        const hallBuildingName = 'Henry F. Hall Building';
+        const building = this.outdoorMap.getPOI(hallBuildingName);
 
         if (building instanceof Building) {
             if (zoomValue >= 20) {
@@ -108,6 +117,26 @@ export class MapService {
             }
             else {
                 building.displayBuildingOutline();
+            }
+        }
+    }
+
+    /**
+     * When the zoom value on the map is 18 or higher, the labels on the Concordia Buildings are displayed.
+     */
+    private trackBuildingCodeDisplay(zoomValue: number): void {
+        
+        const outdoorPOIs = this.outdoorMap.getPOIs();
+
+        for (let outdoorPOI of outdoorPOIs) {
+
+            if (outdoorPOI instanceof Building) {
+                if (zoomValue >= 18) {
+                    outdoorPOI.displayBuildingLabel();
+                }
+                else {
+                    outdoorPOI.removeBuildingLabel();
+                }
             }
         }
     }

@@ -7,13 +7,36 @@ class Polygon{
 
 	visible = false;
 
-	 setMap(){};
-	 setVisible(value){
+	setMap(){};
+	setVisible(value){
 		this.visible = value;
-	 };
-	 getVisible(){
-		 return this.visible;
-	 };
+	};
+	getVisible(){
+		return this.visible;
+	};
+	addListener(){};
+}
+
+class Marker{
+
+	visible = false;
+
+	setMap(){};
+	setVisible(value){
+	   this.visible = value;
+	};
+	getVisible(){
+		return this.visible;
+	};
+}
+
+class DirectionsService{
+	route(dirRequest, res, status){};
+}
+
+class LatLngBounds{
+    extend(){};
+    getCenter(){};
 }
 
 let google = {
@@ -25,15 +48,16 @@ let google = {
 			}
         },
         Marker : function () {
+			return new Marker;
         },
         InfoWindow : function () {
-        },
-        LatLng: function(lat, lng){
+		},
+		LatLng: function(lat, lng){
         	return [lat, lng];
 		},
 		LatLngBounds: function(sw, ne) {
-			return null;
-		},
+            return new LatLngBounds
+        },
         Map: function(obj){
 
 		},
@@ -42,6 +66,9 @@ let google = {
 		},
 		Polygon: function(){
 			return new Polygon;
+		},
+		DirectionsService: function(){
+			return new DirectionsService;
 		},
         MapTypeId: {ROADMAP: true},
         places: {
@@ -58,7 +85,10 @@ let google = {
 	        		},
 	        		nearbySearch: function(query){
 	        			return [];
-	        		}
+					},
+					getDetails: function(){
+						return ['details'];
+					}
     			};	
     		}
         }

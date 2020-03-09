@@ -1,0 +1,99 @@
+<lib-ionic-pullup
+    (onExpand)="footerExpanded()"
+    (onCollapse)="footerCollapsed()"
+    [(state)]="footerState"
+    [toolbarTopMargin]="0"
+    [minBottomVisible]="0">
+    <div *ngIf="buildingInfoLoaded" class='footer'>
+        <div class='container-top-block'>
+            <div class='container-top-right'>
+                <img class='picture' src="../../../../assets/buildings/{{buildingPicturePath}}">
+                <div class='container-name-directions'>
+                    <div *ngIf="buildingName" class='text building-name'>{{buildingName}}</div>
+                    <div *ngIf="!buildingName" class='text building-name'>Unavalaible</div>
+                    <div class='button-directions text'>Directions</div>
+                </div>
+            </div>
+            <div class='exit-button'
+                (click)="toggleFooter()">
+                <svg width="15" height="15" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill=var(--ion-color-primary-contrast)
+                        [attr.d]="exitIcon"/></svg>
+            </div>
+        </div>
+        <div class='line'></div>
+        <div class='container-bottom-block'>
+            <table>
+                <tr class='container-left-info'>
+                    <td class='container-icon'>
+                        <svg width="25" height="25" viewBox="0 0 14 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill=var(--ion-color-secondary)
+                                [attr.d]="locationIcon"/></svg>
+                    </td>
+                    <td *ngIf="buildingAddress" class='text info'>{{buildingAddress}}</td>
+                    <td *ngIf="!buildingAddress" class='text info'>Unavailable</td>
+                </tr>
+                <tr class='container-left-info'>
+                    <td class='container-icon'>
+                        <svg width="25" height="25" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill=var(--ion-color-secondary)
+                                [attr.d]="websiteIcon"/></svg>
+                    </td>
+                    <td *ngIf="buildingWebsite">
+                        <a href="{{buildingWebsite}}">
+                            <div class='text info'>{{buildingWebsite}}</div>
+                        </a>
+                    </td>
+                    <td *ngIf="!buildingWebsite" class='text info'>Unavailable</td>
+                </tr>
+                <tr class='container-left-info'>
+                    <td class='container-icon'>
+                        <svg width="25" height="25" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill=var(--ion-color-secondary)
+                                [attr.d]="phoneIcon"/></svg>
+                    </td>
+                    <td *ngIf="buildingPhoneNumber" class='text info'>{{buildingPhoneNumber}}</td>
+                    <td *ngIf="!buildingPhoneNumber" class='text info'>Unavailable</td>
+                </tr>
+            </table>
+            <table class='text container-schedule'>
+                <tr>
+                    <td class='schedule-icon'>
+                        <svg width="25" height="25" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill=var(--ion-color-secondary)
+                                [attr.d]=clockCircleIcon/>
+                            <path fill=var(--ion-color-secondary)
+                                [attr.d]="clockHandsIcon"/></svg>
+                    </td>
+                    <td class='title-schedule'>Schedule</td>
+                    <td *ngIf="displaySchedule" class='schedule-arrow'>
+                        <svg width="20" height="20" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            (click)="toggleSchedule()">
+                            <path fill=var(--ion-color-primary-contrast) 
+                                [attr.d]="downArrowIcon"/></svg>
+                    </td>
+                    <td *ngIf="!displaySchedule" class='schedule-arrow'>
+                        <svg width="20" height="20" viewBox="0 -4 10 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            (click)="toggleSchedule()" >
+                            <path fill="white"
+                                [attr.d]="upArrowIcon"/></svg>
+                    </td>
+                </tr>
+                <tr *ngIf="displaySchedule">
+                    <td></td>
+                    <td *ngIf="!buildingSchedule" colspan="2">Unavailable</td>
+                    <td *ngIf="buildingSchedule" colspan="2" class="container-days">
+                        <table>
+                            <tr *ngFor="let day of buildingSchedule" class="schedule-row">
+                                <td></td>
+                                <td class='schedule-day'>{{day.close.day | convertToDayOfWeek}}</td>
+                                <td>{{day.open.time | slice:0:2}}:{{day.open.time | slice:2:4}}-{{day.close.time | slice:0:2}}:{{day.close.time | slice:2:4}}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</lib-ionic-pullup>
