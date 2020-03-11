@@ -36,18 +36,12 @@ describe('SearchComponent', () => {
       expect(component.searchResultsArray).toEqual([]);
       expect(component.showOverlay).toBeFalsy();
       expect(component.searching).toBeFalsy();
-      //spyOn(component.showControls, 'emit').and.callThrough();
-      //fixture.detectChanges();
-      //expect(component.showControls).toHaveBeenCalled();
-
-
     });
 
     it('should trigger search for POIS', () => {
       let key = "value";
       component.searchInput[key] = "concordia";
       component.search();
-      //expect(component.search()).toBeTruthy();s
     });
 
   });

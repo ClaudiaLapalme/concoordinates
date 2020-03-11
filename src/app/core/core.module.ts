@@ -36,7 +36,7 @@ import {
     ],
     imports: [
         CommonModule,
-        IonicModule.forRoot(),
+        IonicModule,
         FormsModule,
         ReactiveFormsModule
     ],

@@ -67,6 +67,10 @@ export class SearchComponent implements OnInit {
       .catch(error => this.handleSearchForPOIsError(error));
   }
 
+  /**
+   * Handles valid result received from place service text search function 
+   * @param res Array of Google PlaceResult objects
+   */
   private handleSearchForPOIs(res: google.maps.places.PlaceResult[]): void {
     if (res.length > 0) {
       this.searchResultsArray = res;
@@ -77,17 +81,21 @@ export class SearchComponent implements OnInit {
     this.searching = false;
   }
 
+
+  /**
+   * Handles any error received from place service text search function 
+   * @param error Error response 
+   */
   private handleSearchForPOIsError(error: any): void {
-    console.log(error);
+    console.log(error); //debug
     this.resultFound = false;
     this.searching = false;
   }
 
   /**
-   * Empty current searchResults and hide overlay
+   * Restore search bar and 
    * @param place Google Place Result Object
    */
-
   focusPOI(place: google.maps.places.PlaceResult) {
     this.restoreSearchBar();
     this.cancelSelection.emit();
@@ -95,7 +103,8 @@ export class SearchComponent implements OnInit {
   }
 
   /**
-   * Empty current searchResults and hide overlay
+   * Restores initial state of the search bar and 
+   * re-displays the home page controls
    */
   restoreSearchBar(): void {
     this.searchResultsArray = [];
@@ -105,7 +114,8 @@ export class SearchComponent implements OnInit {
   }
 
   /**
-   * Restores search bar and emits a cancel event
+   * Resets form input and calls
+   * restoreSearchBar function
    */
   cancelSearch() {
     this.searchInput.reset();
