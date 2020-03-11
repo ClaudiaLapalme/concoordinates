@@ -11,7 +11,7 @@ describe('SearchComponent', () => {
   let fixture: ComponentFixture<SearchComponent>;
   let placeServiceSpy;
   beforeEach(async(() => {
-     placeServiceSpy = jasmine.createSpyObj('PlaceService', ['textSearch']);
+    placeServiceSpy = jasmine.createSpyObj('PlaceService', ['textSearch']);
     TestBed.configureTestingModule({
       declarations: [SearchComponent,],
       imports: [IonicModule.forRoot()],
@@ -33,13 +33,13 @@ describe('SearchComponent', () => {
   describe('search()', () => {
     it('should restore search bar when input is empty', () => {
       component.search();
-       expect(component.searchResultsArray).toEqual([]);
+      expect(component.searchResultsArray).toEqual([]);
       expect(component.showOverlay).toBeFalsy();
       expect(component.searching).toBeFalsy();
       //spyOn(component.showControls, 'emit').and.callThrough();
       //fixture.detectChanges();
       //expect(component.showControls).toHaveBeenCalled();
-      
+
 
     });
 
@@ -52,7 +52,7 @@ describe('SearchComponent', () => {
 
   });
 
-  describe('searchPOIs()', async() => {
+  describe('searchPOIs()', async () => {
     it('should search for the points of intersts ', () => {
       component.searchPOIs("concordia");
       expect(component.searching).toBeTruthy;
@@ -79,13 +79,13 @@ describe('SearchComponent', () => {
   });
 
   describe('focusPOI()', () => {
-    it('should focus on the point of interests', () => { 
+    it('should focus on the point of interests', () => {
       component.focusPOI(PlaceService);
     });
   });
 
   describe('cancelSearch()', () => {
-    it('should cancel the search', () => { 
+    it('should cancel the search', () => {
       component.cancelSearch();
     });
   });

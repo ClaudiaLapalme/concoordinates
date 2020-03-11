@@ -106,7 +106,6 @@ export class SearchComponent implements OnInit {
 
   /**
    * Restores search bar and emits a cancel event
-   *
    */
   cancelSearch() {
     this.searchInput.reset();
