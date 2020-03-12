@@ -24,21 +24,17 @@ jobs:
       npm install puppeteer --save-dev
       npm install
     displayName: 'npm install dependencies and build'
-    continueOnError: true
     
   - script: |
       npm update
     displayName: 'Update modules'
-    continueOnError: true
 
   - script: |
        sed -i 's/G_API_KEY_PLACEHOLDER/'$SECRET_API_KEY'/g' src/index.html
     displayName: 'Update api key for tests'
-    continueOnError: true
 
   - script: ng test --watch=false --code-coverage
     displayName: 'Run ng test'
-    continueOnError: true
 
   - script: |
        curl -X POST --data '{"content":"Pipeline completed.\nPipeline Status: $(Agent.JobStatus)\nCommit tag: $(Build.SourceVersion)\n"}' -H "Accept: application/json" -H "Content-Type: application/json" $(discord_webhook)
