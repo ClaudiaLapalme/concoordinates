@@ -104,7 +104,6 @@ export class HomePage implements AfterViewInit {
 
         if (latLng !== undefined) {
             this.mapModel.setCenter(latLng);
-            this.setCurrentCenter(latLng);
         }
         else {
             console.log('the user location is undefined');
