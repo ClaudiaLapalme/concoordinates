@@ -83,4 +83,28 @@ describe('HomePage', () => {
         });
     });
 
+    describe('handleRecenter(userLatLng)', () => {
+        class MockMaps extends google.maps.Map {
+            setCenter(latLng: google.maps.LatLng): void { };
+        }
+
+        it('should set the center to the user\'s location', () => {
+            const mockMap = new MockMaps(null);
+            const latLng = new google.maps.LatLng(4, -7);
+            component.mapModel = mockMap;
+
+            component.handleRecenter(latLng);
+            expect(component.currentCenter).toEqual(latLng);
+        })
+
+        it('should return the SGW coordinates when location is off', () => {
+            const latLngSGW = new google.maps.LatLng(45.4959053, -73.5801141);
+            const mockMap = new MockMaps(null);
+            component.mapModel = mockMap;
+
+            component.handleRecenter(undefined);
+            expect(component.currentCenter).toEqual(latLngSGW);
+        })
+    })
+
 });
