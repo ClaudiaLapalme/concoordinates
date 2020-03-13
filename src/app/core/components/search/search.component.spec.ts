@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, IonInput } from '@ionic/angular';
-
 import { SearchComponent } from './search.component';
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 import { PlaceService } from '../../services';
@@ -42,6 +41,7 @@ describe('SearchComponent', () => {
             let key = "value";
             component.searchInput[key] = "concordia";
             component.search();
+            expect(component.showSearchOverlay).toBeTruthy();
         });
 
     });
@@ -50,7 +50,6 @@ describe('SearchComponent', () => {
         it('should search for the points of intersts ', () => {
             component.searchPOIs("concordia");
             expect(component.searching).toBeTruthy;
-            placeServiceSpy.textSearch.and.returnValue(Promise.resolve("Concordia"));
         });
     });
 
@@ -75,12 +74,19 @@ describe('SearchComponent', () => {
     describe('focusPOI()', () => {
         it('should focus on the point of interests', () => {
             component.focusPOI(PlaceService);
+            expect(component.showSearchOverlay).toBeFalsy();
+            expect(component.searching).toBeFalsy();
+            expect(component.searchResultsArray).toEqual([]);
+
         });
     });
 
     describe('cancelSearch()', () => {
         it('should cancel the search', () => {
             component.cancelSearch();
+            expect(component.showSearchOverlay).toBeFalsy();
+            expect(component.searching).toBeFalsy();
+            expect(component.searchResultsArray).toEqual([]);
         });
     });
 

@@ -28,7 +28,7 @@ export class HomePage implements AfterViewInit {
     @ViewChild('switchFloor', { read: ElementRef, static: false })
     switchFloor: ElementRef;
 
-    @ViewChild('menuBar', {read: ElementRef, static: false})
+    @ViewChild('menuBar', { read: ElementRef, static: false })
     menuBar: ElementRef;
 
     // Map data
@@ -127,7 +127,7 @@ export class HomePage implements AfterViewInit {
      * trigger infowindow popup
      * @param place the google place result object
      */
-    createMarker(place) {
+    createMarker(place: google.maps.places.PlaceResult) {
 
         const infowindow = new google.maps.InfoWindow();
         const icon = {
