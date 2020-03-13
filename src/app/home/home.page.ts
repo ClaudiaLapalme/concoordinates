@@ -90,7 +90,7 @@ export class HomePage implements AfterViewInit {
 
             });
     }
-    showControls(){
+    showControls(): void{
         if(!this.controlsShown){
             this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].push(this.toggle.nativeElement);
             this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.directionsButton.nativeElement);
@@ -98,7 +98,7 @@ export class HomePage implements AfterViewInit {
             this.controlsShown = true;
         }
     }
-    removeControls() {
+    removeControls(): void {
         if(this.controlsShown){
             this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].clear();
             this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].clear();

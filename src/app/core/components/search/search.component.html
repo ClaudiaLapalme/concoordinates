@@ -1,28 +1,26 @@
 <div class="search-input-container">
-  <ion-item color="primary" class="custom-input-container">
-    <ion-icon *ngIf="!searchInput?.value" name="search" slot="start"></ion-icon>
-    <ion-icon *ngIf="searchInput?.value" (click)="cancelSearch()" class="clear-icon" slot="start" name="close">
-    </ion-icon>
-    <ion-input class="ion-text-center" [formControl]="searchInput" type="text" placeholder="Search"></ion-input>
-  </ion-item>
+    <ion-item color="primary" class="custom-input-container">
+        <ion-icon *ngIf="!searchInput?.value" name="search" slot="start"></ion-icon>
+          <ion-icon *ngIf="searchInput?.value" (click)="cancelSearch()" class="clear-icon" slot="start" name="close"></ion-icon>
+        <ion-input class="ion-text-center" [formControl]="searchInput" type="text" placeholder="Search"></ion-input>
+    </ion-item>
 </div>
-<div class="my-overlay" [hidden]="!showOverlay">
-  <ion-list>
-    <div *ngIf="!searching && resultFound">
-      <ion-item *ngFor="let item of searchResultsArray" (click)="focusPOI(item)">
-        <ion-label>
-          <p><b>{{item.name}}</b></p>
-          <p>{{item.formatted_address}}</p>
-        </ion-label>
-        <ion-icon color="primary" name="navigate" slot="start"></ion-icon>
-      </ion-item>
-    </div>
-    <div class="loading" *ngIf="searching">
-      <ion-spinner color="primary">
-      </ion-spinner>
-    </div>
-    <div *ngIf="!searching && !resultFound" class="noResults">
-      <p><b>No Results Found</b></p>
-    </div>
-  </ion-list>
+<div class="my-overlay" [hidden]="!showSearchOverlay">
+    <ion-list>
+        <div *ngIf="!searching && resultFound">
+            <ion-item *ngFor="let item of searchResultsArray" (click)="focusPOI(item)">
+                <ion-label>
+                    <p><b>{{item.name}}</b></p>
+                    <p>{{item.formatted_address}}</p>
+                </ion-label>
+              <ion-icon color="primary" name="navigate" slot="start"></ion-icon>
+            </ion-item>
+        </div>
+        <div class="loading" *ngIf="searching">
+            <ion-spinner color="primary"></ion-spinner>
+        </div>
+        <div *ngIf="!searching && !resultFound" class="noResults">
+            <p><b>No Results Found</b></p>
+        </div>
+    </ion-list>
 </div>

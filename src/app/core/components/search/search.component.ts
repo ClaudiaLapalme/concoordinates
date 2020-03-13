@@ -17,7 +17,7 @@ export class SearchComponent implements OnInit {
   @Output() showControls: EventEmitter<any> = new EventEmitter();
   @Output() removeControls: EventEmitter<any> = new EventEmitter();
 
-  showOverlay = false;
+  showSearchOverlay = false;
   searching = false;
   searchResultsArray: google.maps.places.PlaceResult[];
   resultFound = false;
@@ -48,7 +48,7 @@ export class SearchComponent implements OnInit {
       // Only call search function when input is size 3
       // or larger to help preserve resources (Library is not free)
       if (input.length >= 3) {
-        this.showOverlay = true;
+        this.showSearchOverlay = true;
         this.searchPOIs(input);
         this.removeControls.emit();
       }
@@ -59,7 +59,7 @@ export class SearchComponent implements OnInit {
    * Call textSearch function from placeService
    * @param input text input from the user
    */
-  async searchPOIs(input: string) {
+  async searchPOIs(input: string): Promise<any> {
     this.searching = true;
     this.placeService
       .textSearch(this.map, input)
@@ -96,7 +96,7 @@ export class SearchComponent implements OnInit {
    * Restore search bar and 
    * @param place Google Place Result Object
    */
-  focusPOI(place: google.maps.places.PlaceResult) {
+  focusPOI(place: google.maps.places.PlaceResult): void {
     this.restoreSearchBar();
     this.cancelSelection.emit();
     this.placeSelection.emit(place);
@@ -108,7 +108,7 @@ export class SearchComponent implements OnInit {
    */
   restoreSearchBar(): void {
     this.searchResultsArray = [];
-    this.showOverlay = false;
+    this.showSearchOverlay = false;
     this.searching = false;
     this.showControls.emit();
   }
@@ -117,7 +117,7 @@ export class SearchComponent implements OnInit {
    * Resets form input and calls
    * restoreSearchBar function
    */
-  cancelSearch() {
+  cancelSearch(): void {
     this.searchInput.reset();
     this.restoreSearchBar();
     this.cancelSelection.emit();
