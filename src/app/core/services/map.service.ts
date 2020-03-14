@@ -140,4 +140,14 @@ export class MapService {
             }
         }
     }
+
+    async getUserLocation(): Promise<google.maps.LatLng> {
+        const geoPos: Geoposition = await this.locationService.getGeoposition();
+
+        if (geoPos) {
+            return this.googleApis.createLatLng(geoPos.coords.latitude, geoPos.coords.longitude);
+        }
+
+        return this.SGW_COORDINATES;
+    }
 }

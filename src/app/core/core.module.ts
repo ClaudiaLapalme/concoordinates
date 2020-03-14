@@ -8,6 +8,7 @@ import {
     DirectionsButtonComponent,
     IndoorMapComponent,
     LoaderComponent,
+    LocationButtonComponent,
     SearchComponent,
     ToggleCampusComponent,
     ToggleFloorsComponent,
@@ -21,7 +22,7 @@ import {
     GoogleApisService,
     LocationService,
     MapService,
-    PlaceService
+    PlaceService,
 } from './services';
 
 @NgModule({
@@ -32,7 +33,8 @@ import {
         SearchComponent,
         LoaderComponent,
         DirectionsButtonComponent,
-        IndoorMapComponent
+        IndoorMapComponent,
+        LocationButtonComponent,
     ],
     imports: [
         CommonModule,
@@ -49,7 +51,8 @@ import {
         OutdoorPOIFactoryService,
         AbstractPOIFactoryService,
         RouteFactory,
-        PlaceService
+        PlaceService,
+        LocationButtonComponent,
     ],
     exports: [
         ToggleCampusComponent,
@@ -58,7 +61,8 @@ import {
         SearchComponent,
         LoaderComponent,
         DirectionsButtonComponent,
-        IndoorMapComponent
+        IndoorMapComponent,
+        LocationButtonComponent,
     ],
     entryComponents: []
 })

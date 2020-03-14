@@ -171,4 +171,34 @@ describe('HomePage', () => {
             expect(component.openMenu).toHaveBeenCalled();
         })
     })
+    describe('handleRecenter(userLatLng)', () => {
+        class MockMapsWithLocation extends google.maps.Map {
+            setCenter(latLng: google.maps.LatLng): void { };
+            getCenter(): google.maps.LatLng { return new google.maps.LatLng(4, -7); };
+        }
+
+        class MockMapsWithoutLocation extends google.maps.Map {
+            setCenter(latLng: google.maps.LatLng): void { };
+            getCenter(): google.maps.LatLng { return new google.maps.LatLng(45.4959053, -73.5801141); };
+        }
+
+        it('should set the center to the user\'s location', () => {
+            const mockMap = new MockMapsWithLocation(null);
+            const latLng = new google.maps.LatLng(4, -7);
+            component.mapModel = mockMap;
+
+            component.handleRecenter(latLng);
+            expect(component.mapModel.getCenter()).toEqual(latLng);
+        })
+
+        it('should return the SGW coordinates when location is off', () => {
+            const latLngSGW = new google.maps.LatLng(45.4959053, -73.5801141);
+            const mockMap = new MockMapsWithoutLocation(null);
+            component.mapModel = mockMap;
+
+            component.handleRecenter(undefined);
+            expect(component.mapModel.getCenter()).toEqual(latLngSGW);
+        })
+    })
+
 });

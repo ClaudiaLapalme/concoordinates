@@ -30,6 +30,9 @@ export class HomePage implements AfterViewInit {
 
     @ViewChild('menuBar', { read: ElementRef, static: false })
     menuBar: ElementRef;
+    // Reference to the native location button html element
+    @ViewChild('userCenter', { read: ElementRef, static: false })
+    userCenter: ElementRef;
 
     // Map data
     public mapModel: google.maps.Map;
@@ -80,9 +83,12 @@ export class HomePage implements AfterViewInit {
                 const switchFloorsNE = this.switchFloor.nativeElement;
                 const directionsButton = this.directionsButton.nativeElement;
                 const menuBar = this.menuBar.nativeElement;
+                const locationButton = this.userCenter.nativeElement;
 
 
                 this.mapModel.controls[google.maps.ControlPosition.TOP_CENTER].push(menuBar);
+
+                this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
                 this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(directionsButton);
                 this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(switchFloorsNE);
                 this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].push(toggleButtonNE);
@@ -94,8 +100,10 @@ export class HomePage implements AfterViewInit {
     showControls(): void {
         if (!this.controlsShown) {
             this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].push(this.toggle.nativeElement);
+            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.userCenter.nativeElement);
             this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.directionsButton.nativeElement);
             this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.switchFloor.nativeElement);
+
             this.controlsShown = true;
         }
     }
@@ -167,6 +175,22 @@ export class HomePage implements AfterViewInit {
     removeMarker(): void {
         if (this.searchedPlaceMarker) {
             this.searchedPlaceMarker.setMap(null);
+        }
+    }
+    recenterToUser(): void {
+        this.mapService.getUserLocation().then(userLatLng => {
+            this.handleRecenter(userLatLng);
+        });
+    }
+
+    handleRecenter(userLatLng): void {
+        const latLng: google.maps.LatLng = userLatLng;
+
+        if (latLng !== undefined) {
+            this.mapModel.setCenter(latLng);
+        }
+        else {
+            console.log('the user location is undefined');
         }
     }
 }
