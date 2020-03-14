@@ -112,7 +112,7 @@ export class MapService {
         const building = this.outdoorMap.getPOI(hallBuildingName);
 
         if (building instanceof Building) {
-            if (zoomValue >= 20) {
+            if (zoomValue >= 19) {
                 building.removeBuildingOutline();
             }
             else {

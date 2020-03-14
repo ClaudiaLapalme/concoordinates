@@ -1,3 +1,4 @@
+import IndoorCoordinates from '../data/indoor-poi-to-coordinates.json';
 
 export class IndoorMap extends google.maps.OverlayView {
 
@@ -20,8 +21,8 @@ export class IndoorMap extends google.maps.OverlayView {
     public setup() {
         this.setMap(null);
 
-        // let debug = false; // Change to true when debugging indoorMap placement.
-        // this.debug(debug);
+        let debug = true; // Change to true when debugging indoorMap placement.
+        this.debug(debug);
 
         this.setupMapListeners(this.mapRef);
     }
@@ -97,52 +98,115 @@ export class IndoorMap extends google.maps.OverlayView {
     //  * 
     //  * @param debug true to enable indoorMap debug mode
     //  */
-    // debug(debug: boolean) {
-    //     if (debug) {
-    //         let markerA = new google.maps.Marker({
-    //             position: this.bounds.getSouthWest(),
-    //             map: this.map,
-    //             draggable: true
-    //         });
-    //         let markerB = new google.maps.Marker({
-    //             position: this.bounds.getNorthEast(),
-    //             map: this.map,
-    //             draggable: true
-    //         });
+    debug(debug: boolean) {
+        if (debug) {
+            // For indoor maps adjustment
+            let _this = this;
 
-    //         let _this = this;
-    //         // debug
-    //         google.maps.event.addListener(markerA, 'drag', function () {
+            let markerA = new google.maps.Marker({
+                position: this.bounds.getSouthWest(),
+                map: _this.mapRef,
+                draggable: true
+            });
+            let markerB = new google.maps.Marker({
+                position: this.bounds.getNorthEast(),
+                map: _this.mapRef,
+                draggable: true
+            });
 
-    //             let newPointA = markerA.getPosition();
-    //             let newPointB = markerB.getPosition();
-    //             let newBounds = new google.maps.LatLngBounds(newPointA, newPointB);
-    //             _this.updateBounds(newBounds);
-    //         });
-    //         // // debug
-    //         google.maps.event.addListener(markerB, 'drag', function () {
+            // debug
+            google.maps.event.addListener(markerA, 'drag', function () {
 
-    //             let newPointA = markerA.getPosition();
-    //             let newPointB = markerB.getPosition();
-    //             let newBounds = new google.maps.LatLngBounds(newPointA, newPointB);
-    //             _this.updateBounds(newBounds);
-    //         });
-    //         // debug
-    //         google.maps.event.addListener(markerA, 'dragend', function () {
-    //             let newPointA = markerA.getPosition();
-    //             let newPointB = markerB.getPosition();
-    //             console.log("point1" + newPointA);
-    //             console.log("point2" + newPointB);
-    //         });
-    //         // debug
-    //         google.maps.event.addListener(markerB, 'dragend', function () {
-    //             let newPointA = markerA.getPosition();
-    //             let newPointB = markerB.getPosition();
-    //             console.log("point1" + newPointA);
-    //             console.log("point2" + newPointB);
-    //         });
-    //     }
-    // }
+                let newPointA = markerA.getPosition();
+                let newPointB = markerB.getPosition();
+                let newBounds = new google.maps.LatLngBounds(newPointA, newPointB);
+                _this.updateBounds(newBounds);
+            });
+            // // debug
+            google.maps.event.addListener(markerB, 'drag', function () {
+
+                let newPointA = markerA.getPosition();
+                let newPointB = markerB.getPosition();
+                let newBounds = new google.maps.LatLngBounds(newPointA, newPointB);
+                _this.updateBounds(newBounds);
+            });
+            // debug
+            google.maps.event.addListener(markerA, 'dragend', function () {
+                let newPointA = markerA.getPosition();
+                let newPointB = markerB.getPosition();
+                console.log("point1" + newPointA);
+                console.log("point2" + newPointB);
+            });
+            // debug
+            google.maps.event.addListener(markerB, 'dragend', function () {
+                let newPointA = markerA.getPosition();
+                let newPointB = markerB.getPosition();
+                console.log("point1" + newPointA);
+                console.log("point2" + newPointB);
+            });
+
+
+            // For getting coordinates
+            let coordinateMarker = new google.maps.Marker({
+                position: new google.maps.LatLng(45.49735204, -73.57918574),
+                draggable: true,
+                map: _this.mapRef,
+            });
+            google.maps.event.addListener(coordinateMarker, 'dragend', function (evt) {
+                let lat = evt.latLng.lat().toFixed(8);
+                let lng = evt.latLng.lng().toFixed(8);
+                let coord = { lat, lng, fN: 8 };
+                console.log(JSON.stringify(coord));
+            });
+
+            let testMarker = new google.maps.Marker({
+                position: new google.maps.LatLng(45.49734828, 45.49734828),
+                draggable: false,
+                map: _this.mapRef,
+            });
+
+            // Putting all coordinates on the map for H 8
+            let markers = {};
+            for (let key of Object.keys(IndoorCoordinates)) {
+
+                const lat: number = IndoorCoordinates[key].lat;
+                const lng: number = IndoorCoordinates[key].lng;
+                const fN: number = IndoorCoordinates[key].fN;
+
+                markers[key] = new google.maps.Marker({
+                    position: new google.maps.LatLng(lat, lng),
+                    draggable: false,
+                    map: _this.mapRef,
+                });
+            }
+            function toCoord(key: string): { lat: number, lng: number } {
+                return { lat: +IndoorCoordinates[key].lat, lng: +IndoorCoordinates[key].lng };
+            }
+            console.log(toCoord("H831"));
+            console.log({ lat: 45.49717531, lng: -73.57944189 });
+            let path = [
+                toCoord("H831"),
+                toCoord("H8-W30"),
+                toCoord("H8-W32"),
+                toCoord("H8-W33"),
+                toCoord("H8-W34"),
+                toCoord("H8-W38"),
+                toCoord("H8-W39"),
+                toCoord("H8-E7D"),
+            ];
+            let polyline = new google.maps.Polyline({
+                path,
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2,
+                map: _this.mapRef,
+            });
+
+
+
+        }
+    }
 
     // END WARNING
 }
