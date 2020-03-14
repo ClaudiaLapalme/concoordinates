@@ -167,17 +167,22 @@ export class IndoorMap extends google.maps.OverlayView {
 
             // Putting all coordinates on the map for H 8
             let markers = {};
-            for (let key of Object.keys(IndoorCoordinates)) {
+            if (true) {
 
-                const lat: number = IndoorCoordinates[key].lat;
-                const lng: number = IndoorCoordinates[key].lng;
-                const fN: number = IndoorCoordinates[key].fN;
+                for (let key of Object.keys(IndoorCoordinates)) {
+                    if (key.charAt(1) == "9") {
 
-                markers[key] = new google.maps.Marker({
-                    position: new google.maps.LatLng(lat, lng),
-                    draggable: false,
-                    map: _this.mapRef,
-                });
+                        const lat: number = IndoorCoordinates[key].lat;
+                        const lng: number = IndoorCoordinates[key].lng;
+                        const fN: number = IndoorCoordinates[key].fN;
+
+                        markers[key] = new google.maps.Marker({
+                            position: new google.maps.LatLng(lat, lng),
+                            draggable: false,
+                            map: _this.mapRef,
+                        });
+                    }
+                }
             }
             function toCoord(key: string): { lat: number, lng: number } {
                 return { lat: +IndoorCoordinates[key].lat, lng: +IndoorCoordinates[key].lng };
@@ -194,14 +199,17 @@ export class IndoorMap extends google.maps.OverlayView {
                 toCoord("H8-W39"),
                 toCoord("H8-E7D"),
             ];
-            let polyline = new google.maps.Polyline({
-                path,
-                geodesic: true,
-                strokeColor: '#FF0000',
-                strokeOpacity: 1.0,
-                strokeWeight: 2,
-                map: _this.mapRef,
-            });
+            if (false) {
+
+                let polyline = new google.maps.Polyline({
+                    path,
+                    geodesic: true,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2,
+                    map: _this.mapRef,
+                });
+            }
 
 
 
