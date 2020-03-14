@@ -29,14 +29,15 @@ export class PlaceService {
    * @param buildingPicture 
    */
   public displayBuildingInformation(buildingInformation: google.maps.places.PlaceDetailsRequest, buildingName: string, buildingPicture: string): void {
-
-    this.googlePlacesService.getDetails(buildingInformation, (result, status) => {this.checkDetails(result, buildingName, buildingPicture, status)});
+    this.googlePlacesService.getDetails(buildingInformation, (result, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+        this.checkDetails(result, buildingName, buildingPicture);
+        }
+    });
   }
 
-  checkDetails(result: google.maps.places.PlaceResult,buildingName: string, buildingPicture: string , status: google.maps.places.PlacesServiceStatus) : void {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
+  checkDetails(result: google.maps.places.PlaceResult,buildingName: string, buildingPicture: string ) : void {
         this.placeResult.next([result, buildingName, buildingPicture]);
-      }
   }
 
   /**
@@ -50,20 +51,11 @@ export class PlaceService {
 
     return new Promise<google.maps.places.PlaceResult[]>(resolve => {
       new google.maps.places.PlacesService(map).textSearch(
-        {
-          location: {
-            lat: geoPos.coords.latitude,
-            lng: geoPos.coords.longitude
-          },
-          radius: 1000,
-          query: input
-        },
+        {location: { lat: geoPos.coords.latitude, lng: geoPos.coords.longitude}, radius: 1000, query: input},
         (res, status) => {
           if (status === 'OK') {
             resolve(res);
-          } else {
-            resolve([]);
-          }
+          } else { resolve([]); }
         }
       );
     });

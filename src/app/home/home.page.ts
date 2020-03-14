@@ -90,22 +90,23 @@ export class HomePage implements AfterViewInit {
 
             });
     }
-    showControls(): void{
-        if(!this.controlsShown){
+
+    showControls(): void {
+        if (!this.controlsShown) {
             this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].push(this.toggle.nativeElement);
             this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.directionsButton.nativeElement);
             this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.switchFloor.nativeElement);
             this.controlsShown = true;
         }
     }
+    
     removeControls(): void {
-        if(this.controlsShown){
+        if (this.controlsShown) {
             this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].clear();
             this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].clear();
             this.controlsShown = false;
         }
     }
-
 
     switchCampus(): void {
         if (this.currentCenter === this.SGW) {
@@ -127,7 +128,7 @@ export class HomePage implements AfterViewInit {
      * trigger infowindow popup
      * @param place the google place result object
      */
-    createMarker(place: google.maps.places.PlaceResult) {
+    createMarker(place: google.maps.places.PlaceResult): void {
 
         const infowindow = new google.maps.InfoWindow();
         const icon = {
@@ -163,7 +164,7 @@ export class HomePage implements AfterViewInit {
      * Removes the searched place marker from the map
      *
      */
-    removeMarker() {
+    removeMarker(): void {
         if (this.searchedPlaceMarker) {
             this.searchedPlaceMarker.setMap(null);
         }

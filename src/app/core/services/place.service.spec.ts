@@ -33,13 +33,10 @@ describe('PlaceService', () => {
         class MockMap extends google.maps.Map {
         }
 
-        const placeResult = {
-            name: "string"
-        };
-
+        const placeResult = { name: 'string'};
   
         const buildingInformation = {
-            placeId: "12345",
+            placeId: 'string',
             fields: ['formatted_address', 'formatted_phone_number', 'opening_hours', 'website']
           };
 
@@ -49,10 +46,8 @@ describe('PlaceService', () => {
             placeService.enableService(new MockMap(null));
 
             placeService.displayBuildingInformation(buildingInformation, 'test building', 'test picture');
-            //placeService.checkDetails(placeResult, 'test building', 'test picture',status);
+            placeService.checkDetails(placeResult, 'test building', 'test picture');
             expect(placeService["placeResultObservable"]).toBeDefined();
         });
     });
-
-    
 });
