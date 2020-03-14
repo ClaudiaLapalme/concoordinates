@@ -30,12 +30,13 @@ export class PlaceService {
    */
   public displayBuildingInformation(buildingInformation: google.maps.places.PlaceDetailsRequest, buildingName: string, buildingPicture: string): void {
 
-    this.googlePlacesService.getDetails(buildingInformation, (result, status) => {
+    this.googlePlacesService.getDetails(buildingInformation, (result, status) => {this.checkDetails(result, buildingName, buildingPicture, status)});
+  }
 
+  checkDetails(result: google.maps.places.PlaceResult,buildingName: string, buildingPicture: string , status: google.maps.places.PlacesServiceStatus) : void {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         this.placeResult.next([result, buildingName, buildingPicture]);
       }
-    });
   }
 
   /**
