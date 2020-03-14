@@ -170,7 +170,7 @@ export class IndoorMap extends google.maps.OverlayView {
             if (true) {
 
                 for (let key of Object.keys(IndoorCoordinates)) {
-                    if (key.charAt(1) == "9") {
+                    if (key.charAt(1) == "1") {
 
                         const lat: number = IndoorCoordinates[key].lat;
                         const lng: number = IndoorCoordinates[key].lng;
