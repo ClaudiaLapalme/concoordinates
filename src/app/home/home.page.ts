@@ -49,7 +49,7 @@ export class HomePage implements AfterViewInit {
         // on the building or zoom in close enough to switch
         // from showing the building overlay to showing indoor maps.
         this.indoorMapBuildingCode = 'H';
-        this.availableFloors = [9, 8];
+        this.availableFloors = [9, 8, 1];
         this.indoorMapLevel = 9;
     }
 
