@@ -61,12 +61,17 @@ export class SearchComponent implements OnInit {
      */
     async searchPOIs(input: string): Promise<any> {
         this.searching = true;
-        this.placeService
-            .textSearch(this.map, input)
-            .then((res: google.maps.places.PlaceResult[]) =>
-                this.handleSearchForPOIs(res)
-            )
-            .catch(error => this.handleSearchForPOIsError(error));
+        try {
+            this.placeService
+                .textSearch(this.map, input)
+                .then((res: google.maps.places.PlaceResult[]) =>
+                    this.handleSearchForPOIs(res)
+                )
+                .catch(error => this.handleSearchForPOIsError(error));
+        }
+        catch {
+            console.log("Something went wrong while searching: " + input + " in PlaceService.");
+        }
     }
 
     /**

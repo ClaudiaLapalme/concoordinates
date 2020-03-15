@@ -74,27 +74,32 @@ export class HomePage implements AfterViewInit {
     }
 
     private loadMap(): void {
+        
+        try {
+            this.mapService.loadMap(this.mapElement)
+                .then(mapObj => {
+                    this.mapModel = mapObj;
+                    this.mapLoaded = true;
+                    const toggleButtonNE = this.toggle.nativeElement;
+                    const switchFloorsNE = this.switchFloor.nativeElement;
+                    const directionsButton = this.directionsButton.nativeElement;
+                    const menuBar = this.menuBar.nativeElement;
+                    const locationButton = this.userCenter.nativeElement;
 
-        this.mapService.loadMap(this.mapElement)
-            .then(mapObj => {
-                this.mapModel = mapObj;
-                this.mapLoaded = true;
-                const toggleButtonNE = this.toggle.nativeElement;
-                const switchFloorsNE = this.switchFloor.nativeElement;
-                const directionsButton = this.directionsButton.nativeElement;
-                const menuBar = this.menuBar.nativeElement;
-                const locationButton = this.userCenter.nativeElement;
 
+                    this.mapModel.controls[google.maps.ControlPosition.TOP_CENTER].push(menuBar);
 
-                this.mapModel.controls[google.maps.ControlPosition.TOP_CENTER].push(menuBar);
+                    this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
+                    this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(directionsButton);
+                    this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(switchFloorsNE);
+                    this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].push(toggleButtonNE);
+                    this.controlsShown = true;
 
-                this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
-                this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(directionsButton);
-                this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(switchFloorsNE);
-                this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].push(toggleButtonNE);
-                this.controlsShown = true;
-
-            });
+                });
+            }
+            catch {
+                console.log("MapService failed to provide a map.");
+            }
     }
 
     showControls(): void {
