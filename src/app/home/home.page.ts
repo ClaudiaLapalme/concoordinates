@@ -65,7 +65,7 @@ export class HomePage implements AfterViewInit {
         this.loadMap();
     }
 
-    openMenu(){
+    openMenu(): void {
         this.menu.open();
     }
 
