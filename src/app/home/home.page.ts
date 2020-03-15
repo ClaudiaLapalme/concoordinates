@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { GoogleApisService, MapService } from '../core';
+import { GoogleApisService, MapService, CalendarService } from '../core/services';
 import { MenuController } from '@ionic/angular';
 
 // TODO move all this map logic to MapPage and keep all Pages as routes from this page
@@ -30,6 +30,7 @@ export class HomePage implements AfterViewInit {
 
     @ViewChild('menuBar', { read: ElementRef, static: false })
     menuBar: ElementRef;
+
     // Reference to the native location button html element
     @ViewChild('userCenter', { read: ElementRef, static: false })
     userCenter: ElementRef;
@@ -49,7 +50,8 @@ export class HomePage implements AfterViewInit {
     constructor(
         private mapService: MapService,
         private googleApisService: GoogleApisService,
-        private menu: MenuController
+        private menu: MenuController,
+        private calendarService: CalendarService
     ) {
         this.currentCenter = this.SGW;
 
@@ -66,7 +68,11 @@ export class HomePage implements AfterViewInit {
     }
 
     openMenu(): void {
-        this.menu.open();
+        this.menu.toggle();
+    }
+
+    authCalendarUser(): void {
+        this.calendarService.getCalendar();
     }
 
     setCurrentCenter(newCenter: google.maps.LatLng): void {
@@ -185,4 +191,5 @@ export class HomePage implements AfterViewInit {
             console.log('the user location is undefined');
         }
     }
+    
 }

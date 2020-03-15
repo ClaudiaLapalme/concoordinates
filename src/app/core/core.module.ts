@@ -23,6 +23,7 @@ import {
     LocationService,
     MapService,
     PlaceService,
+    CalendarService
 } from './services';
 
 @NgModule({
@@ -53,6 +54,7 @@ import {
         RouteFactory,
         PlaceService,
         LocationButtonComponent,
+        CalendarService,
     ],
     exports: [
         ToggleCampusComponent,
