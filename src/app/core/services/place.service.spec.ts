@@ -1,9 +1,12 @@
 import { PlaceService } from './place.service';
+import { map } from 'rxjs/operators';
+import { componentFactoryName } from '@angular/compiler';
 
 describe('PlaceService', () => {
     function testServiceSetup() {
-        const placeService: PlaceService = new PlaceService();
-        return { placeService };
+        const locationServiceSpy = jasmine.createSpyObj('LocationService', ['getGeoposition']);
+        const placeService: PlaceService = new PlaceService(locationServiceSpy);
+        return { placeService, locationServiceSpy };
     }
 
     it('should be created', () => {
@@ -30,8 +33,10 @@ describe('PlaceService', () => {
         class MockMap extends google.maps.Map {
         }
 
+        const placeResult = { name: 'string'};
+  
         const buildingInformation = {
-            placeId: "xxxxxx",
+            placeId: 'string',
             fields: ['formatted_address', 'formatted_phone_number', 'opening_hours', 'website']
           };
 
@@ -41,7 +46,7 @@ describe('PlaceService', () => {
             placeService.enableService(new MockMap(null));
 
             placeService.displayBuildingInformation(buildingInformation, 'test building', 'test picture');
-
+            placeService.checkDetails(placeResult, 'test building', 'test picture');
             expect(placeService["placeResultObservable"]).toBeDefined();
         });
     });
