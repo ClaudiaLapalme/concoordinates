@@ -1,14 +1,44 @@
 import { async, TestBed } from '@angular/core/testing';
-import { RouteStep } from './route-step';
+import { CoreModule } from '../core.module';
+import { Coordinates } from './coordinates';
 import { Route } from './route';
+import { RouteStep } from './route-step';
+import { TransportMode } from './transport-mode';
 
 describe('Route', () => {
+    class MockDirectionService extends google.maps.DirectionsService {
+        route(request, callback) {}
+    }
 
     function testFunctionSetup() {
-        let routeStep1 = new RouteStep(1,null,null,null,1,"instruction one",null);
-        let routeStep2 = new RouteStep(1,null,null,null,1,"instruction two",null);
-        let routeStepsSpy = new Array<RouteStep>(routeStep1,routeStep2);
-        let routeUnderTest = new Route(null,null,null,null,null,routeStepsSpy);
+        let routeStep1 = new RouteStep(
+            1,
+            new Coordinates(1, 2),
+            new Coordinates(1, 2),
+            null,
+            1,
+            'instruction one',
+            null
+        );
+        let routeStep2 = new RouteStep(
+            1,
+            new Coordinates(1, 2),
+            new Coordinates(1, 2),
+            null,
+            1,
+            'instruction two',
+            null
+        );
+        let routeStepsSpy = new Array<RouteStep>(routeStep1, routeStep2);
+        let routeUnderTest = new Route(
+            new Coordinates(1, 2),
+            new Coordinates(1, 2),
+            null,
+            null,
+            null,
+            routeStepsSpy
+        );
+        routeUnderTest.setCurrentTravelMode(TransportMode.TRANSIT);
         return routeUnderTest;
     }
     const routeUnderTest = testFunctionSetup();
@@ -21,7 +51,17 @@ describe('Route', () => {
     });
 
     it('should return all step instructions', () => {
-        let expectedInstructions = ["instruction one", "instruction two"];
+        let expectedInstructions = ['instruction one', 'instruction two'];
         expect(routeUnderTest.getInstructions()).toEqual(expectedInstructions);
+    });
+
+    it('should run display function', () => {
+        const rendererSpy = new google.maps.DirectionsRenderer();
+        const directionSpy = new MockDirectionService();
+        const spyRender = spyOn(rendererSpy, 'setDirections');
+        // const spyDirection = spyOn(directionSpy, 'route');
+        routeUnderTest.display(rendererSpy);
+        // expect(directionSpy.route).toHaveBeenCalled();
+        expect(rendererSpy.setDirections).toHaveBeenCalled();
     });
 });
