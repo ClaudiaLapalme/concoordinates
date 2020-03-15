@@ -13,6 +13,7 @@ class Polygon {
     getVisible() {
         return this.visible;
     }
+<<<<<<< HEAD
     addListener() {}
 }
 
@@ -49,6 +50,24 @@ class DirectionsService {
 class DirectionsRenderer {
     setMap(map) {}
 }
+=======
+}
+class DirectionsService {
+    route(request, callback) {}
+}
+class DirectionsRenderer {
+    setMap(map) {}
+}
+class DirectionsRequest {
+    constructor(
+        destination,
+        origin,
+        provideRouteAlternatives,
+        transitOptions,
+        travelMode
+    ) {}
+}
+>>>>>>> ffffbc6a19a0b9bc92329e630d504fe25f512b4f
 let google = {
     maps: {
         OverlayView: function() {
@@ -56,6 +75,7 @@ let google = {
                 setMap: function() {}
             };
         },
+<<<<<<< HEAD
         Marker: function() {
             return new Marker();
         },
@@ -66,14 +86,27 @@ let google = {
         LatLngBounds: function(sw, ne) {
             return new LatLngBounds();
         },
+=======
+        Marker: function() {},
+        InfoWindow: function() {},
+        LatLng: function(lat, lng) {
+            return [lat, lng];
+        },
+        LatLngBounds: function(sw, ne) {
+            return null;
+        },
+>>>>>>> ffffbc6a19a0b9bc92329e630d504fe25f512b4f
         Map: function(obj) {},
         Size: function() {},
         Polygon: function() {
             return new Polygon();
         },
+<<<<<<< HEAD
         DirectionsService: function() {
             return new DirectionsService();
         },
+=======
+>>>>>>> ffffbc6a19a0b9bc92329e630d504fe25f512b4f
         MapTypeId: { ROADMAP: true },
         places: {
             AutocompleteService: function() {},
@@ -87,13 +120,17 @@ let google = {
                     },
                     nearbySearch: function(query) {
                         return [];
+<<<<<<< HEAD
                     },
                     getDetails: function() {
                         return ['details'];
+=======
+>>>>>>> ffffbc6a19a0b9bc92329e630d504fe25f512b4f
                     }
                 };
             }
         },
+<<<<<<< HEAD
         Marker: function() {},
         InfoWindow: function() {},
         LatLng: function(lat, lng) {
@@ -108,6 +145,11 @@ let google = {
             return new Polygon();
         },
         MapTypeId: { ROADMAP: true },
+=======
+        // DirectionsService: function() {
+        //     return new DirectionsService();
+        // },
+>>>>>>> ffffbc6a19a0b9bc92329e630d504fe25f512b4f
         DirectionsRenderer: function() {
             return new DirectionsRenderer();
         },
