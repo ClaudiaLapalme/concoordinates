@@ -99,19 +99,12 @@ export class HomePage implements AfterViewInit {
 
     showControls(): void {
         if (!this.controlsShown) {
-            this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].push(this.toggle.nativeElement);
-            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.userCenter.nativeElement);
-            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.directionsButton.nativeElement);
-            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.switchFloor.nativeElement);
-
             this.controlsShown = true;
         }
     }
     
     removeControls(): void {
         if (this.controlsShown) {
-            this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].clear();
-            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].clear();
             this.controlsShown = false;
         }
     }
@@ -188,8 +181,7 @@ export class HomePage implements AfterViewInit {
 
         if (latLng !== undefined) {
             this.mapModel.setCenter(latLng);
-        }
-        else {
+        } else {
             console.log('the user location is undefined');
         }
     }
