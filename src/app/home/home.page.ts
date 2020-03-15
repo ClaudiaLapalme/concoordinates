@@ -98,7 +98,7 @@ export class HomePage implements AfterViewInit {
                 });
             }
             catch {
-                console.log("MapService failed to provide a map.");
+                console.log("Something went wrong, please refresh application.");
             }
     }
 

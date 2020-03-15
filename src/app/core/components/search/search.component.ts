@@ -70,7 +70,7 @@ export class SearchComponent implements OnInit {
                 .catch(error => this.handleSearchForPOIsError(error));
         }
         catch {
-            console.log("Something went wrong while searching: " + input + " in PlaceService.");
+            console.log("Something went wrong, please refresh application.");
         }
     }
 
