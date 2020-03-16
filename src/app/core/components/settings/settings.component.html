@@ -2,24 +2,23 @@
     <ion-item color="primary" lines="none">
         <svg width="11" height="19" viewBox="0 0 11 19" fill="none" xmlns="http://www.w3.org/2000/svg"
             (click)="goBackToMenu()">
-            <path [attr.d]="leftArrowIcon" fill="#FFFDFD"/>
-            </svg>            
+            <path [attr.d]="leftArrowIcon" fill="#FFFDFD" />
+        </svg>
         <div class="title-settings">Settings</div>
     </ion-item>
     <div class='line'></div>
     <ion-item color="primary" lines="none">
         <ion-label>Accessibility Options</ion-label>
-        <svg *ngIf="displayAccessibility" width="20" height="20" viewBox="0 -3 10 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            (click)="toggleAccessiblity()">
-                            <path fill=var(--ion-color-primary-contrast) 
-                                [attr.d]="upArrowIcon"/></svg>
-        <svg *ngIf="!displayAccessibility" width="20" height="20" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            (click)="toggleAccessiblity()">
-                            <path fill=var(--ion-color-primary-contrast) 
-                                [attr.d]="downArrowIcon"/></svg>
+        <svg *ngIf="displayAccessibility" width="20" height="20" viewBox="0 -3 10 15" fill="none"
+            xmlns="http://www.w3.org/2000/svg" (click)="toggleAccessiblity()">
+            <path fill=var(--ion-color-primary-contrast) [attr.d]="upArrowIcon" /></svg>
+        <svg *ngIf="!displayAccessibility" width="20" height="20" viewBox="0 0 10 15" fill="none"
+            xmlns="http://www.w3.org/2000/svg" (click)="toggleAccessiblity()">
+            <path fill=var(--ion-color-primary-contrast) [attr.d]="downArrowIcon" /></svg>
     </ion-item>
     <ion-item *ngIf="displayAccessibility" color="primary" lines="none">
-        <ion-checkbox class="clickable ion-activatable checkbox" (click)="changeColorMode()" [(ngModel)]="checked"></ion-checkbox>
+        <ion-checkbox class="clickable ion-activatable checkbox" (click)="changeColorMode()" [(ngModel)]="checked">
+        </ion-checkbox>
         <ion-label class="info">Color Blind Mode</ion-label>
     </ion-item>
     <div class='line'></div>

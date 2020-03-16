@@ -8,8 +8,4 @@
     <ion-label>Settings</ion-label>
   </ion-item>
 </ion-content>
-<app-settings 
-            *ngIf="showSettings" 
-            (closeSettings)="closeSettings()"
-            >
-          </app-settings>
+<app-settings *ngIf="showSettings" (closeSettings)="closeSettings()"></app-settings>

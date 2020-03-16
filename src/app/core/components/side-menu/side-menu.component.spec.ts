@@ -14,7 +14,8 @@ describe('SettingsComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [
-              SideMenuComponent],
+                SideMenuComponent
+            ],
             imports: [
                 IonicModule.forRoot(),
                 RouterModule,

@@ -17,7 +17,8 @@ describe('SettingsComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [
-                SettingsComponent],
+                SettingsComponent
+            ],
             imports: [
                 IonicModule.forRoot(),
                 IonicStorageModule.forRoot(),
@@ -36,7 +37,7 @@ describe('SettingsComponent', () => {
         fixtureLight = TestBed.createComponent(SettingsComponent);
         componentLight = fixtureLight.componentInstance;
         fixtureLight.detectChanges();
-        
+
         async () => {
             await componentLight['storage'].set('color-mode', 'dark');
         }
@@ -52,13 +53,12 @@ describe('SettingsComponent', () => {
 
     it('should be created dark color', () => {
         expect(componentDark).toBeTruthy();
-       expect(componentDark.checked).toBeTruthy();
+        expect(componentDark.checked).toBeTruthy();
     });
 
     describe('changeColorMode()', () => {
 
         it('change the color theme from light to dark', async () => {
-
             let initialColorTheme: Promise<any>;
             let colorThemeAfterChange: Promise<any>;
 
@@ -76,7 +76,6 @@ describe('SettingsComponent', () => {
         });
 
         it('change the color theme from dark to light', async () => {
-
             let initialColorTheme: Promise<any>;
             let colorThemeAfterChange: Promise<any>;
 

@@ -49,7 +49,7 @@ export class HomePage implements AfterViewInit {
     constructor(
         private mapService: MapService,
         private googleApisService: GoogleApisService,
-        private menu: MenuController,
+        private menu: MenuController
     ) {
         this.currentCenter = this.SGW;
 
