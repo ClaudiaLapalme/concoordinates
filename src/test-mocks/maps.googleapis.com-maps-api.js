@@ -70,6 +70,9 @@ let google = {
 		DirectionsService: function(){
 			return new DirectionsService;
 		},
+		Animation: {
+			DROP: {}
+		},
         MapTypeId: {ROADMAP: true},
         places: {
         	AutocompleteService: function(){
@@ -90,7 +93,13 @@ let google = {
 						return ['details'];
 					}
     			};	
-    		}
-        }
+			}
+		},
+		event: {
+			addListener(){},
+			trigger(){
+				return ()=>{};
+			}
+		}
     }
 };

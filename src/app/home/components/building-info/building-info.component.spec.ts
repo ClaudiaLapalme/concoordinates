@@ -2,7 +2,7 @@ import { BuildingInfoComponent } from './building-info.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { CoreModule, PlaceService } from '../../../core';
+import { CoreModule, PlaceService, LocationService } from '../../../core';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonPullUpFooterState } from 'ionic-pullup';
@@ -12,12 +12,13 @@ describe('BuildingInfoComponent', () => {
 
     let component: BuildingInfoComponent;
     let fixture: ComponentFixture<BuildingInfoComponent>;
+    let locationService: LocationService;
 
     class MockMap extends google.maps.Map {}
 
     class MockPlaceService extends PlaceService {
         constructor(){
-            super();
+            super(locationService);
             this.enableService(new MockMap(null))
         }
     };

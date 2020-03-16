@@ -81,7 +81,7 @@ describe('MapService', () => {
                     speed: 12,
                 }
             };
-            locationServiceSpy.getGeoposition.and.throwError('hello');
+
             const mockMap = new MockMaps(null);
 
             mapService.loadMap(mapElement);
@@ -98,6 +98,27 @@ describe('MapService', () => {
             expect(locationServiceSpy.getGeoposition).toHaveBeenCalledTimes(1);
         });
     });
+
+    describe('getUserLocation()', () => {
+        it('should return the user\'s location when available', () => {
+            const { mapService, locationServiceSpy, googleApisServiceSpy } = testServiceSetup();
+            const mockGeoposition: Partial<Geoposition> = {
+                coords: {
+                    latitude: 12,
+                    longitude: 34,
+                    accuracy: 45,
+                    altitude: 35,
+                    altitudeAccuracy: 123,
+                    heading: 421,
+                    speed: 12,
+                }
+            };
+
+            locationServiceSpy.getGeoposition.and.returnValue(mockGeoposition);
+            mapService.getUserLocation();
+            expect(locationServiceSpy.getGeoposition).toHaveBeenCalledTimes(1);
+        })
+    })
 
     describe('tilesLoadedHandler()', () => {
 
