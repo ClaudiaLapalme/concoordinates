@@ -1,11 +1,38 @@
-<ion-content *ngIf="showMenu" color="primary" id="main-content">
-  <ion-item lines="none" color="primary">
-    <ion-icon color="secondary" name="calendar" slot="start"></ion-icon>
-    <ion-label>Calendar</ion-label>
-  </ion-item>
-  <ion-item class="clickable ion-activatable" (click)="openSettings()" lines="none" color="primary">
-    <ion-icon color="secondary" name="settings" slot="start"></ion-icon>
-    <ion-label>Settings</ion-label>
-  </ion-item>
+<ion-content
+    *ngIf="showMenu"
+    color="primary"
+    id="main-content"
+>
+    <ion-item
+        lines="none"
+        color="primary"
+    >
+        <ion-icon 
+            color="secondary"
+            name="calendar"
+            slot="start"
+        ></ion-icon>
+        <ion-label>
+          Calendar
+        </ion-label>
+    </ion-item>
+    <ion-item 
+        class="clickable ion-activatable"
+        (click)="openSettings()"
+        lines="none" 
+        color="primary"
+    >
+        <ion-icon
+            color="secondary"
+            name="settings"
+            slot="start"
+        ></ion-icon>
+        <ion-label>
+            Settings
+        </ion-label>
+    </ion-item>
 </ion-content>
-<app-settings *ngIf="showSettings" (closeSettings)="closeSettings()"></app-settings>
+<app-settings
+    *ngIf="showSettings"
+    (closeSettings)="closeSettings()"
+></app-settings>

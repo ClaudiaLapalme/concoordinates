@@ -17,7 +17,7 @@ export class SideMenuComponent {
         this.showMenu = false;
     }
 
-    closeSettings(): void{
+    closeSettings(): void {
         this.showSettings = false;
         this.showMenu = true;
     }
