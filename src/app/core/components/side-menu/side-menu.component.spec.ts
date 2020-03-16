@@ -53,6 +53,4 @@ describe('SettingsComponent', () => {
             expect(component.showMenu).toBeTruthy();
         });
     });
-
-
 });
