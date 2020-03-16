@@ -1,1 +1,1 @@
-export * from './location-button.component'
+export * from './location-button.component';

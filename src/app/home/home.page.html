@@ -1,27 +1,70 @@
+<ion-menu side="start" content-id="main-content">
+    <ion-content color="primary" id="main-content">
+        <ion-item lines="none" color="primary">
+            <ion-icon color="secondary" name="calendar" slot="start"></ion-icon>
+            <ion-label>Calendar</ion-label>
+        </ion-item>
+        <ion-item lines="none" color="primary">
+            <ion-icon color="secondary" name="settings" slot="start"></ion-icon>
+            <ion-label>Settings</ion-label>
+        </ion-item>
+    </ion-content>
+</ion-menu>
+
+<div class="menu" #menuBar>
+    <ion-icon
+        class="hamburgerMenuButton"
+        name="menu"
+        (click)="openMenu()"
+    ></ion-icon>
+    <app-search
+        [map]="mapModel"
+        (showControls)="showControls()"
+        (removeControls)="removeControls()"
+        (placeSelection)="createMarker($event)"
+        (cancelSelection)="removeMarker()"
+    >
+    </app-search>
+</div>
+
 <ion-content>
     <div class="map-wrapper">
         <div #map id="map"></div>
-    </div> 
+    </div>
 
-    <app-directions-button [routerLink]="['/routes']"  #directions ></app-directions-button>
+    <app-directions-button
+        [routerLink]="['/routes']"
+        [ngClass]="{invisible: !controlsShown}"
+        #directions
+    ></app-directions-button>
 
-    <app-indoor-map 
-        *ngIf="mapLoaded" 
+    <app-indoor-map
+        *ngIf="mapLoaded"
         [map]="mapModel"
         [indoorMapBuildingCode]="indoorMapBuildingCode"
-        [indoorMapLevel]="indoorMapLevel">
+        [indoorMapLevel]="indoorMapLevel"
+    >
     </app-indoor-map>
-    
-    <app-toggle-campus #toggle (toggleChange)='switchCampus()'></app-toggle-campus>
 
-    <app-toggle-floors 
-        #switchFloor 
-        [availableFloors]="availableFloors" 
-        (toggledFloor)='switchFloors($event)'>
+    <app-toggle-campus
+        #toggle
+        (toggleChange)="switchCampus()"
+        [ngClass]="{invisible: !controlsShown}"
+    ></app-toggle-campus>
+
+    <app-toggle-floors
+        #switchFloor
+        [availableFloors]="availableFloors"
+        (toggledFloor)="switchFloors($event)"
+        [ngClass]="{invisible: !controlsShown}"
+    >
     </app-toggle-floors>
 
-    <app-building-info>
-    </app-building-info>
+    <app-building-info> </app-building-info>
 
-    <app-location-button #userCenter (recenterOnLocation)='recenterToUser()'></app-location-button>
+    <app-location-button
+        #userCenter
+        (recenterOnLocation)="recenterToUser()"
+        [ngClass]="{invisible: !controlsShown}"
+    ></app-location-button>
 </ion-content>

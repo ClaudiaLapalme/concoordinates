@@ -36,7 +36,9 @@ docker run -d --name sonarqube -p 9000:9000 sonarqube
 ### Running sonarqube
 
 1. open bash
-2. `sonar-scanner`
+2. `npm run sonar`
+
+Note: `sonar-scanner` does NOT work. It will fail to exclude the excluded files.
 
 ### Android setup
 
