@@ -38,13 +38,15 @@ describe('SettingsComponent', () => {
         componentLight = fixtureLight.componentInstance;
         fixtureLight.detectChanges();
 
-        async () => {
-            await componentLight['storage'].set('color-mode', 'dark');
-        }
-
         fixtureDark = TestBed.createComponent(SettingsComponent);
         componentDark = fixtureDark.componentInstance;
         fixtureDark.detectChanges();
+        
+        componentDark.checked = true;
+
+        async () => {
+            await componentDark['storage'].set('color-mode', 'dark');
+        }
     }));
 
     it('should be created light color', () => {
