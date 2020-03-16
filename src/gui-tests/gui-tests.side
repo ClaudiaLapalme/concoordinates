@@ -91,6 +91,13 @@
       ],
       "value": ""
     }, {
+      "id": "56e5a898-f3b2-465d-967a-706a6384d463",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "30000"
+    }, {
       "id": "4427e439-dc15-4846-8c03-0a10a6a3fe82",
       "comment": "",
       "command": "assertElementPresent",
@@ -115,6 +122,13 @@
       ],
       "value": ""
     }, {
+      "id": "a43197fb-885a-40cb-b035-be8f50cbbf97",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "30000"
+    }, {
       "id": "3585bf53-b541-47d8-b74b-22ca6471d0e4",
       "comment": "",
       "command": "assertElementPresent",
@@ -132,6 +146,13 @@
       ],
       "value": ""
     }, {
+      "id": "4523358a-5216-4c44-90c4-8d38f487ee36",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "30000"
+    }, {
       "id": "f481fe42-fc4c-41ed-81f9-c41277486168",
       "comment": "",
       "command": "assertElementPresent",
@@ -148,6 +169,13 @@
         ["xpath=//ion-button[4]", "xpath:position"]
       ],
       "value": ""
+    }, {
+      "id": "4fc33365-8689-4746-9281-24e326a99dee",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "30000"
     }, {
       "id": "f19df607-d0a5-4d0a-8426-72d8bf52b18d",
       "comment": "",
