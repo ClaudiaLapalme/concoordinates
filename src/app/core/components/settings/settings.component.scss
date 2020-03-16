@@ -1,0 +1,30 @@
+.container-settings{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: Roboto, sans-serif;
+}
+
+.title-settings{
+    order: 1;
+    margin: 20px auto;
+}
+
+.line {
+    width:100%;
+    border-bottom: 1px solid var(--ion-color-primary-contrast);
+    margin: auto;
+}
+
+.colorblind{
+    display: flex;
+    justify-content: space-around;
+}
+
+.checkbox{
+    margin-left: 15px;
+}
+
+.info{
+    padding: 15px;
+}

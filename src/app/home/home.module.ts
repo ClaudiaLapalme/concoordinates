@@ -7,6 +7,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { BuildingInfoComponent } from './components'; 
 import { ConvertToDayOfWeek } from './pipes';
+import { SideMenuComponent } from '../core/components';
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import { ConvertToDayOfWeek } from './pipes';
     declarations: [
         HomePage,
         BuildingInfoComponent,
+        SideMenuComponent,
         ConvertToDayOfWeek
     ]
 })
