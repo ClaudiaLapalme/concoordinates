@@ -4,23 +4,71 @@ declare let gapi: any;
 @Injectable()
 export class CalendarService {
 
-// will need to be hidden somewhere eventually
-readonly CLIENT_ID = '292731723309-5v2g441g50u2ur5hf5k09c4drc1k74vj.apps.googleusercontent.com';  
-readonly API_KEY = 'AIzaSyBJTreK-eH9Y0gsoaStxOmj-ks4hnEBxLo';
-readonly DISCOVERY_DOCS = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
-readonly SCOPE = 'https://www.googleapis.com/auth/calendar.readonly';
+  getCalendar() {
+    
+    gapi.load('client:auth2', ()=>{
+      gapi.client.init({
+        apiKey: '< Insert API Key >',
+        clientId: '< Insert Client ID >',
+        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
+        scope: 'https://www.googleapis.com/auth/calendar.readonly'
+      })
+      
+      .then(() => {
+        // Prompt sign in
+        gapi.auth2.getAuthInstance().signIn();
 
-public getCalendar(){
-  gapi.load('client:auth2', this.initClient);
-  gapi.auth2.getAuthInstance().signIn();
+        // Set up inital listener on sign in state
+        gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
+
+        // Update sign in status upon sign in
+        this.updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+      
+      }).catch(error =>{
+        console.log(error);
+      });
+
+    });
+
+  }
+
+
+   updateSigninStatus(isSignedIn): void {
+
+    // Just testing out getting events from the calendar
+    try{
+      gapi.client.calendar.events.list({
+        'calendarId': 'primary',
+        'timeMin': (new Date()).toISOString(),
+        'showDeleted': false,
+        'singleEvents': true,
+        'maxResults': 10,
+        'orderBy': 'startTime'
+      }).then((response) =>  {
+        var events = response.result.items;
+
+        console.log(events);
+
+      });
+    }
+    catch{
+      console.log('cannot log auth instance');
+    }
+    
+     
+    if (isSignedIn) {
+      console.log('signed in')
+      
+    } else {
+      console.log('not signed in')
+    }
+  }
+
+  
 }
 
-private initClient(): void {
-  gapi.auth2.init({
-    apiKey: this.API_KEY,
-    clientId: this.CLIENT_ID,
-    discoveryDocs: this.DISCOVERY_DOCS,
-    scope: this.SCOPE
-  });
-}
-}
+//jons client ID
+// 285078470897-kq3dv01araf42l6m28bquflo3upbdgn3.apps.googleusercontent.com
+
+//jons api key
+// AIzaSyDw0wQwrQmCGX0Oor2I8D4zgbItoiHowmw

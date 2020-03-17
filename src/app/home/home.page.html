@@ -1,9 +1,13 @@
-<ion-menu side="start" content-id="main-content" (click)="authCalendarUser()">
+<ion-menu side="start" content-id="main-content" >
     <ion-content color="primary" id="main-content" >
         <ion-item lines="none" color="primary">
             <ion-icon color="secondary" name="calendar" slot="start" ></ion-icon>
             <ion-label>Calendar</ion-label>
+            <ion-button id="link"*ngIf="!calendarLinked" (click)="authCalendarUser()">
+                Link Calendar
+            </ion-button>
         </ion-item>
+        
         <ion-item lines="none" color="primary">
             <ion-icon color="secondary" name="settings" slot="start"></ion-icon>
             <ion-label >Settings</ion-label>
