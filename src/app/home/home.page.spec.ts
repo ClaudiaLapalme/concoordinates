@@ -13,6 +13,10 @@ describe('HomePage', () => {
     let component: HomePage;
     let fixture: ComponentFixture<HomePage>;
 
+    class mockMap extends google.maps.Map{
+        panTo() {}
+    }
+
     beforeEach(async(() => {
         class MockMapService {
             loadMap(): Promise<google.maps.Map<Element>> {
@@ -35,6 +39,8 @@ describe('HomePage', () => {
         fixture = TestBed.createComponent(HomePage);
         component = fixture.componentInstance;
         fixture.detectChanges();
+        
+        component.mapModel = new mockMap(null);
     }));
 
     it('should create', () => {
@@ -144,14 +150,25 @@ describe('HomePage', () => {
             spyOn(component, 'createMarker').and.callThrough();
         }));
 
-        it('should create marker', () => {
-            const search = fixture.debugElement.query(
-                By.directive(SearchComponent)
-            );
-            const searchComponent = search.componentInstance;
+        class mockPlaceResult{
+            geometry = new mockGeometry;
+        }
 
+        class mockGeometry{
+            location = new mockLocation;
+        }
+
+        class mockLocation{
+            lat = 0;
+            lng = 0;
+        }
+
+        it('should create marker', () => {
+            const placeResult: any = new mockPlaceResult;
             component.searchedPlaceMarker = null;
-            searchComponent.placeSelection.emit();
+
+            component.createMarker(placeResult);
+
             expect(component.createMarker).toHaveBeenCalled();
             expect(component.searchedPlaceMarker).toBeDefined();
 
