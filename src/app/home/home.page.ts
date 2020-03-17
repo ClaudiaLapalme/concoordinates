@@ -71,10 +71,6 @@ export class HomePage implements AfterViewInit {
         this.menu.toggle();
     }
 
-    authCalendarUser(): void {
-        this.calendarService.getCalendar();
-    }
-
     setCurrentCenter(newCenter: google.maps.LatLng): void {
         this.currentCenter = newCenter;
     }

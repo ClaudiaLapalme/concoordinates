@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CalendarService } from '../../services/calendar.service';
 
 @Component({
     selector: 'app-side-menu',
@@ -10,7 +11,9 @@ export class SideMenuComponent {
     showMenu: boolean = true;
     showSettings: boolean = false;
 
-    constructor() { }
+    constructor(
+        private calendarService: CalendarService
+        ) { }
 
     openSettings(): void {
         this.showSettings = true;
@@ -20,5 +23,9 @@ export class SideMenuComponent {
     closeSettings(): void {
         this.showSettings = false;
         this.showMenu = true;
+    }
+
+    authCalendarUser() { 
+        let email = this.calendarService.getAuth().then(console.log);
     }
 }
