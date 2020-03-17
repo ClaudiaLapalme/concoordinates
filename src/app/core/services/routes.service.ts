@@ -4,7 +4,7 @@ import {
     Route,
     RouteStep,
     Transport,
-    TransportMode
+    TransportMode,
 } from '../models';
 import { GoogleApisService } from '../services/google-apis.service';
 

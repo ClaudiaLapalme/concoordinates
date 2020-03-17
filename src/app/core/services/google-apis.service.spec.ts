@@ -4,19 +4,22 @@ import { GoogleApisService } from './google-apis.service';
 
 
 describe('GoogleApisService', () => {
+    let service: GoogleApisService;
     beforeEach(() => TestBed.configureTestingModule({
         imports: [CoreModule],
     }));
 
+    beforeEach(() => {
+        service = TestBed.get(GoogleApisService);
+    });
+
     it('should be created', () => {
-        const service: GoogleApisService = TestBed.get(GoogleApisService);
         expect(service).toBeTruthy();
     });
 
     describe('createMap()', () => {
 
         it('should return a map', () => {
-            const service: GoogleApisService = TestBed.get(GoogleApisService);
             const options: google.maps.MapOptions = {
                 center: new google.maps.LatLng(12.34, 34.21),
                 zoom: 15,
@@ -31,7 +34,6 @@ describe('GoogleApisService', () => {
     describe('createMarker()', () => {
 
         it('should return a marker', () => {
-            const service: GoogleApisService = TestBed.get(GoogleApisService);
             const options: google.maps.MapOptions = {
                 center: new google.maps.LatLng(12.34, 34.21),
                 zoom: 15,
@@ -52,10 +54,27 @@ describe('GoogleApisService', () => {
     describe('createLatLng()', () => {
 
         it('should return a LatLng', () => {
-            const service: GoogleApisService = TestBed.get(GoogleApisService);
             expect(service.createLatLng(5, 4)).toBeTruthy();
         });
 
+    });
+
+    describe('getDirectionsService()', () => {
+        it('should return a DirectionsService', () => {
+            expect(service.getDirectionsService()).toBeTruthy();
+        });
+    });
+
+    describe('mapReference', () => {
+        it('should return a Map', () => {
+            expect(service.mapReference({ nativeElement: null })).toBeTruthy();
+        });
+    });
+
+    describe('getMapRenderer()', () => {
+        it('should return a MapRenderer', () => {
+            expect(service.getMapRenderer()).toBeTruthy();
+        });
     });
 
 });

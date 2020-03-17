@@ -42,6 +42,10 @@ class DirectionsService {
     route(dirRequest, res, status) {}
 }
 
+class DirectionsRenderer {
+
+}
+
 let google = {
     maps: {
         OverlayView: function() {
@@ -66,13 +70,16 @@ let google = {
 		},
 		Size: function(){
 
-		},
+        },
+        DirectionsRenderer: function() {
+
+        },
 		Polygon: function(){
 			return new Polygon;
 		},
 		DirectionsService: function(){
 			return new DirectionsService;
-		},
+        },
 		Animation: {
 			DROP: {}
 		},

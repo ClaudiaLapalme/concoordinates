@@ -6,12 +6,9 @@ import { RouteStep } from './route-step';
 import { TransportMode } from './transport-mode';
 
 describe('Route', () => {
-    class MockDirectionService extends google.maps.DirectionsService {
-        route(request, callback) {}
-    }
 
     function testFunctionSetup() {
-        let routeStep1 = new RouteStep(
+        const routeStep1 = new RouteStep(
             1,
             new Coordinates(1, 2, 0),
             new Coordinates(1, 2, 0),
@@ -20,7 +17,7 @@ describe('Route', () => {
             'instruction one',
             null
         );
-        let routeStep2 = new RouteStep(
+        const routeStep2 = new RouteStep(
             1,
             new Coordinates(1, 2, 0),
             new Coordinates(1, 2, 0),
@@ -29,8 +26,8 @@ describe('Route', () => {
             'instruction two',
             null
         );
-        let routeStepsSpy = new Array<RouteStep>(routeStep1, routeStep2);
-        let routeUnderTest = new Route(
+        const routeStepsSpy = new Array<RouteStep>(routeStep1, routeStep2);
+        const routeUnderTest = new Route(
             new Coordinates(1, 2, 0),
             new Coordinates(1, 2, 0),
             null,
@@ -51,7 +48,22 @@ describe('Route', () => {
     });
 
     it('should return all step instructions', () => {
-        let expectedInstructions = ['instruction one', 'instruction two'];
+        const expectedInstructions = ['instruction one', 'instruction two'];
         expect(routeUnderTest.getInstructions()).toEqual(expectedInstructions);
+    });
+
+    it('Should convert Route to DirectionsRequest object', () => {
+        const travelMode: any = 'TRANSIT';
+        const createdDirReq: google.maps.DirectionsRequest = {
+            origin: new google.maps.LatLng(1, 2),
+            destination: new google.maps.LatLng(1, 2),
+            travelMode: travelMode,
+            transitOptions: {
+                departureTime: null,
+                arrivalTime: null
+            },
+            provideRouteAlternatives: true
+        };
+        expect(routeUnderTest.getDirectionsRequestFromRoute()).toEqual(createdDirReq);
     });
 });
