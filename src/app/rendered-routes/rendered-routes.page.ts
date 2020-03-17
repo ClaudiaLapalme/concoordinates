@@ -6,7 +6,8 @@ import {
     OnInit
 } from '@angular/core';
 import { Route } from '../core/models';
-import { MapService } from '../core/services';
+import { MapService } from '../core/services/map.service';
+import { RoutesService } from '../core/services/routes.service';
 import { StateService } from '../shared/state.service';
 
 @Component({
@@ -18,13 +19,13 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     route: Route;
     @ViewChild('map', { static: false })
     mapElement: ElementRef;
-    constructor(private stateService: StateService) {}
+    constructor(
+        private stateService: StateService,
+        private mapService: MapService
+    ) {}
 
     ngAfterViewInit(): void {
-        const map = new google.maps.Map(this.mapElement.nativeElement);
-        const renderer = new google.maps.DirectionsRenderer();
-        renderer.setMap(map);
-        this.route.display(renderer);
+        this.mapService.displayRoute(this.mapElement, this.route);
     }
 
     ngOnInit() {

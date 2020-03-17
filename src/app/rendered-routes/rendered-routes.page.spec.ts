@@ -5,7 +5,10 @@ import { RenderedRoutesPage } from './rendered-routes.page';
 import { Route, Coordinates, TransportMode } from '../core/models';
 import { RouteStep } from '../core/models/route-step';
 import { StateService } from '../shared/state.service';
+import { MapService } from '../core/services/map.service';
 import { CoreModule } from '../core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ElementRef } from '@angular/core';
 
 describe('RenderedRoutesPage', () => {
     let component: RenderedRoutesPage;
@@ -16,8 +19,8 @@ describe('RenderedRoutesPage', () => {
         constructor() {
             let routeStep1 = new RouteStep(
                 1,
-                new Coordinates(1, 2),
-                new Coordinates(1, 2),
+                new Coordinates(1, 2, 0),
+                new Coordinates(1, 2, 0),
                 null,
                 1,
                 'instruction one',
@@ -25,8 +28,8 @@ describe('RenderedRoutesPage', () => {
             );
             let routeStep2 = new RouteStep(
                 1,
-                new Coordinates(1, 2),
-                new Coordinates(1, 2),
+                new Coordinates(1, 2, 0),
+                new Coordinates(1, 2, 0),
                 null,
                 1,
                 'instruction two',
@@ -34,8 +37,8 @@ describe('RenderedRoutesPage', () => {
             );
             let routeStepsSpy = new Array<RouteStep>(routeStep1, routeStep2);
             this.sharedRoute = new Route(
-                new Coordinates(1, 2),
-                new Coordinates(1, 2),
+                new Coordinates(1, 2, 0),
+                new Coordinates(1, 2, 0),
                 null,
                 null,
                 null,
@@ -44,12 +47,22 @@ describe('RenderedRoutesPage', () => {
             this.sharedRoute.setCurrentTravelMode(TransportMode.TRANSIT);
         }
     }
+    class MockMapService {
+        displayRoute(mapRef: ElementRef, route: Route): void {}
+    }
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [RenderedRoutesPage],
-            imports: [IonicModule.forRoot(), CoreModule],
-            providers: [{ provide: StateService, useClass: MockStateService }]
+            imports: [
+                IonicModule.forRoot(),
+                CoreModule,
+                RouterTestingModule.withRoutes([])
+            ],
+            providers: [
+                { provide: StateService, useClass: MockStateService },
+                { provide: MapService, useClass: MockMapService }
+            ]
         }).compileComponents();
 
         fixture = TestBed.createComponent(RenderedRoutesPage);

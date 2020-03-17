@@ -2,31 +2,35 @@ import { ElementRef, Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { GoogleApisService } from './google-apis.service';
 import { LocationService } from './location.service';
-import { Map, Building } from '../models';
+import { Map, Building, Route } from '../models';
 import { OutdoorMap } from '../models/outdoor-map';
 import { OutdoorPOIFactoryService } from '../factories';
 import { PlaceService } from './place.service';
 
 @Injectable()
 export class MapService {
-
     private outdoorMap: Map;
 
     constructor(
         private locationService: LocationService,
         private googleApis: GoogleApisService,
         private placeService: PlaceService
-    ){ this.loadOutdoorMap(); }
+    ) {
+        this.loadOutdoorMap();
+    }
 
     icon: google.maps.Icon = {
         url: '../../../assets/icon/location_marker.png',
-        scaledSize: new google.maps.Size(30, 30), // scaled size
+        scaledSize: new google.maps.Size(30, 30) // scaled size
     };
 
-    SGW_COORDINATES: google.maps.LatLng = new google.maps.LatLng(45.4959053, -73.5801141);
+    SGW_COORDINATES: google.maps.LatLng = new google.maps.LatLng(
+        45.4959053,
+        -73.5801141
+    );
 
     /**
-     * Given a map reference create a map 
+     * Given a map reference create a map
      * @param mapElement the reference to the html map
      */
     async loadMap(mapElement: ElementRef): Promise<google.maps.Map<Element>> {
@@ -46,23 +50,28 @@ export class MapService {
         try {
             const geoPos: Geoposition = await this.locationService.getGeoposition();
             if (geoPos) {
-
-                const latLng = this.googleApis.createLatLng(geoPos.coords.latitude, geoPos.coords.longitude);
+                const latLng = this.googleApis.createLatLng(
+                    geoPos.coords.latitude,
+                    geoPos.coords.longitude
+                );
 
                 mapOptions.center = latLng;
 
-                const mapObj = this.googleApis.createMap(mapElement, mapOptions);
+                const mapObj = this.googleApis.createMap(
+                    mapElement,
+                    mapOptions
+                );
                 this.googleApis.createMarker(latLng, mapObj, this.icon);
                 this.placeService.enableService(mapObj);
 
                 this.displayBuildingsOutline(mapObj);
 
-                mapObj.addListener('tilesloaded',
-                    this.tilesLoadedHandler(mapObj,
-                        latLng.lat(), latLng.lng()));
+                mapObj.addListener(
+                    'tilesloaded',
+                    this.tilesLoadedHandler(mapObj, latLng.lat(), latLng.lng())
+                );
 
                 return mapObj;
-
             } else {
                 return this.googleApis.createMap(mapElement, mapOptions);
             }
@@ -72,29 +81,31 @@ export class MapService {
         }
     }
 
-    private tilesLoadedHandler(mapObj: google.maps.Map, latitude: number, longitude: number): () => void {
-
+    private tilesLoadedHandler(
+        mapObj: google.maps.Map,
+        latitude: number,
+        longitude: number
+    ): () => void {
         return () => {
             console.log('mapObj', mapObj); // debug
-            this.locationService.getAddressFromLatLng(latitude, longitude).then(console.log);
+            this.locationService
+                .getAddressFromLatLng(latitude, longitude)
+                .then(console.log);
             this.trackBuildingsOutlinesDisplay(mapObj.getZoom());
             this.trackBuildingCodeDisplay(mapObj.getZoom());
         };
     }
 
     private loadOutdoorMap(): void {
-
         const outdoorPOIFactory = new OutdoorPOIFactoryService();
 
         this.outdoorMap = new OutdoorMap(outdoorPOIFactory.loadOutdoorPOIs());
     }
 
     private displayBuildingsOutline(mapRef: google.maps.Map<Element>): void {
-
         const outdoorPOIs = this.outdoorMap.getPOIs();
 
         for (let outdoorPOI of outdoorPOIs) {
-
             if (outdoorPOI instanceof Building) {
                 outdoorPOI.createBuildingOutline(mapRef, this.placeService);
             }
@@ -107,15 +118,13 @@ export class MapService {
      * indoor map implemented.
      */
     private trackBuildingsOutlinesDisplay(zoomValue: number): void {
-
         const hallBuildingName = 'Henry F. Hall Building';
         const building = this.outdoorMap.getPOI(hallBuildingName);
 
         if (building instanceof Building) {
             if (zoomValue >= 20) {
                 building.removeBuildingOutline();
-            }
-            else {
+            } else {
                 building.displayBuildingOutline();
             }
         }
@@ -125,16 +134,13 @@ export class MapService {
      * When the zoom value on the map is 18 or higher, the labels on the Concordia Buildings are displayed.
      */
     private trackBuildingCodeDisplay(zoomValue: number): void {
-        
         const outdoorPOIs = this.outdoorMap.getPOIs();
 
         for (let outdoorPOI of outdoorPOIs) {
-
             if (outdoorPOI instanceof Building) {
                 if (zoomValue >= 18) {
                     outdoorPOI.displayBuildingLabel();
-                }
-                else {
+                } else {
                     outdoorPOI.removeBuildingLabel();
                 }
             }
@@ -145,9 +151,32 @@ export class MapService {
         const geoPos: Geoposition = await this.locationService.getGeoposition();
 
         if (geoPos) {
-            return this.googleApis.createLatLng(geoPos.coords.latitude, geoPos.coords.longitude);
+            return this.googleApis.createLatLng(
+                geoPos.coords.latitude,
+                geoPos.coords.longitude
+            );
         }
 
         return this.SGW_COORDINATES;
+    }
+
+    displayRoute(mapRef: ElementRef, route: Route) {
+        const renderer = this.getMapRenderer();
+        renderer.setMap(this.getMapFromElement(mapRef));
+        this.googleApis
+            .getDirectionsService()
+            .route(route.getDirectionsRequestFromRoute(), (res, status) => {
+                if (status === 'OK') {
+                    renderer.setDirections(res);
+                } else {
+                    console.log('Directions request failed due to ' + status);
+                }
+            });
+    }
+    getMapFromElement(mapRef: ElementRef): google.maps.Map {
+        return this.googleApis.mapReference(mapRef);
+    }
+    getMapRenderer(): google.maps.DirectionsRenderer {
+        return this.googleApis.getMapRenderer();
     }
 }

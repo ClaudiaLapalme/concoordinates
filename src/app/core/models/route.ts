@@ -1,7 +1,6 @@
 import { Coordinates } from './coordinates';
 import { RouteStep } from './route-step';
 import { TransportMode } from './transport-mode';
-import { TravelMode } from '@google/maps';
 
 export class Route {
     constructor(
@@ -48,40 +47,24 @@ export class Route {
     setCurrentTravelMode(transportMode: TransportMode): void {
         this.transportMode = transportMode;
     }
-    // display a render of routes
-    display(renderer: google.maps.DirectionsRenderer): void {
-        // const renderer = new google.maps.DirectionsRenderer();
-        // renderer.setMap(map);
-        const directionRequest = this.getDirectionsRequestFromRoute(this);
-        new google.maps.DirectionsService().route(
-            directionRequest,
-            (res, status) => {
-                if (status === 'OK') {
-                    renderer.setDirections(res);
-                } else {
-                    console.log('Directions request failed due to ' + status);
-                }
-            }
-        );
-    }
 
-    getDirectionsRequestFromRoute(route: Route): google.maps.DirectionsRequest {
+    getDirectionsRequestFromRoute(): google.maps.DirectionsRequest {
         const convertedTransportMode: any = this.transportMode
             ? this.transportMode
             : 'TRAVEL';
         const dirRequest: google.maps.DirectionsRequest = {
             origin: new google.maps.LatLng(
-                route.startCoordinates.getLatitude(),
-                route.startCoordinates.getLongitude()
+                this.startCoordinates.getLatitude(),
+                this.startCoordinates.getLongitude()
             ),
             destination: new google.maps.LatLng(
-                route.endCoordinates.getLatitude(),
-                route.endCoordinates.getLongitude()
+                this.endCoordinates.getLatitude(),
+                this.endCoordinates.getLongitude()
             ),
             travelMode: convertedTransportMode,
             transitOptions: {
-                departureTime: route.startTime,
-                arrivalTime: route.endTime
+                departureTime: this.startTime,
+                arrivalTime: this.endTime
             },
             provideRouteAlternatives: true
         };

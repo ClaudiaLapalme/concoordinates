@@ -13,8 +13,8 @@ describe('Route', () => {
     function testFunctionSetup() {
         let routeStep1 = new RouteStep(
             1,
-            new Coordinates(1, 2),
-            new Coordinates(1, 2),
+            new Coordinates(1, 2, 0),
+            new Coordinates(1, 2, 0),
             null,
             1,
             'instruction one',
@@ -22,8 +22,8 @@ describe('Route', () => {
         );
         let routeStep2 = new RouteStep(
             1,
-            new Coordinates(1, 2),
-            new Coordinates(1, 2),
+            new Coordinates(1, 2, 0),
+            new Coordinates(1, 2, 0),
             null,
             1,
             'instruction two',
@@ -31,8 +31,8 @@ describe('Route', () => {
         );
         let routeStepsSpy = new Array<RouteStep>(routeStep1, routeStep2);
         let routeUnderTest = new Route(
-            new Coordinates(1, 2),
-            new Coordinates(1, 2),
+            new Coordinates(1, 2, 0),
+            new Coordinates(1, 2, 0),
             null,
             null,
             null,
@@ -53,15 +53,5 @@ describe('Route', () => {
     it('should return all step instructions', () => {
         let expectedInstructions = ['instruction one', 'instruction two'];
         expect(routeUnderTest.getInstructions()).toEqual(expectedInstructions);
-    });
-
-    it('should run display function', () => {
-        const rendererSpy = new google.maps.DirectionsRenderer();
-        const directionSpy = new MockDirectionService();
-        const spyRender = spyOn(rendererSpy, 'setDirections');
-        // const spyDirection = spyOn(directionSpy, 'route');
-        routeUnderTest.display(rendererSpy);
-        // expect(directionSpy.route).toHaveBeenCalled();
-        expect(rendererSpy.setDirections).toHaveBeenCalled();
     });
 });

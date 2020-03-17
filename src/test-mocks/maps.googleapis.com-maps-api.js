@@ -27,11 +27,6 @@ class Marker {
         return this.visible;
     }
 }
-
-class DirectionsService {
-    route(dirRequest, res, status) {}
-}
-
 class LatLngBounds {
     extend() {}
     getCenter() {}
@@ -44,11 +39,9 @@ class LatLngBounds {
     }
 }
 class DirectionsService {
-    route(request, callback) {}
+    route(dirRequest, res, status) {}
 }
-class DirectionsRenderer {
-    setMap(map) {}
-}
+
 let google = {
     maps: {
         OverlayView: function() {
@@ -93,38 +86,6 @@ let google = {
                     }
                 };
             }
-        },
-        Marker: function() {},
-        InfoWindow: function() {},
-        LatLng: function(lat, lng) {
-            return [lat, lng];
-        },
-        LatLngBounds: function(sw, ne) {
-            return null;
-        },
-        Map: function(obj) {},
-        Size: function() {},
-        Polygon: function() {
-            return new Polygon();
-        },
-        MapTypeId: { ROADMAP: true },
-        DirectionsRenderer: function() {
-            return new DirectionsRenderer();
-        },
-        DirectionsRequest: function(
-            destination,
-            origin,
-            provideRouteAlternatives,
-            transitOptions,
-            travelMode
-        ) {
-            return new DirectionsRequest(
-                destination,
-                origin,
-                provideRouteAlternatives,
-                transitOptions,
-                travelMode
-            );
         }
     }
 };
