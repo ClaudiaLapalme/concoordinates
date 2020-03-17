@@ -5,3 +5,5 @@ export * from './search';
 export * from './directions-button';
 export * from './loader';
 export * from './location-button';
+export * from './settings';
+export * from './side-menu';

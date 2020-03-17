@@ -81,7 +81,7 @@ describe('MapService', () => {
                     speed: 12,
                 }
             };
-            locationServiceSpy.getGeoposition.and.throwError('hello');
+
             const mockMap = new MockMaps(null);
 
             mapService.loadMap(mapElement);

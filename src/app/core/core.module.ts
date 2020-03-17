@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { IonicModule } from '@ionic/angular';
+import { IonicStorageModule } from '@ionic/storage';
 
 import {
     DirectionsButtonComponent,
@@ -13,6 +14,7 @@ import {
     SearchComponent,
     ToggleCampusComponent,
     ToggleFloorsComponent,
+    SettingsComponent,
 } from './components';
 import {
     AbstractPOIFactoryService,
@@ -37,10 +39,12 @@ import {
         DirectionsButtonComponent,
         IndoorMapComponent,
         LocationButtonComponent,
+        SettingsComponent
     ],
     imports: [
         CommonModule,
         IonicModule,
+        IonicStorageModule,
         FormsModule,
         ReactiveFormsModule
     ],
@@ -66,6 +70,7 @@ import {
         DirectionsButtonComponent,
         IndoorMapComponent,
         LocationButtonComponent,
+        SettingsComponent
     ],
     entryComponents: []
 })
