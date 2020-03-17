@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Route, RouteFactory, TransportMode } from '../core';
+import { OutdoorRoute, RouteFactory, TransportMode } from '../core';
 
 @Component({
     selector: 'app-routes',
@@ -9,7 +9,7 @@ import { Route, RouteFactory, TransportMode } from '../core';
 })
 export class RoutesPage implements OnInit {
     form: FormGroup;
-    routes: Route[];
+    routes: OutdoorRoute[];
     transportMode: TransportMode;
     loading: boolean;
 

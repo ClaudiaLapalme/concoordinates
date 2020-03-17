@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Route, TransportMode } from 'src/app/core';
+import { OutdoorRoute, TransportMode } from 'src/app/core';
 import { StateService } from 'src/app/shared/state.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { StateService } from 'src/app/shared/state.service';
     styleUrls: ['./routes-list.component.scss']
 })
 export class RoutesListComponent implements OnInit {
-    @Input() routes: Route[];
+    @Input() routes: OutdoorRoute[];
     @Input() routeTransportMode: TransportMode;
     constructor(private router: Router, private stateService: StateService) {}
 

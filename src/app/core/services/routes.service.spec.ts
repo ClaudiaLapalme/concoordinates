@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
     Coordinates,
-    Route,
+    OutdoorRoute,
     RouteStep,
     Transport,
     TransportMode
@@ -173,7 +173,7 @@ describe('RoutesService', () => {
             ]
         };
 
-        const testRoute = new Route(
+        const testRoute = new OutdoorRoute(
             testCoordinate,
             testCoordinate,
             null,

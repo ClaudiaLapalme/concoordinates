@@ -1,11 +1,11 @@
 import { async, TestBed } from '@angular/core/testing';
 import { CoreModule } from '../core.module';
 import { Coordinates } from './coordinates';
-import { Route } from './route';
+import { OutdoorRoute } from './outdoor-route';
 import { RouteStep } from './route-step';
 import { TransportMode } from './transport-mode';
 
-describe('Route', () => {
+describe('OutdoorRoute', () => {
 
     function testFunctionSetup() {
         const routeStep1 = new RouteStep(
@@ -27,7 +27,7 @@ describe('Route', () => {
             null
         );
         const routeStepsSpy = new Array<RouteStep>(routeStep1, routeStep2);
-        const routeUnderTest = new Route(
+        const routeUnderTest = new OutdoorRoute(
             new Coordinates(1, 2, 0),
             new Coordinates(1, 2, 0),
             null,

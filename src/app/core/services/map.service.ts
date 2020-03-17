@@ -2,7 +2,7 @@ import { ElementRef, Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { GoogleApisService } from './google-apis.service';
 import { LocationService } from './location.service';
-import { Map, Building, Route } from '../models';
+import { Map, Building, OutdoorRoute } from '../models';
 import { OutdoorMap } from '../models/outdoor-map';
 import { OutdoorPOIFactoryService } from '../factories';
 import { PlaceService } from './place.service';
@@ -160,7 +160,7 @@ export class MapService {
         return this.SGW_COORDINATES;
     }
 
-    displayRoute(mapRef: ElementRef, route: Route) {
+    displayRoute(mapRef: ElementRef, route: OutdoorRoute) {
         const renderer = this.getMapRenderer();
         renderer.setMap(this.getMapFromElement(mapRef));
         this.googleApis

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { RenderedRoutesPage } from './rendered-routes.page';
-import { Route, Coordinates, TransportMode } from '../core/models';
+import { OutdoorRoute, Coordinates, TransportMode } from '../core/models';
 import { RouteStep } from '../core/models/route-step';
 import { StateService } from '../shared/state.service';
 import { MapService } from '../core/services/map.service';
@@ -15,7 +15,7 @@ describe('RenderedRoutesPage', () => {
     let fixture: ComponentFixture<RenderedRoutesPage>;
 
     class MockStateService {
-        sharedRoute: Route;
+        sharedRoute: OutdoorRoute;
         constructor() {
             let routeStep1 = new RouteStep(
                 1,
@@ -36,7 +36,7 @@ describe('RenderedRoutesPage', () => {
                 null
             );
             let routeStepsSpy = new Array<RouteStep>(routeStep1, routeStep2);
-            this.sharedRoute = new Route(
+            this.sharedRoute = new OutdoorRoute(
                 new Coordinates(1, 2, 0),
                 new Coordinates(1, 2, 0),
                 null,
@@ -48,7 +48,7 @@ describe('RenderedRoutesPage', () => {
         }
     }
     class MockMapService {
-        displayRoute(mapRef: ElementRef, route: Route): void {}
+        displayRoute(mapRef: ElementRef, route: OutdoorRoute): void {}
     }
 
     beforeEach(async(() => {

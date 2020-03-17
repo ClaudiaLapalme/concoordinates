@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Route, TransportMode } from 'src/app/core';
+import { OutdoorRoute, TransportMode } from 'src/app/core';
 
 @Component({
     selector: 'app-routes-list-item',
@@ -8,7 +8,7 @@ import { Route, TransportMode } from 'src/app/core';
 })
 export class RoutesListItemComponent implements OnInit {
 
-    @Input() route: Route;
+    @Input() route: OutdoorRoute;
     @Input() routeNumber: number;
     @Input() routeTransportMode: TransportMode;
 

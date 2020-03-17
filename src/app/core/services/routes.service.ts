@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
     Coordinates,
-    Route,
+    OutdoorRoute,
     RouteStep,
     Transport,
     TransportMode,
@@ -27,12 +27,12 @@ export class RoutesService {
 
     mapGoogleRoutesToRoutes(
         googleRoutes: google.maps.DirectionsRoute[]
-    ): Route[] {
-        const routes: Route[] = [];
+    ): OutdoorRoute[] {
+        const routes: OutdoorRoute[] = [];
         googleRoutes.forEach(gRoute => {
             const routeLeg = gRoute.legs[0];
 
-            const route = new Route(
+            const route = new OutdoorRoute(
                 new Coordinates(
                     routeLeg.start_location.lat(),
                     gRoute.legs[0].start_location.lng(),
