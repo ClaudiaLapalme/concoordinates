@@ -45,9 +45,6 @@ export class GoogleApisService {
     public getDirectionsService(): google.maps.DirectionsService {
         return new google.maps.DirectionsService();
     }
-    public mapReference(mapRef: ElementRef) {
-        return new google.maps.Map(mapRef.nativeElement);
-    }
     public getMapRenderer(): google.maps.DirectionsRenderer {
         return new google.maps.DirectionsRenderer();
     }

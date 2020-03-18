@@ -65,12 +65,6 @@ describe('GoogleApisService', () => {
         });
     });
 
-    describe('mapReference', () => {
-        it('should return a Map', () => {
-            expect(service.mapReference({ nativeElement: null })).toBeTruthy();
-        });
-    });
-
     describe('getMapRenderer()', () => {
         it('should return a MapRenderer', () => {
             expect(service.getMapRenderer()).toBeTruthy();

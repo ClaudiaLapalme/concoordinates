@@ -160,9 +160,9 @@ export class MapService {
         return this.SGW_COORDINATES;
     }
 
-    displayRoute(mapRef: ElementRef, route: OutdoorRoute) {
+    displayRoute(map: google.maps.Map, route: OutdoorRoute) {
         const renderer = this.getMapRenderer();
-        renderer.setMap(this.getMapFromElement(mapRef));
+        renderer.setMap(map);
         this.googleApis
             .getDirectionsService()
             .route(route.getDirectionsRequestFromRoute(), (res, status) => {
@@ -172,9 +172,6 @@ export class MapService {
                     console.log('Directions request failed due to ' + status);
                 }
             });
-    }
-    getMapFromElement(mapRef: ElementRef): google.maps.Map {
-        return this.googleApis.mapReference(mapRef);
     }
     getMapRenderer(): google.maps.DirectionsRenderer {
         return this.googleApis.getMapRenderer();

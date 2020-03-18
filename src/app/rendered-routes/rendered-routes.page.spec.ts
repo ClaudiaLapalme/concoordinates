@@ -47,8 +47,24 @@ describe('RenderedRoutesPage', () => {
             this.sharedRoute.setCurrentTravelMode(TransportMode.TRANSIT);
         }
     }
+
+    class MockMaps extends google.maps.Map {
+        addListener() {
+            return null;
+        }
+        getZoom(): number {
+            return null;
+        }
+    }
+
     class MockMapService {
-        displayRoute(mapRef: ElementRef, route: OutdoorRoute): void {}
+        map: google.maps.Map = new MockMaps(null);
+        displayRoute(map: google.maps.Map, route: OutdoorRoute): void {}
+        loadMap(): Promise<google.maps.Map<Element>> {
+            return new Promise(() => {
+                return this.map;
+            });
+        }
     }
 
     beforeEach(async(() => {

@@ -19,16 +19,53 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     route: OutdoorRoute;
     @ViewChild('map', { static: false })
     mapElement: ElementRef;
+
+    @ViewChild('directions', { read: ElementRef, static: false })
+    directionsButton: ElementRef;
+
+    // Reference to the native location button html element
+    @ViewChild('userCenter', { read: ElementRef, static: false })
+    userCenter: ElementRef;
+
+    // Map data
+    public mapModel: google.maps.Map;
+
+    controlsShown = true;
+
     constructor(
         private stateService: StateService,
         private mapService: MapService
-    ) {}
+    ) { }
 
     ngAfterViewInit(): void {
-        this.mapService.displayRoute(this.mapElement, this.route);
+        this.mapService.loadMap(this.mapElement).then(mapObj => {
+            this.mapModel = mapObj;
+            const directionsButton = this.directionsButton.nativeElement;
+            const locationButton = this.userCenter.nativeElement;
+
+            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
+            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(directionsButton);
+            this.mapService.displayRoute(mapObj, this.route);
+        });
     }
 
     ngOnInit() {
         this.route = this.stateService.sharedRoute;
+    }
+
+    recenterToUser(): void {
+        this.mapService.getUserLocation().then(userLatLng => {
+            this.handleRecenter(userLatLng);
+        });
+    }
+
+    handleRecenter(userLatLng): void {
+        const latLng: google.maps.LatLng = userLatLng;
+
+        if (latLng !== undefined) {
+            this.mapModel.setCenter(latLng);
+        } else {
+            console.log('the user location is undefined');
+        }
     }
 }

@@ -296,16 +296,7 @@ describe('MapService', () => {
     class MockElementRef extends ElementRef {
         nativeElement = {};
     }
-    it('get map from from element', () => {
-        const {
-            mapService,
-            locationServiceSpy,
-            googleApisServiceSpy
-        } = testServiceSetup();
-        const mapElement = new MockElementRef({});
-        mapService.getMapFromElement(mapElement);
-        expect(googleApisServiceSpy.mapReference).toHaveBeenCalled();
-    });
+    
     it('get renderer api', () => {
         const {
             mapService,
