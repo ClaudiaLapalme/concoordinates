@@ -14,6 +14,10 @@ import { GoogleApisService } from '../services/google-apis.service';
 export class RoutesService {
     constructor(private googleApis: GoogleApisService) {}
 
+    /*
+    This function is responsible for calling the actual google api
+    through our interface to query the google services for routing instructions
+    */
     async getMappedRoutes(
         dirRequest: google.maps.DirectionsRequest
     ): Promise<any> {
@@ -25,6 +29,11 @@ export class RoutesService {
         }
     }
 
+    /*
+    A conversion function responsible for mapping google routes to our OutdoorRoutes model
+    Reference to google routes object structure:
+    https://developers.google.com/maps/documentation/directions/intro#DirectionsResponses
+    */
     mapGoogleRoutesToRoutes(
         googleRoutes: google.maps.DirectionsRoute[]
     ): OutdoorRoute[] {
@@ -58,6 +67,9 @@ export class RoutesService {
         return routes;
     }
 
+    /*
+    A conversion function responsible for mapping google LatLng coordinates into our Coordinates model
+    */
     getPathFromLatLngList(latLngList: google.maps.LatLng[]): Coordinates[] {
         const coordinatesList: Coordinates[] = [];
         latLngList.forEach(latlng => {
@@ -71,6 +83,9 @@ export class RoutesService {
         return coordinatesList;
     }
 
+    /*
+    A conversion function to convert underlying leg steps of the google object into our routeSteps objects
+    */
     mapGoogleStepsToRouteSteps(
         steps: google.maps.DirectionsStep[]
     ): RouteStep[] {
