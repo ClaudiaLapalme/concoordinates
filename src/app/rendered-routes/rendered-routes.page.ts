@@ -20,9 +20,6 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     @ViewChild('map', { static: false })
     mapElement: ElementRef;
 
-    @ViewChild('directions', { read: ElementRef, static: false })
-    directionsButton: ElementRef;
-
     // Reference to the native location button html element
     @ViewChild('userCenter', { read: ElementRef, static: false })
     userCenter: ElementRef;
@@ -35,16 +32,16 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     constructor(
         private stateService: StateService,
         private mapService: MapService
-    ) { }
+    ) {}
 
     ngAfterViewInit(): void {
         this.mapService.loadMap(this.mapElement).then(mapObj => {
             this.mapModel = mapObj;
-            const directionsButton = this.directionsButton.nativeElement;
             const locationButton = this.userCenter.nativeElement;
 
-            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
-            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(directionsButton);
+            this.mapModel.controls[
+                google.maps.ControlPosition.RIGHT_BOTTOM
+            ].push(locationButton);
             this.mapService.displayRoute(mapObj, this.route);
         });
     }
