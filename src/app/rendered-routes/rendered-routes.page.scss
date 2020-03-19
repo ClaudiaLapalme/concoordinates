@@ -17,19 +17,11 @@
 }
 #map {
     width: 100%;
-    height: 100vh;
+    height: 99vh;
 }
 .rendered-routes-header-container {
-    padding: 5px 0;
-    display: flex;
-    flex-direction: row;
     border-bottom: 1px solid var(--ion-color-primary-contrast);
     .back-button-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        padding: 10px;
         ion-icon {
             color: var(--ion-color-primary-contrast);
         }
