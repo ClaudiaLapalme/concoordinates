@@ -1,5 +1,9 @@
-  <div *ngFor="let r of routes; let i = index">
-    <app-routes-list-item [route]="r" [routeNumber]="i+1" [routeTransportMode]="routeTransportMode"></app-routes-list-item>
-    <div class="divider"></div>
-
-  </div>
+<div *ngFor="let r of routes; let i = index">
+  <app-routes-list-item
+    (click)="displayRoute(i)"
+    [route]="r"
+    [routeNumber]="i + 1"
+    [routeTransportMode]="routeTransportMode"
+  ></app-routes-list-item>
+  <div class="divider"></div>
+</div>

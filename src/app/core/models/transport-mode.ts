@@ -7,14 +7,18 @@ export enum TransportMode {
 }
 
 export class Transport {
-
-    constructor(speed: number, durationFactor: number, travelType: TransportMode, transportDetails: google.maps.TransitDetails){
+    constructor(
+        speed: number,
+        durationFactor: number,
+        transportType: TransportMode,
+        transportDetails: google.maps.TransitDetails
+    ) {
         this.speed = speed;
         this.durationFactor = durationFactor;
-        this.travelType = travelType;
+        this.travelType = transportType;
         this.transportDetails = transportDetails;
     }
-    
+
     speed: number;
     durationFactor: number;
     travelType: TransportMode;

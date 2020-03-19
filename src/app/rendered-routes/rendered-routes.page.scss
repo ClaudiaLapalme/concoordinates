@@ -1,0 +1,29 @@
+:host {
+    background-color: var(--ion-color-primary);
+}
+.map-wrapper {
+    position: relative;
+
+    #map_center {
+        position: absolute;
+        z-index: 99;
+        height: 40px;
+        width: 40px;
+        top: 50%;
+        left: 50%;
+        margin-left: -21px;
+        margin-top: -41px;
+    }
+}
+#map {
+    width: 100%;
+    height: 99vh;
+}
+.rendered-routes-header-container {
+    border-bottom: 1px solid var(--ion-color-primary-contrast);
+    .back-button-container {
+        ion-icon {
+            color: var(--ion-color-primary-contrast);
+        }
+    }
+}
