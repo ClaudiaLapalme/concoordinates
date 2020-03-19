@@ -6,10 +6,26 @@ import { OutdoorMap, Campus, Building } from '../models';
 describe('MapService', () => {
     // let mapService: MapService;
     function testServiceSetup() {
-        const locationServiceSpy = jasmine.createSpyObj('LocationService', ['getGeoposition', 'getAddressFromLatLng']);
-        const googleApisServiceSpy = jasmine.createSpyObj('GoogleApisService', ['createMap', 'createMarker', 'createLatLng']);
-        const placeServiceSpy = jasmine.createSpyObj('PlaceService', ['enableService']);
-        const mapService: MapService = new MapService(locationServiceSpy, googleApisServiceSpy, placeServiceSpy);
+        const locationServiceSpy = jasmine.createSpyObj('LocationService', [
+            'getGeoposition',
+            'getAddressFromLatLng'
+        ]);
+        const googleApisServiceSpy = jasmine.createSpyObj('GoogleApisService', [
+            'createMap',
+            'createMarker',
+            'createLatLng',
+            'mapReference',
+            'getMapRenderer',
+            'mapReference'
+        ]);
+        const placeServiceSpy = jasmine.createSpyObj('PlaceService', [
+            'enableService'
+        ]);
+        const mapService: MapService = new MapService(
+            locationServiceSpy,
+            googleApisServiceSpy,
+            placeServiceSpy
+        );
         return { mapService, locationServiceSpy, googleApisServiceSpy };
     }
 
@@ -28,13 +44,16 @@ describe('MapService', () => {
     }
 
     describe('loadMap()', () => {
-
         class MockElementRef extends ElementRef {
             nativeElement = {};
         }
 
         it('should return a map', () => {
-            const { mapService, locationServiceSpy, googleApisServiceSpy } = testServiceSetup();
+            const {
+                mapService,
+                locationServiceSpy,
+                googleApisServiceSpy
+            } = testServiceSetup();
 
             const mapElement = new MockElementRef({});
 
@@ -46,7 +65,7 @@ describe('MapService', () => {
                     altitude: 35,
                     altitudeAccuracy: 123,
                     heading: 421,
-                    speed: 12,
+                    speed: 12
                 }
             };
             locationServiceSpy.getGeoposition.and.returnValue(mockGeoposition);
@@ -66,7 +85,11 @@ describe('MapService', () => {
         });
 
         it('should catch when an error occurs', () => {
-            const { mapService, locationServiceSpy, googleApisServiceSpy } = testServiceSetup();
+            const {
+                mapService,
+                locationServiceSpy,
+                googleApisServiceSpy
+            } = testServiceSetup();
 
             const mapElement = new MockElementRef({});
 
@@ -78,7 +101,7 @@ describe('MapService', () => {
                     altitude: 35,
                     altitudeAccuracy: 123,
                     heading: 421,
-                    speed: 12,
+                    speed: 12
                 }
             };
 
@@ -90,7 +113,11 @@ describe('MapService', () => {
         });
 
         it('should call getGeoposition from locationService and get nothing', () => {
-            const { mapService, locationServiceSpy, googleApisServiceSpy } = testServiceSetup();
+            const {
+                mapService,
+                locationServiceSpy,
+                googleApisServiceSpy
+            } = testServiceSetup();
 
             const mapElement = new MockElementRef({});
             mapService.loadMap(mapElement);
@@ -100,8 +127,12 @@ describe('MapService', () => {
     });
 
     describe('getUserLocation()', () => {
-        it('should return the user\'s location when available', () => {
-            const { mapService, locationServiceSpy, googleApisServiceSpy } = testServiceSetup();
+        it("should return the user's location when available", () => {
+            const {
+                mapService,
+                locationServiceSpy,
+                googleApisServiceSpy
+            } = testServiceSetup();
             const mockGeoposition: Partial<Geoposition> = {
                 coords: {
                     latitude: 12,
@@ -110,69 +141,71 @@ describe('MapService', () => {
                     altitude: 35,
                     altitudeAccuracy: 123,
                     heading: 421,
-                    speed: 12,
+                    speed: 12
                 }
             };
 
             locationServiceSpy.getGeoposition.and.returnValue(mockGeoposition);
             mapService.getUserLocation();
             expect(locationServiceSpy.getGeoposition).toHaveBeenCalledTimes(1);
-        })
-    })
+        });
+    });
 
     describe('tilesLoadedHandler()', () => {
-
         it('should return a tilesloaded handler', () => {
-            const { mapService, locationServiceSpy, googleApisServiceSpy } = testServiceSetup();
+            const {
+                mapService,
+                locationServiceSpy,
+                googleApisServiceSpy
+            } = testServiceSetup();
 
             const mockAddress = 'test address';
-            locationServiceSpy.getAddressFromLatLng.and.returnValue(Promise.resolve(mockAddress));
+            locationServiceSpy.getAddressFromLatLng.and.returnValue(
+                Promise.resolve(mockAddress)
+            );
 
-            const mockMap = new MockMaps (null);
+            const mockMap = new MockMaps(null);
 
             const handlerFunction = 'tilesLoadedHandler';
             const handler = mapService[handlerFunction](mockMap, 12, 34);
             handler();
 
-            expect(locationServiceSpy.getAddressFromLatLng).toHaveBeenCalledTimes(1);
+            expect(
+                locationServiceSpy.getAddressFromLatLng
+            ).toHaveBeenCalledTimes(1);
         });
-
     });
 
     describe('trackBuildingsOutlinesDisplay', () => {
-
         const testBuildingName = 'Henry F. Hall Building';
-       
-        class MockBuilding extends Building {
 
+        class MockBuilding extends Building {
             removeOutlineCalled = false;
 
-            constructor(){
+            constructor() {
                 super(testBuildingName, null, null);
             }
 
-            removeBuildingOutline(): void{
+            removeBuildingOutline(): void {
                 this.removeOutlineCalled = true;
             }
         }
 
         class MockCampus extends Campus {
-
             removeOutlineCalled = false;
             displayOutlineCalled = false;
 
-            constructor(){
+            constructor() {
                 super(testBuildingName, null, null, null);
             }
 
-            removeBuildingOutline(): void{
-                this.removeOutlineCalled = true;
-            }
-            
-            displayBuildingOutline(): void{
+            removeBuildingOutline(): void {
                 this.removeOutlineCalled = true;
             }
 
+            displayBuildingOutline(): void {
+                this.removeOutlineCalled = true;
+            }
         }
 
         it('should remove hall building outline at zoom 20 or more', () => {
@@ -180,11 +213,12 @@ describe('MapService', () => {
 
             mapService['trackBuildingsOutlinesDisplay'](20);
 
-            const hallBuilding = mapService['outdoorMap'].getPOI(testBuildingName);
+            const hallBuilding = mapService['outdoorMap'].getPOI(
+                testBuildingName
+            );
 
             expect(hallBuilding['buildingOutline'].getVisible()).toBeFalsy;
         });
-        
 
         it('should not try to display the outline of a no building object', () => {
             const { mapService } = testServiceSetup();
@@ -197,47 +231,42 @@ describe('MapService', () => {
             expect(campusMock.removeOutlineCalled).toBeFalsy();
             expect(campusMock.displayOutlineCalled).toBeFalsy();
         });
-
     });
 
     describe('trackBuildingCodeDisplay', () => {
-
         const testBuildingName = 'Henry F. Hall Building';
-       
-        class MockBuilding extends Building {
 
+        class MockBuilding extends Building {
             removeCodeCalled = false;
             displayCodeCalled = false;
 
-            constructor(){
+            constructor() {
                 super(testBuildingName, null, null);
             }
 
-            removeBuildingCode(): void{
+            removeBuildingCode(): void {
                 this.removeCodeCalled = true;
             }
-            displayBuildingCode(): void{
+            displayBuildingCode(): void {
                 this.displayCodeCalled = true;
             }
         }
 
         class MockCampus extends Campus {
-
             removeCodeCalled = false;
             displayCodeCalled = false;
 
-            constructor(){
+            constructor() {
                 super(testBuildingName, null, null, null);
             }
 
-            removeBuildingCode(): void{
+            removeBuildingCode(): void {
                 this.removeCodeCalled = true;
             }
-            
-            displayBuildingCode(): void{
+
+            displayBuildingCode(): void {
                 this.displayCodeCalled = true;
             }
-
         }
 
         it('should display building code at zoom 18 or more', () => {
@@ -245,11 +274,13 @@ describe('MapService', () => {
 
             mapService['trackBuildingCodeDisplay'](18);
 
-            const hallBuilding = mapService['outdoorMap'].getPOI(testBuildingName);
+            const hallBuilding = mapService['outdoorMap'].getPOI(
+                testBuildingName
+            );
 
             expect(hallBuilding['buildingLabel'].getVisible()).toBeTruthy;
         });
-        
+
         it('should not try to display the code of a no building object', () => {
             const { mapService } = testServiceSetup();
 
@@ -261,5 +292,19 @@ describe('MapService', () => {
             expect(campusMock.removeCodeCalled).toBeFalsy();
             expect(campusMock.displayCodeCalled).toBeFalsy();
         });
+    });
+    class MockElementRef extends ElementRef {
+        nativeElement = {};
+    }
+    
+    it('get renderer api', () => {
+        const {
+            mapService,
+            locationServiceSpy,
+            googleApisServiceSpy
+        } = testServiceSetup();
+
+        mapService.getMapRenderer();
+        expect(googleApisServiceSpy.getMapRenderer).toHaveBeenCalled();
     });
 });
