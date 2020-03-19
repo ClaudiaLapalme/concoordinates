@@ -8,14 +8,15 @@
         (click)="authCalendarUser()"
         lines="none"
         color="primary"
-        id="calendarItem"
     >
         <ion-icon 
             color="secondary"
             name="calendar"
             slot="start"
+            id="loggedInPicture"     
         ></ion-icon>
-        <ion-label>
+        <ion-label 
+        id="loggedInEmail">
           Calendar
         </ion-label>
     </ion-item>

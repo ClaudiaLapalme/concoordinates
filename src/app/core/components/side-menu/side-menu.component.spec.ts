@@ -32,6 +32,12 @@ describe('SettingsComponent', () => {
         fixture.detectChanges();
     }));
 
+    const calendarServiceSpy = jasmine.createSpyObj('LocationService', [
+        'getAuth',
+        'updateSigninStatus',
+        'getUserEmail'
+    ]);
+
     it('should be created', () => {
         expect(component).toBeTruthy();
     });
@@ -51,6 +57,13 @@ describe('SettingsComponent', () => {
 
             expect(component.showSettings).toBeFalsy();
             expect(component.showMenu).toBeTruthy();
+        });
+    });
+
+    describe('authCalendarUser()', () => {
+        it('should call this.calendarService.getAuth()', () => {
+            component.authCalendarUser();
+            expect(calendarServiceSpy.getAuth).toHaveBeenCalledTimes(1);
         });
     });
 });
