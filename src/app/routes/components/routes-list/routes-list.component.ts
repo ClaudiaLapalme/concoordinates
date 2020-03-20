@@ -1,5 +1,7 @@
-import { Component, Input, OnInit  } from '@angular/core';
-import { Route, TransportMode  } from 'src/app/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { OutdoorRoute, TransportMode } from 'src/app/core';
+import { StateService } from 'src/app/shared/state.service';
 
 @Component({
     selector: 'app-routes-list',
@@ -7,9 +9,18 @@ import { Route, TransportMode  } from 'src/app/core';
     styleUrls: ['./routes-list.component.scss']
 })
 export class RoutesListComponent implements OnInit {
-    @Input() routes: Route[];
+    @Input() routes: OutdoorRoute[];
     @Input() routeTransportMode: TransportMode;
-    constructor() {}
+    constructor(private router: Router, private stateService: StateService) {}
 
     ngOnInit() {}
+    displayRoute(i: number) {
+        this.stateService.sharedRoute = this.routes[i];
+
+        // TODO get Transport Object
+        this.stateService.sharedRoute.setCurrentTravelMode(
+            this.routeTransportMode
+        );
+        this.router.navigateByUrl('rendered-routes');
+    }
 }

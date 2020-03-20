@@ -1,0 +1,16 @@
+<div class="rendered-routes-header-container" #menuBar>
+    <div class="back-button-container">
+        <ion-icon [routerLink]="['/routes']" name="arrow-back"></ion-icon>
+    </div>
+</div>
+<ion-content>
+    <div class="map-wrapper">
+        <div #map id="map"></div>
+    </div>
+
+    <app-location-button
+        #userCenter
+        (recenterOnLocation)="recenterToUser()"
+        [ngClass]="{invisible: !controlsShown}"
+    ></app-location-button>
+</ion-content>
