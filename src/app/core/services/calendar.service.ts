@@ -12,9 +12,10 @@ export class CalendarService {
     signedIn: boolean = false;
     email: string = '';
     picture: string = '';
-    gapi: any;
 
-  getAuth() {   
+    constructor() { }
+
+  getAuth() : boolean{   
      gapi.load('client:auth2', ()=>{
      gapi.client.init({
         apiKey: '<API_KEY>',
@@ -28,7 +29,6 @@ export class CalendarService {
         // Prompt sign in
         gapi.auth2.getAuthInstance().signIn();
 
-        
         // Set up inital listener on sign in state
         gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
 
@@ -39,34 +39,27 @@ export class CalendarService {
         console.log(error);
       });
     })
+    //client loaded and initialized (not necessarily signed in)
+    return true
   }
 
-  updateSigninStatus(isSignedIn) {  
+  updateSigninStatus(isSignedIn) : boolean {  
       this.signedIn = isSignedIn;
       // Just testing out getting events from the calendar
       try{
       
-        gapi.client.calendar.events.list({
-          'calendarId': 'primary',
-          'timeMin': (new Date()).toISOString(),
-          'showDeleted': false,
-          'singleEvents': true,
-          'maxResults': 10,
-          'orderBy': 'startTime'
-        }).then((response) =>  {
-          var events = response.result.items;
-        
-          if(this.signedIn){
-            this.email = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getEmail();
-            this.picture = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getImageUrl();
-            this.emailUpdatedSource.next();
-            console.log("event emitted")
-          } 
-        });
+        if(this.signedIn){
+          this.email = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getEmail();
+          this.picture = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getImageUrl();
+          this.emailUpdatedSource.next();
+          return true;  
+        }
+        else
+         return false;  
       }
       catch{
         console.log('cannot log auth instance');
-      }
+      }     
   }
   
   getUserEmail() {
@@ -74,7 +67,6 @@ export class CalendarService {
   }
 
   getUserPicture() {
-    console.log("inside getUserPicture(). Picture URL: ", this.picture)
     return this.picture;
   }
 }

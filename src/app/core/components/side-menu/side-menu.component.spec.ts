@@ -5,6 +5,7 @@ import { CoreModule } from '../../../core';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SideMenuComponent } from './side-menu.component';
+declare let gapi: any;
 
 describe('SettingsComponent', () => {
 
@@ -12,6 +13,7 @@ describe('SettingsComponent', () => {
     let fixture: ComponentFixture<SideMenuComponent>;
 
     beforeEach(async(() => {
+        
         TestBed.configureTestingModule({
             declarations: [
                 SideMenuComponent
@@ -25,14 +27,19 @@ describe('SettingsComponent', () => {
                 NO_ERRORS_SCHEMA,
             ]
         }).compileComponents();
-
-
+        
         fixture = TestBed.createComponent(SideMenuComponent);
         component = fixture.componentInstance;
+
+        window['gapi'] = {
+            load() {
+              return null;
+            }}
+
         fixture.detectChanges();
     }));
 
-    const calendarServiceSpy = jasmine.createSpyObj('LocationService', [
+    const calendarServiceSpy = jasmine.createSpyObj('CalendarService', [
         'getAuth',
         'updateSigninStatus',
         'getUserEmail'
@@ -63,7 +70,14 @@ describe('SettingsComponent', () => {
     describe('authCalendarUser()', () => {
         it('should call this.calendarService.getAuth()', () => {
             component.authCalendarUser();
-            expect(calendarServiceSpy.getAuth).toHaveBeenCalledTimes(1);
+            expect(calendarServiceSpy.getAuth).toBeTruthy;
+        });
+    });
+
+    describe('insertGoogleUserInfo()', () => {
+        it('should insert Google User info into the side menu', () => {
+            component.insertGoogleUserInfo();
+            expect(document.getElementById('loggedInEmail').innerHTML == "Calendar").toBeFalsy;
         });
     });
 });
