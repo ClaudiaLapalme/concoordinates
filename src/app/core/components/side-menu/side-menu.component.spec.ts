@@ -33,7 +33,7 @@ describe('SettingsComponent', () => {
 
         window['gapi'] = {
             load() {
-              return null;
+                return null;
             }}
 
         fixture.detectChanges();

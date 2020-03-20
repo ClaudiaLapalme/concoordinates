@@ -18,8 +18,8 @@ export class CalendarService {
   getAuth() : boolean{   
      gapi.load('client:auth2', ()=>{
      gapi.client.init({
-        apiKey: '<API_KEY>',
-        clientId: '<CLIENT_ID>',
+        apiKey: 'AIzaSyBJTreK-eH9Y0gsoaStxOmj-ks4hnEBxLo',
+        clientId: '194605385874-lf5td1vtbahaa55dhe3eokp2g3o5ss88.apps.googleusercontent.com',
         discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
         scope: 'https://www.googleapis.com/auth/calendar.readonly'
       })
@@ -31,8 +31,8 @@ export class CalendarService {
         
         .then(() => {
 
-        // Set up inital listener on sign in state
-        gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
+                  // Set up inital listener on sign in state
+                  gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
 
         // Update sign in status upon sign in
         this.updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
@@ -52,8 +52,6 @@ export class CalendarService {
 
   updateSigninStatus(isSignedIn) : boolean {  
 
-      
-
       // Just testing out getting events from the calendar
       try{
 
@@ -65,25 +63,18 @@ export class CalendarService {
           
           return true;  
         }
-        else
-         return false;  
       }
       catch{
-        console.log('cannot log auth instance');
+            console.log('cannot log auth instance');
       }     
   }
-  
-  getUserEmail() {
-    return this.email;
+    
+  getUserEmail(): string {
+        return this.email;
   }
 
-  getUserPicture() {
-    return this.picture;
+  getUserPicture(): string {
+        return this.picture;
   }
 }
 
-//jons client ID
-// 285078470897-kq3dv01araf42l6m28bquflo3upbdgn3.apps.googleusercontent.com
-
-//jons api key
-// AIzaSyDw0wQwrQmCGX0Oor2I8D4zgbItoiHowmw
