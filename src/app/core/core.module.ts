@@ -18,6 +18,7 @@ import {
 import {
     AbstractPOIFactoryService,
     OutdoorPOIFactoryService,
+    IndoorPOIFactoryService,
     RouteFactory,
 } from './factories';
 import {
@@ -53,6 +54,7 @@ import {
         Geolocation,
         GoogleApisService,
         OutdoorPOIFactoryService,
+        IndoorPOIFactoryService,
         AbstractPOIFactoryService,
         RouteFactory,
         PlaceService,

@@ -6,9 +6,9 @@ export class Classroom extends IndoorPOI {
 
     private roomCode: RoomCode;
     
-    constructor(name: string, coordinates: Coordinates, floorNumber: number, roomCode: RoomCode) {
-        super(name, coordinates, floorNumber);
-        this.roomCode = roomCode;
+    constructor(name: string, coordinates: Coordinates, iconPath: string, roomCode: RoomCode) {
+        super(name, coordinates, iconPath);
+        this.setRoomCode(roomCode);
     }
 
     getRoomCode(): RoomCode {
@@ -18,5 +18,4 @@ export class Classroom extends IndoorPOI {
     setRoomCode(roomCode: RoomCode) {
         this.roomCode = roomCode;
     }
-
 }
