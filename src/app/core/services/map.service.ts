@@ -124,8 +124,10 @@ export class MapService {
         if (building instanceof Building) {
             if (zoomValue >= 19) {
                 building.removeBuildingOutline();
+                building.removeBuildingLabel();
             } else {
                 building.displayBuildingOutline();
+                building.displayBuildingLabel();
             }
         }
     }
