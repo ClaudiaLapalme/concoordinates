@@ -27,14 +27,21 @@ export class CalendarService {
       .then(() => {
         
         // Prompt sign in
-        gapi.auth2.getAuthInstance().signIn();
+        gapi.auth2.getAuthInstance().signIn()
+        
+        .then(() => {
 
         // Set up inital listener on sign in state
         gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
 
         // Update sign in status upon sign in
         this.updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-        
+
+        this.emailUpdatedSource.next();
+
+        }).catch(error =>{
+        console.log(error);
+        });
       }).catch(error =>{
         console.log(error);
       });
@@ -44,14 +51,18 @@ export class CalendarService {
   }
 
   updateSigninStatus(isSignedIn) : boolean {  
-      this.signedIn = isSignedIn;
+
+      
+
       // Just testing out getting events from the calendar
       try{
-      
+
+        this.signedIn = isSignedIn;
+
         if(this.signedIn){
           this.email = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getEmail();
           this.picture = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getImageUrl();
-          this.emailUpdatedSource.next();
+          
           return true;  
         }
         else
