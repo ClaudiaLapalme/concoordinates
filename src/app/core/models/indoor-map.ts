@@ -170,25 +170,29 @@ export class IndoorMap extends google.maps.OverlayView {
             const markers = {};
             if (true) {
                 for (const key of Object.keys(IndoorCoordinates)) {
-                    if (key.indexOf('W') > -1 && key.indexOf('WF') < 0) {
-                        continue;
-                    }
+
                     let iconPath = null;
                     let labelName = null;
                     const lat: number = IndoorCoordinates[key].lat;
                     const lng: number = IndoorCoordinates[key].lng;
                     const fN: number = IndoorCoordinates[key].fN;
 
+                    if (key.indexOf('E' + (fN + 1) + 'D') > -1 || key.indexOf('E' + (fN - 1) + 'U') > -1 ) {
+                        continue;
+                    }
+
                     if (key.indexOf('WF') > -1) {
                         iconPath = '../../../assets/icon/WF-indoor.svg';
                     } else if (key.indexOf('BM') > -1) {
                         iconPath = '../..//assets/icon/BM-indoor.svg';
                     } else if (key.indexOf('BW') > -1) {
-                        iconPath = '../../../assets/icon/BW-indoor.svg';
+                        iconPath = '../..//assets/icon/BW-indoor.svg';
                     } else if (key.indexOf('E') === key.length - 1) {
                         iconPath = '../../../assets/icon/E-indoor.svg';
-                    } else if (key.indexOf('E') > -1 && key.indexOf('E') !== key.length + 1) {
-                        iconPath = '../../../assets/icon/ESC-indoor.svg';
+                    } else if (key.indexOf('E' + (fN - 1) + 'D') > -1 ) {
+                        iconPath = '../../../assets/icon/ESC-DOWN-indoor.svg';
+                    } else if (key.indexOf('E' + (fN + 1) + 'U') > -1 ) {
+                        iconPath = '../../../assets/icon/ESC-UP-indoor.svg';
                     } else if (key.indexOf('S') > -1) {
                         iconPath = '../../../assets/icon/S-indoor.svg';
                     } else {
@@ -213,28 +217,28 @@ export class IndoorMap extends google.maps.OverlayView {
                     lng: +IndoorCoordinates[key].lng
                 };
             }
-            console.log(toCoord('H831'));
-            console.log({ lat: 45.49717531, lng: -73.57944189 });
-            const path = [
-                toCoord('H831'),
-                toCoord('H8-W30'),
-                toCoord('H8-W32'),
-                toCoord('H8-W33'),
-                toCoord('H8-W34'),
-                toCoord('H8-W38'),
-                toCoord('H8-W39'),
-                toCoord('H8-E7D')
-            ];
-            if (false) {
-                const polyline = new google.maps.Polyline({
-                    path,
-                    geodesic: true,
-                    strokeColor: '#FF0000',
-                    strokeOpacity: 1.0,
-                    strokeWeight: 2,
-                    map: _this.mapRef
-                });
-            }
+            // console.log(toCoord('H831'));
+            // console.log({ lat: 45.49717531, lng: -73.57944189 });
+            // const path = [
+            //     toCoord('H831'),
+            //     toCoord('H8-W30'),
+            //     toCoord('H8-W32'),
+            //     toCoord('H8-W33'),
+            //     toCoord('H8-W34'),
+            //     toCoord('H8-W38'),
+            //     toCoord('H8-W39'),
+            //     toCoord('H8-E7D')
+            // ];
+            // if (false) {
+            //     const polyline = new google.maps.Polyline({
+            //         path,
+            //         geodesic: true,
+            //         strokeColor: '#FF0000',
+            //         strokeOpacity: 1.0,
+            //         strokeWeight: 2,
+            //         map: _this.mapRef
+            //     });
+            // }
         }
     }
 

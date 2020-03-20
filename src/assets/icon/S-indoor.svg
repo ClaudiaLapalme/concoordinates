@@ -1,1 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M15 5v4h-4v4H7v4H3v3h7v-4h4v-4h4V8h4V5h-7z" fill="#626262"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" id="Solid" viewBox="0 0 512 512" width="30" height="30">
+<path d="M376,176h88V480H96V416h96a8,8,0,0,0,8-8V336h88a8,8,0,0,0,8-8V256h72a8,8,0,0,0,8-8Z"/>
+</svg>
