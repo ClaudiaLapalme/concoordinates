@@ -70,7 +70,7 @@ describe('SettingsComponent', () => {
     describe('authCalendarUser()', () => {
         it('should call this.calendarService.getAuth()', () => {
             component.authCalendarUser();
-            expect(calendarServiceSpy.getAuth).toBeTruthy;
+            expect(calendarServiceSpy.getAuth()).toBeTruthy();
         });
     });
 

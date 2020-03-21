@@ -62,7 +62,6 @@ export class CalendarService {
     updateSigninStatus(isSignedIn) : boolean {  
         try{
             this.signedIn = isSignedIn;
-
             if(this.signedIn){
                 this.email = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getEmail();
                 this.picture = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getImageUrl();
