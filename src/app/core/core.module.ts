@@ -25,6 +25,7 @@ import {
     LocationService,
     MapService,
     PlaceService,
+    SessionService,
 } from './services';
 
 @NgModule({
@@ -56,7 +57,7 @@ import {
         AbstractPOIFactoryService,
         RouteFactory,
         PlaceService,
-        LocationButtonComponent,
+        SessionService
     ],
     exports: [
         ToggleCampusComponent,

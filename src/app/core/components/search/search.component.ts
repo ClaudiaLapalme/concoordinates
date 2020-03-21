@@ -1,16 +1,25 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChanges,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { PlaceService } from '../../services';
+import { MapService, PlaceService, SessionService } from '../../services';
 
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
-    @Input() map: google.maps.Map;
+export class SearchComponent implements OnInit, AfterViewInit, OnChanges {
+    @Input() isMapSet?: boolean;
     @Output() placeSelection: EventEmitter<
         google.maps.places.PlaceResult
     > = new EventEmitter<google.maps.places.PlaceResult>();
@@ -24,8 +33,13 @@ export class SearchComponent implements OnInit {
     resultFound = false;
     searchInput: FormControl = new FormControl();
     onDestroy = new Subject<void>();
+    map: google.maps.Map;
 
-    constructor(private placeService: PlaceService) {}
+    constructor(
+        private placeService: PlaceService,
+        private sessionService: SessionService,
+        private mapService: MapService
+    ) {}
 
     ngOnInit() {
         this.searchInput.valueChanges
@@ -34,9 +48,31 @@ export class SearchComponent implements OnInit {
                 this.search();
             });
     }
+
+    ngAfterViewInit() {
+        this.loadMap();
+    }
+    
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.isMapSet && changes.isMapSet.currentValue) {
+            this.loadMap();
+        }
+    }
+
+    loadMap() {
+        if (this.sessionService.isMapRefSet()) {
+            const mapElement = this.sessionService.getMapRef();
+            this.mapService.loadMap(mapElement).then((res) => {
+                console.log(res);
+                if (res) {
+                    this.map = res;
+                }
+            });
+        }
+    }
     /**
      * Call searchPOIs function based on input size
-     * @param ev event from ionChange in searchbar
+     *
      */
     search(): void {
         const input = this.searchInput.value;
@@ -68,9 +104,8 @@ export class SearchComponent implements OnInit {
                     this.handleSearchForPOIs(res)
                 )
                 .catch(error => this.handleSearchForPOIsError(error));
-        }
-        catch {
-            console.log("Something went wrong, please refresh application.");
+        } catch {
+            console.log('Something went wrong, please refresh application.');
         }
     }
 
@@ -103,6 +138,7 @@ export class SearchComponent implements OnInit {
      * @param place Google Place Result Object
      */
     focusPOI(place: google.maps.places.PlaceResult): void {
+        this.searchInput.setValue(place.name);
         this.restoreSearchBar();
         this.cancelSelection.emit();
         this.placeSelection.emit(place);

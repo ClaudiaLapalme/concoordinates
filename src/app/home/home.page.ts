@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { GoogleApisService, MapService } from '../core';
+import { GoogleApisService, MapService, SessionService } from '../core';
 import { MenuController } from '@ionic/angular';
 
 // TODO move all this map logic to MapPage and keep all Pages as routes from this page
@@ -42,6 +42,8 @@ export class HomePage implements AfterViewInit {
     public indoorMapLevel: number;
     public availableFloors: number[];
 
+    public isMapSet: boolean;
+
     searchedPlaceMarker: google.maps.Marker;
 
     controlsShown = true;
@@ -49,7 +51,8 @@ export class HomePage implements AfterViewInit {
     constructor(
         private mapService: MapService,
         private googleApisService: GoogleApisService,
-        private menu: MenuController
+        private menu: MenuController,
+        private sessionService: SessionService
     ) {
         this.currentCenter = this.SGW;
 
@@ -62,6 +65,8 @@ export class HomePage implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
+        this.sessionService.storeMapRef(this.mapElement);
+        this.isMapSet = this.sessionService.isMapRefSet();
         this.loadMap();
     }
 
@@ -79,6 +84,7 @@ export class HomePage implements AfterViewInit {
             this.mapService.loadMap(this.mapElement)
                 .then(mapObj => {
                     this.mapModel = mapObj;
+
                     this.mapLoaded = true;
                     const toggleButtonNE = this.toggle.nativeElement;
                     const switchFloorsNE = this.switchFloor.nativeElement;
@@ -96,9 +102,8 @@ export class HomePage implements AfterViewInit {
                     this.controlsShown = true;
 
                 });
-            }
-            catch {
-                console.log("Something went wrong, please refresh application.");
+            } catch {
+                console.log('Something went wrong, please refresh application.');
             }
     }
 
