@@ -20,6 +20,8 @@ import { MapService, PlaceService, SessionService } from '../../services';
 })
 export class SearchComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() isMapSet?: boolean;
+    @Input() showSearchIcon = true;
+    @Input() placeholder = 'Search';
     @Output() placeSelection: EventEmitter<
         google.maps.places.PlaceResult
     > = new EventEmitter<google.maps.places.PlaceResult>();
@@ -37,8 +39,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges {
 
     constructor(
         private placeService: PlaceService,
-        private sessionService: SessionService,
-        private mapService: MapService
+        private sessionService: SessionService
     ) {}
 
     ngOnInit() {
@@ -61,13 +62,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges {
 
     loadMap() {
         if (this.sessionService.isMapRefSet()) {
-            const mapElement = this.sessionService.getMapRef();
-            this.mapService.loadMap(mapElement).then((res) => {
-                console.log(res);
-                if (res) {
-                    this.map = res;
-                }
-            });
+            this.map = this.sessionService.getMapRef();
         }
     }
     /**

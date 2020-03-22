@@ -5,21 +5,21 @@ import { ElementRef, Injectable  } from '@angular/core';
 })
 export class SessionService {
 
-    mapElement: ElementRef;
-    mapElementLoaded = false;
+    map: google.maps.Map;
+    mapLoaded = false;
 
   constructor() { }
 
-  storeMapRef(mapElement: ElementRef): void {
-    this.mapElement = mapElement;
-    this.mapElementLoaded = true;
+  storeMapRef(map: google.maps.Map): void {
+    this.map = map;
+    this.mapLoaded = true;
   }
 
   isMapRefSet(): boolean {
-    return this.mapElementLoaded;
+    return this.mapLoaded;
   }
 
-  getMapRef(): ElementRef {
-    return this.mapElement;
+  getMapRef(): google.maps.Map {
+    return this.map;
   }
 }

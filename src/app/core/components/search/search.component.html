@@ -1,8 +1,8 @@
 <div class="search-input-container">
-    <ion-item color="primary" class="custom-input-container">
-        <ion-icon *ngIf="!searchInput?.value" name="search" slot="start"></ion-icon>
-          <ion-icon *ngIf="searchInput?.value" (click)="cancelSearch()" class="clear-icon" slot="start" name="close"></ion-icon>
-        <ion-input class="ion-text-center" [formControl]="searchInput" type="text" placeholder="Search"></ion-input>
+    <ion-item color="light" class="custom-input-container">
+        <ion-icon *ngIf="!searchInput?.value && showSearchIcon" name="search" slot="end"></ion-icon>
+        <ion-icon *ngIf="searchInput?.value" (click)="cancelSearch()" class="clear-icon" slot="end" name="close"></ion-icon>
+        <ion-input  color="light"  class="ion-text-center" [formControl]="searchInput" type="text" placeholder={{placeholder}}></ion-input>
     </ion-item>
 </div>
 <div class="my-overlay" [hidden]="!showSearchOverlay">

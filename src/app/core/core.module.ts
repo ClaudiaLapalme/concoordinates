@@ -56,8 +56,7 @@ import {
         OutdoorPOIFactoryService,
         AbstractPOIFactoryService,
         RouteFactory,
-        PlaceService,
-        SessionService
+        PlaceService
     ],
     exports: [
         ToggleCampusComponent,

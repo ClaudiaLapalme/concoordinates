@@ -65,8 +65,6 @@ export class HomePage implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.sessionService.storeMapRef(this.mapElement);
-        this.isMapSet = this.sessionService.isMapRefSet();
         this.loadMap();
     }
 
@@ -84,7 +82,8 @@ export class HomePage implements AfterViewInit {
             this.mapService.loadMap(this.mapElement)
                 .then(mapObj => {
                     this.mapModel = mapObj;
-
+                    this.sessionService.storeMapRef(mapObj);
+                    this.isMapSet = this.sessionService.isMapRefSet();
                     this.mapLoaded = true;
                     const toggleButtonNE = this.toggle.nativeElement;
                     const switchFloorsNE = this.switchFloor.nativeElement;

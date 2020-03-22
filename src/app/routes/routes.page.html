@@ -5,24 +5,8 @@
               <ion-icon [routerLink]="['/home']"  name="arrow-back"></ion-icon>
           </div>
           <div class="main-input-container">
-              <ion-item class="custom-input-container">
-                  <ion-input
-                      class="ion-text-center"
-                      formControlName="from"
-                      type="text" 
-                      color="primary"
-                      placeholder="From"
-                  ></ion-input>
-              </ion-item>
-              <ion-item class="custom-input-container">
-                  <ion-input
-                      class="ion-text-center"
-                      formControlName="to"
-                      type="text"
-                      color="primary"
-                      placeholder="To"
-                  ></ion-input>
-              </ion-item>
+              <app-search [showSearchIcon]="false" [placeholder]="'From'" (placeSelection)="setFrom($event)"></app-search>
+              <app-search [showSearchIcon]="false" [placeholder]="'To'" (placeSelection)="setTo($event)"></app-search>
           </div>
       </div>
       <div class="time-options">
@@ -55,9 +39,6 @@
           </div>
           <div class="options-container">
               <a>Options</a>
-          </div>
-          <div class="submit-button">
-              <ion-button (click)="submit()" color="secondary" [disabled]="form.invalid">Get Directions</ion-button>
           </div>
       </div>
   </form>
