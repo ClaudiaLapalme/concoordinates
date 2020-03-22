@@ -76,7 +76,7 @@ describe('SideMenuComponent', () => {
     describe('insertGoogleUserInfo()', () => {
         it('should insert Google User info into the side menu', () => {
             component.insertGoogleUserInfo();
-            expect(document.getElementById('loggedInEmail').innerHTML == "Calendar").toBeFalsy();
+            expect(document.getElementById('loggedInEmail').innerHTML == '').toBeTruthy();
         });
     });
 });
