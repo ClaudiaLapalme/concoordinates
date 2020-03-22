@@ -36,7 +36,7 @@ describe('RoutesPage', () => {
     });
 
     it('should generateDefaultRoutes with departAt NOT filled', async () => {
-        component.form.value['departAt'] = null;
+        component.form.controls.departAt = null;
         const mockedComponent = new RoutesPage(mockFormbuilder, mockFactory);
         mockedComponent.form = component.form;
         const parsedDate = new Date();
@@ -46,8 +46,8 @@ describe('RoutesPage', () => {
         await mockedComponent.getRoutes();
         expect(mockFactory.generateDefaultRoutes).toHaveBeenCalled();
         expect(mockFactory.generateDefaultRoutes).toHaveBeenCalledWith(
-            mockedComponent.form.value['from'],
-            mockedComponent.form.value['to'],
+            mockedComponent.form.controls.from,
+            mockedComponent.form.controls.to,
             null,
             parsedDate,
             mockedComponent.transportMode

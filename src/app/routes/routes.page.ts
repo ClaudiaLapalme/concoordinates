@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { OutdoorRoute, RouteFactory, TransportMode, SessionService } from '../core';
+import { OutdoorRoute, RouteFactory, TransportMode } from '../core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -9,7 +9,7 @@ import { takeUntil } from 'rxjs/operators';
     templateUrl: './routes.page.html',
     styleUrls: ['./routes.page.scss']
 })
-export class RoutesPage implements OnInit {
+export class RoutesPage implements OnInit, OnDestroy {
     form: FormGroup;
     routes: OutdoorRoute[];
     transportMode: TransportMode;
@@ -17,12 +17,12 @@ export class RoutesPage implements OnInit {
     onDestroy = new Subject<void>();
 
 
-    constructor(private formBuilder: FormBuilder, private routeFactory: RouteFactory, private sessionService: SessionService) { }
+    constructor(private formBuilder: FormBuilder, private routeFactory: RouteFactory) { }
 
     ngOnInit() {
         const currentTime = new Date(Date.now());
         const hourMinutes = currentTime.getHours() + ':' + currentTime.getMinutes();
-        
+
         this.form = this.formBuilder.group({
             from: ['', Validators.required],
             to: ['', Validators.required],
@@ -30,13 +30,19 @@ export class RoutesPage implements OnInit {
             time: [hourMinutes]
         });
 
+        // Calls getRoutes only when form is valid
         this.form.statusChanges
             .pipe(takeUntil((this.onDestroy = new Subject<void>())))
             .subscribe((res) => {
-                if (res === 'VALID'){
+                if (res === 'VALID') {
                     this.getRoutes();
                 }
             });
+    }
+
+    ngOnDestroy() {
+        this.onDestroy.next();
+        this.onDestroy.complete();
     }
 
     async getRoutes() {
@@ -79,12 +85,10 @@ export class RoutesPage implements OnInit {
     }
 
     setFrom(event: google.maps.places.PlaceResult) {
-        console.log(event);
         this.form.controls.from.setValue(event.formatted_address);
     }
 
     setTo(event: any) {
-        console.log(event);
         this.form.controls.to.setValue(event.formatted_address);
     }
 }

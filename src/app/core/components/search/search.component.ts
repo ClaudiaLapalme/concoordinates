@@ -4,6 +4,7 @@ import {
     EventEmitter,
     Input,
     OnChanges,
+    OnDestroy,
     OnInit,
     Output,
     SimpleChanges,
@@ -11,17 +12,19 @@ import {
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MapService, PlaceService, SessionService } from '../../services';
+import {  PlaceService, SessionService } from '../../services';
 
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit, AfterViewInit, OnChanges {
+export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     @Input() isMapSet?: boolean;
     @Input() showSearchIcon = true;
     @Input() placeholder = 'Search';
+    @Input() colorPrimary = true;
+    @Input() topMargin = false;
     @Output() placeSelection: EventEmitter<
         google.maps.places.PlaceResult
     > = new EventEmitter<google.maps.places.PlaceResult>();
@@ -52,6 +55,11 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges {
 
     ngAfterViewInit() {
         this.loadMap();
+    }
+
+    ngOnDestroy() {
+        this.onDestroy.next();
+        this.onDestroy.complete();
     }
     
     ngOnChanges(changes: SimpleChanges) {

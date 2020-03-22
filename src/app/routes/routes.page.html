@@ -5,8 +5,8 @@
               <ion-icon [routerLink]="['/home']"  name="arrow-back"></ion-icon>
           </div>
           <div class="main-input-container">
-              <app-search [showSearchIcon]="false" [placeholder]="'From'" (placeSelection)="setFrom($event)"></app-search>
-              <app-search [showSearchIcon]="false" [placeholder]="'To'" (placeSelection)="setTo($event)"></app-search>
+              <app-search [colorPrimary]="false" [showSearchIcon]="false" [placeholder]="'From'" (placeSelection)="setFrom($event)" ></app-search>
+              <app-search [colorPrimary]="false" [showSearchIcon]="false" [placeholder]="'To'" (placeSelection)="setTo($event)" [topMargin]="true"></app-search>
           </div>
       </div>
       <div class="time-options">
