@@ -25,7 +25,7 @@ export class SideMenuComponent implements OnInit, OnDestroy{
         })
     }
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.emailUpdateRef.unsubscribe();
     }
 
@@ -39,11 +39,11 @@ export class SideMenuComponent implements OnInit, OnDestroy{
         this.showMenu = true;
     }
 
-    authCalendarUser() { 
+    authCalendarUser(): void { 
         this.calendarService.getAuth();
     }
 
-    insertGoogleUserInfo(){
+    insertGoogleUserInfo(): void {
         this.userEmail = this.calendarService.getUserEmail();
         this.userPicture = this.calendarService.getUserPicture();
         document.getElementById('loggedInEmail').innerHTML = this.userEmail; 

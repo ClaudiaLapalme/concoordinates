@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
+import { environment } from 'src/environments/environment'
+import { Observable } from 'rxjs';
 
+//Google api object declared as type: any pending call to the gapi library at runtime
 declare let gapi: any;
 
 @Injectable()
 export class CalendarService {
   
-    private emailUpdatedSource = new Subject<void>();
-    public emailUpdated$ = this.emailUpdatedSource.asObservable();
+    private emailUpdatedSource: Subject<void> = new Subject<void>();
+    public emailUpdated$: Observable<void> = this.emailUpdatedSource.asObservable();
     signedIn: boolean = false;
     email: string = '';
     picture: string = '';
 
     constructor() { }
 
-  
     /**
      * Load google client using OAuth2, prompt sign in
      * and set up listener to run updateSignInStatus on user
@@ -24,8 +26,8 @@ export class CalendarService {
     getAuth() : boolean{   
         gapi.load('client:auth2', ()=>{
         gapi.client.init({
-            apiKey: '<API_KEY>',
-            clientId: '<CLIENT_ID>',
+            apiKey: environment.API_KEY,
+            clientId: environment.CLIENT_ID,
             discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
             scope: 'https://www.googleapis.com/auth/calendar.readonly'
           })
@@ -42,10 +44,12 @@ export class CalendarService {
                 })
                 .catch(error =>{
                     console.log(error); //debug
+                    return false;  
                 });
 
           }).catch(error =>{
               console.log(error); //debug
+              return false;
           });
         })
         //client loaded and initialized (not necessarily signed in)

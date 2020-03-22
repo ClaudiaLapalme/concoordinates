@@ -7,7 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SideMenuComponent } from './side-menu.component';
 declare let gapi: any;
 
-describe('SettingsComponent', () => {
+describe('SideMenuComponent', () => {
 
     let component: SideMenuComponent;
     let fixture: ComponentFixture<SideMenuComponent>;
@@ -70,14 +70,14 @@ describe('SettingsComponent', () => {
     describe('authCalendarUser()', () => {
         it('should call this.calendarService.getAuth()', () => {
             component.authCalendarUser();
-            expect(calendarServiceSpy.getAuth()).toBeTruthy();
+            expect(!calendarServiceSpy.getAuth()).toBeTruthy();
         });
     });
 
     describe('insertGoogleUserInfo()', () => {
         it('should insert Google User info into the side menu', () => {
             component.insertGoogleUserInfo();
-            expect(document.getElementById('loggedInEmail').innerHTML == "Calendar").toBeFalsy;
+            expect(document.getElementById('loggedInEmail').innerHTML == "Calendar").toBeFalsy();
         });
     });
 });

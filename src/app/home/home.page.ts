@@ -68,7 +68,7 @@ export class HomePage implements AfterViewInit {
     }
 
     openMenu(): void {
-        this.menu.toggle();
+        this.menu.open();
     }
 
     setCurrentCenter(newCenter: google.maps.LatLng): void {
