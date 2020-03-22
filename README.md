@@ -40,6 +40,14 @@ docker run -d --name sonarqube -p 9000:9000 sonarqube
 
 Note: `sonar-scanner` does NOT work. It will fail to exclude the excluded files.
 
+### API keys setup
+
+Note: api keys and the client id are available through the credentials section of your google-cloud-platform account.
+
+1. From project repository, in src/index.html replace <GOOGLE_API_PLACEHOLDER> with your google api key.
+2. From project repository, in src/environments/environment.ts replace <API_KEY> and <CLIENT_ID> with your own api key and client id.
+3. From project repository, in src/environments/environment.prod.ts replace <API_KEY> and <CLIENT_ID> with your own api key and client id.
+
 ### Android setup
 
 Note: Use vscode to program. Android is just to launch the app on a mobile android device
