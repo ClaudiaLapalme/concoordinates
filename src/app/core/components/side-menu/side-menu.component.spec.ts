@@ -5,7 +5,6 @@ import { CoreModule } from '../../../core';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SideMenuComponent } from './side-menu.component';
-declare let gapi: any;
 
 describe('SideMenuComponent', () => {
 
