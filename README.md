@@ -77,4 +77,5 @@ Note: Use vscode to program. Android is just to launch the app on a mobile andro
 2. Open the Selenium IDE
 3. Click `Open an existing project`
 4. Open `src/gui-tests/gui-tests.side`
-5. Run tests either individually or as a suite
+5. Have the application running locally through the entirety of the system testing phase
+6. Run tests either individually or as a suite
