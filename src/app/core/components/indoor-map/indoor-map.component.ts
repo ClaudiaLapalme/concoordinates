@@ -10,16 +10,23 @@ import { MapService } from '../../services';
 @Component({
     selector: 'app-indoor-map',
     templateUrl: './indoor-map.component.html',
-    styleUrls: ['./indoor-map.component.scss'],
+    styleUrls: ['./indoor-map.component.scss']
 })
 export class IndoorMapComponent implements AfterViewInit {
+    readonly swBound = new google.maps.LatLng(
+        45.49681658032052,
+        -73.57955563558198
+    );
+    readonly eBound = new google.maps.LatLng(
+        45.49771707945049,
+        -73.57833170552253
+    );
 
-    private swBound = new google.maps.LatLng(45.49681658032052, -73.57955563558198);
-    private eBound = new google.maps.LatLng(45.49771707945049, -73.57833170552253);
     private bounds = new google.maps.LatLngBounds(this.swBound, this.eBound);
 
     public indoorMaps = {};
-    public indoorMapPicturePath: string = '../../../assets/icon/TransparentMarker.png';
+    public indoorMapPicturePath: string =
+        '../../../assets/icon/TransparentMarker.png';
     public previousIndoorMapLevel: number;
 
     @Input() map: google.maps.Map; // map reference
@@ -27,7 +34,7 @@ export class IndoorMapComponent implements AfterViewInit {
     @Input() indoorMapBuildingCode: string;
 
     @ViewChild('indoorMapDiv', { read: ElementRef, static: false })
-    indoorMapDiv: ElementRef;   // html div reference
+    indoorMapDiv: ElementRef; // html div reference
 
     constructor(private mapService: MapService) {
         this.indoorMaps = mapService.getIndoorMaps();
@@ -35,7 +42,11 @@ export class IndoorMapComponent implements AfterViewInit {
 
     ngAfterViewInit() {
         for (let floorNumber in this.indoorMaps) {
-            this.indoorMaps[floorNumber].setup(this.map, this.indoorMapDiv.nativeElement, this.bounds);
+            this.indoorMaps[floorNumber].setup(
+                this.map,
+                this.indoorMapDiv.nativeElement,
+                this.bounds
+            );
             this.indoorMaps[floorNumber].setupMapListeners(this.map);
             this.indoorMaps[floorNumber].currentlySelected = false;
         }
@@ -43,16 +54,20 @@ export class IndoorMapComponent implements AfterViewInit {
 
     ngOnChanges() {
         if (this.previousIndoorMapLevel) {
-            this.indoorMaps[this.previousIndoorMapLevel].removeIndoorPOIsLabels();
-            this.indoorMaps[this.previousIndoorMapLevel].currentlySelected = false;
+            this.indoorMaps[
+                this.previousIndoorMapLevel
+            ].removeIndoorPOIsLabels();
+            this.indoorMaps[
+                this.previousIndoorMapLevel
+            ].currentlySelected = false;
         }
         if (this.indoorMapLevel) {
             this.indoorMaps[this.indoorMapLevel].currentlySelected = true;
-            this.indoorMapPicturePath = this.indoorMaps[this.indoorMapLevel].getPicturePath();
+            this.indoorMapPicturePath = this.indoorMaps[
+                this.indoorMapLevel
+            ].getPicturePath();
             this.indoorMaps[this.indoorMapLevel].displayIndoorPOIsLabels();
             this.previousIndoorMapLevel = this.indoorMapLevel;
         }
     }
-
-
 }

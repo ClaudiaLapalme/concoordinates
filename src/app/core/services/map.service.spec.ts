@@ -1,7 +1,8 @@
 import { ElementRef } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { MapService } from './map.service';
-import { OutdoorMap, Campus, Building } from '../models';
+import { OutdoorMap, Campus, Building, IndoorMap } from '../models';
+import { map } from 'rxjs/operators';
 
 describe('MapService', () => {
     // let mapService: MapService;
@@ -296,7 +297,7 @@ describe('MapService', () => {
     class MockElementRef extends ElementRef {
         nativeElement = {};
     }
-    
+
     it('get renderer api', () => {
         const {
             mapService,
@@ -306,5 +307,14 @@ describe('MapService', () => {
 
         mapService.getMapRenderer();
         expect(googleApisServiceSpy.getMapRenderer).toHaveBeenCalled();
+    });
+
+    it('getIndoorMaps', () => {
+        const { mapService } = testServiceSetup();
+        const beforeIndoorMap = { 8: new IndoorMap(null, null, null) };
+        mapService['indoorMaps'] = beforeIndoorMap;
+        const afterIndoorMaps = mapService.getIndoorMaps();
+
+        expect(beforeIndoorMap === afterIndoorMaps).toBeTruthy();
     });
 });
