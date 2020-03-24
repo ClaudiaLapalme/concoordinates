@@ -32,34 +32,33 @@
     <ion-item
         color="primary"
         lines="none"
+        (click)="toggleAccessiblity()"
     >
         <ion-label>Accessibility Options</ion-label>
         <svg
             *ngIf="displayAccessibility"
             width="20"
             height="20"
-            viewBox="0 -3 10 15"
+            viewBox="0 0 10 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            (click)="toggleAccessiblity()"
         >
             <path
                 fill=var(--ion-color-primary-contrast)
-                [attr.d]="upArrowIcon"
+                [attr.d]="downArrowIcon"
             />
         </svg>
         <svg
             *ngIf="!displayAccessibility"
             width="20"
             height="20"
-            viewBox="0 0 10 15"
+            viewBox="0 -3 10 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            (click)="toggleAccessiblity()"
         >
             <path
                 fill=var(--ion-color-primary-contrast)
-                [attr.d]="downArrowIcon"
+                [attr.d]="upArrowIcon"
             />
         </svg>
     </ion-item>
