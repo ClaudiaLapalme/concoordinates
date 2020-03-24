@@ -1,36 +1,25 @@
-import { IndoorMap } from "./indoor-map";
-import { ElementRef } from '@angular/core';
+import { Coordinates } from './coordinates';
+import { IndoorMap } from './indoor-map';
+import { IndoorPOI } from './indoor-poi';
 
 describe('IndoorMap', () => {
-
-
-
     describe('onAdd', () => {
-
-        let swBound = new google.maps.LatLng(45, -70);
-        let neBound = new google.maps.LatLng(50, -80);
-        let bounds = new google.maps.LatLngBounds(swBound, neBound);
-
+        const bounds = 8;
+        const indoorMapBuildingCode = 'h';
+        const listOfPOIs = [
+            new IndoorPOI('washroom', new Coordinates(1, 1, 8), 'path')
+        ];
         let indoorMap;
 
-        class MockElementRef extends ElementRef {
-            nativeElement = {};
-        }
-        class MockMap extends google.maps.Map {
-            addListener() {
-                return null;
-            }
-        }
-
+        class mockIndoorPOI extends IndoorPOI {}
         beforeEach(() => {
-            let mockMap = new MockMap(null);
-            const mapElement = new MockElementRef({});
-            indoorMap = new IndoorMap(bounds, mockMap, mapElement);
+            indoorMap = new IndoorMap(
+                bounds,
+                indoorMapBuildingCode,
+                listOfPOIs
+            );
         });
 
-        it('should create a indoorMap without setup', () => {
-            
-        });
+        it('should create a indoorMap without setup', () => {});
     });
-
 });

@@ -1,21 +1,25 @@
-import { 
-    async, 
-    ComponentFixture, 
-    TestBed 
-} from '@angular/core/testing';
+import { ElementRef } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
+import { MapService } from '../../services/map.service';
 import { IndoorMapComponent } from './indoor-map.component';
-
 
 describe('IndoorMapComponent', () => {
     let component: IndoorMapComponent;
     let fixture: ComponentFixture<IndoorMapComponent>;
 
+    class MockMapService {
+        getIndoorMaps(): void {}
+    }
     beforeEach(async(() => {
-
         TestBed.configureTestingModule({
             declarations: [IndoorMapComponent],
-            imports: [IonicModule.forRoot()],
+            imports: [
+                IonicModule.forRoot(),
+                RouterTestingModule.withRoutes([])
+            ],
+            providers: [{ provide: MapService, useClass: MockMapService }]
         }).compileComponents();
 
         fixture = TestBed.createComponent(IndoorMapComponent);
@@ -23,10 +27,79 @@ describe('IndoorMapComponent', () => {
         fixture.detectChanges();
     }));
 
-    // TODO create tests here since calling a function
-    // in IndoorMap constructor is disallowed and we have not
-    // found a solution to test this component for that reason.
-    xit('should create', () => {
+    it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    class MockMap extends google.maps.Map {}
+    let map = new MockMap(null);
+    let indoorMapDiv = new ElementRef(null); // html div reference
+    class MockIndoorMap {
+        public currentlySelected: boolean;
+        constructor() {
+            this.currentlySelected = false;
+        }
+        setup(map, indoorMapDiv, bounds) {}
+        setupMapListeners(map) {}
+        removeIndoorPOIsLabels() {}
+        getPicturePath() {
+            return 'path';
+        }
+        displayIndoorPOIsLabels() {}
+    }
+    describe('Testing ngAfterInit', () => {
+        it('Test ngafterviewinit', () => {
+            component.indoorMaps = { 8: new MockIndoorMap() };
+            component.indoorMaps[8] = jasmine.createSpyObj('indoorMaps[8]', [
+                'setup',
+                'setupMapListeners'
+            ]);
+            component.map = map;
+            component.indoorMapDiv = indoorMapDiv;
+            component.ngAfterViewInit();
+            expect(component.indoorMaps[8].setup).toHaveBeenCalled();
+            expect(
+                component.indoorMaps[8].setupMapListeners
+            ).toHaveBeenCalled();
+        });
+        describe('Testing NgOnChanges', () => {
+            it('Test ngOnChanges with this.indoorMapLevel false', () => {
+                component.indoorMaps = { 8: new MockIndoorMap() };
+                component.indoorMaps[8] = jasmine.createSpyObj(
+                    'indoorMaps[8]',
+                    [
+                        'removeIndoorPOIsLabels',
+                        'getPicturePath',
+                        'displayIndoorPOIsLabels'
+                    ]
+                );
+                component.indoorMapLevel = 8;
+                component.ngOnChanges();
+
+                expect(
+                    component.indoorMaps[8].getPicturePath
+                ).toHaveBeenCalled();
+
+                expect(
+                    component.indoorMaps[8].displayIndoorPOIsLabels
+                ).toHaveBeenCalled();
+            });
+            it('Test ngOnChanges with this.indoorMapLevel false', () => {
+                component.indoorMaps = { 8: new MockIndoorMap() };
+                component.indoorMaps[8] = jasmine.createSpyObj(
+                    'indoorMaps[8]',
+                    [
+                        'removeIndoorPOIsLabels',
+                        'getPicturePath',
+                        'displayIndoorPOIsLabels'
+                    ]
+                );
+                component.previousIndoorMapLevel = 8;
+                component.ngOnChanges();
+                expect(
+                    component.indoorMaps[8].removeIndoorPOIsLabels
+                ).toHaveBeenCalled();
+            });
+        });
     });
 });
