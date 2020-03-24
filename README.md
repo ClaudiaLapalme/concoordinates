@@ -70,3 +70,11 @@ Note: Use vscode to program. Android is just to launch the app on a mobile andro
 4. `npx cap open android`
 
 **NOTE:** delete `pikaroute/android` and recreate the android folder to see the changes reflected
+
+### How to run integration tests
+
+1. Install the Selenium IDE chrome extension 
+2. Open the Selenium IDE
+3. Click `Open an existing project`
+4. Open `src/gui-tests/gui-tests.side`
+5. Run tests either individually or as a suite
