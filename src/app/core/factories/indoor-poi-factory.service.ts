@@ -13,7 +13,6 @@ export class IndoorPOIFactoryService {
     constructor() { }
 
     loadFloorPOIs(floorNumber: number): IndoorPOI[] {
-
         let floorPOIs = [];
 
         for (const key of Object.keys(IndoorCoordinates)) {
@@ -22,10 +21,9 @@ export class IndoorPOIFactoryService {
 
             if (IndoorCoordinates[key].fN == floorNumber) {
 
-                if (key.indexOf('E' + (floorNumber + 1) + 'D') > -1
-                                 ||  key.indexOf('E' + (floorNumber - 1) + 'U') > -1 ) {
+                if (key.indexOf('E' + (floorNumber + 1) + 'D') > -1 || key.indexOf('E' + (floorNumber - 1) + 'U') > -1) {
                     continue;
-                } 
+                }
 
                 const poiCoordinates = new Coordinates(
                     IndoorCoordinates[key].lat,
@@ -44,21 +42,24 @@ export class IndoorPOIFactoryService {
                 } else if (key.indexOf('E') === key.length - 1) {
                     const iconPath = '../../../assets/icon/E-indoor.svg';
                     indoorPOI = this.createLink(key, poiCoordinates, iconPath, 'E', [])
-                } else if (key.indexOf('E' + (floorNumber - 1) + 'D') > -1 ) {
+                } else if (key.indexOf('E' + (floorNumber - 1) + 'D') > -1) {
                     const iconPath = '../../../assets/icon/ESC-DOWN-indoor.svg';
                     indoorPOI = this.createLink(key, poiCoordinates, iconPath, 'ESC', [])
-                } else if (key.indexOf('E' + (floorNumber + 1) + 'U') > -1 ) {
+                } else if (key.indexOf('E' + (floorNumber + 1) + 'U') > -1 || key.indexOf('E' + (floorNumber) + 'U') > -1) {
                     const iconPath = '../../../assets/icon/ESC-UP-indoor.svg';
+                    indoorPOI = this.createLink(key, poiCoordinates, iconPath, 'ESC', [])
+                } else if (key.indexOf('OE') > -1) {
+                    const iconPath = '../../../assets/icon/OE-indoor.svg';
                     indoorPOI = this.createLink(key, poiCoordinates, iconPath, 'ESC', [])
                 } else if (key.indexOf('S') > -1) {
                     const iconPath = '../../../assets/icon/S-indoor.svg';
                     indoorPOI = this.createLink(key, poiCoordinates, iconPath, 'S', [])
                 } else {
                     const iconPath = '../../../assets/icon/TransparentMarker.png';
-                    const roomCode = this. createRoomCode();
+                    const roomCode = this.createRoomCode();
                     indoorPOI = this.createClassroom(key, poiCoordinates, iconPath, roomCode);
                 }
-                
+
                 floorPOIs.push(indoorPOI);
             }
         }
@@ -66,7 +67,6 @@ export class IndoorPOIFactoryService {
         return floorPOIs;
     }
 
-    
     private createClassroom(name: string, coordinates: Coordinates, iconPath: string, roomCode: RoomCode): IndoorPOI {
         return new Classroom(name, coordinates, iconPath, roomCode);
     }
@@ -76,7 +76,7 @@ export class IndoorPOIFactoryService {
     }
 
     private createRegularPOI(name: string, coordinates: Coordinates, iconPath: string): IndoorPOI {
-        return new IndoorPOI (name, coordinates, iconPath);
+        return new IndoorPOI(name, coordinates, iconPath);
     }
 
     private createRoomCode(): RoomCode {

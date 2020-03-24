@@ -2,14 +2,15 @@ import { ElementRef, Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { GoogleApisService } from './google-apis.service';
 import { LocationService } from './location.service';
-import { Map, Building, OutdoorRoute } from '../models';
+import { Map, Building, OutdoorRoute, IndoorMap } from '../models';
 import { OutdoorMap } from '../models/outdoor-map';
-import { OutdoorPOIFactoryService } from '../factories';
+import { OutdoorPOIFactoryService, IndoorPOIFactoryService } from '../factories';
 import { PlaceService } from './place.service';
 
 @Injectable()
 export class MapService {
     private outdoorMap: Map;
+    private indoorMaps= {};
 
     constructor(
         private locationService: LocationService,
@@ -17,6 +18,7 @@ export class MapService {
         private placeService: PlaceService
     ) {
         this.loadOutdoorMap();
+        this.loadIndoorMaps();
     }
 
     icon: google.maps.Icon = {
@@ -102,6 +104,17 @@ export class MapService {
         this.outdoorMap = new OutdoorMap(outdoorPOIFactory.loadOutdoorPOIs());
     }
 
+    private loadIndoorMaps(): void {
+        const floors = [1,8,9];
+        const indoorMapFactory = new IndoorPOIFactoryService();
+
+        for (let floor of floors) {
+            const floorPOIs = indoorMapFactory.loadFloorPOIs(floor);
+            const indoorMap = new IndoorMap(floor, 'H', floorPOIs);
+            this.indoorMaps[floor] = indoorMap;
+        }
+    }
+
     private displayBuildingsOutline(mapRef: google.maps.Map<Element>): void {
         const outdoorPOIs = this.outdoorMap.getPOIs();
 
@@ -177,5 +190,9 @@ export class MapService {
     }
     getMapRenderer(): google.maps.DirectionsRenderer {
         return this.googleApis.getMapRenderer();
+    }
+
+    getIndoorMaps(): {} {
+        return this.indoorMaps;
     }
 }

@@ -16,11 +16,19 @@ export class IndoorPOI extends POI {
 
     private setBuildingLabel(iconPath: string): void {
 
+        let labelName: string;
+
+        if(iconPath !== '../../../assets/icon/TransparentMarker.png'){
+            labelName = '';
+        } else {
+            labelName = this.getName();
+        }
+
         this.poiLabel = new google.maps.Marker({
             position: new google.maps.LatLng(this.getCoordinates().getLatitude(), this.getCoordinates().getLongitude()),
             draggable: false,
             icon: iconPath,
-            label: this.getName()
+            label: labelName
         });
     }
 
