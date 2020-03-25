@@ -57,6 +57,16 @@
       ],
       "value": "berri-uqam"
     }, {
+      "id": "62fe692b-3ad0-4bc3-9d11-f7ea07516630",
+      "comment": "",
+      "command": "click",
+      "target": "css=.in-list:nth-child(2) > .sc-ion-label-md-h",
+      "targets": [
+        ["css=.in-list:nth-child(2) > .sc-ion-label-md-h", "css:finder"],
+        ["xpath=//div/ion-item[2]/ion-label", "xpath:position"]
+      ],
+      "value": ""
+    }, {
       "id": "a2cf14a1-0668-4bf4-88f6-b71c3a28c151",
       "comment": "",
       "command": "click",
@@ -81,13 +91,14 @@
       ],
       "value": "parc jean-drapeau"
     }, {
-      "id": "5fa289f1-6195-4628-938a-67e10c34b4a1",
+      "id": "a7863fc5-e124-4afb-89b5-9f648a4bcbaa",
       "comment": "",
       "command": "click",
-      "target": "css=.button-solid",
+      "target": "css=app-search:nth-child(2) .item-label:nth-child(1) p:nth-child(2)",
       "targets": [
-        ["css=.button-solid", "css:finder"],
-        ["xpath=//ion-button", "xpath:position"]
+        ["css=app-search:nth-child(2) .item-label:nth-child(1) p:nth-child(2)", "css:finder"],
+        ["xpath=//app-search[2]/div[2]/ion-list/div/ion-item/ion-label/p[2]", "xpath:position"],
+        ["xpath=//p[contains(.,'1 Circuit Gilles Villeneuve, Montréal, QC H3C 1A9, Canada')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
