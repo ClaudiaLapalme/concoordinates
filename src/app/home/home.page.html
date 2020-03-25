@@ -11,7 +11,7 @@
         (click)="openMenu()"
     ></ion-icon>
     <app-search
-        [map]="mapModel"
+        [isMapSet]="isMapSet"
         (showControls)="showControls()"
         (removeControls)="removeControls()"
         (placeSelection)="createMarker($event)"

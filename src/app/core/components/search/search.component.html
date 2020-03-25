@@ -1,11 +1,16 @@
 <div class="search-input-container">
-    <ion-item color="primary" class="custom-input-container">
-        <ion-icon *ngIf="!searchInput?.value" name="search" slot="start"></ion-icon>
-          <ion-icon *ngIf="searchInput?.value" (click)="cancelSearch()" class="clear-icon" slot="start" name="close"></ion-icon>
-        <ion-input class="ion-text-center" [formControl]="searchInput" type="text" placeholder="Search"></ion-input>
+    <ion-item *ngIf="colorPrimary" color="primary" class="custom-input-container primary">
+        <ion-icon *ngIf="!searchInput?.value && showSearchIcon" name="search" slot="start"></ion-icon>
+        <ion-icon *ngIf="searchInput?.value" (click)="cancelSearch()" class="clear-icon" slot="start" name="close"></ion-icon>
+        <ion-input  class="ion-text-center" [formControl]="searchInput" type="text" placeholder={{placeholder}}></ion-input>
+    </ion-item>
+    <ion-item *ngIf="!colorPrimary" color="light" class="custom-input-container non-primary">
+        <ion-icon *ngIf="!searchInput?.value && showSearchIcon" name="search" slot="end"></ion-icon>
+        <ion-icon *ngIf="searchInput?.value" (click)="cancelSearch()" class="clear-icon" slot="end" name="close"></ion-icon>
+        <ion-input  class="ion-text-center" [formControl]="searchInput" type="text" placeholder={{placeholder}}></ion-input>
     </ion-item>
 </div>
-<div class="my-overlay" [hidden]="!showSearchOverlay">
+<div class="my-overlay" [ngClass]="{'top-margin': topMargin}" [hidden]="!showSearchOverlay">
     <ion-list>
         <div *ngIf="!searching && resultFound">
             <ion-item *ngFor="let item of searchResultsArray" (click)="focusPOI(item)">
