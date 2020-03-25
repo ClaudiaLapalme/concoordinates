@@ -41,7 +41,7 @@ describe('SettingsComponent', () => {
         fixtureDark = TestBed.createComponent(SettingsComponent);
         componentDark = fixtureDark.componentInstance;
         fixtureDark.detectChanges();
-        
+
         componentDark.checked = true;
 
         async () => {
@@ -66,15 +66,15 @@ describe('SettingsComponent', () => {
 
             await componentLight['storage'].get('color-mode').then((colorTheme) => {
                 initialColorTheme = colorTheme;
-            })
+            });
 
             await componentLight.changeColorMode();
 
             await componentLight['storage'].get('color-mode').then(async (colorTheme) => {
                 colorThemeAfterChange = colorTheme;
-            })
+                expect(colorThemeAfterChange !== initialColorTheme).toBeTruthy();
+            });
 
-            expect(colorThemeAfterChange !== initialColorTheme).toBeTruthy();
         });
 
         it('change the color theme from dark to light', async () => {
