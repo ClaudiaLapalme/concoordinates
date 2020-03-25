@@ -52,10 +52,4 @@ describe('RoutesPage', () => {
 
     });
 
-    it('should call getRoutes() on submit()', () => {
-        const mockedComponent = new RoutesPage(mockFormbuilder, mockFactory);
-        spyOn(mockedComponent, 'getRoutes');
-        mockedComponent.submit();
-        expect(mockedComponent.getRoutes).toHaveBeenCalled();
-    });
 });

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OutdoorRoute, RouteFactory, TransportMode } from '../core';
 
@@ -10,11 +10,41 @@ import { OutdoorRoute, RouteFactory, TransportMode } from '../core';
     styleUrls: ['./routes.page.scss']
 })
 export class RoutesPage implements OnInit, OnDestroy {
+    /**
+     * Form used to generate routes
+     *
+     * @type {FormGroup}
+     */
     form: FormGroup;
+
+    /**
+     * Generated routes
+     *
+     * @type {OutdoorRoute[]}
+     */
     routes: OutdoorRoute[];
+
+    /**
+     * Route tranport mode
+     *
+     * @type {TransportMode}
+     */
     transportMode: TransportMode;
+    
+    /**
+     * Set to true while getting different routes
+     *
+     * @type {boolean}
+     */
     loading: boolean;
-    onDestroy = new Subject<void>();
+
+    /**
+     *
+     *
+     * @private
+     * @type {Subscription}
+     */
+    private subscription: Subscription;
 
 
     constructor(private formBuilder: FormBuilder, private routeFactory: RouteFactory) { }
@@ -31,8 +61,7 @@ export class RoutesPage implements OnInit, OnDestroy {
         });
 
         // Calls getRoutes only when form is valid
-        this.form.valueChanges
-            .pipe(takeUntil((this.onDestroy = new Subject<void>())))
+        this.subscription = this.form.valueChanges
             .subscribe(() => {
                 if (this.form.valid) {
                     this.getRoutes();
@@ -41,8 +70,7 @@ export class RoutesPage implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.onDestroy.next();
-        this.onDestroy.complete();
+        this.subscription.unsubscribe();
     }
 
     async getRoutes() {
@@ -75,20 +103,24 @@ export class RoutesPage implements OnInit, OnDestroy {
         this.loading = false;
     }
 
-    setTransportMode(transportMode: string) {
+    setTransportMode(transportMode: string): void {
         this.transportMode = TransportMode[transportMode];
         this.getRoutes();
     }
 
-    submit() {
-        this.getRoutes();
-    }
-
-    setFrom(event: google.maps.places.PlaceResult) {
+    /**
+     * Set the value of the from input
+     *
+     */
+    setFrom(event: google.maps.places.PlaceResult): void {
         this.form.controls.from.setValue(event.formatted_address);
     }
 
-    setTo(event: any) {
+    /**
+     * Set the value of the to input
+     *
+     */
+    setTo(event: google.maps.places.PlaceResult): void {
         this.form.controls.to.setValue(event.formatted_address);
     }
 }

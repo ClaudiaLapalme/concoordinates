@@ -10,8 +10,7 @@ import {
     SimpleChanges,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {  Subscription } from 'rxjs';
 import {  PlaceService, SessionService } from '../../services';
 
 @Component({
@@ -20,25 +19,112 @@ import {  PlaceService, SessionService } from '../../services';
     styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+    
+    /**
+     * Defines if the map is set or not
+     *
+     * @type {boolean}
+     */
     @Input() isMapSet?: boolean;
+
+    /**
+     * Decides whether or not to show the search icon in the component
+     *
+     */
     @Input() showSearchIcon = true;
+
+    /**
+     * Value of the placeholder
+     *
+     */
     @Input() placeholder = 'Search';
+
+    /**
+     * Sets the color of the search bar
+     *
+     */
     @Input() colorPrimary = true;
+
+    /**
+     * Adds margin to the top of the overlay
+     *
+     */
     @Input() topMargin = false;
+
+    /**
+     * Emits a place result to the parent component
+     *
+     * @type {EventEmitter<
+     *         google.maps.places.PlaceResult
+     *     >}
+     */
     @Output() placeSelection: EventEmitter<
         google.maps.places.PlaceResult
     > = new EventEmitter<google.maps.places.PlaceResult>();
+
+    /**
+     * Emits a cancel event 
+     *
+     */
     @Output() cancelSelection: EventEmitter<any> = new EventEmitter();
+
+    /**
+     * Tells the parent component to show the controls when overlay is not displayed
+     *
+     */
     @Output() showControls: EventEmitter<any> = new EventEmitter();
+
+    /**
+     * Tells the parent component to remove the controls when overlay is  displayed
+     *
+     */
     @Output() removeControls: EventEmitter<any> = new EventEmitter();
 
+    /**
+     * Set to true when user searches
+     *
+     */
     showSearchOverlay = false;
+
+    /**
+     * Set to true during call for text search
+     *
+     */
     searching = false;
+
+    /**
+     * Result from places api
+     *
+     */
     searchResultsArray: google.maps.places.PlaceResult[];
+
+    /**
+     * Set to true when result is found for given input
+     *
+     */
     resultFound = false;
+
+    /**
+     * Form control for the search input
+     *
+     * @type {FormControl}
+     */
     searchInput: FormControl = new FormControl();
-    onDestroy = new Subject<void>();
+
+    /**
+     * Map object to use with places api
+     *
+     * @type {google.maps.Map}
+     */
     map: google.maps.Map;
+
+    /**
+     *
+     *
+     * @private
+     * @type {Subscription}
+     */
+    private subscription: Subscription;
 
     constructor(
         private placeService: PlaceService,
@@ -46,29 +132,33 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     ) {}
 
     ngOnInit() {
-        this.searchInput.valueChanges
-            .pipe(takeUntil((this.onDestroy = new Subject<void>())))
+        this.subscription = this.searchInput.valueChanges
             .subscribe(() => {
                 this.search();
             });
     }
 
     ngAfterViewInit() {
+        // loads the map object
         this.loadMap();
     }
 
     ngOnDestroy() {
-        this.onDestroy.next();
-        this.onDestroy.complete();
+       this.subscription.unsubscribe();
     }
     
     ngOnChanges(changes: SimpleChanges) {
         if (changes.isMapSet && changes.isMapSet.currentValue) {
+            // loads map again whenever isMapSet is changed and set to true
             this.loadMap();
         }
     }
 
-    loadMap() {
+    /**
+     * Gets the map object 
+     *
+     */
+    loadMap(): void {
         if (this.sessionService.isMapRefSet()) {
             this.map = this.sessionService.getMapRef();
         }

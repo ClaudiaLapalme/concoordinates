@@ -14,7 +14,6 @@ export class SessionService {
   /**
    * Stores global reference copy  map object
    *
-   * @param {google.maps.Map} map
    */
   storeMapRef(map: google.maps.Map): void {
     this.map = _.cloneDeep(map);
@@ -24,14 +23,15 @@ export class SessionService {
   /**
    * Checks if map reference was set
    *
-   * @returns {boolean}
-   * @memberof SessionService
    */
   isMapRefSet(): boolean {
     return this.mapLoaded;
   }
 
-  // returns map reference
+  /**
+   * returns map reference
+   *
+   */
   getMapRef(): google.maps.Map {
     return this.map;
   }
