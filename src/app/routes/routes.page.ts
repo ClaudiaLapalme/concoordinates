@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { OutdoorRoute, RouteFactory, TransportMode } from '../core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { OutdoorRoute, RouteFactory, TransportMode } from '../core';
 
 @Component({
     selector: 'app-routes',
@@ -31,10 +31,10 @@ export class RoutesPage implements OnInit, OnDestroy {
         });
 
         // Calls getRoutes only when form is valid
-        this.form.statusChanges
+        this.form.valueChanges
             .pipe(takeUntil((this.onDestroy = new Subject<void>())))
-            .subscribe((res) => {
-                if (res === 'VALID') {
+            .subscribe(() => {
+                if (this.form.valid) {
                     this.getRoutes();
                 }
             });
