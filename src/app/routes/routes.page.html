@@ -6,12 +6,14 @@
           </div>
           <div class="main-input-container">
               <app-search 
+              class="search-from"
                 [colorPrimary]="false" 
                 [showSearchIcon]="false" 
                 [placeholder]="'From'" 
                 (placeSelection)="setFrom($event)" >
             </app-search>
             <app-search 
+                class="search-to"
                 [colorPrimary]="false" 
                 [showSearchIcon]="false" 
                 [placeholder]="'To'" 
