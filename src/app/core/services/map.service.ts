@@ -10,7 +10,7 @@ import { PlaceService } from './place.service';
 @Injectable()
 export class MapService {
     private outdoorMap: Map;
-    private indoorMaps= {};
+    private indoorMaps: Record<number, IndoorMap> = {};
 
     constructor(
         private locationService: LocationService,
