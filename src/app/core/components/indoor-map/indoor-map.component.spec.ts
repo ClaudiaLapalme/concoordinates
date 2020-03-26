@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { MapService } from '../../services/map.service';
 import { IndoorMapComponent } from './indoor-map.component';
+import { IndoorMap } from '../../models/indoor-map'
 
 describe('IndoorMapComponent', () => {
     let component: IndoorMapComponent;
@@ -32,11 +33,14 @@ describe('IndoorMapComponent', () => {
     });
 
     class MockMap extends google.maps.Map {}
+
     let map = new MockMap(null);
     let indoorMapDiv = new ElementRef(null); // html div reference
-    class MockIndoorMap {
+
+    class MockIndoorMap extends IndoorMap {
         public currentlySelected: boolean;
         constructor() {
+            super( 8, 'H', [] );
             this.currentlySelected = false;
         }
         setup(map, indoorMapDiv, bounds) {}
@@ -45,7 +49,7 @@ describe('IndoorMapComponent', () => {
         getPicturePath() {
             return 'path';
         }
-        displayIndoorPOIsLabels() {}
+        tryDisplayIndoorPOIsLabels() {}
     }
     describe('Testing ngAfterInit', () => {
         it('Test ngafterviewinit', () => {
@@ -70,7 +74,7 @@ describe('IndoorMapComponent', () => {
                     [
                         'removeIndoorPOIsLabels',
                         'getPicturePath',
-                        'displayIndoorPOIsLabels'
+                        'tryDisplayIndoorPOIsLabels'
                     ]
                 );
                 component.indoorMapLevel = 8;
@@ -81,7 +85,7 @@ describe('IndoorMapComponent', () => {
                 ).toHaveBeenCalled();
 
                 expect(
-                    component.indoorMaps[8].displayIndoorPOIsLabels
+                    component.indoorMaps[8].tryDisplayIndoorPOIsLabels
                 ).toHaveBeenCalled();
             });
             it('Test ngOnChanges with this.indoorMapLevel false', () => {
@@ -91,7 +95,7 @@ describe('IndoorMapComponent', () => {
                     [
                         'removeIndoorPOIsLabels',
                         'getPicturePath',
-                        'displayIndoorPOIsLabels'
+                        'tryDisplayIndoorPOIsLabels'
                     ]
                 );
                 component.previousIndoorMapLevel = 8;

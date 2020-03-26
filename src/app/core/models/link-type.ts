@@ -12,14 +12,14 @@ enum SpeedFactor {
     ENTRACE = 10
 }
 
-enum WheelChairAccessibility{
+enum WheelChairAccessibility {
     ELEVATOR = 1,
     ESCALATOR = 0,
     STAIRS = 0,
     ENTRACE = 1
 }
 
-export class LinkType{
+export class LinkType {
 
     private name: Name;
     private speedFactor: number;

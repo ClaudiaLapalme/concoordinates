@@ -15,7 +15,7 @@ export class Classroom extends IndoorPOI {
         return this.roomCode;
     }
 
-    setRoomCode(roomCode: RoomCode) {
+    setRoomCode(roomCode: RoomCode): void {
         this.roomCode = roomCode;
     }
 }

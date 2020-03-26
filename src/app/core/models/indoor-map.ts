@@ -17,7 +17,7 @@ export class IndoorMap extends google.maps.OverlayView {
         this.indoorMapPicturePath = "assets/floor_plans/" + indoorMapBuildingCode + "_" + indoorMapLevel + "_Beige.png";
     }
 
-    public setup(mapRef: google.maps.Map, divRef: any, bounds: google.maps.LatLngBounds) {
+    public setup(mapRef: google.maps.Map, divRef: any, bounds: google.maps.LatLngBounds): void {
         this.mapRef = mapRef; // Necessary for hide/show behavior
         this.div = divRef; // Necessary for hide/show behavior
         this.bounds = bounds;
@@ -27,14 +27,14 @@ export class IndoorMap extends google.maps.OverlayView {
     }
 
     // Tile lifecycle method
-    onAdd() {
+    onAdd(): void {
         const panes = this.getPanes();
         this.div = this.div;
         panes.overlayLayer.appendChild(this.div);
     }
 
     // Tile lifecycle method
-    draw() {
+    draw(): void {
         const overlayProjection = this.getProjection();
 
         const sw = overlayProjection.fromLatLngToDivPixel(
@@ -51,13 +51,13 @@ export class IndoorMap extends google.maps.OverlayView {
     }
 
     // Tile lifecycle method
-    onRemove() {
+    onRemove(): void {
         this.div.parentNode.removeChild(this.div);
         this.div = null;
     }
 
     // For debugging
-    updateBounds(bounds) {
+    updateBounds(bounds): void {
         this.bounds = bounds;
         this.draw();
     }
@@ -103,7 +103,20 @@ export class IndoorMap extends google.maps.OverlayView {
         }
     }
 
-    public displayIndoorPOIsLabels(): void {
+    /**
+     * This function is used by the indoor-map component.
+     * Prevent to display the indoor POIs when the user toggle the floor
+     * at a zoom to low.
+     */
+    public tryDisplayIndoorPOIsLabels(): void {
+        const currentZoom: number = this.mapRef.getZoom();
+        const ZOOM_THRESHOLD = 18;
+        if (currentZoom >= ZOOM_THRESHOLD) {
+            this.displayIndoorPOIsLabels();
+        }
+    }
+
+    private displayIndoorPOIsLabels(): void {
         for (let indoorPOI of this.listOfPOIs) {
             indoorPOI.displayIndoorPOILabel();
         }

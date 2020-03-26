@@ -6,6 +6,7 @@ import {
     ViewChild
 } from '@angular/core';
 import { MapService } from '../../services';
+import { IndoorMap } from '../../models'
 
 @Component({
     selector: 'app-indoor-map',
@@ -24,7 +25,7 @@ export class IndoorMapComponent implements AfterViewInit {
 
     private bounds = new google.maps.LatLngBounds(this.swBound, this.eBound);
 
-    public indoorMaps = {};
+    public indoorMaps: Record<number, IndoorMap> = {};
     public indoorMapPicturePath: string =
         '../../../assets/icon/TransparentMarker.png';
     public previousIndoorMapLevel: number;
@@ -40,8 +41,11 @@ export class IndoorMapComponent implements AfterViewInit {
         this.indoorMaps = mapService.getIndoorMaps();
     }
 
+    /**
+     * Setting up the Google overlay and markers for each indoormap.
+     */
     ngAfterViewInit() {
-        for (let floorNumber in this.indoorMaps) {
+        for (const floorNumber in this.indoorMaps) {
             this.indoorMaps[floorNumber].setup(
                 this.map,
                 this.indoorMapDiv.nativeElement,
@@ -54,19 +58,13 @@ export class IndoorMapComponent implements AfterViewInit {
 
     ngOnChanges() {
         if (this.previousIndoorMapLevel) {
-            this.indoorMaps[
-                this.previousIndoorMapLevel
-            ].removeIndoorPOIsLabels();
-            this.indoorMaps[
-                this.previousIndoorMapLevel
-            ].currentlySelected = false;
+            this.indoorMaps[this.previousIndoorMapLevel].removeIndoorPOIsLabels();
+            this.indoorMaps[this.previousIndoorMapLevel].currentlySelected = false;
         }
         if (this.indoorMapLevel) {
             this.indoorMaps[this.indoorMapLevel].currentlySelected = true;
-            this.indoorMapPicturePath = this.indoorMaps[
-                this.indoorMapLevel
-            ].getPicturePath();
-            this.indoorMaps[this.indoorMapLevel].displayIndoorPOIsLabels();
+            this.indoorMapPicturePath = this.indoorMaps[this.indoorMapLevel].getPicturePath();
+            this.indoorMaps[this.indoorMapLevel].tryDisplayIndoorPOIsLabels();
             this.previousIndoorMapLevel = this.indoorMapLevel;
         }
     }

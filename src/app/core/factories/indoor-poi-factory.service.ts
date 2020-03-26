@@ -11,16 +11,21 @@ import IndoorCoordinates from '../data/indoor-poi-to-coordinates.json';
 export class IndoorPOIFactoryService {
     constructor() {}
 
+    /**
+     * This function fetchs all the POIs for the floor number given as parameter and returns
+     * them as an array. The POIs are stored inside ../data/indoor-poi-to-coordinates.json.
+     */
     loadFloorPOIs(floorNumber: number): IndoorPOI[] {
         let floorPOIs = [];
 
+        //Key is the name of one of the POIs inside the indoor-poi-to-coordinates.json
         for (const key of Object.keys(IndoorCoordinates)) {
             let indoorPOI = null;
 
             if (IndoorCoordinates[key].fN == floorNumber) {
                 if (
-                    key.indexOf('E' + (floorNumber + 1) + 'D') > -1 ||
-                    key.indexOf('E' + (floorNumber - 1) + 'U') > -1
+                    IndoorPOIFactoryService.isCoordinatesFor(key, 'ESC' + (floorNumber + 1) + 'D') ||
+                    IndoorPOIFactoryService.isCoordinatesFor(key, 'ESC' + (floorNumber - 1) + 'U')
                 ) {
                     continue;
                 }
@@ -31,28 +36,28 @@ export class IndoorPOIFactoryService {
                     floorNumber
                 );
 
-                if (key.indexOf('WF') > -1) {
+                if (IndoorPOIFactoryService.isCoordinatesFor(key, 'WF')) {
                     const iconPath = '../../../assets/icon/WF-indoor.svg';
                     indoorPOI = this.createRegularPOI(
                         key,
                         poiCoordinates,
                         iconPath
                     );
-                } else if (key.indexOf('BM') > -1) {
+                } else if (IndoorPOIFactoryService.isCoordinatesFor(key, 'BM')) {
                     const iconPath = '../..//assets/icon/BM-indoor.svg';
                     indoorPOI = this.createRegularPOI(
                         key,
                         poiCoordinates,
                         iconPath
                     );
-                } else if (key.indexOf('BW') > -1) {
+                } else if (IndoorPOIFactoryService.isCoordinatesFor(key, 'BW')) {
                     const iconPath = '../..//assets/icon/BW-indoor.svg';
                     indoorPOI = this.createRegularPOI(
                         key,
                         poiCoordinates,
                         iconPath
                     );
-                } else if (key.indexOf('E') === key.length - 1) {
+                } else if (IndoorPOIFactoryService.isCoordinatesFor(key, 'E')) {
                     const iconPath = '../../../assets/icon/E-indoor.svg';
                     indoorPOI = this.createLink(
                         key,
@@ -61,7 +66,7 @@ export class IndoorPOIFactoryService {
                         'E',
                         []
                     );
-                } else if (key.indexOf('E' + (floorNumber - 1) + 'D') > -1) {
+                } else if (IndoorPOIFactoryService.isCoordinatesFor(key, 'ESC' + (floorNumber - 1) + 'D')) {
                     const iconPath = '../../../assets/icon/ESC-DOWN-indoor.svg';
                     indoorPOI = this.createLink(
                         key,
@@ -71,8 +76,8 @@ export class IndoorPOIFactoryService {
                         []
                     );
                 } else if (
-                    key.indexOf('E' + (floorNumber + 1) + 'U') > -1 ||
-                    key.indexOf('E' + floorNumber + 'U') > -1
+                    IndoorPOIFactoryService.isCoordinatesFor(key, 'ESC' + (floorNumber + 1) + 'U') ||
+                    IndoorPOIFactoryService.isCoordinatesFor(key, 'ESC' + floorNumber + 'U')
                 ) {
                     const iconPath = '../../../assets/icon/ESC-UP-indoor.svg';
                     indoorPOI = this.createLink(
@@ -82,7 +87,7 @@ export class IndoorPOIFactoryService {
                         'ESC',
                         []
                     );
-                } else if (key.indexOf('OE') > -1) {
+                } else if (IndoorPOIFactoryService.isCoordinatesFor(key, 'OE')) {
                     const iconPath = '../../../assets/icon/OE-indoor.svg';
                     indoorPOI = this.createLink(
                         key,
@@ -91,7 +96,7 @@ export class IndoorPOIFactoryService {
                         'ESC',
                         []
                     );
-                } else if (key.indexOf('S') > -1) {
+                } else if ( IndoorPOIFactoryService.isCoordinatesFor(key, 'S')) {
                     const iconPath = '../../../assets/icon/S-indoor.svg';
                     indoorPOI = this.createLink(
                         key,
@@ -103,7 +108,7 @@ export class IndoorPOIFactoryService {
                 } else {
                     const iconPath =
                         '../../../assets/icon/TransparentMarker.png';
-                    const roomCode = this.createRoomCode();
+                    const roomCode = this.createRoomCode(key, floorNumber);
                     indoorPOI = this.createClassroom(
                         key,
                         poiCoordinates,
@@ -119,34 +124,37 @@ export class IndoorPOIFactoryService {
         return floorPOIs;
     }
 
-    private createClassroom(
-        name: string,
-        coordinates: Coordinates,
-        iconPath: string,
-        roomCode: RoomCode
-    ): IndoorPOI {
+    private createClassroom(name: string, coordinates: Coordinates, iconPath: string, roomCode: RoomCode): IndoorPOI {
         return new Classroom(name, coordinates, iconPath, roomCode);
     }
 
-    private createLink(
-        name: string,
-        coordinates: Coordinates,
-        iconPath: string,
-        linkType: string,
-        exitCoordinates: Coordinates[]
-    ): IndoorPOI {
+    private createLink(name: string, coordinates: Coordinates, iconPath: string, linkType: string,exitCoordinates: Coordinates[]): IndoorPOI {
         return new Link(name, coordinates, iconPath, linkType, exitCoordinates);
     }
 
-    private createRegularPOI(
-        name: string,
-        coordinates: Coordinates,
-        iconPath: string
-    ): IndoorPOI {
+    private createRegularPOI(name: string, coordinates: Coordinates, iconPath: string): IndoorPOI {
         return new IndoorPOI(name, coordinates, iconPath);
     }
 
-    private createRoomCode(): RoomCode {
-        return new RoomCode(null, null, null, null);
+    private createRoomCode(key: string, floorNumber: number): RoomCode {
+        const buildingCode = 'H';
+        const floorCode = buildingCode + floorNumber.toString();
+        const roomNumber = Number(key.substring(1));
+        return new RoomCode(buildingCode, floorCode, floorNumber, roomNumber);
+    }
+
+    private static isCoordinatesFor(key: string, typePOI: string): boolean {
+        const indexOfSubstring = key.indexOf(typePOI);
+        if (
+            key[indexOfSubstring - 1] === '-' &&
+                (
+                    key[indexOfSubstring + typePOI.length] === undefined ||
+                    !Number.isNaN(Number(key[indexOfSubstring + typePOI.length])) 
+                )
+        ){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
