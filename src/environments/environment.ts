@@ -12,8 +12,18 @@
 
 export const environment = {
     production: false,
-    API_KEY: '<API_KEY>',
-    CLIENT_ID: '<CLIENT_ID>'
+    config: {
+        apiKey: "",
+        authDomain: "",
+        databaseURL: "",
+        projectId: "",
+        storageBucket: "",
+        messagingSenderId: "",
+        appId: "",
+        measurementId: ""    
+    },
+    API_KEY: '',
+    CLIENT_ID: ''
 };
 
 /*

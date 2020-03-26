@@ -9,6 +9,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core';
 import { SharedModule } from './shared';
+import { environment } from '../environments/environment';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+
 
 @NgModule({
     declarations: [AppComponent],
@@ -20,12 +25,15 @@ import { SharedModule } from './shared';
         SharedModule,
         CoreModule,
         AppRoutingModule,
+        AngularFireModule.initializeApp(environment.config),
+        AngularFireAuthModule
     ],
     providers: [
         StatusBar,
         SplashScreen,
         CoreModule,
         SharedModule,
+        GooglePlus,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
     ],
     bootstrap: [AppComponent]

@@ -8,25 +8,27 @@ import { Subscription } from 'rxjs/internal/Subscription';
     styleUrls: ['./side-menu.component.scss'],
     providers: [CalendarService],
 })
-export class SideMenuComponent implements OnInit, OnDestroy{
-    
+export class SideMenuComponent implements OnInit, OnDestroy {
+
     private emailUpdateRef: Subscription = null;
     showMenu: boolean = true;
     showSettings: boolean = false;
     userEmail: string;
-    userPicture: string;   
+    userPicture: string;
 
     constructor(
         public calendarService: CalendarService) { }
 
     ngOnInit() {
-        this.emailUpdateRef = this.calendarService.emailUpdated$.subscribe(()=>{
+        this.emailUpdateRef = this.calendarService.emailUpdated$.subscribe(() => {
+            console.log('hello');
+            
             this.insertGoogleUserInfo();
         })
     }
 
     ngOnDestroy() {
-        this.emailUpdateRef.unsubscribe();
+        //this.emailUpdateRef.unsubscribe();
     }
 
     openSettings(): void {
@@ -39,14 +41,14 @@ export class SideMenuComponent implements OnInit, OnDestroy{
         this.showMenu = true;
     }
 
-    authCalendarUser(): void { 
+    authCalendarUser(): void {
         this.calendarService.getAuth();
     }
 
     insertGoogleUserInfo(): void {
         this.userEmail = this.calendarService.getUserEmail();
         this.userPicture = this.calendarService.getUserPicture();
-        document.getElementById('loggedInEmail').innerHTML = this.userEmail; 
-        document.getElementById('loggedInPicture').innerHTML = '<img src=\"',this.userPicture,'\">'; 
+        document.getElementById('loggedInEmail').innerHTML = this.userEmail;
+        document.getElementById('loggedInPicture').innerHTML = '<img src=\"', this.userPicture, '\">';
     }
 }
