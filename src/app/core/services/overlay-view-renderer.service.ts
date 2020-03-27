@@ -14,14 +14,14 @@ export class OverlayViewRenderer extends google.maps.OverlayView {
     }
 
     // Tile lifecycle method
-    onAdd(): void {
+    public onAdd(): void {
         const panes = this.getPanes();
         this.div = this.div;
         panes.overlayLayer.appendChild(this.div);
     }
 
     // Tile lifecycle method
-    draw(): void {
+    public draw(): void {
         const overlayProjection = this.getProjection();
 
         const sw = overlayProjection.fromLatLngToDivPixel(
@@ -38,13 +38,13 @@ export class OverlayViewRenderer extends google.maps.OverlayView {
     }
 
     // Tile lifecycle method
-    onRemove(): void {
+    public onRemove(): void {
         this.div.parentNode.removeChild(this.div);
         this.div = null;
     }
 
     // For debugging
-    updateBounds(bounds): void {
+    public updateBounds(bounds): void {
         this.bounds = bounds;
         this.draw();
     }
