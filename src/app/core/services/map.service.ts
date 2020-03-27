@@ -1,10 +1,9 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
+import { AbstractPOIFactoryService } from '../factories';
+import { Building, IndoorMap, IndoorRoute, Map, OutdoorMap, OutdoorRoute, Route } from '../models';
 import { GoogleApisService } from './google-apis.service';
 import { LocationService } from './location.service';
-import { Map, Building, OutdoorRoute, IndoorMap } from '../models';
-import { OutdoorMap } from '../models/outdoor-map';
-import { AbstractPOIFactoryService } from '../factories';
 import { PlaceService } from './place.service';
 
 @Injectable()
@@ -193,7 +192,18 @@ export class MapService {
         return this.SGW_COORDINATES;
     }
 
-    displayRoute(map: google.maps.Map, route: OutdoorRoute): void {
+    displayRoute(map: google.maps.Map, route: Route) {
+        if ( route instanceof OutdoorRoute) {
+            this.displayOutdoorRoute(map, route);
+        } else if (route instanceof IndoorRoute) {
+            // TODO: Render indoor route here
+            return;
+        }
+
+
+    }
+
+    private displayOutdoorRoute(map: google.maps.Map, route: OutdoorRoute){
         const renderer = this.getMapRenderer();
         renderer.setMap(map);
         this.googleApis

@@ -11,3 +11,5 @@ export * from './map';
 export * from './outdoor-map';
 export * from './link';
 export * from './link-type';
+export * from './route';
+export * from './indoor-route';
