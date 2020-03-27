@@ -5,7 +5,6 @@ import { PlaceService } from '../services';
 
 import BuildingsOutlineCoordinates from '../data/building-outline-coordinates.json';
 import ConcordiaBuildings from '../data/concordia-buildings.json';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 type BuildingOutline = google.maps.Polygon;
 type OutlineAttributes = google.maps.PolygonOptions;
