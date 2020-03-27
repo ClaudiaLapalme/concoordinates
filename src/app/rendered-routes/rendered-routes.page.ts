@@ -17,12 +17,16 @@ import { StateService } from '../shared/state.service';
 })
 export class RenderedRoutesPage implements AfterViewInit, OnInit {
     route: OutdoorRoute;
+
     @ViewChild('map', { static: false })
     mapElement: ElementRef;
 
     // Reference to the native location button html element
     @ViewChild('userCenter', { read: ElementRef, static: false })
     userCenter: ElementRef;
+
+    @ViewChild('returnToRoutes', { read: ElementRef, static: false })
+    returnToRoutes: ElementRef;
 
     // Map data
     public mapModel: google.maps.Map;
@@ -38,10 +42,14 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
         this.mapService.loadMap(this.mapElement).then(mapObj => {
             this.mapModel = mapObj;
             const locationButton = this.userCenter.nativeElement;
+            const returnButton = this.returnToRoutes.nativeElement;
 
             this.mapModel.controls[
                 google.maps.ControlPosition.RIGHT_BOTTOM
             ].push(locationButton);
+            this.mapModel.controls[
+                google.maps.ControlPosition.LEFT_TOP
+            ].push(returnButton);
             this.mapService.displayRoute(mapObj, this.route);
         });
     }
