@@ -6,11 +6,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Platform } from '@ionic/angular';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import * as firebase from 'firebase/app';
-import { auth } from 'firebase/app';
-
-
-//Google api object declared as type: any pending call to the gapi library at runtime
-declare let gapi: any;
 
 @Injectable()
 export class CalendarService {
@@ -47,9 +42,6 @@ export class CalendarService {
             }).catch((error) => {
                 console.log(error);
             })
-
-        // this might be the way to go but wasn't able to make it work on the browser yet
-        // this.afAuth.auth.signInWithRedirect(provider);
     }
 
     async androidLogin(): Promise<any>{
@@ -58,11 +50,7 @@ export class CalendarService {
                 'webClientId': environment.CLIENT_ID,
                 'offline': true,
                 'scopes': 'profile email'
-            })
-
-            return await this.afAuth.auth.signInWithCredential(
-                firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken)
-            ).then(function(result) {
+            }).then(function(result) {
                 this.email = result.user.email;
                 this.picture = result.user.photoURL;
                 this.emailUpdatedSource.next();
@@ -75,26 +63,6 @@ export class CalendarService {
         }
     }
 
-    /**
-     * Triggered when a change in sign in status occurs
-     * in the google client. Populates email in 
-     * sidemenu component
-     * @param isSignedIn boolean indicating whether user has 
-     * Returns true if signed in
-     */
-    updateSigninStatus(isSignedIn): boolean {
-        try {
-            this.signedIn = isSignedIn;
-            if (this.signedIn) {
-                this.email = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getEmail();
-                this.picture = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getImageUrl();
-                return true;
-            }
-        }
-        catch{
-            console.log('Auth instance not validated yet.'); //debug
-        }
-    }
     /**
      * Accessor for email
      */
