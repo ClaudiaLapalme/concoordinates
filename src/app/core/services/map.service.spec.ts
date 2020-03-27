@@ -3,6 +3,7 @@ import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { MapService } from './map.service';
 import { OutdoorMap, Campus, Building, IndoorMap } from '../models';
 import { map } from 'rxjs/operators';
+import { OutdoorPOIFactoryService } from '../factories';
 
 describe('MapService', () => {
     // let mapService: MapService;
@@ -22,12 +23,17 @@ describe('MapService', () => {
         const placeServiceSpy = jasmine.createSpyObj('PlaceService', [
             'enableService'
         ]);
+        const abstractPOIFactoryService = jasmine.createSpyObj('AbstractPOIFactoryService', [
+            'createOutdoorPOIFactory',
+            'createIndoorPOIFactory'
+        ]);
         const mapService: MapService = new MapService(
             locationServiceSpy,
             googleApisServiceSpy,
-            placeServiceSpy
+            placeServiceSpy,
+            abstractPOIFactoryService
         );
-        return { mapService, locationServiceSpy, googleApisServiceSpy };
+        return { mapService, locationServiceSpy, googleApisServiceSpy, abstractPOIFactoryService };
     }
 
     it('should be created', () => {
@@ -184,7 +190,7 @@ describe('MapService', () => {
             removeOutlineCalled = false;
 
             constructor() {
-                super(testBuildingName, null, null);
+                super(testBuildingName, null, null, null);
             }
 
             removeBuildingOutline(): void {
@@ -242,7 +248,7 @@ describe('MapService', () => {
             displayCodeCalled = false;
 
             constructor() {
-                super(testBuildingName, null, null);
+                super(testBuildingName, null, null, null);
             }
 
             removeBuildingCode(): void {
@@ -270,6 +276,10 @@ describe('MapService', () => {
             }
         }
 
+        class MockOutdoorPOIFactoryService extends OutdoorPOIFactoryService {
+            setMapService(): void {}
+        }
+
         it('should display building code at zoom 18 or more', () => {
             const { mapService } = testServiceSetup();
 
@@ -283,9 +293,11 @@ describe('MapService', () => {
         });
 
         it('should not try to display the code of a no building object', () => {
-            const { mapService } = testServiceSetup();
+            const { mapService, abstractPOIFactoryService } = testServiceSetup();
 
             let campusMock = new MockCampus();
+
+            abstractPOIFactoryService.createOutdoorPOIFactory.and.returnValue(new MockOutdoorPOIFactoryService);
 
             mapService['outdoorMap'] = new OutdoorMap([campusMock]);
             mapService['trackBuildingCodeDisplay'](20);
@@ -307,14 +319,5 @@ describe('MapService', () => {
 
         mapService.getMapRenderer();
         expect(googleApisServiceSpy.getMapRenderer).toHaveBeenCalled();
-    });
-
-    it('getIndoorMaps', () => {
-        const { mapService } = testServiceSetup();
-        const beforeIndoorMap = { 8: new IndoorMap(null, null, null) };
-        mapService['indoorMaps'] = beforeIndoorMap;
-        const afterIndoorMaps = mapService.getIndoorMaps();
-
-        expect(beforeIndoorMap === afterIndoorMaps).toBeTruthy();
     });
 });

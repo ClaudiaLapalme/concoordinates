@@ -27,6 +27,7 @@ import {
     MapService,
     PlaceService,
     SessionService,
+    OverlayViewRenderer,
 } from './services';
 
 @NgModule({
@@ -58,7 +59,8 @@ import {
         IndoorPOIFactoryService,
         AbstractPOIFactoryService,
         RouteFactory,
-        PlaceService
+        PlaceService,
+        OverlayViewRenderer
     ],
     exports: [
         ToggleCampusComponent,

@@ -1,9 +1,11 @@
 import { Coordinates } from './coordinates';
 import { OutdoorPOI } from './outdoor-poi';
+import { IndoorMap } from './indoor-map';
 import { PlaceService } from '../services';
 
 import BuildingsOutlineCoordinates from '../data/building-outline-coordinates.json';
 import ConcordiaBuildings from '../data/concordia-buildings.json';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 type BuildingOutline = google.maps.Polygon;
 type OutlineAttributes = google.maps.PolygonOptions;
@@ -16,15 +18,18 @@ export class Building extends OutdoorPOI {
     private buildingLabel: google.maps.Marker;
     private buildingPicturePath: string;
     private buildingCode: string;
+    private indoorMaps: Record<number, IndoorMap>;
 
     constructor(
         name: string,
         code: string,
-        coordinates: Coordinates) {
+        coordinates: Coordinates,
+        indoorMaps: Record<number, IndoorMap>) {
 
         super(name, coordinates);
-
+        
         this.buildingCode = code;
+        this.indoorMaps = indoorMaps;
         this.setBuildingOutline();
         this.setBuildingInformation();
         this.setBuildingLabel();
@@ -117,5 +122,9 @@ export class Building extends OutdoorPOI {
 
             return bounds.getCenter();
         }
+    }
+
+    public getIndoorMaps(): Record<number, IndoorMap> {
+        return this.indoorMaps;
     }
 }

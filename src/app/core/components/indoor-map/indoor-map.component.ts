@@ -6,7 +6,8 @@ import {
     ViewChild
 } from '@angular/core';
 import { MapService } from '../../services';
-import { IndoorMap } from '../../models'
+import { IndoorMap, Building } from '../../models'
+import { OverlayViewRenderer } from '../../services/overlay-view-renderer.service';
 
 @Component({
     selector: 'app-indoor-map',
@@ -24,6 +25,7 @@ export class IndoorMapComponent implements AfterViewInit {
     );
 
     private bounds = new google.maps.LatLngBounds(this.swBound, this.eBound);
+    private currentlyDisplayedIndoorMap: IndoorMap;
 
     public indoorMaps: Record<number, IndoorMap> = {};
     public indoorMapPicturePath: string =
@@ -37,35 +39,73 @@ export class IndoorMapComponent implements AfterViewInit {
     @ViewChild('indoorMapDiv', { read: ElementRef, static: false })
     indoorMapDiv: ElementRef; // html div reference
 
-    constructor(private mapService: MapService) {
-        this.indoorMaps = mapService.getIndoorMaps();
+    constructor(private mapService: MapService,
+                private overlayViewRenderer: OverlayViewRenderer) {
+        this.setIndoorMaps();
     }
 
     /**
      * Setting up the Google overlay and markers for each indoormap.
      */
     ngAfterViewInit() {
-        for (const floorNumber in this.indoorMaps) {
-            this.indoorMaps[floorNumber].setup(
-                this.map,
-                this.indoorMapDiv.nativeElement,
-                this.bounds
-            );
-            this.indoorMaps[floorNumber].setupMapListeners(this.map);
-            this.indoorMaps[floorNumber].currentlySelected = false;
-        }
+
+        this.overlayViewRenderer.setup(
+            this.map,
+            this.indoorMapDiv.nativeElement,
+            this.bounds
+        );
+
+        this.setupMapListeners(this.map);
     }
 
     ngOnChanges() {
-        if (this.previousIndoorMapLevel) {
-            this.indoorMaps[this.previousIndoorMapLevel].removeIndoorPOIsLabels();
-            this.indoorMaps[this.previousIndoorMapLevel].currentlySelected = false;
+        if (this.currentlyDisplayedIndoorMap) {
+            this.currentlyDisplayedIndoorMap.removeIndoorPOIsLabels();
         }
         if (this.indoorMapLevel) {
-            this.indoorMaps[this.indoorMapLevel].currentlySelected = true;
-            this.indoorMapPicturePath = this.indoorMaps[this.indoorMapLevel].getPicturePath();
-            this.indoorMaps[this.indoorMapLevel].tryDisplayIndoorPOIsLabels();
-            this.previousIndoorMapLevel = this.indoorMapLevel;
+            this.currentlyDisplayedIndoorMap = this.indoorMaps[this.indoorMapLevel];
+            this.indoorMapPicturePath = this.currentlyDisplayedIndoorMap.getPicturePath();
+            this.tryDisplayIndoorPOIsLabels(this.map);
+        }
+    }
+
+    private setIndoorMaps(): void {
+        const outdoorMap = this.mapService.getOutdoorMap();
+        const hBuilding = <Building> outdoorMap.getPOI('Henry F. Hall Building');
+        this.indoorMaps = hBuilding.getIndoorMaps();
+    }
+
+    /**
+     * Set up all listeners that the map will have concerning indoor map.
+     */
+    private setupMapListeners(map: google.maps.Map) {
+        const _this = this;
+        // Zoom Changed Listener
+        google.maps.event.addListener(map, 'zoom_changed', function () {
+            if (_this.currentlyDisplayedIndoorMap) {
+                const newZoom: number = map.getZoom();
+                const ZOOM_THRESHOLD = 18;
+                if (newZoom <= ZOOM_THRESHOLD) {
+                    // hide
+                    _this.currentlyDisplayedIndoorMap.removeIndoorPOIsLabels();
+                } else {
+                    // show
+                    _this.currentlyDisplayedIndoorMap.displayIndoorPOIsLabels();
+                }
+            }
+        });
+    }
+
+        /**
+     * This function is used by the indoor-map component.
+     * Prevent to display the indoor POIs when the user toggle the floor
+     * at a zoom to low.
+     */
+    private tryDisplayIndoorPOIsLabels(map: google.maps.Map): void {
+        const currentZoom: number = map.getZoom();
+        const ZOOM_THRESHOLD = 18;
+        if (currentZoom >= ZOOM_THRESHOLD) {
+            this.currentlyDisplayedIndoorMap.displayIndoorPOIsLabels();
         }
     }
 }

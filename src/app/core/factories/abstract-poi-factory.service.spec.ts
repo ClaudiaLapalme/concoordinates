@@ -4,8 +4,9 @@ import { OutdoorPOIFactoryService } from './outdoor-poi-factory.service';
 describe('AbstractPoiFactoryService', () => {
 
   function testServiceSetup() {
-
-    return new AbstractPOIFactoryService();
+    const mockMapService = jasmine.createSpyObj('mapService', ['loadIndoorMaps']);
+    const abstractPOIFactoryService: AbstractPOIFactoryService = new AbstractPOIFactoryService();
+    return { abstractPOIFactoryService, mockMapService };
   }
 
   it('should be created', () => {
@@ -16,11 +17,10 @@ describe('AbstractPoiFactoryService', () => {
   describe('createOutdoorPOIFactory()', () => {
 
     it('should return an outdoor poi factory', () => {
+      const { abstractPOIFactoryService, mockMapService } = testServiceSetup();
+      const outdoorPOIFactory = abstractPOIFactoryService.createOutdoorPOIFactory();
 
-      const abstractPOIFactory = testServiceSetup();
-      const outdoorPOIFactory = abstractPOIFactory.createOutdoorPOIFactory();
-
-      expect(outdoorPOIFactory).toEqual(new OutdoorPOIFactoryService);
+      expect(outdoorPOIFactory).toEqual(new OutdoorPOIFactoryService());
     });
   });
 });

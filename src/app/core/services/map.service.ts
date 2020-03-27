@@ -4,21 +4,20 @@ import { GoogleApisService } from './google-apis.service';
 import { LocationService } from './location.service';
 import { Map, Building, OutdoorRoute, IndoorMap } from '../models';
 import { OutdoorMap } from '../models/outdoor-map';
-import { OutdoorPOIFactoryService, IndoorPOIFactoryService } from '../factories';
+import { AbstractPOIFactoryService } from '../factories';
 import { PlaceService } from './place.service';
 
 @Injectable()
 export class MapService {
     private outdoorMap: Map;
-    private indoorMaps: Record<number, IndoorMap> = {};
 
     constructor(
         private locationService: LocationService,
         private googleApis: GoogleApisService,
-        private placeService: PlaceService
+        private placeService: PlaceService,
+        private abstractPOIFactoryService: AbstractPOIFactoryService
     ) {
         this.loadOutdoorMap();
-        this.loadIndoorMaps();
     }
 
     icon: google.maps.Icon = {
@@ -67,6 +66,7 @@ export class MapService {
                 this.placeService.enableService(mapObj);
 
                 this.displayBuildingsOutline(mapObj);
+                this.createIndoorPOIsLabels(mapObj);
 
                 mapObj.addListener(
                     'tilesloaded',
@@ -99,29 +99,47 @@ export class MapService {
     }
 
     private loadOutdoorMap(): void {
-        const outdoorPOIFactory = new OutdoorPOIFactoryService();
+
+        const outdoorPOIFactory = this.abstractPOIFactoryService.createOutdoorPOIFactory();
+        outdoorPOIFactory.setMapService(this);
 
         this.outdoorMap = new OutdoorMap(outdoorPOIFactory.loadOutdoorPOIs());
     }
 
-    private loadIndoorMaps(): void {
+    /**
+     * Right now, this function only loads the indoors maps for three floors
+     * of the H building (1,8,9).
+     */
+    public loadIndoorMaps():  Record<number, IndoorMap> {
         const floors = [1,8,9];
-        const indoorMapFactory = new IndoorPOIFactoryService();
+        const indoorMapFactory = this.abstractPOIFactoryService.createIndoorPOIFactory();
+        let indoorMaps: Record<number, IndoorMap> = {};
 
         for (let floor of floors) {
             const floorPOIs = indoorMapFactory.loadFloorPOIs(floor);
             const indoorMap = new IndoorMap(floor, 'H', floorPOIs);
-            this.indoorMaps[floor] = indoorMap;
+            indoorMaps[floor] = indoorMap;
         }
+
+        return indoorMaps;
     }
 
     private displayBuildingsOutline(mapRef: google.maps.Map<Element>): void {
         const outdoorPOIs = this.outdoorMap.getPOIs();
 
-        for (let outdoorPOI of outdoorPOIs) {
+        for (const outdoorPOI of outdoorPOIs) {
             if (outdoorPOI instanceof Building) {
                 outdoorPOI.createBuildingOutline(mapRef, this.placeService);
             }
+        }
+    }
+
+    private createIndoorPOIsLabels (mapRef: google.maps.Map<Element>): void {
+        const hBuilding = <Building> this.outdoorMap.getPOI('Henry F. Hall Building');
+        const indoorMaps = hBuilding.getIndoorMaps();
+
+        for (const floorNumber in indoorMaps) {
+            indoorMaps[floorNumber].createIndoorPOIsLabels(mapRef);
         }
     }
 
@@ -175,7 +193,7 @@ export class MapService {
         return this.SGW_COORDINATES;
     }
 
-    displayRoute(map: google.maps.Map, route: OutdoorRoute) {
+    displayRoute(map: google.maps.Map, route: OutdoorRoute): void {
         const renderer = this.getMapRenderer();
         renderer.setMap(map);
         this.googleApis
@@ -192,7 +210,7 @@ export class MapService {
         return this.googleApis.getMapRenderer();
     }
 
-    getIndoorMaps(): {} {
-        return this.indoorMaps;
+    public getOutdoorMap(): OutdoorMap {
+        return this.outdoorMap;
     }
 }
