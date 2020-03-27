@@ -84,7 +84,7 @@ export class RoutesPage implements OnInit, OnDestroy {
         date.setMinutes(minHours[1]);
 
         if (this.form.controls.departAt.value === 'Depart At') {
-            this.routes = await this.routeFactory.generateDefaultRoutes(
+            this.routes = await this.routeFactory.getRoutes(
                 this.form.controls.from.value,
                 this.form.controls.to.value,
                 date,
@@ -92,7 +92,7 @@ export class RoutesPage implements OnInit, OnDestroy {
                 this.transportMode
             );
         } else {
-            this.routes = await this.routeFactory.generateDefaultRoutes(
+            this.routes = await this.routeFactory.getRoutes(
                 this.form.controls.from.value,
                 this.form.controls.to.value,
                 null,

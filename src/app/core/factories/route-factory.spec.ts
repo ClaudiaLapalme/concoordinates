@@ -8,7 +8,7 @@ describe('RouteFactory', () => {
     let routeFactory: RouteFactory;
     beforeEach(async () => TestBed.configureTestingModule({}));
     beforeEach(() => {
-        mockService = jasmine.createSpyObj('mockService', ['getMappedRoutes']);
+        mockService = jasmine.createSpyObj('mockService', ['getMappedRoutes', 'coordinatesMatchIndoorParams']);
         routeFactory = new RouteFactory(mockService);
     });
 
@@ -34,7 +34,7 @@ describe('RouteFactory', () => {
             provideRouteAlternatives: true
         };
 
-        routeFactory.generateDefaultRoutes(startCoordinates, endCoordinates,
+        routeFactory.getRoutes(startCoordinates, endCoordinates,
             startTimeAsDate, endTimeAsDate, testTransportModeDriving);
         expect(mockService.getMappedRoutes).toHaveBeenCalledWith(dirRequest);
     });
