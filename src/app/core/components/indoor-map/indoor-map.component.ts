@@ -64,7 +64,7 @@ export class IndoorMapComponent implements AfterViewInit {
         if (this.indoorMapLevel) {
             this.currentlyDisplayedIndoorMap = this.indoorMaps[this.indoorMapLevel];
             this.indoorMapPicturePath = this.currentlyDisplayedIndoorMap.getPicturePath();
-            this.tryDisplayIndoorPOIsLabels(this.map);
+            this.tryDisplayIndoorPOIsLabels();
         }
     }
 
@@ -95,13 +95,13 @@ export class IndoorMapComponent implements AfterViewInit {
         });
     }
 
-        /**
+    /**
      * This function is used by the indoor-map component.
      * Prevent to display the indoor POIs when the user toggle the floor
      * at a zoom to low.
      */
-    private tryDisplayIndoorPOIsLabels(map: google.maps.Map): void {
-        const currentZoom: number = map.getZoom();
+    private tryDisplayIndoorPOIsLabels(): void {
+        const currentZoom: number = this.map.getZoom();
         const ZOOM_THRESHOLD = 18;
         if (currentZoom >= ZOOM_THRESHOLD) {
             this.currentlyDisplayedIndoorMap.displayIndoorPOIsLabels();

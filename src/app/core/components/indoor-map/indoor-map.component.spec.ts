@@ -71,42 +71,81 @@ describe('IndoorMapComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    describe('Testing ngAfterInit', () => {
-
-        class MockMap extends google.maps.Map {
-            getZoom(): number {
-                return 18;
-            }
+    class MockMap extends google.maps.Map {
+        private zoomValue: number;
+        constructor(zoomValue: number) {
+            super(null);
+            this.zoomValue = zoomValue;
         }
-    
-        let map = new MockMap(null);
-        let indoorMapDiv = new ElementRef(null); // html div reference
+        getZoom(): number {
+            return this.zoomValue;
+        }
+    }
 
-        it('Test ngafterviewinit', () => {
-           
+    describe('Testing NgOnChanges', () => {
+        
+        it('Test ngOnChanges with this.indoorMapLevel false', () => {
+            component.indoorMaps[8] = jasmine.createSpyObj(
+                'indoorMaps[8]',
+                [
+                    'removeIndoorPOIsLabels',
+                    'displayIndoorPOIsLabels',
+                    'getPicturePath'
+                ]
+            );
+            component.ngOnChanges();
+
+            expect(
+                component.indoorMaps[8].removeIndoorPOIsLabels
+            ).toHaveBeenCalledTimes(0);
+            expect(
+                component.indoorMaps[8].displayIndoorPOIsLabels
+            ).toHaveBeenCalledTimes(0);
         });
-        describe('Testing NgOnChanges', () => {
-            
-            it('Test ngOnChanges with this.indoorMapLevel false', () => {
-                component['map'] = map;
-                component.indoorMaps = { 8: new MockIndoorMap() };
-                component.indoorMaps[8] = jasmine.createSpyObj(
-                    'indoorMaps[8]',
-                    [
-                        'removeIndoorPOIsLabels',
-                        'displayIndoorPOIsLabels',
-                        'getPicturePath',
-                        'tryDisplayIndoorPOIsLabels'
-                    ]
-                );
-                component.indoorMapLevel = 8;
-                component['currentlyDisplayedIndoorMap'] = component.indoorMaps[8];
-                component.ngOnChanges();
 
-                expect(
-                    component.indoorMaps[8].getPicturePath
-                ).toHaveBeenCalled();
-            });
+        it('Test ngOnChanges with this.indoorMapLevel true', () => {       
+            let map = new MockMap(10);
+            component['map'] = map;
+            component.indoorMaps = { 8: new MockIndoorMap() };
+            component.indoorMaps[8] = jasmine.createSpyObj(
+                'indoorMaps[8]',
+                [
+                    'removeIndoorPOIsLabels',
+                    'displayIndoorPOIsLabels',
+                    'getPicturePath'
+                ]
+            );
+            component.indoorMapLevel = 8;
+            component['currentlyDisplayedIndoorMap'] = component.indoorMaps[8];
+            component.ngOnChanges();
+
+            expect(
+                component.indoorMaps[8].getPicturePath
+            ).toHaveBeenCalled();
+        });
+    });
+
+    describe('Testing tryDisplayIndoorPOIsLabels()', () => {
+
+        it('displayIndoorPOIsLabels should be called', () => {
+            let map = new MockMap(19);
+            component['map'] = map;
+            component.indoorMaps = { 8: new MockIndoorMap() };
+            component.indoorMaps[8] = jasmine.createSpyObj(
+                'indoorMaps[8]',
+                [
+                    'removeIndoorPOIsLabels',
+                    'displayIndoorPOIsLabels',
+                    'getPicturePath'
+                ]
+            );
+            component.indoorMapLevel = 8;
+            component['currentlyDisplayedIndoorMap'] = component.indoorMaps[8];
+            component.ngOnChanges();
+
+            expect(
+                component.indoorMaps[8].displayIndoorPOIsLabels
+            ).toHaveBeenCalled();
         });
     });
 });

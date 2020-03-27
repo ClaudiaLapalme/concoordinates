@@ -7,14 +7,14 @@ export class IndoorPOI extends POI {
 
     constructor(name: string, coordinates: Coordinates, iconPath: string) {
         super(name, coordinates);
-        this.setBuildingLabel(iconPath);
+        this.setPOILabel(iconPath);
     }
 
     getFloorNumber(): number {
         return this.getCoordinates().getFloorNumber();
     }
 
-    private setBuildingLabel(iconPath: string): void {
+    private setPOILabel(iconPath: string): void {
 
         let labelName: string;
 

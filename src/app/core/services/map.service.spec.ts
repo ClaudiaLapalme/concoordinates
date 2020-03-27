@@ -1,8 +1,9 @@
 import { ElementRef } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { MapService } from './map.service';
-import { OutdoorMap, Campus, Building, IndoorMap } from '../models';
-import { OutdoorPOIFactoryService } from '../factories';
+import { OutdoorMap, Campus, Building, POI, IndoorMap, Coordinates } from '../models';
+import { OutdoorPOIFactoryService, IndoorPOIFactoryService } from '../factories';
+import { IndoorPOI } from '../models/indoor-poi';
 
 describe('MapService', () => {
 
@@ -11,6 +12,12 @@ describe('MapService', () => {
             this['mapService'] = jasmine.createSpyObj('PlaceService', [
                 'loadIndoorMaps'
             ]);
+        }
+    }
+
+    class MockIndoorPOIFactoryService extends IndoorPOIFactoryService {
+        loadFloorPOIs() {
+            return null;
         }
     }
 
@@ -36,6 +43,7 @@ describe('MapService', () => {
         ]);
 
         abstractPOIFactoryService.createOutdoorPOIFactory.and.returnValue(new MockOutdoorPOIFactoryService);
+        abstractPOIFactoryService.createIndoorPOIFactory.and.returnValue(new MockIndoorPOIFactoryService);
 
         const mapService: MapService = new MapService(
             locationServiceSpy,
@@ -168,6 +176,15 @@ describe('MapService', () => {
         });
     });
 
+    describe('getOutdoorMap()', () => {
+        it("should return outdoor map", () => {
+            const { mapService } = testServiceSetup();
+            const outdoorMap = mapService.getOutdoorMap();
+
+            expect(outdoorMap).toBeTruthy();
+        });
+    });
+
     describe('tilesLoadedHandler()', () => {
         it('should return a tilesloaded handler', () => {
             const {
@@ -196,11 +213,18 @@ describe('MapService', () => {
     describe('trackBuildingsOutlinesDisplay', () => {
         const testBuildingName = 'Henry F. Hall Building';
 
+        class MockIndoorMap extends IndoorMap{
+            constructor() {
+                super(null,null,null)
+                this['listOfPOIs'] = [new IndoorPOI(null, new Coordinates(null,null,null), null)]
+            }
+        }
+
         class MockBuilding extends Building {
             removeOutlineCalled = false;
 
             constructor() {
-                super(testBuildingName, null, null, null);
+                super(testBuildingName, null, null, {8: new MockIndoorMap});
             }
 
             removeBuildingOutline(): void {
@@ -213,7 +237,7 @@ describe('MapService', () => {
             displayOutlineCalled = false;
 
             constructor() {
-                super(testBuildingName, null, null, null);
+                super(testBuildingName, null, null, [new MockBuilding]);
             }
 
             removeBuildingOutline(): void {
@@ -323,5 +347,16 @@ describe('MapService', () => {
 
         mapService.getMapRenderer();
         expect(googleApisServiceSpy.getMapRenderer).toHaveBeenCalled();
+    });
+
+    describe('loadIndoorMaps()', () => {
+        it("should return indoor maps", () => {
+            const { mapService } = testServiceSetup();
+            const indoorMaps = mapService.loadIndoorMaps();
+
+            for (const indoorMap in indoorMaps) {
+                expect(indoorMap).toBeTruthy();
+            }
+        });
     });
 });

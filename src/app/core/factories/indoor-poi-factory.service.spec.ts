@@ -21,6 +21,11 @@ describe('IndoorPoiFactoryService', () => {
             expect(floorPoi.length).toBe(49);
         });
 
+        it('1th floor POI amount', () => {
+            const floorPoi = service.loadFloorPOIs(1);
+            expect(floorPoi.length).toBe(10);
+        });
+
         it('2nd floor should return no elements', () => {
             const floorPoi = service.loadFloorPOIs(2);
             expect(floorPoi.length).toBe(0);
