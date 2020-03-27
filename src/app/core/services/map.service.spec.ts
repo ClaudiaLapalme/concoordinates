@@ -2,11 +2,18 @@ import { ElementRef } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { MapService } from './map.service';
 import { OutdoorMap, Campus, Building, IndoorMap } from '../models';
-import { map } from 'rxjs/operators';
 import { OutdoorPOIFactoryService } from '../factories';
 
 describe('MapService', () => {
-    // let mapService: MapService;
+
+    class MockOutdoorPOIFactoryService extends OutdoorPOIFactoryService {
+        setMapService() {
+            this['mapService'] = jasmine.createSpyObj('PlaceService', [
+                'loadIndoorMaps'
+            ]);
+        }
+    }
+
     function testServiceSetup() {
         const locationServiceSpy = jasmine.createSpyObj('LocationService', [
             'getGeoposition',
@@ -27,6 +34,9 @@ describe('MapService', () => {
             'createOutdoorPOIFactory',
             'createIndoorPOIFactory'
         ]);
+
+        abstractPOIFactoryService.createOutdoorPOIFactory.and.returnValue(new MockOutdoorPOIFactoryService);
+
         const mapService: MapService = new MapService(
             locationServiceSpy,
             googleApisServiceSpy,
@@ -276,10 +286,6 @@ describe('MapService', () => {
             }
         }
 
-        class MockOutdoorPOIFactoryService extends OutdoorPOIFactoryService {
-            setMapService(): void {}
-        }
-
         it('should display building code at zoom 18 or more', () => {
             const { mapService } = testServiceSetup();
 
@@ -293,11 +299,9 @@ describe('MapService', () => {
         });
 
         it('should not try to display the code of a no building object', () => {
-            const { mapService, abstractPOIFactoryService } = testServiceSetup();
+            const { mapService } = testServiceSetup();
 
             let campusMock = new MockCampus();
-
-            abstractPOIFactoryService.createOutdoorPOIFactory.and.returnValue(new MockOutdoorPOIFactoryService);
 
             mapService['outdoorMap'] = new OutdoorMap([campusMock]);
             mapService['trackBuildingCodeDisplay'](20);

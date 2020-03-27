@@ -30,7 +30,6 @@ export class IndoorMapComponent implements AfterViewInit {
     public indoorMaps: Record<number, IndoorMap> = {};
     public indoorMapPicturePath: string =
         '../../../assets/icon/TransparentMarker.png';
-    public previousIndoorMapLevel: number;
 
     @Input() map: google.maps.Map; // map reference
     @Input() indoorMapLevel: number;
