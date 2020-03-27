@@ -1,10 +1,13 @@
 import { Coordinates } from '../models';
 import { OutdoorPOIFactoryService } from './outdoor-poi-factory.service';
+import { MapService } from '../services';
 
 describe('OutdoorPoiFactoryService', () => {
 
   function testSetup() {
+    const mockMapService = jasmine.createSpyObj('mapService', ['loadIndoorMaps']);
     const outdoorPOIFactory = new OutdoorPOIFactoryService();
+    outdoorPOIFactory.setMapService(mockMapService);
     const testCoordinates = new Coordinates(0, 0, 0);
     return { outdoorPOIFactory, testCoordinates }
   }
@@ -22,7 +25,7 @@ describe('OutdoorPoiFactoryService', () => {
 
       const { outdoorPOIFactory, testCoordinates } = testSetup();
 
-      const testBuilding = outdoorPOIFactory.createBuilding(testName, 'no outline', testCoordinates);
+      const testBuilding = outdoorPOIFactory.createBuilding(testName, 'no outline', testCoordinates, null);
 
       expect(testBuilding).toBeDefined();
     });
@@ -31,7 +34,7 @@ describe('OutdoorPoiFactoryService', () => {
 
       const { outdoorPOIFactory, testCoordinates } = testSetup();
 
-      const testBuilding = outdoorPOIFactory.createBuilding(testName, 'H', testCoordinates);
+      const testBuilding = outdoorPOIFactory.createBuilding(testName, 'H', testCoordinates, null);
 
       const testBuildingName = testBuilding.getName();
       const testBuildingCoordinates = testBuilding.getCoordinates();

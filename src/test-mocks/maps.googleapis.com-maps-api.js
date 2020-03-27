@@ -66,7 +66,6 @@ let google = {
         },
         
         Map: function(obj){
-
 		},
 		Size: function(){
 

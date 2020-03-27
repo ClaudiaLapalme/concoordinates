@@ -1,26 +1,37 @@
 import { AbstractPOIFactoryService } from './abstract-poi-factory.service';
 import { OutdoorPOIFactoryService } from './outdoor-poi-factory.service';
+import { IndoorPOIFactoryService } from './indoor-poi-factory.service';
 
 describe('AbstractPoiFactoryService', () => {
 
-  function testServiceSetup() {
+    function testServiceSetup() {
+        const mockMapService = jasmine.createSpyObj('mapService', ['loadIndoorMaps']);
+        const abstractPOIFactoryService: AbstractPOIFactoryService = new AbstractPOIFactoryService();
+        return { abstractPOIFactoryService, mockMapService };
+    }
 
-    return new AbstractPOIFactoryService();
-  }
-
-  it('should be created', () => {
-    const abstractPOIFactory = testServiceSetup();
-    expect(abstractPOIFactory).toBeTruthy();
-  });
-
-  describe('createOutdoorPOIFactory()', () => {
-
-    it('should return an outdoor poi factory', () => {
-
-      const abstractPOIFactory = testServiceSetup();
-      const outdoorPOIFactory = abstractPOIFactory.createOutdoorPOIFactory();
-
-      expect(outdoorPOIFactory).toEqual(new OutdoorPOIFactoryService);
+    it('should be created', () => {
+        const abstractPOIFactory = testServiceSetup();
+        expect(abstractPOIFactory).toBeTruthy();
     });
+
+    describe('createOutdoorPOIFactory()', () => {
+
+        it('should return an outdoor poi factory', () => {
+            const { abstractPOIFactoryService, mockMapService } = testServiceSetup();
+            const outdoorPOIFactory = abstractPOIFactoryService.createOutdoorPOIFactory();
+
+            expect(outdoorPOIFactory).toEqual(new OutdoorPOIFactoryService());
+        });
+    });
+
+    describe('createOutdoorPOIFactory()', () => {
+
+      it('should return an indoor poi factory', () => {
+          const { abstractPOIFactoryService } = testServiceSetup();
+          const indoorPOIFactory = abstractPOIFactoryService.createIndoorPOIFactory();
+
+          expect(indoorPOIFactory).toEqual(new IndoorPOIFactoryService());
+      });
   });
 });

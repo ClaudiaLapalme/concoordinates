@@ -27,10 +27,15 @@ describe('RoutesService', () => {
         const placeServiceSpy = jasmine.createSpyObj('PlaceService', [
             'enableService'
         ]);
+        const abstractPOIFactoryService = jasmine.createSpyObj('AbstractPOIFactoryService', [
+            'createOutdoorPOIFactory',
+            'createIndoorPOIFactory'
+        ]);
         const mapService: MapService = new MapService(
             locationServiceSpy,
             googleApisServiceSpy,
-            placeServiceSpy
+            placeServiceSpy,
+            abstractPOIFactoryService
         );
         return { mapService, locationServiceSpy, googleApisServiceSpy };
     }

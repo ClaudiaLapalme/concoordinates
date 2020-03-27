@@ -9,3 +9,5 @@ export * from './route-step';
 export * from './transport-mode';
 export * from './map';
 export * from './outdoor-map';
+export * from './link';
+export * from './link-type';
