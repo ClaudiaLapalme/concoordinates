@@ -21,14 +21,12 @@ export class SideMenuComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.emailUpdateRef = this.calendarService.emailUpdated$.subscribe(() => {
-            console.log('hello');
-            
             this.insertGoogleUserInfo();
         })
     }
 
     ngOnDestroy() {
-        //this.emailUpdateRef.unsubscribe();
+        this.emailUpdateRef.unsubscribe();
     }
 
     openSettings(): void {

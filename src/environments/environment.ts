@@ -10,6 +10,7 @@
 * this will allow you to keep the key locally and git will stop tracking the fil
 */
 
+//from firebase dashboard upon adding and setting up pikaroute to your projects
 export const environment = {
     production: false,
     config: {
@@ -19,10 +20,8 @@ export const environment = {
         projectId: "",
         storageBucket: "",
         messagingSenderId: "",
-        appId: "",
-        measurementId: ""    
+        appId: "",   
     },
-    API_KEY: '',
     CLIENT_ID: ''
 };
 

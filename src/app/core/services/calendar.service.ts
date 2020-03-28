@@ -6,6 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Platform } from '@ionic/angular';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import * as firebase from 'firebase/app';
+declare var gapi: any;
 
 @Injectable()
 export class CalendarService {
@@ -24,40 +25,38 @@ export class CalendarService {
         ) { }
 
     getAuth() {
-        //if(thisPlatformIsCapacitor)
-        this.androidLogin()
-        //else
-        //return this.webLogin(new auth.GoogleAuthProvider());  
+        if(this.platform.is("capacitor")) {
+            return this.androidLogin();
+        }
+        else{
+            return this.webLogin(new firebase.auth.GoogleAuthProvider());  
+        }
     }
 
     webLogin(provider) {
-        // works on the browser doesn't work with ionic/android,
-        // on mobile: opens up  browser, asks to signin but never redirects back to app
-        return this.afAuth.auth.signInWithPopup(provider)
+
+        console.log('in webLogin()')
+        this.afAuth.auth.signInWithPopup(provider)
             .then((result) => {
-                console.log('You have been successfully logged in!');
                 this.email = result.user.email;
-                this.picture = result.user.photoURL;
                 this.emailUpdatedSource.next();
+                console.log(result.user)
             }).catch((error) => {
                 console.log(error);
             })
     }
 
-    async androidLogin(): Promise<any>{
+    async androidLogin() {
+
+        console.log('in androidLogin()')
         try {
-            const gplusUser = await this.gplus.login({
+            var result = await this.gplus.login({
                 'webClientId': environment.CLIENT_ID,
                 'offline': true,
-                'scopes': 'profile email'
-            }).then(function(result) {
-                this.email = result.user.email;
-                this.picture = result.user.photoURL;
-                this.emailUpdatedSource.next();
-            }).catch(function(err){
-                console.log(err)
-            });
-
+                'scopes': 'email https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events'
+            })
+            this.email = result.email;
+            this.emailUpdatedSource.next();
         } catch(err) {
             console.log(err)
         }
@@ -68,13 +67,6 @@ export class CalendarService {
      */
     getUserEmail(): string {
         return this.email;
-    }
-
-    /**
-     * Accessor for user google display image
-     */
-    getUserPicture(): string {
-        return this.picture;
     }
 }
 
