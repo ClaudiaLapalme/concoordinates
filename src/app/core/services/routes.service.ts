@@ -256,12 +256,6 @@ export class RoutesService {
         const results: DijkstraResult = this.dijkstra(graphz, startpos);
         return results;
     }
-
-    // TODO Fix this to validate for the coordinate existence in the poi list
-    coordinatesMatchIndoorParams(startCoordinates: string, endCoordinates: string) {
-        return true;
-    }
-
 }
 
 interface DijkstraResult {

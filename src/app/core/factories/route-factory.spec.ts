@@ -1,15 +1,18 @@
 import { TestBed } from '@angular/core/testing';
+import { IndoorFunctionsService } from 'src/app/shared/indoor-functions.service';
 import { RouteFactory } from '../factories';
 import { TransportMode } from '../models';
 import { RoutesService } from '../services';
 
 describe('RouteFactory', () => {
     let mockService: RoutesService;
+    let mockIndoorFunctionsService: IndoorFunctionsService;
     let routeFactory: RouteFactory;
     beforeEach(async () => TestBed.configureTestingModule({}));
     beforeEach(() => {
         mockService = jasmine.createSpyObj('mockService', ['getMappedRoutes', 'coordinatesMatchIndoorParams']);
-        routeFactory = new RouteFactory(mockService);
+        mockIndoorFunctionsService = jasmine.createSpyObj('mockIndoorFunctionsService', ['coordinatesMatchIndoorParams']);
+        routeFactory = new RouteFactory(mockService, mockIndoorFunctionsService);
     });
 
 
@@ -37,5 +40,12 @@ describe('RouteFactory', () => {
         routeFactory.getRoutes(startCoordinates, endCoordinates,
             startTimeAsDate, endTimeAsDate, testTransportModeDriving);
         expect(mockService.getMappedRoutes).toHaveBeenCalledWith(dirRequest);
+    });
+
+    it('Should check start and end coordinates for indoor validation', () => {
+        const startCoordinates = 'H811';
+        const endCoordinates = 'H812';
+        routeFactory.getRoutes(startCoordinates, endCoordinates);
+        expect(mockIndoorFunctionsService.coordinatesMatchIndoorParams).toHaveBeenCalledWith(startCoordinates, endCoordinates);
     });
 });
