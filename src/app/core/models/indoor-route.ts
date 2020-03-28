@@ -5,8 +5,11 @@ import { Route } from './route';
 export class IndoorRoute implements Route {
 
     constructor(startLocation: string, endLocation: string, disability: boolean, routeSteps: string[], distance: number) {
-        this.startCoordinates = indoorPoiCoordinates[startLocation];
-        this.endCoordinates = indoorPoiCoordinates[endLocation];
+        // TODO fix this
+        const moduleKey = 'default';
+        const coords: {[coordName: string]: Coordinates} = indoorPoiCoordinates[moduleKey];
+        this.startCoordinates = coords[startLocation];
+        this.endCoordinates = coords[endLocation];
         this.routeSteps = routeSteps;
         this.distance = distance;
     }
