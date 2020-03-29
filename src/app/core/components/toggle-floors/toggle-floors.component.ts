@@ -14,7 +14,7 @@ export class ToggleFloorsComponent {
 
     @Output() toggledFloor = new EventEmitter<number>();
 
-    _selectedFloor: number;
+    selectedFloorLevel: number;
 
     @Input() availableFloors: number[];
 
@@ -22,8 +22,8 @@ export class ToggleFloorsComponent {
 
     @Input()
     set selectedFloor(floorNumber: number) {
-        this._selectedFloor = floorNumber;
-        this.toggledFloor.emit(this._selectedFloor);
+        this.selectedFloorLevel = floorNumber;
+        this.toggledFloor.emit(this.selectedFloorLevel);
     }
 
     public selectFloor(floorNumber: number) {

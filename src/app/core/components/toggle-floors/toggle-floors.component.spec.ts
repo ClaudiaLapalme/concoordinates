@@ -29,9 +29,9 @@ describe('ToggleFloorsComponent', () => {
 
         it('should change selectedFloor', () => {
             component.selectFloor(4);
-            expect(component._selectedFloor).toBe(4);
+            expect(component.selectedFloorLevel).toBe(4);
             component.selectFloor(10);
-            expect(component._selectedFloor).toBe(10);
+            expect(component.selectedFloorLevel).toBe(10);
         });
     });
 });

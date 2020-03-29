@@ -85,7 +85,9 @@ export class IndoorFunctionsService {
      */
     getDisabilityAdjacencyMatrix(): AdjacencyMatrix {
         const disabilityAdjacency: AdjacencyMatrix = Object.assign({}, this.adjMatrix);
+        // Matches with escalator coordinate names e.g. "H8-ESC9U", "H9-ESC8-D" and removes them.
         const escalatorRegex: RegExp = /\w+\d+-ESC\d+[D|U]/;
+        // Matches with stair coordinate names e.g. "H8-S1", "H9-S2"
         const stairsRegex: RegExp = /\w+\d+-S\d+/;
         for (const coord in disabilityAdjacency) {
             if (coord.match(escalatorRegex) || coord.match(stairsRegex)) {
@@ -159,13 +161,22 @@ export class IndoorFunctionsService {
      * @param coordinateName a coordinate name e.g. H815
      */
     private coordinateNameIndoorTransportMode(coordinateName: string): TransportMode {
-        const indoorpoiRegex: RegExp = /^\w+\d+$/;
+
+        // Filter all indoor pois to match against classroom names e.g. H815.
+        const classRoomRegex: RegExp = /^\w+\d+$/;
+        // Filter all indoor pois to match against officeroom names e.g. H961-1.
+        const officeRoomRegex: RegExp = /^\w+\d+-\d+$/;
+
+        // Filter all indoor pois to match against hallway names e.g. H9-W40.
         const hallwayRegex: RegExp = /^\w+\d+-W\d+$/;
+        // Filter all indoor pois to match against stair names e.g. H9-S1.
         const stairsRegex: RegExp = /^\w+\d+-S\d+$/;
+        // Filter all indoor pois to match against escalator names e.g. "H8-ESC9U", "H9-ESC8-D".
         const escalatorRegex: RegExp = /^\w+\d+-ESC\d+[U|D]$/;
+        // Filter all indoor pois to match against elevator names e.g. "H8-E".
         const elevatorRegex: RegExp = /^\w+\d+-E$/;
 
-        if (indoorpoiRegex.test(coordinateName) || hallwayRegex.test(coordinateName)) {
+        if (classRoomRegex.test(coordinateName) || officeRoomRegex.test(coordinateName) || hallwayRegex.test(coordinateName)) {
 
             return TransportMode.WALKING;
 

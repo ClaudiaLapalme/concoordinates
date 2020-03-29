@@ -25,7 +25,9 @@ export class Dijkstra {
      * Finds the shortest path with the shortest distance.
      * @return a ShortestPathResult
      */
-    computeShortestPath(treatedAdjacencyMatrix: AdjacencyMatrix, startElement: string, endElement: string): ShortestPathResult {
+    computeShortestPath(adjacencyMatrix: AdjacencyMatrix, startElement: string, endElement: string): ShortestPathResult {
+
+        const treatedAdjacencyMatrix = Object.assign({}, adjacencyMatrix);
 
         treatedAdjacencyMatrix[endElement] = { finish: 0 };
 

@@ -165,7 +165,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     }
 
     /**
-     * Gets the map object 
+     * Gets the map object
      *
      */
     loadMap(): void {
@@ -205,17 +205,19 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     private getMatchingIndoorPois(input: string): string[] {
         // Filter all indoor pois to match against classroom names e.g. H815.
         const classRoomRegex: RegExp = /^\w+\d+$/;
+        // Filter all indoor pois to match against officeroom names e.g. H961-1.
+        const officeRoomRegex: RegExp = /^\w+\d+-\d+$/;
         // Filter for indoor pois to match against user input.
         const regex: RegExp = new RegExp('^' + input);
         return Object.keys(this.indoorPoiToCoords)
-            .filter(coord => classRoomRegex.test(coord) && regex.test(coord));
+            .filter(coord => (classRoomRegex.test(coord) || officeRoomRegex.test(coord)) && regex.test(coord));
     }
 
     /**
      * Call textSearch function from placeService
      * @param input text input from the user
      */
-    async searchOutdoorPOIs(input: string): Promise<any> {
+    searchOutdoorPOIs(input: string): void {
         this.searching = true;
         try {
             this.placeService
