@@ -5,7 +5,7 @@
   "url": "http://localhost:8100",
   "tests": [{
     "id": "ae3e7da7-fc32-4c85-bef3-c6554a6660a9",
-    "name": "routes-suggestions",
+    "name": "outdoor-route-suggestions",
     "commands": [{
       "id": "ed07a009-64b9-48dd-9028-ddfeaa86b58c",
       "comment": "",
@@ -202,6 +202,226 @@
       "targets": [],
       "value": ""
     }]
+  }, {
+    "id": "dcdcb14a-12ee-4a32-9807-0c0f9e519935",
+    "name": "indoor-route-suggestions",
+    "commands": [{
+      "id": "2e92f154-3f8f-476f-971d-6510d709164e",
+      "comment": "",
+      "command": "open",
+      "target": "/home",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e44be754-9504-49ec-b1cd-4b32bc5cd093",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1520x978",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "085af1f6-250c-45d6-aeb9-874b501b0152",
+      "comment": "",
+      "command": "click",
+      "target": "css=.round-container > .md:nth-child(2)",
+      "targets": [
+        ["css=.round-container > .md:nth-child(2)", "css:finder"],
+        ["xpath=//ion-icon[@name='arrow-round-forward']", "xpath:attributes"],
+        ["xpath=//div[@id='map']/div/div/app-directions-button/div/ion-icon", "xpath:idRelative"],
+        ["xpath=//app-directions-button/div/ion-icon", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "511981d8-9992-4415-adae-01675fb21c28",
+      "comment": "",
+      "command": "click",
+      "target": "name=ion-input-1",
+      "targets": [
+        ["name=ion-input-1", "name"],
+        ["css=.has-focus > .native-input", "css:finder"],
+        ["xpath=//input[@name='ion-input-1']", "xpath:attributes"],
+        ["xpath=//div[2]/app-search/div/ion-item/ion-input/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "471450dc-6237-444d-b80b-e0df8f72c8c0",
+      "comment": "",
+      "command": "type",
+      "target": "name=ion-input-1",
+      "targets": [
+        ["name=ion-input-1", "name"],
+        ["css=.has-focus > .native-input", "css:finder"],
+        ["xpath=//input[@name='ion-input-1']", "xpath:attributes"],
+        ["xpath=//div[2]/app-search/div/ion-item/ion-input/input", "xpath:position"]
+      ],
+      "value": "h937"
+    }, {
+      "id": "cdab956b-862d-42bb-85f5-628a7c8d5d4b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.sc-ion-label-md-h > p:nth-child(1)",
+      "targets": [
+        ["css=.sc-ion-label-md-h > p:nth-child(1)", "css:finder"],
+        ["xpath=//ion-label/p", "xpath:position"],
+        ["xpath=//p[contains(.,'H937')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c941dc3d-ed7b-464d-9bff-9b0ebc5fe6fa",
+      "comment": "",
+      "command": "click",
+      "target": "name=ion-input-2",
+      "targets": [
+        ["name=ion-input-2", "name"],
+        ["css=.has-focus > .native-input", "css:finder"],
+        ["xpath=//input[@name='ion-input-2']", "xpath:attributes"],
+        ["xpath=//app-search[2]/div/ion-item/ion-input/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1e2f9674-4f5a-4eba-992c-75b803d6e9f7",
+      "comment": "",
+      "command": "type",
+      "target": "name=ion-input-2",
+      "targets": [
+        ["name=ion-input-2", "name"],
+        ["css=.has-focus > .native-input", "css:finder"],
+        ["xpath=//input[@name='ion-input-2']", "xpath:attributes"],
+        ["xpath=//app-search[2]/div/ion-item/ion-input/input", "xpath:position"]
+      ],
+      "value": "h820"
+    }, {
+      "id": "b822ce6f-4275-4837-905a-65eeb386ee97",
+      "comment": "",
+      "command": "click",
+      "target": "css=.top-margin .item-label",
+      "targets": [
+        ["css=.top-margin .item-label", "css:finder"],
+        ["xpath=//app-search[2]/div[2]/ion-list/div/ion-item", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "849b2f00-2e63-493c-981a-954a3c68ea68",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "30000"
+    }, {
+      "id": "4bc66123-813f-4135-982f-420513ee249f",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "contains(Route 1)"
+    }, {
+      "id": "32c073e8-b4fb-413f-9b30-351fefc8b15c",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "contains(Route 2)"
+    }, {
+      "id": "3b8a6f13-a035-4580-a1ec-fcef4bc0e43e",
+      "comment": "",
+      "command": "click",
+      "target": "name=walk",
+      "targets": [
+        ["css=.activated", "css:finder"],
+        ["xpath=//app-routes/div/div/ion-button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2975568c-b8ba-4e48-be35-f95921cc08b7",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "30000"
+    }, {
+      "id": "dcb915f9-c514-4ce6-aa5c-b9668d80b722",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "contains(Route 1)"
+    }, {
+      "id": "d48190ec-8972-4fb9-9105-a9440d788167",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "contains(Route 2)"
+    }, {
+      "id": "1203f85d-07c8-4535-8adf-e046d1222f74",
+      "comment": "",
+      "command": "click",
+      "target": "name=bicycle",
+      "targets": [
+        ["css=.activated", "css:finder"],
+        ["xpath=//ion-button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1394cf4a-c337-48cd-a639-19cb47a0593a",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "30000"
+    }, {
+      "id": "62ab973b-5e7b-4b15-adb0-8cc61d865490",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "contains(Route 1)"
+    }, {
+      "id": "ac001ad8-f5f6-43c1-9826-34e4a1d8d685",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "contains(Route 2)"
+    }, {
+      "id": "6401daee-7d33-4790-b8bb-6ff92bc2e298",
+      "comment": "",
+      "command": "click",
+      "target": "name=car",
+      "targets": [
+        ["css=.activated", "css:finder"],
+        ["xpath=//ion-button[4]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "26cd044d-a6be-43c6-a3b9-00c1665114aa",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "30000"
+    }, {
+      "id": "84abc03c-c0f5-4c95-ba94-eac27f2858a0",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "contains(Route 1)"
+    }, {
+      "id": "f80fe2d3-fb48-48fc-b6c2-1abfa1b045ee",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=.item-header",
+      "targets": [],
+      "value": "contains(Route 2)"
+    }, {
+      "id": "7babe5c5-3263-4695-953a-dcdbfeccbdbc",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "b69f1641-7df7-46a5-837d-efbbd2f7c13f",
@@ -209,7 +429,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["ae3e7da7-fc32-4c85-bef3-c6554a6660a9"]
+    "tests": ["ae3e7da7-fc32-4c85-bef3-c6554a6660a9", "dcdcb14a-12ee-4a32-9807-0c0f9e519935"]
   }],
   "urls": ["http://localhost:8100/"],
   "plugins": []
