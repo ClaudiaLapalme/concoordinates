@@ -33,4 +33,13 @@
             }
         }
     }
+    .item-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    ion-icon{
+        font-size:25px;
+        color: var(--ion-color-primary-contrast);
+    }
 }
