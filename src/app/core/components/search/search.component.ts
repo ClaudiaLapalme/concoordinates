@@ -10,9 +10,10 @@ import {
     SimpleChanges,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import {  Subscription } from 'rxjs';
-import {  PlaceService, SessionService } from '../../services';
+import { Subscription } from 'rxjs';
 import * as indoorPoiToCoordinates from '../../data/indoor-poi-to-coordinates.json';
+import { IndoorCoordinates } from '../../models';
+import { PlaceService, SessionService } from '../../services';
 
 
 @Component({
@@ -24,9 +25,9 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
 
     private moduleKey = 'default';
     private indoorPoiToCoords: IndoorCoordinates = indoorPoiToCoordinates[this.moduleKey];
-    isIndoorPoi = false ;
+    isIndoorPoi = false;
     searchIndoorResult: string[];
-    
+
     /**
      * Defines if the map is set or not
      *
@@ -133,13 +134,10 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
      */
     private subscription: Subscription;
 
-
-
-
     constructor(
         private placeService: PlaceService,
         private sessionService: SessionService
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.subscription = this.searchInput.valueChanges
@@ -154,9 +152,9 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     }
 
     ngOnDestroy() {
-       this.subscription.unsubscribe();
+        this.subscription.unsubscribe();
     }
-    
+
     ngOnChanges(changes: SimpleChanges) {
         if (changes.isMapSet && changes.isMapSet.currentValue) {
             // loads map again whenever isMapSet is changed and set to true
@@ -183,17 +181,17 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
         if (!input || input.length === 0) {
             this.restoreSearchBar();
         } else {
-            //first search the json to see if the user is searching for an indoor classroom
+            // first search the json to see if the user is searching for an indoor classroom
             const matchingIndoorPois: string[] = this.getMatchingIndoorPois(input.toUpperCase());
-            if (matchingIndoorPois.length){
+            if (matchingIndoorPois.length) {
                 this.showSearchOverlay = true;
                 this.isIndoorPoi = true;
-                this.handleSearchForIndoorPOIs(matchingIndoorPois.slice(0,5));
+                this.handleSearchForIndoorPOIs(matchingIndoorPois.slice(0, 5));
                 this.removeControls.emit();
             }
             // Only call search function when input is size 3
             // or larger to help preserve resources (Library is not free)
-            else if(input.length >= 3) {
+            else if (input.length >= 3) {
                 this.showSearchOverlay = true;
                 this.isIndoorPoi = false;
                 this.searchOutdoorPOIs(input);
@@ -201,11 +199,11 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
             }
         }
     }
-    
+
     private getMatchingIndoorPois(input: string): string[] {
         const indoorpoiRegex: RegExp = /^\w+\d+$/;
         const regex: RegExp = new RegExp("^" + input);
-        return Object.keys(this.indoorPoiToCoords).filter(coord=> indoorpoiRegex.test(coord) && regex.test(coord));
+        return Object.keys(this.indoorPoiToCoords).filter(coord => indoorpoiRegex.test(coord) && regex.test(coord));
     }
 
     /**
@@ -241,10 +239,10 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     }
 
 
-      /**
-     * Handles valid result received from place service text search function
-     * @param value Array of Indoor Pois
-     */
+    /**
+   * Handles valid result received from place service text search function
+   * @param value Array of Indoor Pois
+   */
     private handleSearchForIndoorPOIs(value: string[]): void {
         this.searching = true;
         if (value.length > 0) {
@@ -278,10 +276,10 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
         this.placeSelection.emit(place);
     }
 
-       /**
-     * Restore search bar and
-     * @param place Google Place Result Object
-     */
+    /**
+  * Restore search bar and
+  * @param place Google Place Result Object
+  */
     focusIndoorPOI(place: string): void {
         this.searchInput.setValue(place);
         this.restoreSearchBar();
@@ -310,12 +308,12 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     }
 }
 
-interface IndoorCoordinates {
-    [coordinateName: string]: StoredCoordinates;
-}
+// interface IndoorCoordinates {
+//     [coordinateName: string]: StoredCoordinates;
+// }
 
-interface StoredCoordinates {
-    lat: string;
-    lng: string;
-    fN: number;
-}
+// interface StoredCoordinates {
+//     lat: string;
+//     lng: string;
+//     fN: number;
+// }

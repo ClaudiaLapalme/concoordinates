@@ -13,3 +13,4 @@ export * from './link';
 export * from './link-type';
 export * from './route';
 export * from './indoor-route';
+export * from './indoor-coordinates';

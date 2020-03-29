@@ -4,9 +4,12 @@ import * as indoorPoiToCoordinates from '../data/indoor-poi-to-coordinates.json'
 import * as indoorWalkingPathCoordinates from '../data/indoor-walking-path-coordinates.json';
 import {
     Coordinates,
+    IndoorCoordinates,
     IndoorRoute,
     OutdoorRoute,
+    Route,
     RouteStep,
+    StoredCoordinates,
     Transport,
     TransportMode,
 } from '../models';
@@ -29,7 +32,7 @@ export class RoutesService {
     */
     async getMappedRoutes(
         dirRequest: google.maps.DirectionsRequest
-    ): Promise<any> {
+    ): Promise<Route[]> {
         try {
             const res = await this.googleApis.getGoogleMapRoutes(dirRequest);
             return this.mapGoogleRoutesToRoutes(res.routes);
@@ -154,10 +157,6 @@ export class RoutesService {
         }
 
         dijkstraResults.forEach(dijkstraResult => {
-
-            const startCoord: Coordinates = this.coordinateNameToCoordinates(startLocation);
-            const endCoord: Coordinates = this.coordinateNameToCoordinates(endLocation);
-
             const path: string[] = dijkstraResult.path;
             // remove the finish (last) location
             path.pop();
@@ -175,7 +174,6 @@ export class RoutesService {
         });
         // last option is disability friendly
         indoorRoutes[indoorRoutes.length - 1].disability = true;
-        console.log(indoorRoutes);
         return indoorRoutes;
     }
 
@@ -238,10 +236,6 @@ export class RoutesService {
      * @param pathSegment array of coordinate names
      */
     private mapPathSegmentToRouteStep(pathSegment: string[]): RouteStep {
-        // console.log(pathSegment);
-        // console.log(this.adjMatrix);
-        // console.log(this.indoorPoiToCoords);
-        // console.log(this.indoorWalkingPathCoords);
 
         let segmentDistance = 0;
         for (let i = 0; i < pathSegment.length - 1; i++) {
@@ -458,14 +452,4 @@ interface AdjacencyMatrix {
 
 interface Edge {
     [coordinateName: string]: number;
-}
-
-interface IndoorCoordinates {
-    [coordinateName: string]: StoredCoordinates;
-}
-
-interface StoredCoordinates {
-    lat: string;
-    lng: string;
-    fN: number;
 }

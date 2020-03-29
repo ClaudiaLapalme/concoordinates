@@ -2,7 +2,7 @@ import { Time } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { IndoorFunctionsService } from 'src/app/shared/indoor-functions.service';
 import { Coordinates } from '..';
-import { IndoorRoute } from '../models';
+import { IndoorRoute, Route } from '../models';
 import { TransportMode } from '../models/transport-mode';
 import { RoutesService } from '../services/routes.service';
 
@@ -17,13 +17,15 @@ export class RouteFactory {
         endTime?: Date,
         transportMode?: TransportMode,
         disability?: boolean
-    ): Promise<any> {
+    ): Promise<Route[]> {
         if (
             typeof startCoordinates === 'string' &&
             typeof endCoordinates === 'string' &&
-            this.indoorFunctionsService.bothCoordinatesMatchIndoorParams(startCoordinates, endCoordinates)) {
+            this.indoorFunctionsService.bothCoordinatesMatchIndoorParams(startCoordinates, endCoordinates)
+            ) {
             return this.generateIndoorRoutes(startCoordinates, endCoordinates, disability);
-        }
+            }
+
         return this.generateOutdoorRoutes(startCoordinates, endCoordinates, startTime, endTime, transportMode);
     }
 
@@ -41,7 +43,7 @@ export class RouteFactory {
         startTime?: Date,
         endTime?: Date,
         transportMode?: TransportMode
-    ): Promise<any> {
+    ): Promise<Route[]> {
         const convertedTransportMode: any = transportMode ? transportMode : 'TRAVEL';
         const dirRequest: google.maps.DirectionsRequest = {
             origin: startCoordinates.toString(),

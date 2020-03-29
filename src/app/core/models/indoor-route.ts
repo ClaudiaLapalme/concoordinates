@@ -29,7 +29,9 @@ export class IndoorRoute implements Route {
     disability: boolean;
 
     computeTotalDuration(): number {
-        return this.convertDistanceToDuration();
+        let totalDuration = 0;
+        this.routeSteps.forEach(e => (totalDuration += e.getDuration()));
+        return totalDuration;
     }
     computeTotalDistance(): number {
         return this.distance;
@@ -40,11 +42,5 @@ export class IndoorRoute implements Route {
 
     setCurrentTravelMode(transportMode: TransportMode): void {
         // no op
-    }
-
-    private convertDistanceToDuration() {
-        let totalDuration = 0;
-        this.routeSteps.forEach(e => (totalDuration += e.getDuration()));
-        return totalDuration;
     }
 }
