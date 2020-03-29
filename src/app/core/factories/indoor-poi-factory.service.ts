@@ -44,14 +44,14 @@ export class IndoorPOIFactoryService {
                         iconPath
                     );
                 } else if (IndoorPOIFactoryService.isCoordinatesFor(key, 'BM')) {
-                    const iconPath = '../..//assets/icon/BM-indoor.svg';
+                    const iconPath = '../../../assets/icon/BM-indoor.svg';
                     indoorPOI = this.createRegularPOI(
                         key,
                         poiCoordinates,
                         iconPath
                     );
                 } else if (IndoorPOIFactoryService.isCoordinatesFor(key, 'BW')) {
-                    const iconPath = '../..//assets/icon/BW-indoor.svg';
+                    const iconPath = '../../../assets/icon/BW-indoor.svg';
                     indoorPOI = this.createRegularPOI(
                         key,
                         poiCoordinates,
