@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as adjacencyMatrix from '../data/adjacency-matrix.json';
+import * as indoorPoiToCoordinates from '../data/indoor-poi-to-coordinates.json';
+import * as indoorWalkingPathCoordinates from '../data/indoor-walking-path-coordinates.json';
 import {
     Coordinates,
     IndoorRoute,
@@ -13,6 +15,12 @@ import { GoogleApisService } from '../services/google-apis.service';
     providedIn: 'root'
 })
 export class RoutesService {
+
+    private moduleKey = 'default';
+    private adjMatrix: AdjacencyMatrix = adjacencyMatrix[this.moduleKey];
+    private indoorPoiToCoords: IndoorCoordinates = indoorPoiToCoordinates[this.moduleKey];
+    private indoorWalkingPathCoords: IndoorCoordinates = indoorWalkingPathCoordinates[this.moduleKey];
+
     constructor(private googleApis: GoogleApisService) { }
 
     /*
@@ -132,11 +140,8 @@ export class RoutesService {
 
         const indoorRoutes: IndoorRoute[] = [];
 
-        const moduleKey = 'default';    // TODO fix this
-        const adjMatrix: AdjacencyMatrix = adjacencyMatrix[moduleKey];
-
-        const normalShortestPath = this.shortestPath(adjMatrix, startLocation, endLocation);
-        const disabilityShortestPath = this.shortestPath(this.getDisabilityAdjacencyMatrix(adjMatrix), startLocation, endLocation);
+        const normalShortestPath = this.shortestPath(this.adjMatrix, startLocation, endLocation);
+        const disabilityShortestPath = this.shortestPath(this.getDisabilityAdjacencyMatrix(this.adjMatrix), startLocation, endLocation);
 
         console.log('shortestPath normal', normalShortestPath);
         console.log('shortestPath disability', disabilityShortestPath);
@@ -149,10 +154,179 @@ export class RoutesService {
         }
 
         dijkstraResults.forEach(dijkstraResult => {
-            indoorRoutes.push(new IndoorRoute(startLocation, endLocation, disability, dijkstraResult.path, dijkstraResult.distance));
+
+            const startCoord: Coordinates = this.coordinateNameToCoordinates(startLocation);
+            const endCoord: Coordinates = this.coordinateNameToCoordinates(endLocation);
+
+            const path: string[] = dijkstraResult.path;
+            // remove the finish (last) location
+            path.pop();
+            // add the start location in the path
+            path.unshift(startLocation);
+
+            indoorRoutes.push(
+                new IndoorRoute(
+                    startLocation,
+                    endLocation,
+                    disability,
+                    this.mapPathToRouteSteps(path),
+                    dijkstraResult.distance));
+
         });
+        // last option is disability friendly
+        indoorRoutes[indoorRoutes.length - 1].disability = true;
         console.log(indoorRoutes);
         return indoorRoutes;
+    }
+
+    /**
+     * Converts a string array of coordinate names to a Coordinates array.
+     * @param path a string array of coordinate names
+     */
+    private pathToCoordinates(path: string[]): Coordinates[] {
+        const coordinates: Coordinates[] = [];
+        for (const coordName of path) {
+            coordinates.push(this.coordinateNameToCoordinates(coordName));
+        }
+        return coordinates;
+    }
+
+    /**
+     * Converts a coordinate name string to a coordinate object.
+     * @param coordinateName a string representing the coordinate e.g. "H811"
+     */
+    private coordinateNameToCoordinates(coordinateName: string): Coordinates {
+        let storedCoordinate: StoredCoordinates = this.indoorPoiToCoords[coordinateName];
+        if (!storedCoordinate) {
+            storedCoordinate = this.indoorWalkingPathCoords[coordinateName];
+        }
+        return this.storedCoordinateToCoordinates(storedCoordinate);
+    }
+
+    /**
+     * Converts a stored coordinate to a coordinate object.
+     * @param storedCoordinate a StoredCoordinates
+     */
+    private storedCoordinateToCoordinates(storedCoordinate: StoredCoordinates): Coordinates {
+        return new Coordinates(
+            +storedCoordinate.lat,
+            +storedCoordinate.lng,
+            +storedCoordinate.fN);
+    }
+
+    /**
+     * Map an array of string coordinate names representing a path
+     * to an array of RouteSteps.
+     * @param path array of coordinate names
+     */
+    private mapPathToRouteSteps(path: string[]): RouteStep[] {
+        // group paths by indoor transport types (escalators, stairs, walking, elevators)
+        const pathSegments: string[][] = this.groupPathByIndoorTransportMode(path);
+
+        // for each group create a route step
+        const routeSteps: RouteStep[] = [];
+        for (const segment of pathSegments) {
+            routeSteps.push(this.mapPathSegmentToRouteStep(segment));
+        }
+
+        return routeSteps;
+    }
+
+    /**
+     * Map an array of string coordinate names representing a path
+     * having only one type of TransportMode to one RouteStep.
+     * @param pathSegment array of coordinate names
+     */
+    private mapPathSegmentToRouteStep(pathSegment: string[]): RouteStep {
+        console.log(pathSegment);
+        console.log(this.adjMatrix);
+        console.log(this.indoorPoiToCoords);
+        console.log(this.indoorWalkingPathCoords);
+
+        let segmentDistance = 0;
+        for (let i = 0; i < pathSegment.length - 1; i++) {
+            segmentDistance += this.adjMatrix[pathSegment[i]][pathSegment[i + 1]];
+        }
+
+        return new RouteStep(
+            segmentDistance,
+            this.coordinateNameToCoordinates(pathSegment[0]),
+            this.coordinateNameToCoordinates(pathSegment[pathSegment.length - 1]),
+            this.pathToCoordinates(pathSegment),
+            Math.ceil(segmentDistance / 20),
+            null,
+            new Transport(
+                null,
+                null,
+                this.coordinateNameIndoorTransportMode(pathSegment[0]),
+                null,
+            )
+        );
+    }
+
+    /**
+     * Create sub groups for each travel type by splitting the path into many.
+     * @param path a string array of coordinate names
+     */
+    private groupPathByIndoorTransportMode(path: string[]): string[][] {
+        const groupedPaths: string[][] = [];
+        let coordinateType = this.coordinateNameIndoorTransportMode(path[0]);
+
+        let currentGroupIndex = 0;
+        groupedPaths[currentGroupIndex] = [];
+
+        for (const coordinateName of path) {
+
+            const nextCoordinateType = this.coordinateNameIndoorTransportMode(coordinateName);
+
+            if (coordinateType === nextCoordinateType) {
+
+                groupedPaths[currentGroupIndex].push(coordinateName);
+
+            } else {
+                // push coordinate of next segment as well
+                groupedPaths[currentGroupIndex].push(coordinateName);
+
+                coordinateType = nextCoordinateType;
+                currentGroupIndex++;
+                groupedPaths[currentGroupIndex] = [coordinateName];
+
+            }
+        }
+        return groupedPaths;
+
+    }
+
+    /**
+     * Gets the TransportMode based on the coordinate name format.
+     * @param coordinateName a coordinate name e.g. H815
+     */
+    private coordinateNameIndoorTransportMode(coordinateName: string): TransportMode {
+        const indoorpoiRegex: RegExp = /^\w+\d+$/;
+        const hallwayRegex: RegExp = /^\w+\d+-W\d+$/;
+        const stairsRegex: RegExp = /^\w+\d+-S\d+$/;
+        const escalatorRegex: RegExp = /^\w+\d+-ESC\d+[U|D]$/;
+        const elevatorRegex: RegExp = /^\w+\d+-E$/;
+
+        if (indoorpoiRegex.test(coordinateName) || hallwayRegex.test(coordinateName)) {
+
+            return TransportMode.WALKING;
+
+        } else if (stairsRegex.test(coordinateName)) {
+
+            return TransportMode.STAIRS;
+
+        } else if (escalatorRegex.test(coordinateName)) {
+
+            return TransportMode.ESCALATOR;
+
+        } else if (elevatorRegex.test(coordinateName)) {
+
+            return TransportMode.ELEVATOR;
+
+        }
+
+        return null;
     }
 
     /**
@@ -234,7 +408,7 @@ export class RoutesService {
      */
     private getDisabilityAdjacencyMatrix(adjacency: AdjacencyMatrix): AdjacencyMatrix {
         const disabilityAdjacency: AdjacencyMatrix = Object.assign({}, adjacency);
-        const escalatorRegex: RegExp = /\w+\d+-E\d+[D | U]/;
+        const escalatorRegex: RegExp = /\w+\d+-ESC\d+[D|U]/;
         const stairsRegex: RegExp = /\w+\d+-S\d+/;
         for (const coord in disabilityAdjacency) {
             if (coord.match(escalatorRegex) || coord.match(stairsRegex)) {
@@ -290,4 +464,14 @@ interface AdjacencyMatrix {
 
 interface Edge {
     [coordinateName: string]: number;
+}
+
+interface IndoorCoordinates {
+    [coordinateName: string]: StoredCoordinates;
+}
+
+interface StoredCoordinates {
+    lat: string;
+    lng: string;
+    fN: number;
 }

@@ -83,6 +83,15 @@ export class RoutesPage implements OnInit, OnDestroy {
         date.setHours(minHours[0]);
         date.setMinutes(minHours[1]);
 
+        let key = 'value';
+
+        // TODO : remove this after merge with indoor search
+        // this.form.controls.from[key] = "H815";
+        // this.form.controls.to[key]= "H925";
+        this.form.controls.from[key] = "H962";
+        this.form.controls.to[key]= "H841";
+        // this.form.controls.to[key]= "H859";
+
         if (this.form.controls.departAt.value === 'Depart At') {
             this.routes = await this.routeFactory.getRoutes(
                 this.form.controls.from.value,
