@@ -137,9 +137,6 @@ export class RoutesService {
         const normalShortestPath = this.indoorFunctionsService.shortestPath(startLocation, endLocation);
         const disabilityShortestPath = this.indoorFunctionsService.shortestPath(startLocation, endLocation, true);
 
-        console.log('shortestPath normal', normalShortestPath);
-        console.log('shortestPath disability', disabilityShortestPath);
-
         const shortestPathResults: ShortestPathResult[] = [];
         if (ArraysUtil.compare(normalShortestPath.path, disabilityShortestPath.path)) {
             shortestPathResults.push(disabilityShortestPath);

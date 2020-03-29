@@ -1,8 +1,8 @@
-import { 
-    Component, 
-    EventEmitter, 
-    Input, 
-    Output 
+import {
+    Component,
+    EventEmitter,
+    Input,
+    Output,
 } from '@angular/core';
 
 @Component({

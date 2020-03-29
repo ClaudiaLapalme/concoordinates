@@ -203,9 +203,12 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     }
 
     private getMatchingIndoorPois(input: string): string[] {
-        const indoorpoiRegex: RegExp = /^\w+\d+$/;
-        const regex: RegExp = new RegExp("^" + input);
-        return Object.keys(this.indoorPoiToCoords).filter(coord => indoorpoiRegex.test(coord) && regex.test(coord));
+        // Filter all indoor pois to match against classroom names e.g. H815.
+        const classRoomRegex: RegExp = /^\w+\d+$/;
+        // Filter for indoor pois to match against user input.
+        const regex: RegExp = new RegExp('^' + input);
+        return Object.keys(this.indoorPoiToCoords)
+            .filter(coord => classRoomRegex.test(coord) && regex.test(coord));
     }
 
     /**
@@ -291,8 +294,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
 
         if (validCoordinate) {
 
-            let coordinate: Coordinates = null;
-            coordinate = this.indoorFunctionsService.getIndoorCoordinate(place);
+            const coordinate: Coordinates = this.indoorFunctionsService.getIndoorCoordinate(place);
 
             const googlePlace = {
                 name: place,
@@ -302,7 +304,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
                     viewport: null,
                 }
             } as google.maps.places.PlaceResult;
-            
+
             this.placeSelection.emit(googlePlace);
         }
     }
@@ -328,13 +330,3 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
         this.cancelSelection.emit();
     }
 }
-
-// interface IndoorCoordinates {
-//     [coordinateName: string]: StoredCoordinates;
-// }
-
-// interface StoredCoordinates {
-//     lat: string;
-//     lng: string;
-//     fN: number;
-// }

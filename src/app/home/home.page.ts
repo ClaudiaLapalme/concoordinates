@@ -159,8 +159,8 @@ export class HomePage implements AfterViewInit {
         // Make marker clickable, once clicked shows a popup with more information
         google.maps.event.addListener(this.searchedPlaceMarker, 'click', function() {
 
-            infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
-                'Place ID: ' + place.place_id + '</div>');
+            const placeId: string = place.place_id ? 'Place ID: ' + place.place_id : '';
+            infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + placeId + '</div>');
 
             infowindow.open(this.mapModel, this);
 
