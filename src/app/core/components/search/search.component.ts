@@ -284,6 +284,8 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
         this.searchInput.setValue(place);
         this.restoreSearchBar();
         this.cancelSelection.emit();
+        const googlePlace = {name: place, formatted_address: place} as google.maps.places.PlaceResult;
+        this.placeSelection.emit(googlePlace);
     }
 
     /**
