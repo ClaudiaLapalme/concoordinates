@@ -44,17 +44,14 @@ export class IndoorFunctionsService {
         return results;
     }
 
-    // TODO Fix this to validate for the coordinate existence in the poi list
+
+    /**
+     * Validates that both of the coordinates are part of the indoor pois
+     * @param startCoordinates string representation of the start coordinate
+     * @param endCoordinates string representation of the end coordinate
+     */
     bothCoordinatesMatchIndoorParams(startCoordinates: string, endCoordinates: string): boolean {
         return (this.coordinateIsIndoors(startCoordinates) && this.coordinateIsIndoors(endCoordinates));
-    }
-
-    startCoordinateIsIndoors(startCoordinates: string, endCoordinates: string): boolean {
-        return (this.coordinateIsIndoors(startCoordinates) && !this.coordinateIsIndoors(endCoordinates));
-    }
-
-    endCoordinateIsIndoors(startCoordinates: string, endCoordinates: string): boolean {
-        return (!this.coordinateIsIndoors(startCoordinates) && this.coordinateIsIndoors(endCoordinates));
     }
 
     /**

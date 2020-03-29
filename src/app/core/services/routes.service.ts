@@ -17,11 +17,6 @@ import { GoogleApisService } from '../services/google-apis.service';
 })
 export class RoutesService {
 
-    // private moduleKey = 'default';
-    // private adjMatrix: AdjacencyMatrix = adjacencyMatrix[this.moduleKey];
-    // private indoorPoiToCoords: IndoorCoordinates = indoorPoiToCoordinates[this.moduleKey];
-    // private indoorWalkingPathCoords: IndoorCoordinates = indoorWalkingPathCoordinates[this.moduleKey];
-
     constructor(private googleApis: GoogleApisService, private indoorFunctionsService: IndoorFunctionsService) { }
 
     /*
@@ -138,8 +133,6 @@ export class RoutesService {
         if (startLocation === '' || endLocation === '') {
             throw new Error('start and end locations must not be empty');
         }
-
-        const indoorRoutes: IndoorRoute[] = [];
 
         const normalShortestPath = this.indoorFunctionsService.shortestPath(startLocation, endLocation);
         const disabilityShortestPath = this.indoorFunctionsService.shortestPath(startLocation, endLocation, disability);

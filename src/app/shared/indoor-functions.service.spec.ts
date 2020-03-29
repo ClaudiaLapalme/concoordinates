@@ -22,20 +22,6 @@ describe('IndoorFunctionsService', () => {
         expect(service.coordinateIsIndoors(outdoorCoord)).toBeFalsy();
     });
 
-    it('should find startLocation in the indoor coordinates', () => {
-        const service: IndoorFunctionsService = TestBed.get(IndoorFunctionsService);
-        const indoorStart = 'H811';
-        const outdoorEnd = 'outdoor';
-        expect(service.startCoordinateIsIndoors(indoorStart, outdoorEnd)).toBeTruthy();
-    });
-
-    it('should find endLocation in the indoor coordinates', () => {
-        const service: IndoorFunctionsService = TestBed.get(IndoorFunctionsService);
-        const outdoorStart = 'outdoor';
-        const indoorEnd = 'H811';
-        expect(service.endCoordinateIsIndoors(outdoorStart, indoorEnd)).toBeTruthy();
-    });
-
     it('should not find outdoorLocations in the indoor coordinates', () => {
         const service: IndoorFunctionsService = TestBed.get(IndoorFunctionsService);
         const outdoorStart = 'notIndoors';
