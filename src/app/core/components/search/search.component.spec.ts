@@ -46,18 +46,28 @@ describe('SearchComponent', () => {
 
     });
 
-    describe('searchPOIs()', async () => {
+    describe('searchOutdoorPOIs()', async () => {
         it('should search for the points of intersts ', () => {
-            component.searchPOIs("concordia");
+            component.searchOutdoorPOIs("concordia");
             expect(component.searching).toBeTruthy;
         });
     });
 
-    describe('handleSearchForPOIs()', () => {
+    describe('handleSearchForOutdoorPOIs()', () => {
         it('should handle the searching for the points of intersts ', () => {
-            let fnName = 'handleSearchForPOIs';
+            let fnName = 'handleSearchForOutdoorPOIs';
             component[fnName]([]);
             component[fnName](["concordia"]);
+            expect(component.searching).toBeFalsy();
+        });
+    });
+
+    
+    describe('handleSearchForIndoorPOIs()', () => {
+        it('should handle the searching for the points of intersts ', () => {
+            let fnName = 'handleSearchForIndoorPOIs';
+            component[fnName]([]);
+            component[fnName](["H832"]);
             expect(component.searching).toBeFalsy();
         });
     });
@@ -71,9 +81,19 @@ describe('SearchComponent', () => {
         });
     });
 
-    describe('focusPOI()', () => {
+    describe('focusOutdoorPOI()', () => {
         it('should focus on the point of interests', () => {
-            component.focusPOI(PlaceService);
+            component.focusOutdoorPOI(PlaceService);
+            expect(component.showSearchOverlay).toBeFalsy();
+            expect(component.searching).toBeFalsy();
+            expect(component.searchResultsArray).toEqual([]);
+
+        });
+    });
+
+    describe('focusIndoorPOI()', () => {
+        it('should focus on the point of interests', () => {
+            component.focusIndoorPOI("H82");
             expect(component.showSearchOverlay).toBeFalsy();
             expect(component.searching).toBeFalsy();
             expect(component.searchResultsArray).toEqual([]);

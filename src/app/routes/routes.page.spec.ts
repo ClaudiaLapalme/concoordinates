@@ -5,14 +5,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { CoreModule, TransportMode } from '../core';
 import { RoutesPage } from './routes.page';
-import { SearchComponent } from '../core/components';
 import { By } from '@angular/platform-browser';
 
 describe('RoutesPage', () => {
     let component: RoutesPage;
     let fixture: ComponentFixture<RoutesPage>;
 
-    const mockFactory = jasmine.createSpyObj('mockComponent', ['generateDefaultRoutes']);
+    const mockFactory = jasmine.createSpyObj('mockComponent', ['getRoutes']);
     const mockFormbuilder = jasmine.createSpyObj('mockFormbuilder', ['group']);
 
     beforeEach(async(() => {
@@ -50,7 +49,7 @@ describe('RoutesPage', () => {
         parsedDate.setMinutes(actualTime[1]);
 
         await mockedComponent.getRoutes();
-        expect(mockFactory.generateDefaultRoutes).toHaveBeenCalled();
+        expect(mockFactory.getRoutes).toHaveBeenCalled();
 
     });
 

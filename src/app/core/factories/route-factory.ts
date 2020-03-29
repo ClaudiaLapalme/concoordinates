@@ -1,5 +1,6 @@
 import { Time } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { IndoorFunctionsService } from 'src/app/shared/indoor-functions.service';
 import { Coordinates } from '..';
 import { IndoorRoute } from '../models';
 import { TransportMode } from '../models/transport-mode';
@@ -7,7 +8,7 @@ import { RoutesService } from '../services/routes.service';
 
 @Injectable()
 export class RouteFactory {
-    constructor(private routesService: RoutesService) { }
+    constructor(private routesService: RoutesService, private indoorFunctionsService: IndoorFunctionsService) { }
 
     async getRoutes(
         startCoordinates: Coordinates | string,
@@ -20,7 +21,7 @@ export class RouteFactory {
         if (
             typeof startCoordinates === 'string' &&
             typeof endCoordinates === 'string' &&
-            this.routesService.coordinatesMatchIndoorParams(startCoordinates, endCoordinates)) {
+            this.indoorFunctionsService.coordinatesMatchIndoorParams(startCoordinates, endCoordinates)) {
             return this.generateIndoorRoutes(startCoordinates, endCoordinates, disability);
         }
         return this.generateOutdoorRoutes(startCoordinates, endCoordinates, startTime, endTime, transportMode);

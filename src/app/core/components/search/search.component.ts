@@ -12,6 +12,8 @@ import {
 import { FormControl } from '@angular/forms';
 import {  Subscription } from 'rxjs';
 import {  PlaceService, SessionService } from '../../services';
+import * as indoorPoiToCoordinates from '../../data/indoor-poi-to-coordinates.json';
+
 
 @Component({
     selector: 'app-search',
@@ -19,6 +21,11 @@ import {  PlaceService, SessionService } from '../../services';
     styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+
+    private moduleKey = 'default';
+    private indoorPoiToCoords: IndoorCoordinates = indoorPoiToCoordinates[this.moduleKey];
+    isIndoorPoi = false ;
+    searchIndoorResult: string[];
     
     /**
      * Defines if the map is set or not
@@ -126,6 +133,9 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
      */
     private subscription: Subscription;
 
+
+
+
     constructor(
         private placeService: PlaceService,
         private sessionService: SessionService
@@ -168,33 +178,47 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
      *
      */
     search(): void {
-        const input = this.searchInput.value;
-
+        const input: string = this.searchInput.value;
         // Reset search when input is empty
         if (!input || input.length === 0) {
             this.restoreSearchBar();
         } else {
+            //first search the json to see if the user is searching for an indoor classroom
+            const matchingIndoorPois: string[] = this.getMatchingIndoorPois(input.toUpperCase());
+            if (matchingIndoorPois.length){
+                this.showSearchOverlay = true;
+                this.isIndoorPoi = true;
+                this.handleSearchForIndoorPOIs(matchingIndoorPois.slice(0,5));
+                this.removeControls.emit();
+            }
             // Only call search function when input is size 3
             // or larger to help preserve resources (Library is not free)
-            if (input.length >= 3) {
+            else if(input.length >= 3) {
                 this.showSearchOverlay = true;
-                this.searchPOIs(input);
+                this.isIndoorPoi = false;
+                this.searchOutdoorPOIs(input);
                 this.removeControls.emit();
             }
         }
+    }
+    
+    private getMatchingIndoorPois(input: string): string[] {
+        const indoorpoiRegex: RegExp = /^\w+\d+$/;
+        const regex: RegExp = new RegExp("^" + input);
+        return Object.keys(this.indoorPoiToCoords).filter(coord=> indoorpoiRegex.test(coord) && regex.test(coord));
     }
 
     /**
      * Call textSearch function from placeService
      * @param input text input from the user
      */
-    async searchPOIs(input: string): Promise<any> {
+    async searchOutdoorPOIs(input: string): Promise<any> {
         this.searching = true;
         try {
             this.placeService
                 .textSearch(this.map, input)
                 .then((res: google.maps.places.PlaceResult[]) =>
-                    this.handleSearchForPOIs(res)
+                    this.handleSearchForOutdoorPOIs(res)
                 )
                 .catch(error => this.handleSearchForPOIsError(error));
         } catch {
@@ -206,7 +230,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
      * Handles valid result received from place service text search function
      * @param res Array of Google PlaceResult objects
      */
-    private handleSearchForPOIs(res: google.maps.places.PlaceResult[]): void {
+    private handleSearchForOutdoorPOIs(res: google.maps.places.PlaceResult[]): void {
         if (res.length > 0) {
             this.searchResultsArray = res;
             this.resultFound = true;
@@ -215,6 +239,23 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
         }
         this.searching = false;
     }
+
+
+      /**
+     * Handles valid result received from place service text search function
+     * @param value Array of Indoor Pois
+     */
+    private handleSearchForIndoorPOIs(value: string[]): void {
+        this.searching = true;
+        if (value.length > 0) {
+            this.searchIndoorResult = value;
+            this.resultFound = true;
+        } else {
+            this.resultFound = false;
+        }
+        this.searching = false;
+    }
+
 
     /**
      * Handles any error received from place service text search function
@@ -230,11 +271,21 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
      * Restore search bar and
      * @param place Google Place Result Object
      */
-    focusPOI(place: google.maps.places.PlaceResult): void {
+    focusOutdoorPOI(place: google.maps.places.PlaceResult): void {
         this.searchInput.setValue(place.name);
         this.restoreSearchBar();
         this.cancelSelection.emit();
         this.placeSelection.emit(place);
+    }
+
+       /**
+     * Restore search bar and
+     * @param place Google Place Result Object
+     */
+    focusIndoorPOI(place: string): void {
+        this.searchInput.setValue(place);
+        this.restoreSearchBar();
+        this.cancelSelection.emit();
     }
 
     /**
@@ -257,4 +308,14 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
         this.restoreSearchBar();
         this.cancelSelection.emit();
     }
+}
+
+interface IndoorCoordinates {
+    [coordinateName: string]: StoredCoordinates;
+}
+
+interface StoredCoordinates {
+    lat: string;
+    lng: string;
+    fN: number;
 }
