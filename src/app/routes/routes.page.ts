@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { OutdoorRoute, RouteFactory, TransportMode } from '../core';
+import { Route, RouteFactory, TransportMode } from '../core';
 
 @Component({
     selector: 'app-routes',
@@ -20,9 +20,9 @@ export class RoutesPage implements OnInit, OnDestroy {
     /**
      * Generated routes
      *
-     * @type {OutdoorRoute[]}
+     * @type {Route[]}
      */
-    routes: OutdoorRoute[];
+    routes: Route[];
 
     /**
      * Route tranport mode
