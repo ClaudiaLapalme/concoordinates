@@ -135,7 +135,7 @@ export class RoutesService {
         }
 
         const normalShortestPath = this.indoorFunctionsService.shortestPath(startLocation, endLocation);
-        const disabilityShortestPath = this.indoorFunctionsService.shortestPath(startLocation, endLocation, disability);
+        const disabilityShortestPath = this.indoorFunctionsService.shortestPath(startLocation, endLocation, true);
 
         console.log('shortestPath normal', normalShortestPath);
         console.log('shortestPath disability', disabilityShortestPath);
