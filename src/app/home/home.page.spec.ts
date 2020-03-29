@@ -15,6 +15,7 @@ describe('HomePage', () => {
 
     class mockMap extends google.maps.Map{
         panTo() {}
+        setZoom() {}
     }
 
     beforeEach(async(() => {

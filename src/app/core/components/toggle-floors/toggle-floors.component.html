@@ -1,5 +1,5 @@
 <div class="select-floor" title='Click to change floor'>
     <div *ngFor="let floorLevel of availableFloors" (click)=selectFloor(floorLevel)>
-        <div [class.unselected]="true" [class.selected]="floorLevel===selectedFloor">{{floorLevel}}</div>
+        <div [class.unselected]="true" [class.selected]="floorLevel===_selectedFloor">{{floorLevel}}</div>
     </div>
 </div>

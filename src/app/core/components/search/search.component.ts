@@ -11,8 +11,9 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { IndoorFunctionsService } from 'src/app/shared/indoor-functions.service';
 import * as indoorPoiToCoordinates from '../../data/indoor-poi-to-coordinates.json';
-import { IndoorCoordinates } from '../../models';
+import { Coordinates, IndoorCoordinates, } from '../../models';
 import { PlaceService, SessionService } from '../../services';
 
 
@@ -136,7 +137,8 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
 
     constructor(
         private placeService: PlaceService,
-        private sessionService: SessionService
+        private sessionService: SessionService,
+        private indoorFunctionsService: IndoorFunctionsService
     ) { }
 
     ngOnInit() {
@@ -240,9 +242,9 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
 
 
     /**
-   * Handles valid result received from place service text search function
-   * @param value Array of Indoor Pois
-   */
+     * Handles valid result received from place service text search function
+     * @param value Array of Indoor Pois
+     */
     private handleSearchForIndoorPOIs(value: string[]): void {
         this.searching = true;
         if (value.length > 0) {
@@ -277,15 +279,32 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     }
 
     /**
-  * Restore search bar and
-  * @param place Google Place Result Object
-  */
+     * Restore search bar and
+     * @param place Google Place Result Object
+     */
     focusIndoorPOI(place: string): void {
         this.searchInput.setValue(place);
         this.restoreSearchBar();
         this.cancelSelection.emit();
-        const googlePlace = {name: place, formatted_address: place} as google.maps.places.PlaceResult;
-        this.placeSelection.emit(googlePlace);
+
+        const validCoordinate: boolean = this.indoorFunctionsService.coordinateIsIndoors(place);
+
+        if (validCoordinate) {
+
+            let coordinate: Coordinates = null;
+            coordinate = this.indoorFunctionsService.getIndoorCoordinate(place);
+
+            const googlePlace = {
+                name: place,
+                formatted_address: place,
+                geometry: {
+                    location: new google.maps.LatLng(coordinate.getLatitude(), coordinate.getLongitude()),
+                    viewport: null,
+                }
+            } as google.maps.places.PlaceResult;
+            
+            this.placeSelection.emit(googlePlace);
+        }
     }
 
     /**

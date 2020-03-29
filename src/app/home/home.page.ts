@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, EventEmitter, Output } from '@angular/core';
 import { GoogleApisService, MapService, SessionService } from '../core';
 import { MenuController } from '@ionic/angular';
+import { IndoorFunctionsService } from '../shared/indoor-functions.service';
 
 // TODO move all this map logic to MapPage and keep all Pages as routes from this page
 @Component({
@@ -44,6 +45,8 @@ export class HomePage implements AfterViewInit {
     public indoorMapLevel: number;
     public availableFloors: number[];
 
+    public newSelectedFloor: number;
+
     public isMapSet: boolean;
 
     searchedPlaceMarker: google.maps.Marker;
@@ -54,7 +57,8 @@ export class HomePage implements AfterViewInit {
         private mapService: MapService,
         private googleApisService: GoogleApisService,
         private menu: MenuController,
-        private sessionService: SessionService
+        private sessionService: SessionService,
+        private indoorFunctionsService: IndoorFunctionsService
     ) {
         this.currentCenter = this.SGW;
 
@@ -166,7 +170,13 @@ export class HomePage implements AfterViewInit {
         setTimeout(() => {
 
             this.mapModel.panTo(placeLoc);
-            google.maps.event.trigger(this.searchedPlaceMarker, 'click');
+            this.mapModel.setZoom(19);
+            const validCoordinate = this.indoorFunctionsService.coordinateIsIndoors(place.name);
+            if (validCoordinate) {
+                const coordinate = this.indoorFunctionsService.getIndoorCoordinate(place.name);
+                this.newSelectedFloor = coordinate.getFloorNumber();
+                google.maps.event.trigger(this.searchedPlaceMarker, 'click');
+            }
 
         }, 500);
     }

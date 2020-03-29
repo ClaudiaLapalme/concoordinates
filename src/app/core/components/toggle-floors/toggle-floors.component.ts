@@ -14,15 +14,20 @@ export class ToggleFloorsComponent {
 
     @Output() toggledFloor = new EventEmitter<number>();
 
-    selectedFloor: number;
+    _selectedFloor: number;
 
     @Input() availableFloors: number[];
 
     constructor() { }
 
-    selectFloor(floorNumber: number): void {
+    @Input()
+    set selectedFloor(floorNumber: number) {
+        this._selectedFloor = floorNumber;
+        this.toggledFloor.emit(this._selectedFloor);
+    }
+
+    public selectFloor(floorNumber: number) {
         this.selectedFloor = floorNumber;
-        this.toggledFloor.emit(this.selectedFloor);
     }
 
 }
