@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
+import { ArraysUtil } from 'src/app/shared/arrays-util';
+import { IndoorFunctionsService } from 'src/app/shared/indoor-functions.service';
+import { ShortestPathResult } from 'src/app/shared/shortest-path-algorithm';
 import {
     Coordinates,
+    IndoorRoute,
     OutdoorRoute,
+    Route,
     RouteStep,
     Transport,
     TransportMode,
 } from '../models';
 import { GoogleApisService } from '../services/google-apis.service';
-
 @Injectable({
     providedIn: 'root'
 })
 export class RoutesService {
-    constructor(private googleApis: GoogleApisService) {}
+
+    constructor(private googleApis: GoogleApisService, private indoorFunctionsService: IndoorFunctionsService) { }
 
     /*
     This function is responsible for calling the actual google api
@@ -20,7 +25,7 @@ export class RoutesService {
     */
     async getMappedRoutes(
         dirRequest: google.maps.DirectionsRequest
-    ): Promise<any> {
+    ): Promise<Route[]> {
         try {
             const res = await this.googleApis.getGoogleMapRoutes(dirRequest);
             return this.mapGoogleRoutesToRoutes(res.routes);
@@ -117,5 +122,28 @@ export class RoutesService {
             rSteps.push(rStep);
         });
         return rSteps;
+    }
+
+    /**
+     * Creates indoor routes for a start location, to an end location and always provides a disability
+     * option at minimum.
+     * @return an array of IndoorRoute
+     */
+    getIndoorRoutes(startLocation: string, endLocation: string, disability: boolean = false): IndoorRoute[] {
+        if (startLocation === '' || endLocation === '') {
+            throw new Error('start and end locations must not be empty');
+        }
+
+        const normalShortestPath = this.indoorFunctionsService.shortestPath(startLocation, endLocation);
+        const disabilityShortestPath = this.indoorFunctionsService.shortestPath(startLocation, endLocation, true);
+
+        const shortestPathResults: ShortestPathResult[] = [];
+        if (ArraysUtil.compare(normalShortestPath.path, disabilityShortestPath.path)) {
+            shortestPathResults.push(disabilityShortestPath);
+        } else {
+            shortestPathResults.push(normalShortestPath, disabilityShortestPath);
+        }
+
+        return this.indoorFunctionsService.algoResultsToIndoorRoute(shortestPathResults, startLocation, endLocation, disability);
     }
 }

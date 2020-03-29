@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { OutdoorRoute, RouteFactory, TransportMode } from '../core';
+import { Route, RouteFactory, TransportMode } from '../core';
 
 @Component({
     selector: 'app-routes',
@@ -20,9 +20,9 @@ export class RoutesPage implements OnInit, OnDestroy {
     /**
      * Generated routes
      *
-     * @type {OutdoorRoute[]}
+     * @type {Route[]}
      */
-    routes: OutdoorRoute[];
+    routes: Route[];
 
     /**
      * Route tranport mode
@@ -84,7 +84,7 @@ export class RoutesPage implements OnInit, OnDestroy {
         date.setMinutes(minHours[1]);
 
         if (this.form.controls.departAt.value === 'Depart At') {
-            this.routes = await this.routeFactory.generateDefaultRoutes(
+            this.routes = await this.routeFactory.getRoutes(
                 this.form.controls.from.value,
                 this.form.controls.to.value,
                 date,
@@ -92,7 +92,7 @@ export class RoutesPage implements OnInit, OnDestroy {
                 this.transportMode
             );
         } else {
-            this.routes = await this.routeFactory.generateDefaultRoutes(
+            this.routes = await this.routeFactory.getRoutes(
                 this.form.controls.from.value,
                 this.form.controls.to.value,
                 null,

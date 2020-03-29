@@ -10,7 +10,7 @@ export class OutdoorRoute implements Route {
         startTime: Date,
         endTime: Date,
         allowedTransportModes: Array<TransportMode>,
-        routeSteps: Array<RouteStep>
+        routeSteps: RouteStep[]
     ) {
         this.startCoordinates = startCoordinates;
         this.endCoordinates = endCoordinates;
@@ -18,6 +18,7 @@ export class OutdoorRoute implements Route {
         this.endTime = endTime;
         this.allowedTransportModes = allowedTransportModes;
         this.routeSteps = routeSteps;
+        this.disability = true;
     }
 
     startCoordinates: Coordinates;
@@ -26,7 +27,8 @@ export class OutdoorRoute implements Route {
     endTime: Date;
     allowedTransportModes: Array<TransportMode>;
     transportMode: TransportMode;
-    routeSteps: Array<RouteStep>;
+    routeSteps: RouteStep[];
+    disability: boolean;
 
     computeTotalDuration(): number {
         let totalDuration = 0;

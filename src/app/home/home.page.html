@@ -48,6 +48,7 @@
     <app-toggle-floors
         #switchFloor
         [availableFloors]="availableFloors"
+        [selectedFloor]="newSelectedFloor"
         (toggledFloor)="switchFloors($event)"
         [ngClass]="{invisible: !controlsShown}"
     >

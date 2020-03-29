@@ -5,7 +5,7 @@ import {
     ViewChild,
     OnInit
 } from '@angular/core';
-import { OutdoorRoute } from '../core/models';
+import { Route } from '../core/models';
 import { MapService } from '../core/services/map.service';
 import { RoutesService } from '../core/services/routes.service';
 import { StateService } from '../shared/state.service';
@@ -16,7 +16,7 @@ import { StateService } from '../shared/state.service';
     styleUrls: ['./rendered-routes.page.scss']
 })
 export class RenderedRoutesPage implements AfterViewInit, OnInit {
-    route: OutdoorRoute;
+    route: Route;
 
     @ViewChild('map', { static: false })
     mapElement: ElementRef;
