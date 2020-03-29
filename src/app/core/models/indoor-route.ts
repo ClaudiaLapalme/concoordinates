@@ -1,10 +1,12 @@
 import * as indoorPoiCoordinates from '../data/indoor-poi-to-coordinates.json';
 import { Coordinates } from './coordinates';
 import { Route } from './route';
+import { RouteStep } from './route-step';
+import { TransportMode } from './transport-mode';
 
 export class IndoorRoute implements Route {
 
-    constructor(startLocation: string, endLocation: string, disability: boolean, routeSteps: string[], distance: number) {
+    constructor(startLocation: string, endLocation: string, disability: boolean, routeSteps: RouteStep[], distance: number) {
         // TODO fix this
         const moduleKey = 'default';
         const coords: {[coordName: string]: Coordinates} = indoorPoiCoordinates[moduleKey];
@@ -12,6 +14,7 @@ export class IndoorRoute implements Route {
         this.endCoordinates = coords[endLocation];
         this.routeSteps = routeSteps;
         this.distance = distance;
+        this.disability = disability;
     }
 
     startCoordinates: Coordinates;
@@ -19,8 +22,11 @@ export class IndoorRoute implements Route {
     startTime: Date;
     endTime: Date;
     // In case of indoor, the steps constitute of the nodes in the adjacency matrix constituting the complete route
-    routeSteps: string[];
+    routeSteps: RouteStep[];
+    transportMode: TransportMode;
+
     distance: number;
+    disability: boolean;
 
     computeTotalDuration(): number {
         return this.convertDistanceToDuration();
@@ -28,9 +34,17 @@ export class IndoorRoute implements Route {
     computeTotalDistance(): number {
         return this.distance;
     }
+    getInstructions(): string[] {
+        return this.routeSteps.map(e => e.instruction);
+    }
+
+    setCurrentTravelMode(transportMode: TransportMode): void {
+        // no op
+    }
 
     private convertDistanceToDuration() {
-        // TODO figure out what to return as duration. Date object? millis?
-        return -1;
+        let totalDuration = 0;
+        this.routeSteps.forEach(e => (totalDuration += e.getDuration()));
+        return totalDuration;
     }
 }
