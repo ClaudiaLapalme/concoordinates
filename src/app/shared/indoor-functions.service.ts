@@ -37,10 +37,15 @@ export class IndoorFunctionsService {
         } else {
             treatedAdjacencyMatrix = Object.assign({}, this.adjMatrix);
         }
-        treatedAdjacencyMatrix[endpos] = { finish: 0 };
 
         const shortestPathAlgo = new Dijkstra();
-        const results: ShortestPathResult = shortestPathAlgo.computeShortestPath(treatedAdjacencyMatrix, startpos);
+        const results: ShortestPathResult = shortestPathAlgo.computeShortestPath(treatedAdjacencyMatrix, startpos, endpos);
+
+        // remove the finish (last) location
+        results.path.pop();
+        // add the start location in the path
+        results.path.unshift(startpos);
+
         return results;
     }
 
@@ -222,18 +227,12 @@ export class IndoorFunctionsService {
     ) {
         const indoorRoutes: IndoorRoute[] = [];
         algoResults.forEach(algoResult => {
-            const path: string[] = algoResult.path;
-            // remove the finish (last) location
-            path.pop();
-            // add the start location in the path
-            path.unshift(startLocation);
-
             indoorRoutes.push(
                 new IndoorRoute(
                     startLocation,
                     endLocation,
                     disability,
-                    this.mapPathToRouteSteps(path),
+                    this.mapPathToRouteSteps(algoResult.path),
                     algoResult.distance));
 
         });

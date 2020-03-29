@@ -25,11 +25,13 @@ export class Dijkstra {
      * Finds the shortest path with the shortest distance.
      * @return a ShortestPathResult
      */
-    computeShortestPath(graphzz: AdjacencyMatrix, startElement: string): ShortestPathResult {
+    computeShortestPath(treatedAdjacencyMatrix: AdjacencyMatrix, startElement: string, endElement: string): ShortestPathResult {
+
+        treatedAdjacencyMatrix[endElement] = { finish: 0 };
 
         // track lowest cost to reach each node
         const trackedCosts = Object.assign(
-            { finish: Infinity }, graphzz[startElement]
+            { finish: Infinity }, treatedAdjacencyMatrix[startElement]
         );
         // track paths
         const trackedParents: any = { finish: null };
@@ -40,7 +42,7 @@ export class Dijkstra {
 
         while (node) {
             const costToReachNode = trackedCosts[node];
-            let childrenOfNode: Edge = graphzz[node];
+            let childrenOfNode: Edge = treatedAdjacencyMatrix[node];
 
             childrenOfNode = childrenOfNode ? childrenOfNode : {};
             for (const child of Object.keys(childrenOfNode)) {
@@ -71,6 +73,9 @@ export class Dijkstra {
             path: optimalPath
         };
 
+        if ( result.distance === Infinity) {
+            throw new Error('The path was not found, no connection between ' + startElement + ' and ' + endElement + '.');
+        }
         return result;
     }
 }
