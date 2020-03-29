@@ -10,8 +10,8 @@ describe('RouteFactory', () => {
     let routeFactory: RouteFactory;
     beforeEach(async () => TestBed.configureTestingModule({}));
     beforeEach(() => {
-        mockService = jasmine.createSpyObj('mockService', ['getMappedRoutes', 'coordinatesMatchIndoorParams']);
-        mockIndoorFunctionsService = jasmine.createSpyObj('mockIndoorFunctionsService', ['coordinatesMatchIndoorParams']);
+        mockService = jasmine.createSpyObj('mockService', ['getMappedRoutes', 'bothCoordinatesMatchIndoorParams']);
+        mockIndoorFunctionsService = jasmine.createSpyObj('mockIndoorFunctionsService', ['bothCoordinatesMatchIndoorParams']);
         routeFactory = new RouteFactory(mockService, mockIndoorFunctionsService);
     });
 
@@ -46,6 +46,6 @@ describe('RouteFactory', () => {
         const startCoordinates = 'H811';
         const endCoordinates = 'H812';
         routeFactory.getRoutes(startCoordinates, endCoordinates);
-        expect(mockIndoorFunctionsService.coordinatesMatchIndoorParams).toHaveBeenCalledWith(startCoordinates, endCoordinates);
+        expect(mockIndoorFunctionsService.bothCoordinatesMatchIndoorParams).toHaveBeenCalledWith(startCoordinates, endCoordinates);
     });
 });

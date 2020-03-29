@@ -21,7 +21,7 @@ export class RouteFactory {
         if (
             typeof startCoordinates === 'string' &&
             typeof endCoordinates === 'string' &&
-            this.indoorFunctionsService.coordinatesMatchIndoorParams(startCoordinates, endCoordinates)) {
+            this.indoorFunctionsService.bothCoordinatesMatchIndoorParams(startCoordinates, endCoordinates)) {
             return this.generateIndoorRoutes(startCoordinates, endCoordinates, disability);
         }
         return this.generateOutdoorRoutes(startCoordinates, endCoordinates, startTime, endTime, transportMode);

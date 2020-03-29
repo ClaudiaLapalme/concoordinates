@@ -238,10 +238,10 @@ export class RoutesService {
      * @param pathSegment array of coordinate names
      */
     private mapPathSegmentToRouteStep(pathSegment: string[]): RouteStep {
-        console.log(pathSegment);
-        console.log(this.adjMatrix);
-        console.log(this.indoorPoiToCoords);
-        console.log(this.indoorWalkingPathCoords);
+        // console.log(pathSegment);
+        // console.log(this.adjMatrix);
+        // console.log(this.indoorPoiToCoords);
+        // console.log(this.indoorWalkingPathCoords);
 
         let segmentDistance = 0;
         for (let i = 0; i < pathSegment.length - 1; i++) {

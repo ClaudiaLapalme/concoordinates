@@ -16,6 +16,7 @@ describe('RoutesListItemComponent', () => {
 
         fixture = TestBed.createComponent(RoutesListItemComponent);
         component = fixture.componentInstance;
+        component.route = jasmine.createSpyObj('route', ['computeTotalDuration']);
         fixture.detectChanges();
     }));
 
@@ -24,7 +25,6 @@ describe('RoutesListItemComponent', () => {
     });
 
     it('should compute route duration', () => {
-        component.route = jasmine.createSpyObj('route', ['computeTotalDuration']);
         component.ngOnInit();
         expect(component.route.computeTotalDuration).toHaveBeenCalled();
     });
