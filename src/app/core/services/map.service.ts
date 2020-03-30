@@ -1,7 +1,7 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { AbstractPOIFactoryService } from '../factories';
-import { Building, IndoorMap, IndoorRoute, Map, OutdoorMap, OutdoorRoute, Route } from '../models';
+import { Building, IndoorMap, IndoorRoute, Map, OutdoorMap, OutdoorRoute, Route, Coordinates, RouteStep } from '../models';
 import { GoogleApisService } from './google-apis.service';
 import { LocationService } from './location.service';
 import { PlaceService } from './place.service';
@@ -195,8 +195,7 @@ export class MapService {
         if (route instanceof OutdoorRoute) {
             this.displayOutdoorRoute(map, route);
         } else if (route instanceof IndoorRoute) {
-            // TODO: Render indoor route here
-            return;
+            this.displayIndoorRoute(map, route);
         }
     }
 
@@ -209,7 +208,8 @@ export class MapService {
         } else {
             this.googleApis
             .getDirectionsService()
-            .route(route.getDirectionsRequestFromRoute(), (res, status) => {
+            .route(route.getDirectionsRequestFromRoute(), (res: google.maps.DirectionsResult, status) => {
+                console.log(res);
                 if (status === 'OK') {
                     renderer.setDirections(res);
                 } else {
@@ -217,6 +217,131 @@ export class MapService {
                 }
             });
         }
+    }
+
+    private displayIndoorRoute(map: google.maps.Map, indoorRoute: IndoorRoute) {
+        const renderer = this.getMapRenderer();
+
+
+        renderer.setMap(map);
+        const swBound = new google.maps.LatLng(
+            45.49681658032052,
+            -73.57955563558198
+        );
+        const eBound = new google.maps.LatLng(
+            45.49771707945049,
+            -73.57833170552253
+        );
+
+        const bounds = new google.maps.LatLngBounds(swBound, eBound);
+
+
+
+
+
+        const startCoords: Coordinates = indoorRoute.startCoordinates;
+        const endCoords: Coordinates = indoorRoute.endCoordinates;
+        const startLocation: google.maps.LatLng =
+            new google.maps.LatLng(startCoords.getLatitude(), startCoords.getLongitude());
+        const endLocation: google.maps.LatLng =
+            new google.maps.LatLng(endCoords.getLatitude(), endCoords.getLongitude());
+        const request = {
+            origin: {
+                location: startLocation,
+            },
+            destination: {
+                location: endLocation,
+            },
+            travelMode: indoorRoute.routeSteps[0].transport.travelType,
+        };
+
+
+        function mapCoordinatesArrayToLatLng(coordinates: Coordinates[]): google.maps.LatLng[] {
+            const latLngArray: google.maps.LatLng[] = [];
+            for (const coords of coordinates) {
+                latLngArray.push(coordinatesToLatLng(coords));
+            }
+            return latLngArray;
+        }
+
+        function coordinatesToLatLng(coordinates: Coordinates): google.maps.LatLng {
+            return new google.maps.LatLng(coordinates.getLatitude(), coordinates.getLongitude());
+        }
+
+        function mapRouteStepsToDirectionsStep(routeSteps: RouteStep[]): google.maps.DirectionsStep[] {
+            const directionSteps: google.maps.DirectionsStep[] = [];
+            for (const routeStep of routeSteps) {
+                const latLngs: google.maps.LatLng[] = mapCoordinatesArrayToLatLng(routeStep.path);
+                const encoded_lat_lngs: string = google.maps.geometry.encoding.encodePath(latLngs);
+                const step = {
+                    steps: [],
+                    distance: {
+                        text: routeStep.distance * 0.02 + ' km',
+                        value: routeStep.distance * 3,
+                    },
+                    duration: {
+                        text: 'XYZ mins',
+                        value: 3,
+                    },
+                    start_location: coordinatesToLatLng(routeStep.startCoordinate),
+                    end_location: coordinatesToLatLng(routeStep.endCoordinate),
+                    start_point: coordinatesToLatLng(routeStep.startCoordinate),
+                    end_point: coordinatesToLatLng(routeStep.endCoordinate),
+                    instructions: '',
+                    path: latLngs,
+                    polyline: {
+                        points: encoded_lat_lngs,
+                    },
+                    encoded_lat_lngs,
+                    lat_lngs: latLngs,
+                    transit: null,
+                    travel_mode: null,
+                };
+                directionSteps.push(step);
+            }
+            return directionSteps;
+        }
+        
+
+        const leg: google.maps.DirectionsLeg = {
+            arrival_time: null,
+            departure_time: null,
+            distance: {
+                text: indoorRoute.distance * 0.02 + ' km',
+                value: indoorRoute.distance * 3,
+            },
+            duration: {
+                text: 'XYZ mins',
+                value: 3,
+            },
+            duration_in_traffic: null,
+            end_address: '',  // useless
+            end_location: endLocation,
+            start_address: '', // useless
+            start_location: startLocation,
+            steps: mapRouteStepsToDirectionsStep(indoorRoute.routeSteps),
+            via_waypoints: [],
+        };
+
+        const routes: google.maps.DirectionsRoute[] = [{
+            bounds,
+            copyrights: '', // useless
+            fare: null, // useless
+            legs: [leg],
+            overview_path: [],
+            overview_polyline: null,//'acutG`ya`MrBbBp@^\Jl@NJYJ]GEMQKX}^uZuRiR}XuRqPaUgY{Vp@k@YW|AgEvBhBFF',
+            warnings: [],
+            waypoint_order: []  // useless
+        }];
+
+        const directions: google.maps.DirectionsResult = {
+            geocoded_waypoints: [],
+            routes,
+            request,
+            status: 'OK',
+        } as google.maps.DirectionsResult;
+
+        renderer.setDirections(directions);
     }
 
     getMapRenderer(): google.maps.DirectionsRenderer {
