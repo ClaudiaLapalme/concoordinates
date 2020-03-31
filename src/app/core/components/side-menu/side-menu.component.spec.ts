@@ -5,6 +5,12 @@ import { CoreModule } from '../../../core';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SideMenuComponent } from './side-menu.component';
+import { CalendarService } from '../../services/calendar.service';
+import { environment } from 'src/environments/environment';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+
 
 describe('SideMenuComponent', () => {
 
@@ -18,22 +24,24 @@ describe('SideMenuComponent', () => {
                 SideMenuComponent
             ],
             imports: [
-                IonicModule.forRoot(),
+                
+                AngularFireModule.initializeApp(environment.config),
+                IonicModule,
                 RouterModule,
                 CoreModule,
                 RouterTestingModule.withRoutes([])],
             schemas: [
                 NO_ERRORS_SCHEMA,
+            ],
+            providers:[
+                AngularFireAuth,
+                GooglePlus,
+                CalendarService
             ]
         }).compileComponents();
         
         fixture = TestBed.createComponent(SideMenuComponent);
         component = fixture.componentInstance;
-
-        window['gapi'] = {
-            load() {
-                return null;
-            }}
 
         fixture.detectChanges();
     }));

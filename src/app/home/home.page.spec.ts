@@ -4,10 +4,16 @@ import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { CoreModule } from '../core';
-import { MapService } from '../core/services/';
+import { MapService, CalendarService } from '../core/services/';
 import { HomePage } from './home.page';
 import { SearchComponent } from '../core/components';
 import { By } from '@angular/platform-browser';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire';
+
+
 
 describe('HomePage', () => {
     let component: HomePage;
@@ -30,9 +36,15 @@ describe('HomePage', () => {
                 IonicModule.forRoot(),
                 RouterModule,
                 CoreModule,
-                RouterTestingModule.withRoutes([])
+                RouterTestingModule.withRoutes([]),
+                [AngularFireModule.initializeApp(environment.config)]
             ],
-            providers: [{ provide: MapService, useClass: MockMapService }],
+            providers: [
+                { provide: MapService, useClass: MockMapService },
+                AngularFireAuth,
+                GooglePlus,
+                CalendarService
+            ],
             schemas: [NO_ERRORS_SCHEMA]
         }).compileComponents();
 
