@@ -45,7 +45,6 @@ export class SideMenuComponent implements OnInit, OnDestroy {
 
     insertGoogleUserInfo(): void {
         this.userEmail = this.calendarService.getUserEmail();
-        this.userPicture = this.calendarService.getUserPicture();
         document.getElementById('loggedInEmail').innerHTML = this.userEmail;
         document.getElementById('loggedInPicture').innerHTML = '<img src=\"', this.userPicture, '\">';
     }

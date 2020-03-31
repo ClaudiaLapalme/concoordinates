@@ -24,6 +24,10 @@ export class CalendarService {
                 private gplus: GooglePlus
         ) { }
 
+    /**
+     * Detects the platform being user 
+     * and prompts popup accordingly
+     */
     getAuth() {
         if(this.platform.is("capacitor")) {
             return this.androidLogin();
@@ -33,19 +37,25 @@ export class CalendarService {
         }
     }
 
+    /**
+     * Google Auth Signin popup
+     * for web clients
+     */
     webLogin(provider) {
-
-        console.log('in webLogin()')
+        console.log('in webLogin()') //debug
         this.afAuth.auth.signInWithPopup(provider)
             .then((result) => {
                 this.email = result.user.email;
                 this.emailUpdatedSource.next();
-                console.log(result.user)
             }).catch((error) => {
-                console.log(error);
+                console.log(error); //debug
             })
     }
 
+    /**
+     * Google Auth Signin popup
+     * for android clients
+     */
     async androidLogin() {
 
         console.log('in androidLogin()')
