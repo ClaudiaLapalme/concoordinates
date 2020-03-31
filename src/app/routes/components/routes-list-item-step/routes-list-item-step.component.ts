@@ -15,7 +15,7 @@ export class RoutesListItemStepComponent implements OnInit {
     constructor() {}
 
     ngOnInit() {
-        if (this.routeTransportMode === 'TRANSIT' && this.step.transport.transportDetails) {
+        if (this.routeTransportMode === 'TRANSIT' && this.step instanceof RouteStep && this.step.transport.transportDetails) {
             this.vehicleType = this.step.transport.transportDetails.line.vehicle.type.toString();
         }
     }

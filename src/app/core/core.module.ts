@@ -19,6 +19,7 @@ import {
 import {
     AbstractPOIFactoryService,
     OutdoorPOIFactoryService,
+    IndoorPOIFactoryService,
     RouteFactory,
 } from './factories';
 import {
@@ -26,7 +27,9 @@ import {
     LocationService,
     MapService,
     PlaceService,
-    CalendarService
+    CalendarService,
+    SessionService,
+    OverlayViewRenderer,
 } from './services';
 
 @NgModule({
@@ -55,11 +58,13 @@ import {
         Geolocation,
         GoogleApisService,
         OutdoorPOIFactoryService,
+        IndoorPOIFactoryService,
         AbstractPOIFactoryService,
         RouteFactory,
         PlaceService,
         LocationButtonComponent,
         CalendarService,
+        OverlayViewRenderer
     ],
     exports: [
         ToggleCampusComponent,

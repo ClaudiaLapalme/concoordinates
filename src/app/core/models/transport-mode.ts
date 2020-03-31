@@ -3,6 +3,9 @@ export enum TransportMode {
     TRANSIT = 'TRANSIT',
     DRIVING = 'DRIVING',
     WALKING = 'WALKING',
+    STAIRS = 'STAIRS',
+    ESCALATOR = 'ESCALATOR',
+    ELEVATOR = 'ELEVATOR',
     BICYCLING = 'BICYCLING'
 }
 

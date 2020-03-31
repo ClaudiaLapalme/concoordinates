@@ -1,10 +1,9 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
+import { AbstractPOIFactoryService } from '../factories';
+import { Building, IndoorMap, IndoorRoute, Map, OutdoorMap, OutdoorRoute, Route } from '../models';
 import { GoogleApisService } from './google-apis.service';
 import { LocationService } from './location.service';
-import { Map, Building, OutdoorRoute } from '../models';
-import { OutdoorMap } from '../models/outdoor-map';
-import { OutdoorPOIFactoryService } from '../factories';
 import { PlaceService } from './place.service';
 
 @Injectable()
@@ -14,7 +13,8 @@ export class MapService {
     constructor(
         private locationService: LocationService,
         private googleApis: GoogleApisService,
-        private placeService: PlaceService
+        private placeService: PlaceService,
+        private abstractPOIFactoryService: AbstractPOIFactoryService
     ) {
         this.loadOutdoorMap();
     }
@@ -65,6 +65,7 @@ export class MapService {
                 this.placeService.enableService(mapObj);
 
                 this.displayBuildingsOutline(mapObj);
+                this.createIndoorPOIsLabels(mapObj);
 
                 mapObj.addListener(
                     'tilesloaded',
@@ -97,18 +98,47 @@ export class MapService {
     }
 
     private loadOutdoorMap(): void {
-        const outdoorPOIFactory = new OutdoorPOIFactoryService();
+
+        const outdoorPOIFactory = this.abstractPOIFactoryService.createOutdoorPOIFactory();
+        outdoorPOIFactory.setMapService(this);
 
         this.outdoorMap = new OutdoorMap(outdoorPOIFactory.loadOutdoorPOIs());
+    }
+
+    /**
+     * Right now, this function only loads the indoors maps for three floors
+     * of the H building (1,8,9).
+     */
+    public loadIndoorMaps():  Record<number, IndoorMap> {
+        const floors = [1,8,9];
+        const indoorMapFactory = this.abstractPOIFactoryService.createIndoorPOIFactory();
+        let indoorMaps: Record<number, IndoorMap> = {};
+
+        for (let floor of floors) {
+            const floorPOIs = indoorMapFactory.loadFloorPOIs(floor);
+            const indoorMap = new IndoorMap(floor, 'H', floorPOIs);
+            indoorMaps[floor] = indoorMap;
+        }
+
+        return indoorMaps;
     }
 
     private displayBuildingsOutline(mapRef: google.maps.Map<Element>): void {
         const outdoorPOIs = this.outdoorMap.getPOIs();
 
-        for (let outdoorPOI of outdoorPOIs) {
+        for (const outdoorPOI of outdoorPOIs) {
             if (outdoorPOI instanceof Building) {
                 outdoorPOI.createBuildingOutline(mapRef, this.placeService);
             }
+        }
+    }
+
+    private createIndoorPOIsLabels (mapRef: google.maps.Map<Element>): void {
+        const hBuilding = <Building> this.outdoorMap.getPOI('Henry F. Hall Building');
+        const indoorMaps = hBuilding.getIndoorMaps();
+
+        for (const floorNumber in indoorMaps) {
+            indoorMaps[floorNumber].createIndoorPOIsLabels(mapRef);
         }
     }
 
@@ -122,10 +152,12 @@ export class MapService {
         const building = this.outdoorMap.getPOI(hallBuildingName);
 
         if (building instanceof Building) {
-            if (zoomValue >= 20) {
+            if (zoomValue >= 19) {
                 building.removeBuildingOutline();
+                building.removeBuildingLabel();
             } else {
                 building.displayBuildingOutline();
+                building.displayBuildingLabel();
             }
         }
     }
@@ -160,7 +192,18 @@ export class MapService {
         return this.SGW_COORDINATES;
     }
 
-    displayRoute(map: google.maps.Map, route: OutdoorRoute) {
+    displayRoute(map: google.maps.Map, route: Route) {
+        if ( route instanceof OutdoorRoute) {
+            this.displayOutdoorRoute(map, route);
+        } else if (route instanceof IndoorRoute) {
+            // TODO: Render indoor route here
+            return;
+        }
+
+
+    }
+
+    private displayOutdoorRoute(map: google.maps.Map, route: OutdoorRoute){
         const renderer = this.getMapRenderer();
         renderer.setMap(map);
         this.googleApis
@@ -175,5 +218,9 @@ export class MapService {
     }
     getMapRenderer(): google.maps.DirectionsRenderer {
         return this.googleApis.getMapRenderer();
+    }
+
+    public getOutdoorMap(): OutdoorMap {
+        return this.outdoorMap;
     }
 }

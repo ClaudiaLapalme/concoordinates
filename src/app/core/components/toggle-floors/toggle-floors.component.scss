@@ -17,9 +17,9 @@
 }
 
 .selected {
-  background-color: var(--ion-color-primary-contrast-rgb);
-  color: var(--ion-color-primary-shade);
+  background-color: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
   font-size: 14px;
   padding: 6px 9px 6px 9px;
-  border: 0px hidden var(--ion-color-primary-contrast-rgb);
+  border: 0px hidden var(--ion-color-primary);
 }

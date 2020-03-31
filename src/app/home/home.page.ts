@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { GoogleApisService, MapService, CalendarService } from '../core/services';
+import { AfterViewInit, Component, ElementRef, ViewChild, EventEmitter, Output } from '@angular/core';
+import { GoogleApisService, MapService, SessionService, CalendarService } from '../core';
 import { MenuController } from '@ionic/angular';
+import { IndoorFunctionsService } from '../shared/indoor-functions.service';
 
 // TODO move all this map logic to MapPage and keep all Pages as routes from this page
 @Component({
@@ -13,6 +14,8 @@ export class HomePage implements AfterViewInit {
     readonly SGW: google.maps.LatLng = new google.maps.LatLng(45.4959053, -73.5801141);
     readonly LOYOLA: google.maps.LatLng = new google.maps.LatLng(45.4582, -73.6405);
     currentCenter: google.maps.LatLng;
+
+    @Output() changeIndoorMap = new EventEmitter<number>();
 
     // Reference to the native map html element
     @ViewChild('map', { static: false })
@@ -43,6 +46,10 @@ export class HomePage implements AfterViewInit {
     public indoorMapLevel: number;
     public availableFloors: number[];
 
+    public newSelectedFloor: number;
+
+    public isMapSet: boolean;
+
     searchedPlaceMarker: google.maps.Marker;
 
     controlsShown = true;
@@ -51,7 +58,9 @@ export class HomePage implements AfterViewInit {
         private mapService: MapService,
         private googleApisService: GoogleApisService,
         private menu: MenuController,
-        private calendarService: CalendarService
+        private calendarService: CalendarService,
+        private sessionService: SessionService,
+        private indoorFunctionsService: IndoorFunctionsService
     ) {
         this.currentCenter = this.SGW;
 
@@ -59,8 +68,7 @@ export class HomePage implements AfterViewInit {
         // on the building or zoom in close enough to switch
         // from showing the building overlay to showing indoor maps.
         this.indoorMapBuildingCode = 'H';
-        this.availableFloors = [9, 8];
-        this.indoorMapLevel = 9;
+        this.availableFloors = [9, 8, 1];
     }
 
     ngAfterViewInit(): void {
@@ -81,6 +89,8 @@ export class HomePage implements AfterViewInit {
             this.mapService.loadMap(this.mapElement)
                 .then(mapObj => {
                     this.mapModel = mapObj;
+                    this.sessionService.storeMapRef(mapObj);
+                    this.isMapSet = this.sessionService.isMapRefSet();
                     this.mapLoaded = true;
                     const toggleButtonNE = this.toggle.nativeElement;
                     const switchFloorsNE = this.switchFloor.nativeElement;
@@ -98,9 +108,8 @@ export class HomePage implements AfterViewInit {
                     this.controlsShown = true;
 
                 });
-            }
-            catch {
-                console.log("Something went wrong, please refresh application.");
+            } catch {
+                console.log('Something went wrong, please refresh application.');
             }
     }
 
@@ -152,8 +161,8 @@ export class HomePage implements AfterViewInit {
         // Make marker clickable, once clicked shows a popup with more information
         google.maps.event.addListener(this.searchedPlaceMarker, 'click', function() {
 
-            infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
-                'Place ID: ' + place.place_id + '</div>');
+            const placeId: string = place.place_id ? 'Place ID: ' + place.place_id : '';
+            infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + placeId + '</div>');
 
             infowindow.open(this.mapModel, this);
 
@@ -163,7 +172,13 @@ export class HomePage implements AfterViewInit {
         setTimeout(() => {
 
             this.mapModel.panTo(placeLoc);
-            google.maps.event.trigger(this.searchedPlaceMarker, 'click');
+            this.mapModel.setZoom(19);
+            const validCoordinate = this.indoorFunctionsService.coordinateIsIndoors(place.name);
+            if (validCoordinate) {
+                const coordinate = this.indoorFunctionsService.getIndoorCoordinate(place.name);
+                this.newSelectedFloor = coordinate.getFloorNumber();
+                google.maps.event.trigger(this.searchedPlaceMarker, 'click');
+            }
 
         }, 500);
     }
