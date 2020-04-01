@@ -1,12 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
-
 import { CalendarService } from './calendar.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Platform } from '@ionic/angular';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
-import * as firebase from 'firebase/app';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
 import { AngularFireModule } from '@angular/fire';
 
 describe('CalendarService', () => {
@@ -24,12 +21,7 @@ describe('CalendarService', () => {
 
       it('should be defined', inject([ CalendarService ], (service: CalendarService) => {
         expect(service).toBeDefined();
-      }));
-
-      it('should prompt web login', inject([ CalendarService ], (service: CalendarService) => {
-        expect(service.webLogin(new firebase.auth.GoogleAuthProvider())).toBeTruthy();
-      }));
-   
+      }));   
 
     function testServiceSetup() { 
         const afAuth:AngularFireAuth = null;
