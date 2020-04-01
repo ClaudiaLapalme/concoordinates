@@ -10,30 +10,30 @@ describe('CalendarService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-          imports: [AngularFireModule.initializeApp(environment.config)],
-          providers: [
-            AngularFireAuth,
-            GooglePlus,
-            CalendarService
-          ]
+            imports: [AngularFireModule.initializeApp(environment.config)],
+            providers: [
+                AngularFireAuth,
+                GooglePlus,
+                CalendarService
+            ]
         });
-      });
+    });
 
-      it('should be defined', inject([ CalendarService ], (service: CalendarService) => {
+    it('should be defined', inject([CalendarService], (service: CalendarService) => {
         expect(service).toBeDefined();
-      }));   
+    }));
 
-    function testServiceSetup() { 
-        const afAuth:AngularFireAuth = null;
-        const platform:Platform = null;
-        const gplus:GooglePlus = new GooglePlus() ;
+    function testServiceSetup() {
+        const afAuth: AngularFireAuth = null;
+        const platform: Platform = null;
+        const gplus: GooglePlus = new GooglePlus();
         const calendarService: CalendarService = new CalendarService(
             afAuth, platform, gplus
         );
         return { calendarService };
     }
 
-   
+
 
     it('should be created', () => {
         const { calendarService } = testServiceSetup();
@@ -45,14 +45,14 @@ describe('CalendarService', () => {
     describe('getAuth', () => {
         it('It should prompt a popup based on the platform used', () => {
             const { calendarService } = testServiceSetup();
-            expect(calendarService.getAuth).toBeTruthy(); 
+            expect(calendarService.getAuth).toBeTruthy();
         });
     });
 
     describe('androidLogin', () => {
         it('It should prompt an android google popup', () => {
             const { calendarService } = testServiceSetup();
-            expect(calendarService.androidLogin).toBeTruthy(); 
+            expect(calendarService.androidLogin).toBeTruthy();
         });
     });
 });

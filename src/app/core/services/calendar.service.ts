@@ -6,7 +6,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Platform } from '@ionic/angular';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import * as firebase from 'firebase/app';
-declare var gapi: any;
 
 @Injectable()
 export class CalendarService {
@@ -20,20 +19,20 @@ export class CalendarService {
 
 
     constructor(public afAuth: AngularFireAuth,
-                private platform: Platform,
-                private gplus: GooglePlus
-        ) { }
+        private platform: Platform,
+        private gplus: GooglePlus
+    ) { }
 
     /**
      * Detects the platform being user 
      * and prompts popup accordingly
      */
     getAuth() {
-        if(this.platform.is("capacitor")) {
+        if (this.platform.is("capacitor")) {
             return this.androidLogin();
         }
-        else{
-            return this.webLogin(new firebase.auth.GoogleAuthProvider());  
+        else {
+            return this.webLogin(new firebase.auth.GoogleAuthProvider());
         }
     }
 
@@ -42,7 +41,6 @@ export class CalendarService {
      * for web clients
      */
     webLogin(provider) {
-        console.log('in webLogin()') //debug
         this.afAuth.auth.signInWithPopup(provider)
             .then((result) => {
                 this.email = result.user.email;
@@ -57,8 +55,6 @@ export class CalendarService {
      * for android clients
      */
     async androidLogin() {
-
-        console.log('in androidLogin()')
         try {
             var result = await this.gplus.login({
                 'webClientId': environment.CLIENT_ID,
@@ -67,7 +63,7 @@ export class CalendarService {
             })
             this.email = result.email;
             this.emailUpdatedSource.next();
-        } catch(err) {
+        } catch (err) {
             console.log(err)
         }
     }

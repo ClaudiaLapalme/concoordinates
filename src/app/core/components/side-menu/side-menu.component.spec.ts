@@ -18,13 +18,13 @@ describe('SideMenuComponent', () => {
     let fixture: ComponentFixture<SideMenuComponent>;
 
     beforeEach(async(() => {
-        
+
         TestBed.configureTestingModule({
             declarations: [
                 SideMenuComponent
             ],
             imports: [
-                
+
                 AngularFireModule.initializeApp(environment.config),
                 IonicModule,
                 RouterModule,
@@ -33,13 +33,13 @@ describe('SideMenuComponent', () => {
             schemas: [
                 NO_ERRORS_SCHEMA,
             ],
-            providers:[
+            providers: [
                 AngularFireAuth,
                 GooglePlus,
                 CalendarService
             ]
         }).compileComponents();
-        
+
         fixture = TestBed.createComponent(SideMenuComponent);
         component = fixture.componentInstance;
 
