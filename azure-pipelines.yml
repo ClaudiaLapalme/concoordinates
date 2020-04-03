@@ -35,10 +35,13 @@ jobs:
     displayName: 'Update api key for tests'
 
   - task: DownloadSecureFile@1
+    name: 'ci_environment_file'
     inputs:
       secureFile: 'ci_environment_configuration.ts'
 
-  - script: ng test -c ci
+  - script: |
+    cp $(ci_environment_file.secureFilePath) ./ci_environment_configuration.ts
+    ng test -c ci
     displayName: 'Run ng test'
 
   - script: |
