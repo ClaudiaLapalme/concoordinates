@@ -40,8 +40,8 @@ jobs:
       secureFile: 'ci_environment_configuration.ts'
 
   - script: |
-    cp $(ci_environment_file.secureFilePath) ./ci_environment_configuration.ts
-    ng test -c ci
+      cp $(ci_environment_file.secureFilePath) ./ci_environment_configuration.ts
+      ng test -c ci
     displayName: 'Run ng test'
 
   - script: |
