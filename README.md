@@ -46,7 +46,14 @@ Note: api keys and the client id are available through the credentials section o
 
 1. From project repository, in src/index.html replace <GOOGLE_API_PLACEHOLDER> with your google api key.
 2. From project repository, in src/environments/environment.ts replace <API_KEY> and <CLIENT_ID> with your own api key and client id.
-3. From project repository, in src/environments/environment.prod.ts replace <API_KEY> and <CLIENT_ID> with your own api key and client id.
+3. From project repository, in src/environments/environment.prod.ts replace <CLIENT_ID> with your own api key and client id.
+
+### Firebase setup
+
+1. Create a Firebase project and follow the steps for adding and configuring an android app. This will produce a google-services.json file.
+2. Use the information from the google-services.json file to fill out the config variable in src/environments/environment.ts.
+
+**Note:** The app is now configured for web logins, the remaining setup for android logins will be covered in the following section.
 
 ### Android setup
 
@@ -63,6 +70,7 @@ Note: Use vscode to program. Android is just to launch the app on a mobile andro
     - <https://developer.android.com/studio/>
     - Once you open Android Studio, install Android 9.0
 
+
 ### How to run the app
 
 1. go to the application folder in GitBash
@@ -76,6 +84,11 @@ Note: Use vscode to program. Android is just to launch the app on a mobile andro
 2. `ionic build`
 3. `ionic capacitor add android`
 4. `npx cap open android`
+5. Link firebase to the app. (This only needs to be done once)
+    - From android studio (after setp 4), open the firbase assistant in tools > firebase.
+    - Navigate to Authentication > Email and Password authentication
+    - Complete step-1 "connect to firebase". Do not complete any subsequent steps.
+6. The app is now configured and connected to firebase, click run to try. 
 
 **NOTE:** delete `pikaroute/android` and recreate the android folder to see the changes reflected
 
