@@ -25,8 +25,8 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     @ViewChild('userCenter', { read: ElementRef, static: false })
     userCenter: ElementRef;
 
-    @ViewChild('returnToRoutes', { read: ElementRef, static: false })
-    returnToRoutes: ElementRef;
+    @ViewChild('menuBar', { read: ElementRef, static: false })
+    menuBar: ElementRef;
 
     // Map data
     public mapModel: google.maps.Map;
@@ -42,14 +42,14 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
         this.mapService.loadMap(this.mapElement).then(mapObj => {
             this.mapModel = mapObj;
             const locationButton = this.userCenter.nativeElement;
-            const returnButton = this.returnToRoutes.nativeElement;
+            const menuBar = this.menuBar.nativeElement;
 
             this.mapModel.controls[
                 google.maps.ControlPosition.RIGHT_BOTTOM
             ].push(locationButton);
-            this.mapModel.controls[
-                google.maps.ControlPosition.LEFT_TOP
-            ].push(returnButton);
+            this.mapModel.controls[google.maps.ControlPosition.TOP_CENTER].push(
+                menuBar
+            );
             this.mapService.displayRoute(mapObj, this.route);
         });
     }
