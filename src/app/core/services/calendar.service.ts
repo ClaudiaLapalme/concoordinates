@@ -56,16 +56,16 @@ export class CalendarService {
      */
     async androidLogin() {
         try {
-            var result = await this.gplus.login({
+            const result = await this.gplus.login({
                 'webClientId': environment.CLIENT_ID,
                 'offline': true,
                 'scopes': 'email https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events'
-            })
+            });
             this.email = result.email;
             this.emailUpdatedSource.next();
         } catch (err) {
             console.log(err)
-        }
+        };
     }
 
     /**
