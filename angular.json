@@ -117,7 +117,13 @@
           "configurations": {
             "ci": {
               "progress": false,
-              "watch": false
+              "watch": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "ci_environment_configuration.ts"
+                }
+              ]
             }
           }
         },

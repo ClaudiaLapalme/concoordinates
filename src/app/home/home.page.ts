@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, EventEmitter, Output } from '@angular/core';
-import { GoogleApisService, MapService, SessionService } from '../core';
+import { GoogleApisService, MapService, SessionService, CalendarService } from '../core';
 import { MenuController } from '@ionic/angular';
 import { IndoorFunctionsService } from '../shared/indoor-functions.service';
 
@@ -33,6 +33,7 @@ export class HomePage implements AfterViewInit {
 
     @ViewChild('menuBar', { read: ElementRef, static: false })
     menuBar: ElementRef;
+
     // Reference to the native location button html element
     @ViewChild('userCenter', { read: ElementRef, static: false })
     userCenter: ElementRef;
@@ -57,6 +58,7 @@ export class HomePage implements AfterViewInit {
         private mapService: MapService,
         private googleApisService: GoogleApisService,
         private menu: MenuController,
+        private calendarService: CalendarService,
         private sessionService: SessionService,
         private indoorFunctionsService: IndoorFunctionsService
     ) {
@@ -205,4 +207,5 @@ export class HomePage implements AfterViewInit {
             console.log('the user location is undefined');
         }
     }
+    
 }

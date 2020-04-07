@@ -5,6 +5,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { IonicModule } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
+
 import {
     DirectionsButtonComponent,
     IndoorMapComponent,
@@ -26,6 +27,7 @@ import {
     LocationService,
     MapService,
     PlaceService,
+    CalendarService,
     SessionService,
     OverlayViewRenderer,
 } from './services';
@@ -60,6 +62,8 @@ import {
         AbstractPOIFactoryService,
         RouteFactory,
         PlaceService,
+        LocationButtonComponent,
+        CalendarService,
         OverlayViewRenderer
     ],
     exports: [
