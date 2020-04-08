@@ -11,23 +11,26 @@ import {
     LoaderComponent,
     LocationButtonComponent,
     SearchComponent,
-    ToggleCampusComponent,
-    ToggleFloorsComponent,
     SettingsComponent,
+    ToggleCampusComponent,
+    ToggleFloorsComponent
 } from './components';
+import { RoutesListItemStepComponent } from './components/routes-list-item-step/routes-list-item-step.component';
+import { RoutesListItemComponent } from './components/routes-list-item/routes-list-item.component';
+import { TransitLineIndicatorComponent } from './components/transit-line-indicator/transit-line-indicator.component';
 import {
     AbstractPOIFactoryService,
-    OutdoorPOIFactoryService,
     IndoorPOIFactoryService,
-    RouteFactory,
+    OutdoorPOIFactoryService,
+    RouteFactory
 } from './factories';
 import {
     GoogleApisService,
     LocationService,
     MapService,
-    PlaceService,
-    SessionService,
     OverlayViewRenderer,
+    PlaceService,
+    SessionService
 } from './services';
 
 @NgModule({
@@ -40,7 +43,10 @@ import {
         DirectionsButtonComponent,
         IndoorMapComponent,
         LocationButtonComponent,
-        SettingsComponent
+        SettingsComponent,
+        RoutesListItemComponent,
+        RoutesListItemStepComponent,
+        TransitLineIndicatorComponent
     ],
     imports: [
         CommonModule,
@@ -71,8 +77,11 @@ import {
         DirectionsButtonComponent,
         IndoorMapComponent,
         LocationButtonComponent,
-        SettingsComponent
+        SettingsComponent,
+        RoutesListItemComponent,
+        RoutesListItemStepComponent,
+        TransitLineIndicatorComponent
     ],
     entryComponents: []
 })
-export class CoreModule { }
+export class CoreModule {}

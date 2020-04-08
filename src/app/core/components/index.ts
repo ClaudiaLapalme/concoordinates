@@ -7,3 +7,6 @@ export * from './loader';
 export * from './location-button';
 export * from './settings';
 export * from './side-menu';
+export * from './routes-list-item';
+export * from './routes-list-item-step';
+export * from './transit-line-indicator';
