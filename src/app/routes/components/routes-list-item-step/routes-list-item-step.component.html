@@ -14,6 +14,12 @@
     <ion-icon src="/assets/icon/E-indoor.svg"></ion-icon>
     <p >{{step.duration}}</p>
 </div>
+<div class="route-step" *ngIf="step?.transport?.travelType === 'SHUTTLE'">
+    <ion-icon name="bus"></ion-icon>
+    <app-transit-line-indicator class="transit-line-indicator"
+    [color]="'#ffff00'"
+    [line]="'SHUTTLE'">
+</app-transit-line-indicator></div>
 <div *ngIf="step?.transport?.travelType === 'TRANSIT'">
     <div class="route-step" *ngIf="vehicleType === 'BUS'">
         <ion-icon name="bus"></ion-icon>
