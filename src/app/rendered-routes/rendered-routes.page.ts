@@ -50,7 +50,7 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
             this.mapModel.controls[
                 google.maps.ControlPosition.LEFT_TOP
             ].push(returnButton);
-            this.mapService.displayRoute(mapObj, this.route);
+            this.mapService.displayRoute(this.mapModel, this.route);
         });
     }
 

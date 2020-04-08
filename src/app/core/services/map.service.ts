@@ -220,24 +220,6 @@ export class MapService {
     }
 
     private displayIndoorRoute(map: google.maps.Map, indoorRoute: IndoorRoute) {
-        const renderer = this.getMapRenderer();
-
-
-        renderer.setMap(map);
-        const swBound = new google.maps.LatLng(
-            45.49681658032052,
-            -73.57955563558198
-        );
-        const eBound = new google.maps.LatLng(
-            45.49771707945049,
-            -73.57833170552253
-        );
-
-        const bounds = new google.maps.LatLngBounds(swBound, eBound);
-
-
-
-
 
         const startCoords: Coordinates = indoorRoute.startCoordinates;
         const endCoords: Coordinates = indoorRoute.endCoordinates;
@@ -245,15 +227,47 @@ export class MapService {
             new google.maps.LatLng(startCoords.getLatitude(), startCoords.getLongitude());
         const endLocation: google.maps.LatLng =
             new google.maps.LatLng(endCoords.getLatitude(), endCoords.getLongitude());
-        const request = {
-            origin: {
-                location: startLocation,
-            },
-            destination: {
-                location: endLocation,
-            },
-            travelMode: indoorRoute.routeSteps[0].transport.travelType,
+
+        const polyline = new google.maps.Polyline({
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+
+        polyline.setMap(map);
+
+        // TODO somehow split it across floors
+        indoorRoute.routeSteps.forEach(routeStep => {
+            polyline.setPath(mapCoordinatesArrayToLatLng(routeStep.path));
+        });
+
+        map.setCenter(startLocation);
+        map.setZoom(18);
+
+        const icon = {
+            url: '../../../assets/icon/place_marker.svg',
+            scaledSize: new google.maps.Size(30, 30), // scaled size
+            animation: google.maps.Animation.DROP
         };
+
+        // Create start location marker
+        this.googleApis.createMarker(startLocation, map, icon);
+
+        // Create end location marker
+        this.googleApis.createMarker(endLocation, map, icon);
+
+
+
+        // const request = {
+        //     origin: {
+        //         location: startLocation,
+        //     },
+        //     destination: {
+        //         location: endLocation,
+        //     },
+        //     travelMode: indoorRoute.routeSteps[0].transport.travelType,
+        // };
 
 
         function mapCoordinatesArrayToLatLng(coordinates: Coordinates[]): google.maps.LatLng[] {
@@ -268,80 +282,80 @@ export class MapService {
             return new google.maps.LatLng(coordinates.getLatitude(), coordinates.getLongitude());
         }
 
-        function mapRouteStepsToDirectionsStep(routeSteps: RouteStep[]): google.maps.DirectionsStep[] {
-            const directionSteps: google.maps.DirectionsStep[] = [];
-            for (const routeStep of routeSteps) {
-                const latLngs: google.maps.LatLng[] = mapCoordinatesArrayToLatLng(routeStep.path);
-                const encoded_lat_lngs: string = google.maps.geometry.encoding.encodePath(latLngs);
-                const step = {
-                    steps: [],
-                    distance: {
-                        text: routeStep.distance * 0.02 + ' km',
-                        value: routeStep.distance * 3,
-                    },
-                    duration: {
-                        text: 'XYZ mins',
-                        value: 3,
-                    },
-                    start_location: coordinatesToLatLng(routeStep.startCoordinate),
-                    end_location: coordinatesToLatLng(routeStep.endCoordinate),
-                    start_point: coordinatesToLatLng(routeStep.startCoordinate),
-                    end_point: coordinatesToLatLng(routeStep.endCoordinate),
-                    instructions: '',
-                    path: latLngs,
-                    polyline: {
-                        points: encoded_lat_lngs,
-                    },
-                    encoded_lat_lngs,
-                    lat_lngs: latLngs,
-                    transit: null,
-                    travel_mode: null,
-                };
-                directionSteps.push(step);
-            }
-            return directionSteps;
-        }
-        
+        // function mapRouteStepsToDirectionsStep(routeSteps: RouteStep[]): google.maps.DirectionsStep[] {
+        //     const directionSteps: google.maps.DirectionsStep[] = [];
+        //     for (const routeStep of routeSteps) {
+        //         const latLngs: google.maps.LatLng[] = mapCoordinatesArrayToLatLng(routeStep.path);
+        //         const encoded_lat_lngs: string = google.maps.geometry.encoding.encodePath(latLngs);
+        //         const step = {
+        //             steps: [],
+        //             distance: {
+        //                 text: routeStep.distance * 0.02 + ' km',
+        //                 value: routeStep.distance * 3,
+        //             },
+        //             duration: {
+        //                 text: 'XYZ mins',
+        //                 value: 3,
+        //             },
+        //             start_location: coordinatesToLatLng(routeStep.startCoordinate),
+        //             end_location: coordinatesToLatLng(routeStep.endCoordinate),
+        //             start_point: coordinatesToLatLng(routeStep.startCoordinate),
+        //             end_point: coordinatesToLatLng(routeStep.endCoordinate),
+        //             instructions: '',
+        //             path: latLngs,
+        //             polyline: {
+        //                 points: encoded_lat_lngs,
+        //             },
+        //             encoded_lat_lngs,
+        //             lat_lngs: latLngs,
+        //             transit: null,
+        //             travel_mode: null,
+        //         };
+        //         directionSteps.push(step);
+        //     }
+        //     return directionSteps;
+        // }
 
-        const leg: google.maps.DirectionsLeg = {
-            arrival_time: null,
-            departure_time: null,
-            distance: {
-                text: indoorRoute.distance * 0.02 + ' km',
-                value: indoorRoute.distance * 3,
-            },
-            duration: {
-                text: 'XYZ mins',
-                value: 3,
-            },
-            duration_in_traffic: null,
-            end_address: '',  // useless
-            end_location: endLocation,
-            start_address: '', // useless
-            start_location: startLocation,
-            steps: mapRouteStepsToDirectionsStep(indoorRoute.routeSteps),
-            via_waypoints: [],
-        };
 
-        const routes: google.maps.DirectionsRoute[] = [{
-            bounds,
-            copyrights: '', // useless
-            fare: null, // useless
-            legs: [leg],
-            overview_path: [],
-            overview_polyline: null,//'acutG`ya`MrBbBp@^\Jl@NJYJ]GEMQKX}^uZuRiR}XuRqPaUgY{Vp@k@YW|AgEvBhBFF',
-            warnings: [],
-            waypoint_order: []  // useless
-        }];
+        // const leg: google.maps.DirectionsLeg = {
+        //     arrival_time: null,
+        //     departure_time: null,
+        //     distance: {
+        //         text: indoorRoute.distance * 0.02 + ' km',
+        //         value: indoorRoute.distance * 3,
+        //     },
+        //     duration: {
+        //         text: 'XYZ mins',
+        //         value: 3,
+        //     },
+        //     duration_in_traffic: null,
+        //     end_address: '',  // useless
+        //     end_location: endLocation,
+        //     start_address: '', // useless
+        //     start_location: startLocation,
+        //     steps: mapRouteStepsToDirectionsStep(indoorRoute.routeSteps),
+        //     via_waypoints: [],
+        // };
 
-        const directions: google.maps.DirectionsResult = {
-            geocoded_waypoints: [],
-            routes,
-            request,
-            status: 'OK',
-        } as google.maps.DirectionsResult;
+        // const routes: google.maps.DirectionsRoute[] = [{
+        //     bounds,
+        //     copyrights: '', // useless
+        //     fare: null, // useless
+        //     legs: [],
+        //     overview_path: [],
+        //     overview_polyline: null,//'acutG`ya`MrBbBp@^\Jl@NJYJ]GEMQKX}^uZuRiR}XuRqPaUgY{Vp@k@YW|AgEvBhBFF',
+        //     warnings: [],
+        //     waypoint_order: []  // useless
+        // }];
 
-        renderer.setDirections(directions);
+        // const directions: google.maps.DirectionsResult = {
+        //     geocoded_waypoints: [],
+        //     routes,
+        //     request,
+        //     status: 'OK',
+        // } as google.maps.DirectionsResult;
+
+        // renderer.setDirections(directions);
     }
 
     getMapRenderer(): google.maps.DirectionsRenderer {
