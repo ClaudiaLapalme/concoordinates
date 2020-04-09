@@ -46,6 +46,17 @@ export class GoogleApisService {
             );
         });
     }
+
+    public createPolyline(path: google.maps.LatLng[], geodesic: boolean, strokeColor: string, strokeOpacity: number, strokeWeight: number) {
+        return new google.maps.Polyline({
+            path,
+            geodesic,
+            strokeColor,
+            strokeOpacity,
+            strokeWeight
+        });
+    }
+
     public getDirectionsService(): google.maps.DirectionsService {
         return new google.maps.DirectionsService();
     }

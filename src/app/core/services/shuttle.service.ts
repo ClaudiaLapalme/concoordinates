@@ -73,13 +73,7 @@ export class ShuttleService {
                 });
                 path = path.concat(pathCoord);
             });
-            const shuttlePath = new google.maps.Polyline({
-                path: path,
-                geodesic: true,
-                strokeColor: '#000000',
-                strokeOpacity: 1.0,
-                strokeWeight: 2
-            });
+            const shuttlePath = this.googleApisService.createPolyline(path, true, '#000000', 1.0, 2);
             shuttlePath.setMap(map);
             map.setZoom(13);
             map.setCenter(path[0]);
