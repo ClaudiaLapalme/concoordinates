@@ -21,7 +21,7 @@ export class CampusBoundsService  {
         }
 
         const locationLatLng = this.googleApis.createLatLng(location.getLatitude(), location.getLongitude());
-        const distance = google.maps.geometry.spherical.computeDistanceBetween(this.loyolaCoordinates, locationLatLng);
+        const distance = this.googleApis.computeDistance(this.loyolaCoordinates, locationLatLng);
         return (2000 - distance) >= 0;
     }
 
@@ -31,7 +31,7 @@ export class CampusBoundsService  {
         }
 
         const locationLatLng = this.googleApis.createLatLng(location.getLatitude(), location.getLongitude());
-        const distance = google.maps.geometry.spherical.computeDistanceBetween(this.sgwCoordinates, locationLatLng);
+        const distance = this.googleApis.computeDistance(this.sgwCoordinates, locationLatLng);
         return (2000 - distance) >= 0;
     }
 

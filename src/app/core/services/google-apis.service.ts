@@ -26,6 +26,10 @@ export class GoogleApisService {
         return new google.maps.LatLng(latitude, longitude);
     }
 
+    public computeDistance(firstLocation: google.maps.LatLng, secondLocation: google.maps.LatLng): number {
+        return google.maps.geometry.spherical.computeDistanceBetween(firstLocation, secondLocation);
+    }
+
     public getGoogleMapRoutes(
         dirRequest: google.maps.DirectionsRequest
     ): Promise<google.maps.DirectionsResult> {
