@@ -11,14 +11,34 @@ export class ShuttleService {
 
     constructor(private campusBoundsService: CampusBoundsService, private googleApisService: GoogleApisService) { }
 
+    /**
+     * Campus that is the start location of the route
+     *
+     * @type {string}
+     * @memberof ShuttleService
+     */
     startCampus: string;
 
+    /**
+     * 
+     *
+     * @type {google.maps.Icon}
+     * @memberof ShuttleService
+     */
     icon: google.maps.Icon = {
         url: '../../../assets/icon/place_marker.svg',
         scaledSize: new google.maps.Size(30, 30) // scaled size
     };
 
-    private isEligibleForShuttle(fromLocation: Coordinates, toLocation: Coordinates): boolean {
+     /**
+      * Determines if a route is eligible for to use the shuttle by using its start and end locations
+      *
+      * @param {Coordinates} fromLocation
+      * @param {Coordinates} toLocation
+      * @returns {boolean}
+      * @memberof ShuttleService
+      */
+     isEligibleForShuttle(fromLocation: Coordinates, toLocation: Coordinates): boolean {
         if (this.campusBoundsService.isWithinBoundsOfLoyola(fromLocation) || this.campusBoundsService.isWithinBoundsOfSGW(fromLocation)) {
             if (this.campusBoundsService.isWithinBoundsOfLoyola(fromLocation)) {
                 if (this.campusBoundsService.isWithinBoundsOfSGW(toLocation)) {
@@ -29,7 +49,6 @@ export class ShuttleService {
 
                 if (this.campusBoundsService.isWithinBoundsOfLoyola(toLocation)) {
                     this.startCampus = 'SGW';
-
                     return true;
                 }
             }
@@ -37,12 +56,20 @@ export class ShuttleService {
         return false;
     }
 
+    /**
+     * Generates a shuttle route 
+     *
+     * @param {Coordinates} startCoord
+     * @param {Coordinates} endCoord
+     * @param {Route[]} routes
+     * @returns {Route[]}
+     * @memberof ShuttleService
+     */
     generateShuttleRoute(
-        startLocation: google.maps.places.PlaceResult,
-        endLocation: google.maps.places.PlaceResult,
+        startCoord: Coordinates,
+        endCoord: Coordinates,
         routes: Route[]): Route[] {
-        const startCoord = new Coordinates(startLocation.geometry.location.lat(), startLocation.geometry.location.lng(), null);
-        const endCoord = new Coordinates(endLocation.geometry.location.lat(), endLocation.geometry.location.lng(), null);
+
         const isEligible = this.isEligibleForShuttle(startCoord, endCoord);
 
         if (isEligible) {
@@ -53,6 +80,12 @@ export class ShuttleService {
         return routes;
     }
 
+    /**
+     * Generates a shuttle path depending on which campus is the start location
+     *
+     * @returns {Coordinates[]}
+     * @memberof ShuttleService
+     */
     generateShuttlePath(): Coordinates[] {
         let path = [];
         ShuttleRoute[this.startCampus].forEach(node => {
@@ -62,16 +95,28 @@ export class ShuttleService {
     }
 
 
+    /**
+     * Renders the shuttle route on the map
+     *
+     * @param {google.maps.Map} map
+     * @param {OutdoorRoute} route
+     * @returns {boolean}
+     * @memberof ShuttleService
+     */
     displayShuttleRoute(map: google.maps.Map, route: OutdoorRoute): boolean {
         if (this.isShuttleRoute(route)) {
             let path: google.maps.LatLng[] = [];
+
             route.routeSteps.forEach(step => {
                 let pathCoord: google.maps.LatLng[] = [];
+
                 step.path.forEach(coord => {
                     pathCoord.push(this.googleApisService.createLatLng(coord.getLatitude(), coord.getLongitude()));
                 });
+                
                 path = path.concat(pathCoord);
             });
+
             const shuttlePath = this.googleApisService.createPolyline(path, true, '#000000', 1.0, 2);
             shuttlePath.setMap(map);
             map.setZoom(13);
@@ -83,6 +128,13 @@ export class ShuttleService {
         return false;
     }
 
+    /**
+     * Determines if a route is a shuttle route
+     *
+     * @param {OutdoorRoute} route
+     * @returns {boolean}
+     * @memberof ShuttleService
+     */
     isShuttleRoute(route: OutdoorRoute): boolean {
         let isShuttle = false;
 
@@ -91,6 +143,7 @@ export class ShuttleService {
                 isShuttle = true;
             }
         });
+
         return isShuttle;
     }
 }

@@ -50,8 +50,12 @@ export class RouteFactory {
         };
         let routes = await this.routesService.getMappedRoutes(dirRequest);
 
+        // only generate a shuttle route if a route is of mode TRANSIT
         if (transportMode === 'TRANSIT') {
-            routes = this.shuttleService.generateShuttleRoute(startCoordinates, endCoordinates, routes);
+            const startLocationCoord = new Coordinates(startCoordinates.geometry.location.lat(), startCoordinates.geometry.location.lng(), null);
+            const endLocationCoord = new Coordinates(endCoordinates.geometry.location.lat(), endCoordinates.geometry.location.lng(), null);
+            // returns the same route list if the route is not eligible to have a shuttle route option
+            routes = this.shuttleService.generateShuttleRoute(startLocationCoord, endLocationCoord, routes);
         }
         
         return routes;
