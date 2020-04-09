@@ -73,8 +73,6 @@ export class ShuttleService {
                 });
                 path = path.concat(pathCoord);
             });
-            console.log(path);
-
             const shuttlePath = new google.maps.Polyline({
                 path: path,
                 geodesic: true,
