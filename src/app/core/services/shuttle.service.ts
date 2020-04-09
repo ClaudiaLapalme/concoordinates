@@ -37,7 +37,6 @@ export class ShuttleService {
         return false;
     }
 
-
     generateShuttleRoute(
         startLocation: google.maps.places.PlaceResult,
         endLocation: google.maps.places.PlaceResult,

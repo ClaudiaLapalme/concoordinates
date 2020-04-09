@@ -47,7 +47,7 @@ export class GoogleApisService {
         });
     }
 
-    public createPolyline(path: google.maps.LatLng[], geodesic: boolean, strokeColor: string, strokeOpacity: number, strokeWeight: number) {
+    public createPolyline(path: google.maps.LatLng[], geodesic: boolean, strokeColor: string, strokeOpacity: number, strokeWeight: number): google.maps.Polyline {
         return new google.maps.Polyline({
             path,
             geodesic,

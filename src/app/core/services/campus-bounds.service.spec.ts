@@ -58,7 +58,7 @@ describe('CampusBoundsService', () => {
             const location = new Coordinates(45.4959053, -73.5801141, null);
             (mockGoogleApisService.computeDistance as jasmine.Spy).and.returnValue(101);
             expect(campusBoundsService.isWithinBoundsOfSGW(location)).toEqual(true);
-        })
+        });
 
         it('should return false if fistance is more than 2km from SGW', () => {
             const location = new Coordinates(45.458, -73.640, null);
@@ -75,13 +75,13 @@ describe('CampusBoundsService', () => {
             (mockGoogleApisService.createLatLng as jasmine.Spy).and.returnValue(new google.maps.LatLng(45.4582, -73.6405));
             campusBoundsService.setCampusCoordinates();
             expect(campusBoundsService.loyolaCoordinates).toEqual(new google.maps.LatLng(45.4582, -73.6405));
-        })
+        });
 
         it('should set the SGW campus code correctly', () => {
             (mockGoogleApisService.createLatLng as jasmine.Spy).and.returnValue(new google.maps.LatLng(45.4959053, -73.5801141));
             campusBoundsService.setCampusCoordinates();
             expect(campusBoundsService.sgwCoordinates).toEqual(new google.maps.LatLng(45.4959053, -73.5801141));
-        })
+        });
 
-    })
+    });
 });

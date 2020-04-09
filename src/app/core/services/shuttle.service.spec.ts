@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ShuttleService } from './shuttle.service';
 import { CampusBoundsService } from './campus-bounds.service';
 import { GoogleApisService } from './google-apis.service';
-import { RouteStep, Coordinates, OutdoorRoute, Transport, TransportMode } from '../models';
+import { RouteStep, Coordinates, OutdoorRoute, Transport, TransportMode, Route } from '../models';
 
 describe('ShuttleService', () => {
     let shuttleService: ShuttleService;
@@ -15,15 +15,42 @@ describe('ShuttleService', () => {
         mockgoogleApisService = jasmine.createSpyObj('mockGoogleApisService', ['createLatLng', 'createMarker', 'createPolyline']);
         mockcampusBoundsService = jasmine.createSpyObj('mockcampusBoundsService', ['isWithinBoundsOfLoyola', 'isWithinBoundsOfSGW']);
         shuttleService = new ShuttleService(mockcampusBoundsService, mockgoogleApisService);
-
-
     });
+
+    class MockPlaceResult implements google.maps.places.PlaceResult {
+        address_components?: google.maps.GeocoderAddressComponent[];
+        adr_address?: string;
+        aspects?: google.maps.places.PlaceAspectRating[];
+        formatted_address?: string;
+        formatted_phone_number?: string;
+        geometry?: google.maps.places.PlaceGeometry;
+        html_attributions?: string[];
+        icon?: string;
+        id?: string;
+        international_phone_number?: string;
+        name: string;
+        opening_hours?: google.maps.places.OpeningHours;
+        permanently_closed?: boolean;
+        photos?: google.maps.places.PlacePhoto[];
+        place_id?: string;
+        plus_code?: google.maps.places.PlacePlusCode;
+        price_level?: number;
+        rating?: number;
+        reviews?: google.maps.places.PlaceReview[];
+        types?: string[];
+        url?: string;
+        user_ratings_total?: number;
+        utc_offset?: number;
+        utc_offset_minutes?: number;
+        vicinity?: string;
+        website?: string;
+    };
 
     it('should be created', () => {
         expect(shuttleService).toBeTruthy();
     });
 
-    describe('isShuttleRoute', () => {
+    describe('isShuttleRoute()', () => {
 
         it('should return true if a route is a shuttle route', () => {
             const routeStep1 = new RouteStep(
@@ -71,34 +98,6 @@ describe('ShuttleService', () => {
     });
 
     describe('displayShuttleRoute', () => {
-        it('should return true if a route is a shuttle route', () => {
-            const routeStep = new RouteStep(
-                1,
-                new Coordinates(1, 2, 0),
-                new Coordinates(1, 2, 0),
-                [new Coordinates(1, 2, 0), new Coordinates(1, 2, 0)],
-                1,
-                'instruction one',
-                new Transport(0, 0, TransportMode.SHUTTLE, null));
-
-            const routeStepList = new Array<RouteStep>(routeStep);
-            const routeUnderTest = new OutdoorRoute(
-                new Coordinates(1, 2, 0),
-                new Coordinates(1, 2, 0),
-                null,
-                null,
-                null,
-                routeStepList
-            );
-            
-            class MockMap extends google.maps.Map { }
-            const path = [new google.maps.LatLng(45, -74)];
-            (mockgoogleApisService.createPolyline as jasmine.Spy).and.returnValue(new google.maps.Polyline({path, geodesic: true, strokeColor:'#000000',strokeOpacity: 1.0, strokeWeight: 2}));
-
-
-            expect(shuttleService.displayShuttleRoute(new MockMap(null), routeUnderTest)).toBeTruthy();
-
-        });
 
         it('should return false if a route is a shuttle route', () => {
             const routeStep = new RouteStep(
@@ -109,7 +108,7 @@ describe('ShuttleService', () => {
                 1,
                 'instruction one',
                 new Transport(0, 0, TransportMode.DRIVING, null));
-    
+
             const routeStepList = new Array<RouteStep>(routeStep);
             const routeUnderTest = new OutdoorRoute(
                 new Coordinates(1, 2, 0),
@@ -120,11 +119,62 @@ describe('ShuttleService', () => {
                 routeStepList
             );
             class MockMap extends google.maps.Map { }
-    
+
             expect(shuttleService.displayShuttleRoute(new MockMap(null), routeUnderTest)).toBeFalsy();
-    
+
         });
     });
 
+    describe('generateShuttlePath()', () => {
+        it('should return the path to LOY', () => {
+            shuttleService.startCampus = 'SGW';
+
+            let daWae = [
+                new Coordinates(45.49708084, -73.57838711, null),
+                new Coordinates(45.49632880, -73.57904157, null),
+                new Coordinates(45.49565948, -73.57929906, null),
+                new Coordinates(45.49356122, -73.58162722, null),
+                new Coordinates(45.49010906, -73.58573636, null),
+                new Coordinates(45.48931180, -73.58457765, null),
+                new Coordinates(45.48457314, -73.58927688, null),
+                new Coordinates(45.48001463, -73.59457692, null),
+                new Coordinates(45.47852513, -73.59637937, null),
+                new Coordinates(45.47799853, -73.59743079, null),
+                new Coordinates(45.47593722, -73.59985551, null),
+                new Coordinates(45.47557611, -73.60089621, null),
+                new Coordinates(45.47590713, -73.60220512, null),
+                new Coordinates(45.47292788, -73.60570272, null),
+                new Coordinates(45.47207019, -73.60680779, null),
+                new Coordinates(45.47091153, -73.60899648, null),
+                new Coordinates(45.46669803, -73.61715039, null),
+                new Coordinates(45.46523076, -73.62013301, null),
+                new Coordinates(45.46669803, -73.62341603, null),
+                new Coordinates(45.46466641, -73.62727841, null),
+                new Coordinates(45.46036967, -73.63535723, null),
+                new Coordinates(45.45922582, -73.63721332, null),
+                new Coordinates(45.45837733, -73.63823256, null)
+            ];
+
+            expect(shuttleService.generateShuttlePath()).toEqual(daWae);
+
+        });
+    });
+
+    // describe('generateShuttleRoute()', () => {
+
+    //     it('should return the original route if the user is not eligible', () => {
+    //         let startLocation: MockPlaceResult = new MockPlaceResult();
+    //         startLocation.geometry.location.lat = 1;
+    //         let endLocation: MockPlaceResult = new MockPlaceResult();
+    //         const startCoord = new Coordinates(1, 1, null);
+    //         const endCoord = new Coordinates(2, 2, null);
+    //         const routeSteps = [new RouteStep(0, startCoord, endCoord, null, 30, 'Take the shuttle', new Transport(0, 0, TransportMode.SHUTTLE, null))];
+    //         const route: OutdoorRoute = new OutdoorRoute(startCoord, endCoord, null, null, null, routeSteps);
+    //         const routes: Route[] = [route];
+
+    //         expect(shuttleService.generateShuttleRoute(startLocation, endLocation, routes)).toEqual(routes);
+    //     });
+
+    // });
 });
 
