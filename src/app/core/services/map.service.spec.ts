@@ -4,6 +4,7 @@ import { MapService } from './map.service';
 import { OutdoorMap, Campus, Building, POI, IndoorMap, Coordinates } from '../models';
 import { OutdoorPOIFactoryService, IndoorPOIFactoryService } from '../factories';
 import { IndoorPOI } from '../models/indoor-poi';
+import { ShuttleService } from './shuttle.service';
 
 describe('MapService', () => {
 
@@ -41,6 +42,9 @@ describe('MapService', () => {
             'createOutdoorPOIFactory',
             'createIndoorPOIFactory'
         ]);
+        const shuttleService = jasmine.createSpyObj('ShuttleService', [
+            'displayShuttleRoute'
+        ]);
 
         abstractPOIFactoryService.createOutdoorPOIFactory.and.returnValue(new MockOutdoorPOIFactoryService);
         abstractPOIFactoryService.createIndoorPOIFactory.and.returnValue(new MockIndoorPOIFactoryService);
@@ -49,7 +53,8 @@ describe('MapService', () => {
             locationServiceSpy,
             googleApisServiceSpy,
             placeServiceSpy,
-            abstractPOIFactoryService
+            abstractPOIFactoryService,
+            shuttleService
         );
         return { mapService, locationServiceSpy, googleApisServiceSpy, abstractPOIFactoryService };
     }
