@@ -194,31 +194,6 @@ describe('MapService', () => {
         });
     });
 
-    describe('tilesLoadedHandler()', () => {
-        it('should return a tilesloaded handler', () => {
-            const {
-                mapService,
-                locationServiceSpy,
-                googleApisServiceSpy
-            } = testServiceSetup();
-
-            const mockAddress = 'test address';
-            locationServiceSpy.getAddressFromLatLng.and.returnValue(
-                Promise.resolve(mockAddress)
-            );
-
-            const mockMap = new MockMaps(null);
-
-            const handlerFunction = 'tilesLoadedHandler';
-            const handler = mapService[handlerFunction](mockMap, 12, 34);
-            handler();
-
-            expect(
-                locationServiceSpy.getAddressFromLatLng
-            ).toHaveBeenCalledTimes(1);
-        });
-    });
-
     describe('trackBuildingsOutlinesDisplay', () => {
         const testBuildingName = 'Henry F. Hall Building';
 

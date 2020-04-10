@@ -68,7 +68,7 @@ export class MapService {
 
                 mapObj.addListener(
                     'tilesloaded',
-                    this.tilesLoadedHandler(mapObj, latLng.lat(), latLng.lng())
+                    this.tilesLoadedHandler(mapObj)
                 );
 
                 return mapObj;
@@ -81,16 +81,9 @@ export class MapService {
         }
     }
 
-    private tilesLoadedHandler(
-        mapObj: google.maps.Map,
-        latitude: number,
-        longitude: number
-    ): () => void {
+    private tilesLoadedHandler(mapObj: google.maps.Map): () => void {
         return () => {
             console.log('mapObj', mapObj); // debug
-            this.locationService
-                .getAddressFromLatLng(latitude, longitude)
-                .then(console.log);
             this.trackBuildingsOutlinesDisplay(mapObj.getZoom());
             this.trackBuildingCodeDisplay(mapObj.getZoom());
         };
