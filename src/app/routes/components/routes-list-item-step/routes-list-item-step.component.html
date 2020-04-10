@@ -14,6 +14,10 @@
     <ion-icon src="/assets/icon/E-indoor.svg"></ion-icon>
     <p >{{step.duration}}</p>
 </div>
+<div class="route-step" *ngIf="step?.transport?.travelType === 'SHUTTLE'">
+    <ion-icon name="bus"></ion-icon>
+    <span class="shuttle-span">SHUTTLE</span>
+</div>
 <div *ngIf="step?.transport?.travelType === 'TRANSIT'">
     <div class="route-step" *ngIf="vehicleType === 'BUS'">
         <ion-icon name="bus"></ion-icon>

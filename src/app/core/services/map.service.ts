@@ -5,6 +5,8 @@ import { Building, IndoorMap, IndoorRoute, Map, OutdoorMap, OutdoorRoute, Route 
 import { GoogleApisService } from './google-apis.service';
 import { LocationService } from './location.service';
 import { PlaceService } from './place.service';
+import { ShuttleService } from './shuttle.service';
+import { IconService } from './icon.service';
 
 @Injectable()
 export class MapService {
@@ -14,15 +16,12 @@ export class MapService {
         private locationService: LocationService,
         private googleApis: GoogleApisService,
         private placeService: PlaceService,
-        private abstractPOIFactoryService: AbstractPOIFactoryService
+        private abstractPOIFactoryService: AbstractPOIFactoryService,
+        private shuttleService: ShuttleService,
+        private iconService: IconService
     ) {
         this.loadOutdoorMap();
     }
-
-    icon: google.maps.Icon = {
-        url: '../../../assets/icon/location_marker.png',
-        scaledSize: new google.maps.Size(30, 30) // scaled size
-    };
 
     SGW_COORDINATES: google.maps.LatLng = new google.maps.LatLng(
         45.4959053,
@@ -61,7 +60,7 @@ export class MapService {
                     mapElement,
                     mapOptions
                 );
-                this.googleApis.createMarker(latLng, mapObj, this.icon);
+                this.googleApis.createMarker(latLng, mapObj, this.iconService.getLocationIcon());
                 this.placeService.enableService(mapObj);
 
                 this.displayBuildingsOutline(mapObj);
@@ -109,8 +108,8 @@ export class MapService {
      * Right now, this function only loads the indoors maps for three floors
      * of the H building (1,8,9).
      */
-    public loadIndoorMaps():  Record<number, IndoorMap> {
-        const floors = [1,8,9];
+    public loadIndoorMaps(): Record<number, IndoorMap> {
+        const floors = [1, 8, 9];
         const indoorMapFactory = this.abstractPOIFactoryService.createIndoorPOIFactory();
         let indoorMaps: Record<number, IndoorMap> = {};
 
@@ -133,8 +132,8 @@ export class MapService {
         }
     }
 
-    private createIndoorPOIsLabels (mapRef: google.maps.Map<Element>): void {
-        const hBuilding = <Building> this.outdoorMap.getPOI('Henry F. Hall Building');
+    private createIndoorPOIsLabels(mapRef: google.maps.Map<Element>): void {
+        const hBuilding = <Building>this.outdoorMap.getPOI('Henry F. Hall Building');
         const indoorMaps = hBuilding.getIndoorMaps();
 
         for (const floorNumber in indoorMaps) {
@@ -193,20 +192,22 @@ export class MapService {
     }
 
     displayRoute(map: google.maps.Map, route: Route) {
-        if ( route instanceof OutdoorRoute) {
+        if (route instanceof OutdoorRoute) {
             this.displayOutdoorRoute(map, route);
         } else if (route instanceof IndoorRoute) {
             // TODO: Render indoor route here
             return;
         }
-
-
     }
 
-    private displayOutdoorRoute(map: google.maps.Map, route: OutdoorRoute){
+    private displayOutdoorRoute(map: google.maps.Map, route: OutdoorRoute) {
         const renderer = this.getMapRenderer();
         renderer.setMap(map);
-        this.googleApis
+
+        if (this.shuttleService.isShuttleRoute(route)) {
+            this.shuttleService.displayShuttleRoute(map, route)
+        } else {
+            this.googleApis
             .getDirectionsService()
             .route(route.getDirectionsRequestFromRoute(), (res, status) => {
                 if (status === 'OK') {
@@ -215,7 +216,9 @@ export class MapService {
                     console.log('Directions request failed due to ' + status);
                 }
             });
+        }
     }
+
     getMapRenderer(): google.maps.DirectionsRenderer {
         return this.googleApis.getMapRenderer();
     }

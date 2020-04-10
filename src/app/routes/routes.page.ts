@@ -113,7 +113,7 @@ export class RoutesPage implements OnInit, OnDestroy {
      *
      */
     setFrom(event: google.maps.places.PlaceResult): void {
-        this.form.controls.from.setValue(event.formatted_address);
+        this.form.controls.from.setValue(event);
     }
 
     /**
@@ -121,6 +121,6 @@ export class RoutesPage implements OnInit, OnDestroy {
      *
      */
     setTo(event: google.maps.places.PlaceResult): void {
-        this.form.controls.to.setValue(event.formatted_address);
+        this.form.controls.to.setValue(event);
     }
 }

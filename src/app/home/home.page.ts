@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild, EventEmitter, Output }
 import { GoogleApisService, MapService, SessionService, CalendarService } from '../core';
 import { MenuController } from '@ionic/angular';
 import { IndoorFunctionsService } from '../shared/indoor-functions.service';
+import { IconService } from '../core/services/icon.service';
 
 // TODO move all this map logic to MapPage and keep all Pages as routes from this page
 @Component({
@@ -60,7 +61,8 @@ export class HomePage implements AfterViewInit {
         private menu: MenuController,
         private calendarService: CalendarService,
         private sessionService: SessionService,
-        private indoorFunctionsService: IndoorFunctionsService
+        private indoorFunctionsService: IndoorFunctionsService,
+        private iconService: IconService
     ) {
         this.currentCenter = this.SGW;
 
@@ -148,11 +150,7 @@ export class HomePage implements AfterViewInit {
     createMarker(place: google.maps.places.PlaceResult): void {
 
         const infowindow = new google.maps.InfoWindow();
-        const icon = {
-            url: '../../../assets/icon/place_marker.svg',
-            scaledSize: new google.maps.Size(30, 30), // scaled size
-            animation: google.maps.Animation.DROP
-        };
+        const icon = this.iconService.getPlaceIcon();
 
         // Create marker object based on place parameter
         const placeLoc = place.geometry.location;
