@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { CoreModule } from '../core';
+import { RouteStepComponent } from './components/route-step/route-step.component';
 import { RenderedRoutesPageRoutingModule } from './rendered-routes-routing.module';
 import { RenderedRoutesPage } from './rendered-routes.page';
 
@@ -15,6 +16,6 @@ import { RenderedRoutesPage } from './rendered-routes.page';
         CoreModule,
         RenderedRoutesPageRoutingModule
     ],
-    declarations: [RenderedRoutesPage]
+    declarations: [RenderedRoutesPage, RouteStepComponent]
 })
 export class RenderedRoutesPageModule {}

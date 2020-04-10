@@ -19,7 +19,7 @@
                     *ngIf="i < 2 && i != route?.routeSteps?.length - 1"
                 ></ion-icon>
             </div>
-            <div class="steps-overflow" *ngIf="route?.routeSteps?.length >= 3">
+            <div class="steps-overflow" *ngIf="route?.routeSteps?.length > 3">
                 <span>...</span>
             </div>
         </div>

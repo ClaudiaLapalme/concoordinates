@@ -61,3 +61,13 @@
 .stepsDisplayContainer {
     width: 100%;
 }
+.displayBar {
+    height: 25px;
+    background-color: var(--ion-color-primary);
+    align-items: center;
+    justify-content: center;
+    ion-icon {
+        font-size: 20px;
+        color: var(--ion-color-primary-contrast);
+    }
+}
