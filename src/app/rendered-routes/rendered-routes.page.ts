@@ -41,6 +41,8 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
 
     controlsShown = true;
 
+    routeTransportMode: TransportMode;
+
     constructor(
         private stateService: StateService,
         private mapService: MapService
@@ -65,6 +67,10 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     ngOnInit() {
         if (this.stateService.sharedRoute) {
             this.route = this.stateService.sharedRoute;
+
+            this.routeTransportMode = this.stateService.sharedRoute.transportMode;
+            //remove the icon
+            this.route.disability = false;
         }
         //testing purpose
         else {
