@@ -16,23 +16,19 @@
                 ></app-routes-list-item>
             </div>
         </div>
-        <div class="parent">
+        <div *ngIf="displayRoutes" class="parent">
             <div
                 class="test"
                 *ngFor="let s of route?.routeSteps; let i = index"
             >
-                <app-routes-list-item-step
-                    *ngIf="i < 3"
-                    [step]="s"
-                    [routeTransportMode]="TRANSIT"
-                ></app-routes-list-item-step>
-                <ion-icon
-                    name="arrow-forward"
-                    *ngIf="i < 2 && i !=route?.routeSteps?.length-1"
-                ></ion-icon>
+                <app-route-step [step]="s"></app-route-step>
             </div>
         </div>
+        <div class="displayBar">
+            <ion-icon name="chevron-down-outline"></ion-icon>
+        </div>
     </div>
+
     <div class="map-wrapper">
         <div #map id="map"></div>
     </div>
@@ -42,10 +38,3 @@
         [ngClass]="{invisible: !controlsShown}"
     ></app-location-button>
 </ion-content>
-
-<!-- <div class="test">
-    <app-route-step [step]="route?.routeSteps"> </app-route-step>
-</div> -->
-
-<!-- [routeNumber]="i + 1" -->
-<!-- [routeTransportMode]="routeTransportMode" -->

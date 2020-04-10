@@ -43,6 +43,8 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
 
     routeTransportMode: TransportMode;
 
+    displayRoutes: boolean;
+
     constructor(
         private stateService: StateService,
         private mapService: MapService
@@ -65,58 +67,14 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     }
 
     ngOnInit() {
-        if (this.stateService.sharedRoute) {
-            this.route = this.stateService.sharedRoute;
+        this.route = this.stateService.sharedRoute;
 
-            this.routeTransportMode = this.stateService.sharedRoute.transportMode;
-            //remove the icon
-            this.route.disability = false;
-        }
-        //testing purpose
-        else {
-            let routeStep1 = new RouteStep(
-                1,
-                new Coordinates(1, 2, 0),
-                new Coordinates(1, 2, 0),
-                null,
-                1,
-                'instruction one',
-                null
-            );
-            let routeStep2 = new RouteStep(
-                1,
-                new Coordinates(1, 2, 0),
-                new Coordinates(1, 2, 0),
-                null,
-                1,
-                'instruction two',
-                null
-            );
-            let routeSteps = new Array<RouteStep>(
-                routeStep1,
-                routeStep2,
-                routeStep2,
-                routeStep2,
-                routeStep2,
-                routeStep2,
-                routeStep2,
-                routeStep2,
-                routeStep2,
-                routeStep2,
-                routeStep2,
-                routeStep2
-            );
-            this.route = new OutdoorRoute(
-                new Coordinates(1, 2, 0),
-                new Coordinates(1, 2, 0),
-                null,
-                null,
-                null,
-                routeSteps
-            );
+        this.routeTransportMode = this.stateService.sharedRoute.transportMode;
+        //remove the icon
+        this.route.disability = false;
 
-            this.route.setCurrentTravelMode(TransportMode.TRANSIT);
-        }
+        // routes when initializing
+        this.displayRoutes = false;
     }
 
     recenterToUser(): void {
