@@ -34,12 +34,15 @@ describe('RoutesService', () => {
         const shuttleService = jasmine.createSpyObj('ShuttleService', [
             'displayShuttleRoute'
         ]);
+        const iconService  = jasmine.createSpyObj('mockIconService', ['getLocationIcon']);
+
         const mapService: MapService = new MapService(
             locationServiceSpy,
             googleApisServiceSpy,
             placeServiceSpy,
             abstractPOIFactoryService,
-            shuttleService
+            shuttleService,
+            iconService
         );
         return { mapService, locationServiceSpy, googleApisServiceSpy };
     }

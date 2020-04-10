@@ -8,3 +8,4 @@ export * from './session.service';
 export * from './overlay-view-renderer.service';
 export * from './campus-bounds.service';
 export * from './shuttle.service';
+export * from './icon.service';

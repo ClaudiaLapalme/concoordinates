@@ -45,6 +45,9 @@ describe('MapService', () => {
         const shuttleService = jasmine.createSpyObj('ShuttleService', [
             'displayShuttleRoute'
         ]);
+        const mockIconService  = jasmine.createSpyObj('mockIconService', ['getLocationIcon']);
+
+
 
         abstractPOIFactoryService.createOutdoorPOIFactory.and.returnValue(new MockOutdoorPOIFactoryService);
         abstractPOIFactoryService.createIndoorPOIFactory.and.returnValue(new MockIndoorPOIFactoryService);
@@ -54,7 +57,8 @@ describe('MapService', () => {
             googleApisServiceSpy,
             placeServiceSpy,
             abstractPOIFactoryService,
-            shuttleService
+            shuttleService,
+            mockIconService
         );
         return { mapService, locationServiceSpy, googleApisServiceSpy, abstractPOIFactoryService };
     }

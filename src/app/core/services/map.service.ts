@@ -6,6 +6,7 @@ import { GoogleApisService } from './google-apis.service';
 import { LocationService } from './location.service';
 import { PlaceService } from './place.service';
 import { ShuttleService } from './shuttle.service';
+import { IconService } from './icon.service';
 
 @Injectable()
 export class MapService {
@@ -16,15 +17,11 @@ export class MapService {
         private googleApis: GoogleApisService,
         private placeService: PlaceService,
         private abstractPOIFactoryService: AbstractPOIFactoryService,
-        private shuttleService: ShuttleService
+        private shuttleService: ShuttleService,
+        private iconService: IconService
     ) {
         this.loadOutdoorMap();
     }
-
-    icon: google.maps.Icon = {
-        url: '../../../assets/icon/location_marker.png',
-        scaledSize: new google.maps.Size(30, 30) // scaled size
-    };
 
     SGW_COORDINATES: google.maps.LatLng = new google.maps.LatLng(
         45.4959053,
@@ -63,7 +60,7 @@ export class MapService {
                     mapElement,
                     mapOptions
                 );
-                this.googleApis.createMarker(latLng, mapObj, this.icon);
+                this.googleApis.createMarker(latLng, mapObj, this.iconService.getLocationIcon());
                 this.placeService.enableService(mapObj);
 
                 this.displayBuildingsOutline(mapObj);
@@ -206,7 +203,10 @@ export class MapService {
     private displayOutdoorRoute(map: google.maps.Map, route: OutdoorRoute) {
         const renderer = this.getMapRenderer();
         renderer.setMap(map);
-        if (!this.shuttleService.displayShuttleRoute(map, route)) {
+
+        if (this.shuttleService.isShuttleRoute(route)) {
+            this.shuttleService.displayShuttleRoute(map, route)
+        } else {
             this.googleApis
             .getDirectionsService()
             .route(route.getDirectionsRequestFromRoute(), (res, status) => {

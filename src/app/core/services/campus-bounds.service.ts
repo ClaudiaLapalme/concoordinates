@@ -12,67 +12,54 @@ export class CampusBoundsService  {
     /**
      * Coordinates of the loyola campus
      *
-     * @type {google.maps.LatLng}
-     * @memberof CampusBoundsService
      */
-    loyolaCoordinates: google.maps.LatLng;
+    loyolaCoordinates: Coordinates;
 
     /**
      * Coordinates of the SGW campus
      *
-     * @type {google.maps.LatLng}
-     * @memberof CampusBoundsService
      */
-    sgwCoordinates: google.maps.LatLng;
+    sgwCoordinates: Coordinates;
 
     constructor(private googleApis: GoogleApisService) { }
 
     /**
      * Determines if a location is within 2 km of the loyola campus
      *
-     * @param {Coordinates} location
-     * @returns {boolean}
-     * @memberof CampusBoundsService
      */
     isWithinBoundsOfLoyola(location: Coordinates): boolean {
         if (!this.loyolaCoordinates) {
             this.setCampusCoordinates();
         }
 
-        const locationLatLng = this.googleApis.createLatLng(location.getLatitude(), location.getLongitude());
-        const distance = this.googleApis.computeDistance(this.loyolaCoordinates, locationLatLng);
+        const distance = this.googleApis.computeDistance(this.loyolaCoordinates, location);
         return (2000 - distance) >= 0;
     }
 
     /**
      * Determines if a location is within a 2 km of the SGW campus
      *
-     * @param {Coordinates} location
-     * @returns {boolean}
-     * @memberof CampusBoundsService
      */
     isWithinBoundsOfSGW(location: Coordinates): boolean {
         if (!this.sgwCoordinates) {
             this.setCampusCoordinates();
         }
 
-        const locationLatLng = this.googleApis.createLatLng(location.getLatitude(), location.getLongitude());
-        const distance = this.googleApis.computeDistance(this.sgwCoordinates, locationLatLng);
+        const distance = this.googleApis.computeDistance(this.sgwCoordinates, location);
         return (2000 - distance) >= 0;
     }
 
     /**
      * Sets both campus coordinates
      *
-     * @memberof CampusBoundsService
      */
     setCampusCoordinates() {
         for (let campus of ConcordiaCampuses) {            
             if (campus.code === 'Loyola') {
-                this.loyolaCoordinates = this.googleApis.createLatLng(campus.coordinates.lat, campus.coordinates.lng);
+                this.loyolaCoordinates = new Coordinates (campus.coordinates.lat, campus.coordinates.lng, null);
             }
             if (campus.code === 'SGW') {
-                this.sgwCoordinates = this.googleApis.createLatLng(campus.coordinates.lat, campus.coordinates.lng);
+                this.sgwCoordinates = new Coordinates (campus.coordinates.lat, campus.coordinates.lng, null);
             }
         }
     }
