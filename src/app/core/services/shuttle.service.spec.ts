@@ -130,34 +130,6 @@ describe('ShuttleService', () => {
         });
     });
 
-    // describe('displayShuttleRoute', () => {
-
-    //     it('should return false if a route is a shuttle route', () => {
-    //         const routeStep = new RouteStep(
-    //             1,
-    //             new Coordinates(1, 2, 0),
-    //             new Coordinates(1, 2, 0),
-    //             null,
-    //             1,
-    //             'instruction one',
-    //             new Transport(0, 0, TransportMode.DRIVING, null));
-
-    //         const routeStepList = new Array<RouteStep>(routeStep);
-    //         const routeUnderTest = new OutdoorRoute(
-    //             new Coordinates(1, 2, 0),
-    //             new Coordinates(1, 2, 0),
-    //             null,
-    //             null,
-    //             null,
-    //             routeStepList
-    //         );
-    //         class MockMap extends google.maps.Map { }
-
-    //         expect(shuttleService.displayShuttleRoute(new MockMap(null), routeUnderTest)).toBeFalsy();
-
-    //     });
-    // });
-
     describe('generateShuttlePath()', () => {
         it('should return the path to LOY', () => {
             shuttleService.startCampus = 'SGW';
