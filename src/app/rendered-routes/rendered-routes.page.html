@@ -1,9 +1,6 @@
 <ion-content>
     <div #returnToRoutes class="backButton">
-        <ion-icon 
-            [routerLink]="['/routes']" 
-            name="arrow-round-back"
-        >
+        <ion-icon [routerLink]="['/routes']" name="arrow-round-back">
         </ion-icon>
     </div>
 
@@ -11,10 +8,15 @@
         <div #map id="map"></div>
     </div>
 
-    <app-location-button
-        #userCenter
-        (recenterOnLocation)="recenterToUser()"
-        [ngClass]="{invisible: !controlsShown}"
-    >
+    <app-indoor-map *ngIf="mapLoaded" [map]="mapModel" [indoorMapBuildingCode]="indoorMapBuildingCode"
+        [indoorMapLevel]="indoorMapLevel">
+    </app-indoor-map>
+
+    <app-location-button #userCenter (recenterOnLocation)="recenterToUser()" [ngClass]="{invisible: !controlsShown}">
     </app-location-button>
+
+    <app-toggle-floors #switchFloor [availableFloors]="availableFloors" [selectedFloor]="newSelectedFloor"
+        (toggledFloor)="switchFloors($event)" [ngClass]="{invisible: !controlsShown}">
+    </app-toggle-floors>
+
 </ion-content>

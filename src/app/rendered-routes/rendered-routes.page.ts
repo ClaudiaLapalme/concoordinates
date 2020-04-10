@@ -3,7 +3,9 @@ import {
     Component,
     ElementRef,
     ViewChild,
-    OnInit
+    OnInit,
+    EventEmitter,
+    Output
 } from '@angular/core';
 import { Route } from '../core/models';
 import { MapService } from '../core/services/map.service';
@@ -16,6 +18,9 @@ import { StateService } from '../shared/state.service';
     styleUrls: ['./rendered-routes.page.scss']
 })
 export class RenderedRoutesPage implements AfterViewInit, OnInit {
+
+    @Output() changeIndoorMap = new EventEmitter<number>();
+
     route: Route;
 
     @ViewChild('map', { static: false })
@@ -28,40 +33,58 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     @ViewChild('returnToRoutes', { read: ElementRef, static: false })
     returnToRoutes: ElementRef;
 
+    // Reference to the native switch floors buttons html element
+    @ViewChild('switchFloor', { read: ElementRef, static: false })
+    switchFloor: ElementRef;
+
+    public indoorMapLevel: number;
+    public availableFloors: number[];
+    public newSelectedFloor: number;
+    public indoorMapBuildingCode: string;
+
     // Map data
     public mapModel: google.maps.Map;
 
     controlsShown = true;
+    mapLoaded = false;
 
     constructor(
         private stateService: StateService,
         private mapService: MapService
-    ) {}
+    ) {
+        this.indoorMapBuildingCode = 'H';
+        this.availableFloors = [9, 8, 1];
+    }
 
     ngAfterViewInit(): void {
         this.mapService.loadMap(this.mapElement).then(mapObj => {
             this.mapModel = mapObj;
             const locationButton = this.userCenter.nativeElement;
             const returnButton = this.returnToRoutes.nativeElement;
-
-            this.mapModel.controls[
-                google.maps.ControlPosition.RIGHT_BOTTOM
-            ].push(locationButton);
-            this.mapModel.controls[
-                google.maps.ControlPosition.LEFT_TOP
-            ].push(returnButton);
-            this.mapService.displayRoute(this.mapModel, this.route);
+            const switchFloorsNE = this.switchFloor.nativeElement;
+            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
+            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(switchFloorsNE);
+            this.mapModel.controls[google.maps.ControlPosition.LEFT_TOP].push(returnButton);
+            this.mapService.displayRoute(this.mapModel, this.route, this.indoorMapLevel);
+            this.mapLoaded = true;
         });
     }
 
     ngOnInit() {
         this.route = this.stateService.sharedRoute;
+        this.newSelectedFloor = this.route.startCoordinates.getFloorNumber();
     }
 
     recenterToUser(): void {
         this.mapService.getUserLocation().then(userLatLng => {
             this.handleRecenter(userLatLng);
         });
+    }
+
+    switchFloors(newIndoorMapLevel: number): void {
+        console.log('switching floors')
+        this.indoorMapLevel = newIndoorMapLevel;
+        this.mapService.displayRoute(this.mapModel, this.route, this.indoorMapLevel);
     }
 
     handleRecenter(userLatLng): void {

@@ -11,6 +11,7 @@ import { IconService } from './icon.service';
 @Injectable()
 export class MapService {
     private outdoorMap: Map;
+    private drawnPolyline: google.maps.Polyline = null;
 
     constructor(
         private locationService: LocationService,
@@ -191,11 +192,11 @@ export class MapService {
         return this.SGW_COORDINATES;
     }
 
-    displayRoute(map: google.maps.Map, route: Route) {
+    displayRoute(map: google.maps.Map, route: Route, indoorMapLevel?: number) {
         if (route instanceof OutdoorRoute) {
             this.displayOutdoorRoute(map, route);
         } else if (route instanceof IndoorRoute) {
-            this.displayIndoorRoute(map, route);
+            this.displayIndoorRoute(map, route, indoorMapLevel);
         }
     }
 
@@ -207,20 +208,19 @@ export class MapService {
             this.shuttleService.displayShuttleRoute(map, route)
         } else {
             this.googleApis
-            .getDirectionsService()
-            .route(route.getDirectionsRequestFromRoute(), (res: google.maps.DirectionsResult, status) => {
-                console.log(res);
-                if (status === 'OK') {
-                    renderer.setDirections(res);
-                } else {
-                    console.log('Directions request failed due to ' + status);
-                }
-            });
+                .getDirectionsService()
+                .route(route.getDirectionsRequestFromRoute(), (res: google.maps.DirectionsResult, status) => {
+                    console.log(res);
+                    if (status === 'OK') {
+                        renderer.setDirections(res);
+                    } else {
+                        console.log('Directions request failed due to ' + status);
+                    }
+                });
         }
     }
 
-    private displayIndoorRoute(map: google.maps.Map, indoorRoute: IndoorRoute) {
-
+    private displayIndoorRoute(map: google.maps.Map, indoorRoute: IndoorRoute, indoorMapLevel: number) {
         const startCoords: Coordinates = indoorRoute.startCoordinates;
         const endCoords: Coordinates = indoorRoute.endCoordinates;
         const startLocation: google.maps.LatLng =
@@ -228,47 +228,33 @@ export class MapService {
         const endLocation: google.maps.LatLng =
             new google.maps.LatLng(endCoords.getLatitude(), endCoords.getLongitude());
 
-        const polyline = new google.maps.Polyline({
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-        });
 
-        polyline.setMap(map);
+        // Clear polylines previously drawn in order to keep the needed polylines per floor only
+        if (this.drawnPolyline != null) {
+            this.drawnPolyline.setMap(null);
+        }
 
-        // TODO somehow split it across floors
+        // If there are route steps for current floor, draw a directions polyline for that floor
         indoorRoute.routeSteps.forEach(routeStep => {
-            polyline.setPath(mapCoordinatesArrayToLatLng(routeStep.path));
+            if (routeStep.startCoordinate.getFloorNumber() === indoorMapLevel
+                && routeStep.endCoordinate.getFloorNumber() === indoorMapLevel) {
+                console.log('route step start floor number: ' + routeStep.startCoordinate.getFloorNumber());
+                console.log('route step end floor number: ' + routeStep.endCoordinate.getFloorNumber());
+                this.drawnPolyline = this.googleApis.createPolyline(mapCoordinatesArrayToLatLng(routeStep.path), true, 'red', 1.0, 2);
+                this.drawnPolyline.setMap(map);
+            }
         });
 
         map.setCenter(startLocation);
         map.setZoom(18);
 
-        const icon = {
-            url: '../../../assets/icon/place_marker.svg',
-            scaledSize: new google.maps.Size(30, 30), // scaled size
-            animation: google.maps.Animation.DROP
-        };
+        // TODO: Find a way to only display markers per floor, once again
 
         // Create start location marker
-        this.googleApis.createMarker(startLocation, map, icon);
+        this.googleApis.createMarker(startLocation, map, this.iconService.getPlaceIcon());
 
         // Create end location marker
-        this.googleApis.createMarker(endLocation, map, icon);
-
-
-
-        // const request = {
-        //     origin: {
-        //         location: startLocation,
-        //     },
-        //     destination: {
-        //         location: endLocation,
-        //     },
-        //     travelMode: indoorRoute.routeSteps[0].transport.travelType,
-        // };
-
+        this.googleApis.createMarker(endLocation, map, this.iconService.getPlaceIcon());
 
         function mapCoordinatesArrayToLatLng(coordinates: Coordinates[]): google.maps.LatLng[] {
             const latLngArray: google.maps.LatLng[] = [];
@@ -281,81 +267,6 @@ export class MapService {
         function coordinatesToLatLng(coordinates: Coordinates): google.maps.LatLng {
             return new google.maps.LatLng(coordinates.getLatitude(), coordinates.getLongitude());
         }
-
-        // function mapRouteStepsToDirectionsStep(routeSteps: RouteStep[]): google.maps.DirectionsStep[] {
-        //     const directionSteps: google.maps.DirectionsStep[] = [];
-        //     for (const routeStep of routeSteps) {
-        //         const latLngs: google.maps.LatLng[] = mapCoordinatesArrayToLatLng(routeStep.path);
-        //         const encoded_lat_lngs: string = google.maps.geometry.encoding.encodePath(latLngs);
-        //         const step = {
-        //             steps: [],
-        //             distance: {
-        //                 text: routeStep.distance * 0.02 + ' km',
-        //                 value: routeStep.distance * 3,
-        //             },
-        //             duration: {
-        //                 text: 'XYZ mins',
-        //                 value: 3,
-        //             },
-        //             start_location: coordinatesToLatLng(routeStep.startCoordinate),
-        //             end_location: coordinatesToLatLng(routeStep.endCoordinate),
-        //             start_point: coordinatesToLatLng(routeStep.startCoordinate),
-        //             end_point: coordinatesToLatLng(routeStep.endCoordinate),
-        //             instructions: '',
-        //             path: latLngs,
-        //             polyline: {
-        //                 points: encoded_lat_lngs,
-        //             },
-        //             encoded_lat_lngs,
-        //             lat_lngs: latLngs,
-        //             transit: null,
-        //             travel_mode: null,
-        //         };
-        //         directionSteps.push(step);
-        //     }
-        //     return directionSteps;
-        // }
-
-
-        // const leg: google.maps.DirectionsLeg = {
-        //     arrival_time: null,
-        //     departure_time: null,
-        //     distance: {
-        //         text: indoorRoute.distance * 0.02 + ' km',
-        //         value: indoorRoute.distance * 3,
-        //     },
-        //     duration: {
-        //         text: 'XYZ mins',
-        //         value: 3,
-        //     },
-        //     duration_in_traffic: null,
-        //     end_address: '',  // useless
-        //     end_location: endLocation,
-        //     start_address: '', // useless
-        //     start_location: startLocation,
-        //     steps: mapRouteStepsToDirectionsStep(indoorRoute.routeSteps),
-        //     via_waypoints: [],
-        // };
-
-        // const routes: google.maps.DirectionsRoute[] = [{
-        //     bounds,
-        //     copyrights: '', // useless
-        //     fare: null, // useless
-        //     legs: [],
-        //     overview_path: [],
-        //     overview_polyline: null,//'acutG`ya`MrBbBp@^\Jl@NJYJ]GEMQKX}^uZuRiR}XuRqPaUgY{Vp@k@YW|AgEvBhBFF',
-        //     warnings: [],
-        //     waypoint_order: []  // useless
-        // }];
-
-        // const directions: google.maps.DirectionsResult = {
-        //     geocoded_waypoints: [],
-        //     routes,
-        //     request,
-        //     status: 'OK',
-        // } as google.maps.DirectionsResult;
-
-        // renderer.setDirections(directions);
     }
 
     getMapRenderer(): google.maps.DirectionsRenderer {
