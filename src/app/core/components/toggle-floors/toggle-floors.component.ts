@@ -4,6 +4,7 @@ import {
     Input,
     Output,
 } from '@angular/core';
+import { MapService } from '../../services';
 
 @Component({
     selector: 'app-toggle-floors',
@@ -19,7 +20,13 @@ export class ToggleFloorsComponent {
 
     @Input() availableFloors: number[];
 
-    constructor() { }
+    constructor(
+        private mapService: MapService
+    ) {
+        this.mapService.showToggleFloorButtonObservable.subscribe(showToggleFloorButton => {
+            this.visibleFloorButton = showToggleFloorButton;
+        })
+    }
 
     @Input()
     set selectedFloor(floorNumber: number) {

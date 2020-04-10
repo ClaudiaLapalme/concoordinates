@@ -7,10 +7,14 @@ import { LocationService } from './location.service';
 import { PlaceService } from './place.service';
 import { ShuttleService } from './shuttle.service';
 import { IconService } from './icon.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class MapService {
     private outdoorMap: Map;
+
+    private showToggleFloorButton = new BehaviorSubject(false);
+    public showToggleFloorButtonObservable = this.showToggleFloorButton.asObservable();
 
     constructor(
         private locationService: LocationService,
@@ -136,7 +140,7 @@ export class MapService {
     }
 
     /**
-     * When the zoom value on the map is 20 or higher, the outline of the focused building is removed.
+     * When the zoom value on the map is 19 or higher, the outline of the focused building is removed.
      * Right now, only the H building is affected by this feature since it is the only building with
      * indoor map implemented.
      */
@@ -173,6 +177,9 @@ export class MapService {
     }
 
     /**
+     * When the zoom value on the map is 19 or higher and the focused building is visible,
+     * the toggle floor button is displayed. Right now, only the H building is affected
+     * by this feature since it is the only building with indoor map implemented.
      */
     private trackFloorToggleButton(mapObj: google.maps.Map): void {
         const hallBuildingName = 'Henry F. Hall Building';
@@ -180,8 +187,10 @@ export class MapService {
         const zoomValue = mapObj.getZoom();
         const inBounds = mapObj.getBounds().contains(building.getMarkerPosition());
 
-        if(zoomValue >= 19 && inBounds) {
-            console.log("display toggle floor button");
+        if (zoomValue >= 19 && inBounds) {
+            this.showToggleFloorButton.next(true);
+        } else {
+            this.showToggleFloorButton.next(false);
         }
         
     }
