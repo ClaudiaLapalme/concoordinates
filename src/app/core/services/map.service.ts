@@ -86,6 +86,7 @@ export class MapService {
             console.log('mapObj', mapObj); // debug
             this.trackBuildingsOutlinesDisplay(mapObj.getZoom());
             this.trackBuildingCodeDisplay(mapObj.getZoom());
+            this.trackFloorToggleButton(mapObj);
         };
     }
 
@@ -169,6 +170,20 @@ export class MapService {
                 }
             }
         }
+    }
+
+    /**
+     */
+    private trackFloorToggleButton(mapObj: google.maps.Map): void {
+        const hallBuildingName = 'Henry F. Hall Building';
+        const building = <Building> this.outdoorMap.getPOI(hallBuildingName);
+        const zoomValue = mapObj.getZoom();
+        const inBounds = mapObj.getBounds().contains(building.getMarkerPosition());
+
+        if(zoomValue >= 19 && inBounds) {
+            console.log("display toggle floor button");
+        }
+        
     }
 
     async getUserLocation(): Promise<google.maps.LatLng> {

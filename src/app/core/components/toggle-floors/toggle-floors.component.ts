@@ -15,6 +15,7 @@ export class ToggleFloorsComponent {
     @Output() toggledFloor = new EventEmitter<number>();
 
     selectedFloorLevel: number;
+    visibleFloorButton: boolean = true;
 
     @Input() availableFloors: number[];
 
