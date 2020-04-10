@@ -422,6 +422,123 @@
       "targets": [],
       "value": ""
     }]
+  }, {
+    "id": "5409a151-3a94-4f9a-8c5f-37dcf2f55d44",
+    "name": "shuttle-route-suggestions",
+    "commands": [{
+      "id": "684d6496-171e-49b9-a9bf-830c9ec75620",
+      "comment": "",
+      "command": "open",
+      "target": "/home",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3130a289-f2a5-4a54-982a-7b34c726af01",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1439x899",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "891e1a74-42e9-46ab-b3c3-7863a3427648",
+      "comment": "",
+      "command": "click",
+      "target": "css=.diamond-container",
+      "targets": [
+        ["css=.diamond-container", "css:finder"],
+        ["xpath=//div[@id='map']/div/div/app-directions-button/div/div", "xpath:idRelative"],
+        ["xpath=//app-directions-button/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1670ed94-f332-427f-bc4d-0a53ee325070",
+      "comment": "",
+      "command": "click",
+      "target": "name=ion-input-1",
+      "targets": [
+        ["name=ion-input-1", "name"],
+        ["css=.has-focus > .native-input", "css:finder"],
+        ["xpath=//input[@name='ion-input-1']", "xpath:attributes"],
+        ["xpath=//div[2]/app-search/div/ion-item/ion-input/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a4e0b81e-90f0-475c-857f-c7e30d80e765",
+      "comment": "",
+      "command": "type",
+      "target": "name=ion-input-1",
+      "targets": [
+        ["name=ion-input-1", "name"],
+        ["css=.has-focus > .native-input", "css:finder"],
+        ["xpath=//input[@name='ion-input-1']", "xpath:attributes"],
+        ["xpath=//div[2]/app-search/div/ion-item/ion-input/input", "xpath:position"]
+      ],
+      "value": "hall building"
+    }, {
+      "id": "e47886c8-a451-4c51-bbad-5809cafbd05b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.item-label:nth-child(1) p:nth-child(2)",
+      "targets": [
+        ["css=.item-label:nth-child(1) p:nth-child(2)", "css:finder"],
+        ["xpath=//p[2]", "xpath:position"],
+        ["xpath=//p[contains(.,'1455 Boulevard de Maisonneuve O, Montréal, QC H3G 1M8, Canada')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "fbd3189c-ca3a-4745-bd69-7cc8e803c52b",
+      "comment": "",
+      "command": "click",
+      "target": "name=ion-input-2",
+      "targets": [
+        ["name=ion-input-2", "name"],
+        ["css=.has-focus > .native-input", "css:finder"],
+        ["xpath=//input[@name='ion-input-2']", "xpath:attributes"],
+        ["xpath=//app-search[2]/div/ion-item/ion-input/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b26ab641-482d-4346-8e3a-d05beabd10f2",
+      "comment": "",
+      "command": "type",
+      "target": "name=ion-input-2",
+      "targets": [
+        ["name=ion-input-2", "name"],
+        ["css=.has-focus > .native-input", "css:finder"],
+        ["xpath=//input[@name='ion-input-2']", "xpath:attributes"],
+        ["xpath=//app-search[2]/div/ion-item/ion-input/input", "xpath:position"]
+      ],
+      "value": "loyola campus"
+    }, {
+      "id": "0d90c7d8-27ae-4107-9cc9-498536241b4e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.search-to p:nth-child(2)",
+      "targets": [
+        ["css=.search-to p:nth-child(2)", "css:finder"],
+        ["xpath=//app-search[2]/div[2]/ion-list/div/ion-item/ion-label/p[2]", "xpath:position"],
+        ["xpath=//p[contains(.,'7141 Sherbrooke St W, Montreal, Quebec H4B 1R6, Canada')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "386116c6-ff9d-495a-a78d-cd23a6994d06",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.shuttle-span",
+      "targets": [
+        ["css=.shuttle-span", "css:finder"],
+        ["xpath=//app-routes-list-item-step/div/span", "xpath:position"],
+        ["xpath=//span[contains(.,'SHUTTLE')]", "xpath:innerText"]
+      ],
+      "value": "SHUTTLE"
+    }, {
+      "id": "1112159c-bc4a-4c7a-b836-e2585b1406d5",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "b69f1641-7df7-46a5-837d-efbbd2f7c13f",
