@@ -7,13 +7,31 @@
                     name="arrow-back"
                 ></ion-icon>
             </div>
+            <div>
+                <app-routes-list-item
+                    [route]="route"
+                    [routeNumber]="0"
+                    [routeTransportMode]="routeTransportMode"
+                    [routeFullDisplay]="routeFullDisplay"
+                ></app-routes-list-item>
+            </div>
         </div>
-        <!-- <div class="parent">
+        <div class="parent">
             <div
                 class="test"
                 *ngFor="let s of route?.routeSteps; let i = index"
-            ></div>
-        </div> -->
+            >
+                <app-routes-list-item-step
+                    *ngIf="i < 3"
+                    [step]="s"
+                    [routeTransportMode]="TRANSIT"
+                ></app-routes-list-item-step>
+                <ion-icon
+                    name="arrow-forward"
+                    *ngIf="i < 2 && i !=route?.routeSteps?.length-1"
+                ></ion-icon>
+            </div>
+        </div>
     </div>
     <div class="map-wrapper">
         <div #map id="map"></div>
