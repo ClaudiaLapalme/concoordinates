@@ -8,13 +8,13 @@ import { RenderedRoutesPageRoutingModule } from './rendered-routes-routing.modul
 import { RenderedRoutesPage } from './rendered-routes.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    CoreModule,
-    RenderedRoutesPageRoutingModule
-  ],
-  declarations: [RenderedRoutesPage]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        CoreModule,
+        RenderedRoutesPageRoutingModule
+    ],
+    declarations: [RenderedRoutesPage]
 })
 export class RenderedRoutesPageModule {}

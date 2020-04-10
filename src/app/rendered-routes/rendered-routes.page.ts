@@ -5,7 +5,13 @@ import {
     ViewChild,
     OnInit
 } from '@angular/core';
-import { Route } from '../core/models';
+import {
+    Route,
+    RouteStep,
+    TransportMode,
+    Coordinates,
+    OutdoorRoute
+} from '../core/models';
 import { MapService } from '../core/services/map.service';
 import { RoutesService } from '../core/services/routes.service';
 import { StateService } from '../shared/state.service';
@@ -28,10 +34,14 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     @ViewChild('menuBar', { read: ElementRef, static: false })
     menuBar: ElementRef;
 
+    // @ViewChild('test', { read: ElementRef, static: false })
+    // test: ElementRef;
     // Map data
     public mapModel: google.maps.Map;
 
     controlsShown = true;
+
+    routeTransportMode: TransportMode;
 
     constructor(
         private stateService: StateService,
@@ -55,7 +65,58 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     }
 
     ngOnInit() {
-        this.route = this.stateService.sharedRoute;
+        if (this.stateService.sharedRoute) {
+            this.route = this.stateService.sharedRoute;
+
+            this.routeTransportMode = this.stateService.sharedRoute.transportMode;
+            //remove the icon
+            this.route.disability = false;
+        }
+        //testing purpose
+        else {
+            let routeStep1 = new RouteStep(
+                1,
+                new Coordinates(1, 2, 0),
+                new Coordinates(1, 2, 0),
+                null,
+                1,
+                'instruction one',
+                null
+            );
+            let routeStep2 = new RouteStep(
+                1,
+                new Coordinates(1, 2, 0),
+                new Coordinates(1, 2, 0),
+                null,
+                1,
+                'instruction two',
+                null
+            );
+            let routeSteps = new Array<RouteStep>(
+                routeStep1,
+                routeStep2,
+                routeStep2,
+                routeStep2,
+                routeStep2,
+                routeStep2,
+                routeStep2,
+                routeStep2,
+                routeStep2,
+                routeStep2,
+                routeStep2,
+                routeStep2
+            );
+            this.route = new OutdoorRoute(
+                new Coordinates(1, 2, 0),
+                new Coordinates(1, 2, 0),
+                null,
+                null,
+                null,
+                routeSteps
+            );
+
+            this.route.setCurrentTravelMode(TransportMode.TRANSIT);
+        }
     }
 
     recenterToUser(): void {
