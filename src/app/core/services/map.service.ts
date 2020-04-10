@@ -88,9 +88,6 @@ export class MapService {
     ): () => void {
         return () => {
             console.log('mapObj', mapObj); // debug
-            this.locationService
-                .getAddressFromLatLng(latitude, longitude)
-                .then(console.log);
             this.trackBuildingsOutlinesDisplay(mapObj.getZoom());
             this.trackBuildingCodeDisplay(mapObj.getZoom());
         };
