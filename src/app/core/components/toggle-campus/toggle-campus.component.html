@@ -1,6 +1,20 @@
 <div>
-	<div title='Click to switch campus' class='toggle-campus' (click)='toggleCampus()'>
-		<div class='leftToggle' [class.selected]='isSGWToggled' [class.unselected]='!isSGWToggled'>SGW</div>
-		<div class='rightToggle' [class.selected]='!isSGWToggled' [class.unselected]='isSGWToggled'>LOY</div>
+	<div title='Click to switch campus' class='toggle-campus'>
+		<div 
+			class='leftToggle' 
+			[class.selected]='selectedCampus == campus.SGW' 
+			[class.unselected]='selectedCampus != campus.SGW'
+			(click)='selectSGW()'
+		>
+			SGW
+		</div>
+		<div 
+			class='rightToggle' 
+			[class.selected]='selectedCampus == campus.LOY' 
+			[class.unselected]='selectedCampus != campus.LOY'
+			(click)='selectLOY()'
+		>
+			LOY
+		</div>
 	</div>
 </div>

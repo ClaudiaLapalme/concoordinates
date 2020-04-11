@@ -16,6 +16,9 @@ export class MapService {
     private showToggleFloorButton = new BehaviorSubject(false);
     public showToggleFloorButtonObservable = this.showToggleFloorButton.asObservable();
 
+    private campusSelectedInBounds = new BehaviorSubject(0);
+    public campusSelectedInBoundsObservable = this.campusSelectedInBounds.asObservable();
+
     constructor(
         private locationService: LocationService,
         private googleApis: GoogleApisService,
@@ -27,9 +30,14 @@ export class MapService {
         this.loadOutdoorMap();
     }
 
-    SGW_COORDINATES: google.maps.LatLng = new google.maps.LatLng(
+    SGW_COORDINATES: google.maps.LatLng = new google.maps.LatLng (
         45.4959053,
         -73.5801141
+    );
+
+    LOY_COORDINATES: google.maps.LatLng = new google.maps.LatLng (
+        45.4582, 
+        -73.6405
     );
 
     /**
@@ -91,6 +99,7 @@ export class MapService {
             this.trackBuildingsOutlinesDisplay(mapObj.getZoom());
             this.trackBuildingCodeDisplay(mapObj.getZoom());
             this.trackFloorToggleButton(mapObj);
+            this.trackCampusToggleButton(mapObj);
         };
     }
 
@@ -193,6 +202,26 @@ export class MapService {
             this.showToggleFloorButton.next(false);
         }
         
+    }
+
+    /**
+     * Warns the observers on if a campus is in view on the map.
+     * If there is a campus in view, it tells the obersvers which ones.
+     * @param mapObj 
+     */
+    private trackCampusToggleButton(mapObj: google.maps.Map): void {
+        const inBoundsSGW = mapObj.getBounds().contains(this.SGW_COORDINATES);
+        const inBoundsLOY = mapObj.getBounds().contains(this.LOY_COORDINATES);
+        
+        if (inBoundsSGW) {
+            this.campusSelectedInBounds.next(1);
+        }
+        else if (inBoundsLOY) {
+            this.campusSelectedInBounds.next(2);
+        }
+        else {
+            this.campusSelectedInBounds.next(0);
+        }
     }
 
     async getUserLocation(): Promise<google.maps.LatLng> {
