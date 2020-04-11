@@ -184,7 +184,7 @@ export class MapService {
      */
     private trackFloorToggleButton(mapObj: google.maps.Map): void {
         const hallBuildingName = 'Henry F. Hall Building';
-        const building = <Building> this.outdoorMap.getPOI(hallBuildingName);
+        const building = <Building>this.outdoorMap.getPOI(hallBuildingName);
         const zoomValue = mapObj.getZoom();
         const inBounds = mapObj.getBounds().contains(building.getMarkerPosition());
 
@@ -193,7 +193,7 @@ export class MapService {
         } else {
             this.showToggleFloorButton.next(false);
         }
-        
+
     }
 
     async getUserLocation(): Promise<google.maps.LatLng> {
@@ -251,8 +251,6 @@ export class MapService {
         indoorRoute.routeSteps.forEach(routeStep => {
             if (routeStep.startCoordinate.getFloorNumber() === indoorMapLevel
                 && routeStep.endCoordinate.getFloorNumber() === indoorMapLevel) {
-                console.log('route step start floor number: ' + routeStep.startCoordinate.getFloorNumber());
-                console.log('route step end floor number: ' + routeStep.endCoordinate.getFloorNumber());
                 this.drawnPolyline = this.googleApis.createPolyline(mapCoordinatesArrayToLatLng(routeStep.path), true, 'red', 1.0, 2);
                 this.drawnPolyline.setMap(map);
             }
@@ -285,10 +283,10 @@ export class MapService {
     public createDestinationMarkers(map: google.maps.Map, route: Route): google.maps.Marker[] {
 
         const startLocation: google.maps.LatLng =
-        new google.maps.LatLng(route.startCoordinates.getLatitude(), route.startCoordinates.getLongitude());
+            new google.maps.LatLng(route.startCoordinates.getLatitude(), route.startCoordinates.getLongitude());
 
         const endLocation: google.maps.LatLng =
-        new google.maps.LatLng(route.endCoordinates.getLatitude(), route.endCoordinates.getLongitude());
+            new google.maps.LatLng(route.endCoordinates.getLatitude(), route.endCoordinates.getLongitude());
 
         const startMarker = this.googleApis.createMarker(startLocation, map, null);
         startMarker.setVisible(false);
@@ -299,7 +297,7 @@ export class MapService {
         const destinationMarkers = [startMarker, endMarker];
 
         const hallBuildingName = 'Henry F. Hall Building';
-        const building = <Building> this.outdoorMap.getPOI(hallBuildingName);
+        const building = <Building>this.outdoorMap.getPOI(hallBuildingName);
         const indoorMaps = building.getIndoorMaps();
 
         if (route.startCoordinates.getFloorNumber() == route.endCoordinates.getFloorNumber()) {
@@ -315,7 +313,7 @@ export class MapService {
 
     public deleteDestinationMarkers(): void {
         const hallBuildingName = 'Henry F. Hall Building';
-        const building = <Building> this.outdoorMap.getPOI(hallBuildingName);
+        const building = <Building>this.outdoorMap.getPOI(hallBuildingName);
         const indoorMaps = building.getIndoorMaps();
 
         for (let listIndex in indoorMaps) {

@@ -72,6 +72,7 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
 
     ngOnInit() {
         this.route = this.stateService.sharedRoute;
+        console.log(this.stateService.sharedRoute);
         this.newSelectedFloor = this.route.startCoordinates.getFloorNumber();
     }
 
@@ -82,7 +83,6 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     }
 
     switchFloors(newIndoorMapLevel: number): void {
-        console.log('switching floors')
         this.indoorMapLevel = newIndoorMapLevel;
         this.mapService.displayRoute(this.mapModel, this.route, this.indoorMapLevel);
     }
