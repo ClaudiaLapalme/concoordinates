@@ -1,16 +1,10 @@
-<div class="item-container">
-    <div class="item-content">
-        <div class="step-container">
-            <div class="route-step">
-                <app-routes-list-item-step
-                    [step]="step"
-                    [routeTransportMode]="routeTransportMode"
-                ></app-routes-list-item-step>
-                <p>{{ instruction }}</p>
-            </div>
-        </div>
-    </div>
-    <div class="item-duration">
+<div class="route-step">
+    <app-routes-list-item-step
+        [step]="step"
+        [routeTransportMode]="routeTransportMode"
+    ></app-routes-list-item-step>
+    <div class="instruction-container">
+        <p class="instruction">{{ instruction }}</p>
         <p>{{ stepDuration }} min</p>
     </div>
 </div>

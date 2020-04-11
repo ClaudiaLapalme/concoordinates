@@ -1,43 +1,21 @@
-item-container {
-    padding: 0px 10px;
-    font-size: 12px;
-    .item-duration {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        p {
-            color: var(--ion-color-primary-contrast);
-        }
-    }
-    .step-container {
-        display: flex;
-        flex-direction: row;
-        .route-step {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            ion-icon {
-                color: var(--ion-color-primary-contrast);
-            }
-        }
-        .steps-overflow {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            span {
-                font-size: 20px;
-                color: var(--ion-color-primary-contrast);
-            }
-        }
-    }
-    .item-content {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
+.route-step {
+    display: flex;
+    flex-direction: column;
     ion-icon {
-        font-size: 25px;
         color: var(--ion-color-primary-contrast);
     }
+    .instruction-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-grow: 1;
+        margin-top: -15px;
+        .instruction {
+            max-width: 90%;
+        }
+    }
+}
+
+p {
+    color: white;
 }

@@ -43,8 +43,7 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
 
     routeTransportMode: TransportMode;
 
-    displayRoutes: string;
-    hideRoutes: string;
+    displayRoutes: boolean;
 
     constructor(
         private stateService: StateService,
@@ -75,19 +74,16 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
         this.route.disability = false;
 
         // Initial Placement
-        this.displayRoutes = 'hidden';
-        this.hideRoutes = 'visible';
+        this.displayRoutes = false;
     }
 
     // Hides routes
     revealRoutes(): void {
         // hide if visible
-        this.displayRoutes = 'visible';
-        this.hideRoutes = 'hidden';
+        this.displayRoutes = true;
     }
     hideRoutesFun(): void {
-        this.displayRoutes = 'hidden';
-        this.hideRoutes = 'visible';
+        this.displayRoutes = false;
     }
     recenterToUser(): void {
         this.mapService.getUserLocation().then(userLatLng => {
