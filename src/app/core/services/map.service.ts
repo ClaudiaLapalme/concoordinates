@@ -1,13 +1,14 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
+import { BehaviorSubject } from 'rxjs';
 import { AbstractPOIFactoryService } from '../factories';
 import { Building, IndoorMap, IndoorRoute, Map, OutdoorMap, OutdoorRoute, Route, Coordinates } from '../models';
 import { GoogleApisService } from './google-apis.service';
+import { IconService } from './icon.service';
 import { LocationService } from './location.service';
 import { PlaceService } from './place.service';
+import { RoutesService } from './routes.service';
 import { ShuttleService } from './shuttle.service';
-import { IconService } from './icon.service';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class MapService {
@@ -23,6 +24,7 @@ export class MapService {
         private placeService: PlaceService,
         private abstractPOIFactoryService: AbstractPOIFactoryService,
         private shuttleService: ShuttleService,
+        private routesService: RoutesService,
         private iconService: IconService
     ) {
         this.loadOutdoorMap();
@@ -230,11 +232,30 @@ export class MapService {
                     console.log(res);
                     if (status === 'OK') {
                         renderer.setDirections(res);
+                        const matchingRouteIndex = this.filterOutRoute(res, route.startTime, route.endTime);
+                        renderer.setRouteIndex(matchingRouteIndex);
                     } else {
                         console.log('Directions request failed due to ' + status);
                     }
                 });
         }
+    }
+
+    /**
+     * Filter method allowing us to display only the route passed from the routes page
+     * @param res result returned by the google API
+     * @param startTime expected true start time
+     * @param endTime expected true end time
+     * @returns index of the route matching start and end times
+     */
+    private filterOutRoute(res: google.maps.DirectionsResult, startTime: Date, endTime: Date): number {
+        for (let i = 0; i < res.routes.length; i++) {
+            if (res.routes[i].legs[0].departure_time.value.getTime() === startTime.getTime()
+                && res.routes[i].legs[0].arrival_time.value.getTime() === endTime.getTime()) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private displayIndoorRoute(map: google.maps.Map, indoorRoute: IndoorRoute, indoorMapLevel: number) {
