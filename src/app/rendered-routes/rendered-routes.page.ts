@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { Route } from '../core/models';
 import { MapService } from '../core/services/map.service';
-import { RoutesService } from '../core/services/routes.service';
 import { StateService } from '../shared/state.service';
 
 @Component({
@@ -66,6 +65,7 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
             this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(switchFloorsNE);
             this.mapModel.controls[google.maps.ControlPosition.LEFT_TOP].push(returnButton);
             this.mapService.displayRoute(this.mapModel, this.route, this.indoorMapLevel);
+            this.mapService.createDestinationMarkers(this.mapModel, this.route);
             this.mapLoaded = true;
         });
     }
@@ -95,5 +95,9 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
         } else {
             console.log('the user location is undefined');
         }
+    }
+
+    public eraseRoute(): void {
+        this.mapService.deleteDestinationMarkers();
     }
 }

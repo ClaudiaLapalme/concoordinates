@@ -1,6 +1,6 @@
 <ion-content>
     <div #returnToRoutes class="backButton">
-        <ion-icon [routerLink]="['/routes']" name="arrow-round-back">
+        <ion-icon (click)="eraseRoute()" [routerLink]="['/routes']" name="arrow-round-back">
         </ion-icon>
     </div>
 

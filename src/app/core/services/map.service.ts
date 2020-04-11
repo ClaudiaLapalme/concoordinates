@@ -1,7 +1,7 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { AbstractPOIFactoryService } from '../factories';
-import { Building, IndoorMap, IndoorRoute, Map, OutdoorMap, OutdoorRoute, Route, Coordinates, RouteStep } from '../models';
+import { Building, IndoorMap, IndoorRoute, Map, OutdoorMap, OutdoorRoute, Route, Coordinates } from '../models';
 import { GoogleApisService } from './google-apis.service';
 import { LocationService } from './location.service';
 import { PlaceService } from './place.service';
@@ -239,12 +239,8 @@ export class MapService {
 
     private displayIndoorRoute(map: google.maps.Map, indoorRoute: IndoorRoute, indoorMapLevel: number) {
         const startCoords: Coordinates = indoorRoute.startCoordinates;
-        const endCoords: Coordinates = indoorRoute.endCoordinates;
         const startLocation: google.maps.LatLng =
             new google.maps.LatLng(startCoords.getLatitude(), startCoords.getLongitude());
-        const endLocation: google.maps.LatLng =
-            new google.maps.LatLng(endCoords.getLatitude(), endCoords.getLongitude());
-
 
         // Clear polylines previously drawn in order to keep the needed polylines per floor only
         if (this.drawnPolyline != null) {
@@ -263,15 +259,7 @@ export class MapService {
         });
 
         map.setCenter(startLocation);
-        map.setZoom(18);
-
-        // TODO: Find a way to only display markers per floor, once again
-
-        // Create start location marker
-        this.googleApis.createMarker(startLocation, map, this.iconService.getPlaceIcon());
-
-        // Create end location marker
-        this.googleApis.createMarker(endLocation, map, this.iconService.getPlaceIcon());
+        map.setZoom(19);
 
         function mapCoordinatesArrayToLatLng(coordinates: Coordinates[]): google.maps.LatLng[] {
             const latLngArray: google.maps.LatLng[] = [];
@@ -292,5 +280,46 @@ export class MapService {
 
     public getOutdoorMap(): OutdoorMap {
         return this.outdoorMap;
+    }
+
+    public createDestinationMarkers(map: google.maps.Map, route: Route): google.maps.Marker[] {
+
+        const startLocation: google.maps.LatLng =
+        new google.maps.LatLng(route.startCoordinates.getLatitude(), route.startCoordinates.getLongitude());
+
+        const endLocation: google.maps.LatLng =
+        new google.maps.LatLng(route.endCoordinates.getLatitude(), route.endCoordinates.getLongitude());
+
+        const startMarker = this.googleApis.createMarker(startLocation, map, null);
+        startMarker.setVisible(false);
+
+        const endMarker = this.googleApis.createMarker(endLocation, map, null);
+        endMarker.setVisible(false);
+
+        const destinationMarkers = [startMarker, endMarker];
+
+        const hallBuildingName = 'Henry F. Hall Building';
+        const building = <Building> this.outdoorMap.getPOI(hallBuildingName);
+        const indoorMaps = building.getIndoorMaps();
+
+        if (route.startCoordinates.getFloorNumber() == route.endCoordinates.getFloorNumber()) {
+            indoorMaps[route.startCoordinates.getFloorNumber()].setDestinationMarkers(destinationMarkers);
+        }
+        else {
+            indoorMaps[route.startCoordinates.getFloorNumber()].setDestinationMarkers([startMarker]);
+            indoorMaps[route.endCoordinates.getFloorNumber()].setDestinationMarkers([endMarker]);
+        }
+
+        return destinationMarkers;
+    }
+
+    public deleteDestinationMarkers(): void {
+        const hallBuildingName = 'Henry F. Hall Building';
+        const building = <Building> this.outdoorMap.getPOI(hallBuildingName);
+        const indoorMaps = building.getIndoorMaps();
+
+        for (let listIndex in indoorMaps) {
+            indoorMaps[listIndex].deleteDestinationMarkers();
+        }
     }
 }

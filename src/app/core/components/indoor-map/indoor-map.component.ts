@@ -59,7 +59,7 @@ export class IndoorMapComponent implements AfterViewInit {
 
     ngOnChanges() {
         if (this.currentlyDisplayedIndoorMap) {
-            this.currentlyDisplayedIndoorMap.removeIndoorPOIsLabels();
+            this.currentlyDisplayedIndoorMap.removeIndoorLabels();
         }
         if (this.indoorMapLevel) {
             this.currentlyDisplayedIndoorMap = this.indoorMaps[this.indoorMapLevel];
@@ -86,10 +86,10 @@ export class IndoorMapComponent implements AfterViewInit {
                 const ZOOM_THRESHOLD = 18;
                 if (newZoom <= ZOOM_THRESHOLD) {
                     // hide
-                    _this.currentlyDisplayedIndoorMap.removeIndoorPOIsLabels();
+                    _this.currentlyDisplayedIndoorMap.removeIndoorLabels();
                 } else {
                     // show
-                    _this.currentlyDisplayedIndoorMap.displayIndoorPOIsLabels();
+                    _this.currentlyDisplayedIndoorMap.displayIndoorLabels();
                 }
             }
         });
@@ -104,7 +104,7 @@ export class IndoorMapComponent implements AfterViewInit {
         const currentZoom: number = this.map.getZoom();
         const ZOOM_THRESHOLD = 18;
         if (currentZoom >= ZOOM_THRESHOLD) {
-            this.currentlyDisplayedIndoorMap.displayIndoorPOIsLabels();
+            this.currentlyDisplayedIndoorMap.displayIndoorLabels();
         }
     }
 }
