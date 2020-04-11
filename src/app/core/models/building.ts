@@ -34,29 +34,29 @@ export class Building extends OutdoorPOI {
         this.setBuildingLabel();
     }
 
-    createBuildingOutline(mapRef: google.maps.Map<Element>, placeService: PlaceService): void {
+    public createBuildingOutline(mapRef: google.maps.Map<Element>, placeService: PlaceService): void {
 
         this.buildingOutline.setMap(mapRef);
         this.buildingLabel.setMap(mapRef);
         this.enableOutlineListener(placeService);
     }
 
-    removeBuildingOutline(): void {
+    public removeBuildingOutline(): void {
 
         this.buildingOutline.setVisible(false);
     }
 
-    removeBuildingLabel(): void {
+    public removeBuildingLabel(): void {
 
         this.buildingLabel.setVisible(false);
     }
 
-    displayBuildingOutline(): void {
+    public displayBuildingOutline(): void {
 
         this.buildingOutline.setVisible(true);
     }
 
-    displayBuildingLabel() : void {
+    public displayBuildingLabel() : void {
 
         this.buildingLabel.setVisible(true);
     }
@@ -125,5 +125,9 @@ export class Building extends OutdoorPOI {
 
     public getIndoorMaps(): Record<number, IndoorMap> {
         return this.indoorMaps;
+    }
+
+    public getMarkerPosition(): google.maps.LatLng {
+        return this.buildingLabel.getPosition();
     }
 }

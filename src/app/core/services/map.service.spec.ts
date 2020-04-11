@@ -343,4 +343,51 @@ describe('MapService', () => {
             }
         });
     });
+
+    describe('trackFloorToggleButton()', () => {
+
+        class MockMapObj {
+            
+            private boundsObj;
+
+            constructor(boundsValue: boolean) {
+                this.boundsObj = new MockBounds(boundsValue);
+            }
+
+            getZoom() {
+                return 19;
+            }
+
+            getBounds(){
+                return this.boundsObj;
+            }
+        }
+
+        class MockBounds {
+
+            private value;
+
+            constructor(boundsValue: boolean) {
+                this.value = boundsValue;
+            }
+
+            contains() {
+                return this.value;
+            }
+        }
+
+        it("should show toggle floor button", () => {
+            const { mapService } = testServiceSetup();
+            const mapObj = new MockMapObj(true);
+            mapService['trackFloorToggleButton(mapObj)'];
+            expect(mapService['showToggleFloorButton']).toBeTruthy;
+        });
+
+        it("should hide toggle floor button", () => {
+            const { mapService } = testServiceSetup();
+            const mapObj = new MockMapObj(false);
+            mapService['trackFloorToggleButton(mapObj)'];
+            expect(mapService['showToggleFloorButton']).toBeFalsy;
+        });
+    });
 });
