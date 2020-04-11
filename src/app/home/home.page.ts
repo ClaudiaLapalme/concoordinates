@@ -3,6 +3,7 @@ import { GoogleApisService, MapService, SessionService, CalendarService } from '
 import { MenuController } from '@ionic/angular';
 import { IndoorFunctionsService } from '../shared/indoor-functions.service';
 import { IconService } from '../core/services/icon.service';
+import { SelectedCampus } from '../core/components/toggle-campus';
 
 // TODO move all this map logic to MapPage and keep all Pages as routes from this page
 @Component({
@@ -133,11 +134,11 @@ export class HomePage implements AfterViewInit {
      * @param selectedCampus 
      */
     switchCampus(selectedCampus: number): void {
-        if (selectedCampus === 1) {
+        if (selectedCampus === SelectedCampus.SGW) {
             this.mapModel.setCenter(this.SGW);
             this.setCurrentCenter(this.SGW); 
         }
-        else if (selectedCampus === 2) {
+        else if (selectedCampus === SelectedCampus.LOY) {
             this.mapModel.setCenter(this.LOYOLA);
             this.setCurrentCenter(this.LOYOLA);
         }

@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { MapService } from '../../services';
 
-enum SelectedCampus {
+export enum SelectedCampus {
     NONE = 0,
     SGW = 1,
     LOY = 2
@@ -20,6 +20,8 @@ enum SelectedCampus {
 export class ToggleCampusComponent {
 
     @Output() toggleChange = new EventEmitter();
+
+    campus = SelectedCampus;
     
     selectedCampus: SelectedCampus = SelectedCampus.NONE;
 
@@ -39,14 +41,8 @@ export class ToggleCampusComponent {
       * @param campusInView 
       */
     campusSelection(campusInView: number): void {
-        if (campusInView === 0) {
-            this.selectedCampus = SelectedCampus.NONE;
-        }
-        else if (campusInView === 1) {
-            this.selectedCampus = SelectedCampus.SGW;
-        }
-        else {
-            this.selectedCampus = SelectedCampus.LOY;
+        if(SelectedCampus[campusInView]) {
+          this.selectedCampus = campusInView;
         }
     }
     /**

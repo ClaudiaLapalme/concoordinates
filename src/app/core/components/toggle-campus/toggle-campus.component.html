@@ -2,16 +2,16 @@
 	<div title='Click to switch campus' class='toggle-campus'>
 		<div 
 			class='leftToggle' 
-			[class.selected]='selectedCampus == 1' 
-			[class.unselected]='selectedCampus != 1'
+			[class.selected]='selectedCampus == campus.SGW' 
+			[class.unselected]='selectedCampus != campus.SGW'
 			(click)='selectSGW()'
 		>
 			SGW
 		</div>
 		<div 
 			class='rightToggle' 
-			[class.selected]='selectedCampus == 2' 
-			[class.unselected]='selectedCampus != 2'
+			[class.selected]='selectedCampus == campus.LOY' 
+			[class.unselected]='selectedCampus != campus.LOY'
 			(click)='selectLOY()'
 		>
 			LOY
