@@ -16,7 +16,7 @@
                 ></app-routes-list-item>
             </div>
         </div>
-        <div [style.visibility]="displayRoutes">
+        <div *ngIf="displayRoutes">
             <div displayRoutes class="parent">
                 <div
                     class="test"
@@ -43,6 +43,6 @@
         [ngClass]="{invisible: !controlsShown}"
     ></app-location-button>
 </ion-content>
-<div [style.visibility]="hideRoutes" class="displayBarAbsolute">
+<div *ngIf="!displayRoutes" class="displayBarAbsolute">
     <ion-icon (click)="revealRoutes()" name="arrow-dropdown"></ion-icon>
 </div>
