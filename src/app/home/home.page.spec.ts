@@ -78,31 +78,33 @@ describe('HomePage', () => {
         expect(component).toBeTruthy();
     });
 
+    it('setCurrentCenter()', () => {
+        const latLng = new google.maps.LatLng(54, 54);
+       component.setCurrentCenter(latLng);
+       expect(component.currentCenter).toEqual(latLng); 
+    });
+
     describe('switchCampus()', () => {
+
         class MockMaps extends google.maps.Map {
             setCenter(): void {}
         }
 
-        it('current center should default to SGW coordinates', () => {
-            const mockLatLng = new google.maps.LatLng(45.4959053, -73.5801141);
-            expect(component.currentCenter).toEqual(mockLatLng);
-        });
+        const SGW = new google.maps.LatLng(45.4959053, -73.5801141);
+        const LOYOLA = new google.maps.LatLng(45.4582, -73.6405);
 
-        it('current center should change from SGW to LOY coordinates', () => {
-            const mockLatLng = new google.maps.LatLng(45.4582, -73.6405);
+        it('should set the current center to SGW if it receives 1', () => {
             const mockMap = new MockMaps(null);
             component.mapModel = mockMap;
-            component.switchCampus();
-            expect(component.currentCenter).toEqual(mockLatLng);
+            component.switchCampus(1);
+            expect(component.currentCenter).toEqual(SGW);
         });
 
-        it('current center change from LOY to SGW coordinates', () => {
-            const mockLatLng = new google.maps.LatLng(45.4959053, -73.5801141);
+        it('should set the current center to LOY if it receives 2', () => {
             const mockMap = new MockMaps(null);
             component.mapModel = mockMap;
-            component.switchCampus();
-            component.switchCampus();
-            expect(component.currentCenter).toEqual(mockLatLng);
+            component.switchCampus(2);
+            expect(component.currentCenter).toEqual(LOYOLA);
         });
     });
 

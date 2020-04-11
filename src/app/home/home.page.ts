@@ -24,6 +24,7 @@ export class HomePage implements AfterViewInit {
 
     @ViewChild('directions', { read: ElementRef, static: false })
     directionsButton: ElementRef;
+    
     // Reference to the native toggle campus html element
     @ViewChild('toggle', { read: ElementRef, static: false })
     toggle: ElementRef;
@@ -92,7 +93,6 @@ export class HomePage implements AfterViewInit {
                     this.sessionService.storeMapRef(mapObj);
                     this.isMapSet = this.sessionService.isMapRefSet();
                     this.mapLoaded = true;
-                    this.setDefaultCampusToggled();
 
                     const toggleButtonNE = this.toggle.nativeElement;
                     const switchFloorsNE = this.switchFloor.nativeElement;
@@ -102,11 +102,11 @@ export class HomePage implements AfterViewInit {
 
 
                     this.mapModel.controls[google.maps.ControlPosition.TOP_CENTER].push(menuBar);
-
                     this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
                     this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(directionsButton);
                     this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(switchFloorsNE);
                     this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].push(toggleButtonNE);
+
                     this.controlsShown = true;
 
                 });
@@ -127,13 +127,19 @@ export class HomePage implements AfterViewInit {
         }
     }
 
-    switchCampus(): void {
-        if (this.currentCenter === this.SGW) {
+    /**
+     * Sets the current center to the selected campus
+     * Recenters the map to the selected campus
+     * @param selectedCampus 
+     */
+    switchCampus(selectedCampus: number): void {
+        if (selectedCampus === 1) {
+            this.mapModel.setCenter(this.SGW);
+            this.setCurrentCenter(this.SGW); 
+        }
+        else if (selectedCampus === 2) {
             this.mapModel.setCenter(this.LOYOLA);
             this.setCurrentCenter(this.LOYOLA);
-        } else {
-            this.mapModel.setCenter(this.SGW);
-            this.setCurrentCenter(this.SGW);
         }
     }
 
@@ -204,31 +210,6 @@ export class HomePage implements AfterViewInit {
             this.mapModel.setCenter(latLng);
         } else {
             console.log('the user location is undefined');
-        }
-    }
-    
-    /**
-     * If the user is closer in both latitude and longitude to the loyola campus,
-     * it will be set as their default campus
-     */
-    setDefaultCampusToggled(): void{
-        this.mapService.getUserLocation().then(userLatLng => {
-            this.handleDetermineDefaultCampus(userLatLng);
-        });
-    }
-
-    handleDetermineDefaultCampus(userLatLng: google.maps.LatLng): void {
-        const userLat: number = Number(userLatLng.lat);
-        const userLng: number = Number(userLatLng.lng);
-        const LoyLat:  number = Number(this.LOYOLA.lat);
-        const LoyLng:  number = Number(this.LOYOLA.lng);
-        const SgwLat:  number = Number(this.SGW.lat);
-        const SgwLng:  number = Number(this.SGW.lng);
-
-        if (Math.abs((userLat - LoyLat) + (userLng - LoyLng)) < Math.abs((userLat - SgwLat) + (userLng - SgwLng))) {
-            this.currentCenter = this.LOYOLA;
-        } else {
-            this.currentCenter = this.SGW;
         }
     }
 
