@@ -16,16 +16,21 @@
                 ></app-routes-list-item>
             </div>
         </div>
-        <div *ngIf="displayRoutes" class="parent">
-            <div
-                class="test"
-                *ngFor="let s of route?.routeSteps; let i = index"
-            >
-                <app-route-step [step]="s"></app-route-step>
+        <div [style.visibility]="displayRoutes">
+            <div displayRoutes class="parent">
+                <div
+                    class="test"
+                    *ngFor="let s of route?.routeSteps; let i = index"
+                >
+                    <app-route-step [step]="s"></app-route-step>
+                </div>
             </div>
-        </div>
-        <div class="displayBar">
-            <ion-icon name="chevron-down-outline"></ion-icon>
+            <div class="displayBar">
+                <ion-icon
+                    (click)="hideRoutesFun()"
+                    name="arrow-dropup"
+                ></ion-icon>
+            </div>
         </div>
     </div>
 
@@ -38,3 +43,6 @@
         [ngClass]="{invisible: !controlsShown}"
     ></app-location-button>
 </ion-content>
+<div [style.visibility]="hideRoutes" class="displayBarAbsolute">
+    <ion-icon (click)="revealRoutes()" name="arrow-dropdown"></ion-icon>
+</div>
