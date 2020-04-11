@@ -14,7 +14,7 @@ describe('ToggleFloorsComponent', () => {
 
     class MockOutdoorPOIFactoryService extends OutdoorPOIFactoryService {
         setMapService() {
-            this['mapService'] = jasmine.createSpyObj('PlaceService', [
+            this['mapService'] = jasmine.createSpyObj('MapService', [
                 'loadIndoorMaps'
             ]);
         }

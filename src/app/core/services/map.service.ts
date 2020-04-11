@@ -24,7 +24,6 @@ export class MapService {
         private placeService: PlaceService,
         private abstractPOIFactoryService: AbstractPOIFactoryService,
         private shuttleService: ShuttleService,
-        private routesService: RoutesService,
         private iconService: IconService
     ) {
         this.loadOutdoorMap();
@@ -301,7 +300,7 @@ export class MapService {
         return this.outdoorMap;
     }
 
-    public createDestinationMarkers(map: google.maps.Map, route: Route): google.maps.Marker[] {
+    public createDestinationMarkers(map: google.maps.Map, route: Route): void {
 
         const startLocation: google.maps.LatLng =
             new google.maps.LatLng(route.startCoordinates.getLatitude(), route.startCoordinates.getLongitude());
@@ -328,8 +327,6 @@ export class MapService {
             indoorMaps[route.startCoordinates.getFloorNumber()].setDestinationMarkers([startMarker]);
             indoorMaps[route.endCoordinates.getFloorNumber()].setDestinationMarkers([endMarker]);
         }
-
-        return destinationMarkers;
     }
 
     public deleteDestinationMarkers(): void {

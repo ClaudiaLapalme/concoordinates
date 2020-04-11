@@ -1,11 +1,10 @@
 import { ElementRef } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { MapService } from './map.service';
-import { OutdoorMap, Campus, Building, POI, IndoorMap, Coordinates } from '../models';
+import { OutdoorMap, Campus, Building, IndoorMap, Coordinates, IndoorRoute, POI } from '../models';
 import { OutdoorPOIFactoryService, IndoorPOIFactoryService } from '../factories';
 import { IndoorPOI } from '../models/indoor-poi';
-import { ShuttleService } from './shuttle.service';
-
+ 
 describe('MapService', () => {
 
     class MockOutdoorPOIFactoryService extends OutdoorPOIFactoryService {
@@ -20,6 +19,10 @@ describe('MapService', () => {
         loadFloorPOIs() {
             return null;
         }
+    }
+
+    class MockMarker {
+        setVisible() {};
     }
 
     function testServiceSetup() {
@@ -47,7 +50,7 @@ describe('MapService', () => {
         ]);
         const mockIconService  = jasmine.createSpyObj('mockIconService', ['getLocationIcon']);
 
-
+        googleApisServiceSpy.createMarker.and.returnValue(new MockMarker);
 
         abstractPOIFactoryService.createOutdoorPOIFactory.and.returnValue(new MockOutdoorPOIFactoryService);
         abstractPOIFactoryService.createIndoorPOIFactory.and.returnValue(new MockIndoorPOIFactoryService);
@@ -388,6 +391,77 @@ describe('MapService', () => {
             const mapObj = new MockMapObj(false);
             mapService['trackFloorToggleButton(mapObj)'];
             expect(mapService['showToggleFloorButton']).toBeFalsy;
+        });
+    });
+
+    describe('createDestinationMarkers() and deleteDestinationMarkers()', () => {
+
+        class MockRouteSameFloor extends IndoorRoute {
+            constructor()
+            {
+                super('H801', 'H803', false, [], 1);
+            }
+        }
+        
+        class MockRouteTwoFloors extends IndoorRoute {
+            constructor()
+            {
+                super('H801', 'H903', false, [], 1);
+            }
+        } 
+
+        class MockIndoorMap extends IndoorMap {
+
+            private createCalled = false;
+            private deleteCalled = false;
+
+            constructor()
+            {
+                super(null, null, null);
+            }
+
+            setDestinationMarkers(){ this.createCalled = true };
+            deleteDestinationMarkers(){ this.deleteCalled = true };
+        } 
+        
+        class MockBuilding extends Building {
+            constructor() {
+                super('Henry F. Hall Building', 'H', null, {8: new MockIndoorMap, 9: new MockIndoorMap});
+            }
+        }   
+
+        it("should create destination markers for the same floor", () => {
+            const { mapService } = testServiceSetup();
+            mapService['outdoorMap']['pois'] = [new MockBuilding()];
+            const mapObj = new MockMaps(null);
+            mapService.createDestinationMarkers(mapObj, new MockRouteSameFloor);
+
+            const mockBuilding = <Building> mapService['outdoorMap']['pois'][0];
+            expect(mockBuilding['indoorMaps'][8]['createCalled']).toBeTruthy;
+        });
+
+        it("should create destination markers for two floors", () => {
+            const { mapService } = testServiceSetup();
+            mapService['outdoorMap']['pois'] = [new MockBuilding()];
+            const mapObj = new MockMaps(null);
+            mapService.createDestinationMarkers(mapObj, new MockRouteTwoFloors);
+
+            const mockBuilding = <Building> mapService['outdoorMap']['pois'][0];
+            expect(mockBuilding['indoorMaps'][8]['createCalled']).toBeTruthy;
+            expect(mockBuilding['indoorMaps'][9]['createCalled']).toBeTruthy;
+        });
+
+        it("should delete destination markers", () => {
+            const { mapService } = testServiceSetup();
+            mapService['outdoorMap']['pois'] = [new MockBuilding()];
+            const mapObj = new MockMaps(null);
+            mapService.createDestinationMarkers(mapObj, new MockRouteTwoFloors);
+
+            mapService.deleteDestinationMarkers();
+
+            const mockBuilding = <Building> mapService['outdoorMap']['pois'][0];
+            expect(mockBuilding['indoorMaps'][8]['deleteCalled']).toBeTruthy;
+            expect(mockBuilding['indoorMaps'][9]['deleteCalled']).toBeTruthy;
         });
     });
 });

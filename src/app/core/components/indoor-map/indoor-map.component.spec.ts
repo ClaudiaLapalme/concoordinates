@@ -1,4 +1,3 @@
-import { ElementRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
@@ -17,7 +16,7 @@ describe('IndoorMapComponent', () => {
         }
         setup(map, indoorMapDiv, bounds) {}
         setupMapListeners(map) {}
-        removeIndoorPOIsLabels() {}
+        removeIndoorLabels() {}
         getPicturePath() {
             return 'path';
         }
@@ -88,18 +87,18 @@ describe('IndoorMapComponent', () => {
             component.indoorMaps[8] = jasmine.createSpyObj(
                 'indoorMaps[8]',
                 [
-                    'removeIndoorPOIsLabels',
-                    'displayIndoorPOIsLabels',
+                    'removeIndoorLabels',
+                    'displayIndoorLabels',
                     'getPicturePath'
                 ]
             );
             component.ngOnChanges();
 
             expect(
-                component.indoorMaps[8].removeIndoorPOIsLabels
+                component.indoorMaps[8].removeIndoorLabels
             ).toHaveBeenCalledTimes(0);
             expect(
-                component.indoorMaps[8].displayIndoorPOIsLabels
+                component.indoorMaps[8].displayIndoorLabels
             ).toHaveBeenCalledTimes(0);
         });
 
@@ -110,8 +109,8 @@ describe('IndoorMapComponent', () => {
             component.indoorMaps[8] = jasmine.createSpyObj(
                 'indoorMaps[8]',
                 [
-                    'removeIndoorPOIsLabels',
-                    'displayIndoorPOIsLabels',
+                    'removeIndoorLabels',
+                    'displayIndoorLabels',
                     'getPicturePath'
                 ]
             );
@@ -125,17 +124,17 @@ describe('IndoorMapComponent', () => {
         });
     });
 
-    describe('Testing tryDisplayIndoorPOIsLabels()', () => {
+    describe('Testing tryDisplayIndoorLabels()', () => {
 
-        it('displayIndoorPOIsLabels should be called', () => {
+        it('displayIndoorLabels should be called', () => {
             let map = new MockMap(19);
             component['map'] = map;
             component.indoorMaps = { 8: new MockIndoorMap() };
             component.indoorMaps[8] = jasmine.createSpyObj(
                 'indoorMaps[8]',
                 [
-                    'removeIndoorPOIsLabels',
-                    'displayIndoorPOIsLabels',
+                    'removeIndoorLabels',
+                    'displayIndoorLabels',
                     'getPicturePath'
                 ]
             );
@@ -144,7 +143,7 @@ describe('IndoorMapComponent', () => {
             component.ngOnChanges();
 
             expect(
-                component.indoorMaps[8].displayIndoorPOIsLabels
+                component.indoorMaps[8].displayIndoorLabels
             ).toHaveBeenCalled();
         });
     });
