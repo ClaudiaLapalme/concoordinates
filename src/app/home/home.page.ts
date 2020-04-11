@@ -64,7 +64,6 @@ export class HomePage implements AfterViewInit {
         private indoorFunctionsService: IndoorFunctionsService,
         private iconService: IconService
     ) {
-        this.currentCenter = this.SGW;
 
         // TODO: Remove initial indoorMap when we will be able to click
         // on the building or zoom in close enough to switch
@@ -85,8 +84,7 @@ export class HomePage implements AfterViewInit {
         this.currentCenter = newCenter;
     }
 
-    private loadMap(): void {
-        
+    private loadMap(): void {        
         try {
             this.mapService.loadMap(this.mapElement)
                 .then(mapObj => {
@@ -94,6 +92,8 @@ export class HomePage implements AfterViewInit {
                     this.sessionService.storeMapRef(mapObj);
                     this.isMapSet = this.sessionService.isMapRefSet();
                     this.mapLoaded = true;
+                    this.setDefaultCampusToggled();
+
                     const toggleButtonNE = this.toggle.nativeElement;
                     const switchFloorsNE = this.switchFloor.nativeElement;
                     const directionsButton = this.directionsButton.nativeElement;
@@ -190,13 +190,14 @@ export class HomePage implements AfterViewInit {
             this.searchedPlaceMarker.setMap(null);
         }
     }
+
     recenterToUser(): void {
         this.mapService.getUserLocation().then(userLatLng => {
             this.handleRecenter(userLatLng);
         });
     }
 
-    handleRecenter(userLatLng): void {
+    handleRecenter(userLatLng: google.maps.LatLng): void {
         const latLng: google.maps.LatLng = userLatLng;
 
         if (latLng !== undefined) {
@@ -206,4 +207,29 @@ export class HomePage implements AfterViewInit {
         }
     }
     
+    /**
+     * If the user is closer in both latitude and longitude to the loyola campus,
+     * it will be set as their default campus
+     */
+    setDefaultCampusToggled(): void{
+        this.mapService.getUserLocation().then(userLatLng => {
+            this.handleDetermineDefaultCampus(userLatLng);
+        });
+    }
+
+    handleDetermineDefaultCampus(userLatLng: google.maps.LatLng): void {
+        const userLat: number = Number(userLatLng.lat);
+        const userLng: number = Number(userLatLng.lng);
+        const LoyLat:  number = Number(this.LOYOLA.lat);
+        const LoyLng:  number = Number(this.LOYOLA.lng);
+        const SgwLat:  number = Number(this.SGW.lat);
+        const SgwLng:  number = Number(this.SGW.lng);
+
+        if (Math.abs((userLat - LoyLat) + (userLng - LoyLng)) < Math.abs((userLat - SgwLat) + (userLng - SgwLng))) {
+            this.currentCenter = this.LOYOLA;
+        } else {
+            this.currentCenter = this.SGW;
+        }
+    }
+
 }

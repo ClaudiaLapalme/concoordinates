@@ -42,6 +42,7 @@
     <app-toggle-campus
         #toggle
         (toggleChange)="switchCampus()"
+        [defaultCampus]="currentCenter"
         [ngClass]="{invisible: !controlsShown}"
     ></app-toggle-campus>
 

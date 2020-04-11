@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
     selector: 'app-toggle-campus',
@@ -7,15 +7,31 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class ToggleCampusComponent {
 
+    readonly SGW: google.maps.LatLng = new google.maps.LatLng(45.4959053, -73.5801141);
+    readonly LOYOLA: google.maps.LatLng = new google.maps.LatLng(45.4582, -73.6405);
+
     @Output() toggleChange = new EventEmitter();
 
-    isSGWToggled: boolean = true;
+    @Input() defaultCampus: google.maps.LatLng;
+    
+    isSGWToggled: boolean;
 
-    constructor() { }
+    constructor() {
+        this.setIsSGWToggled();
+     }
 
     toggleCampus(): void {
         this.isSGWToggled = !this.isSGWToggled;
         this.toggleChange.emit();
+    }
+
+    setIsSGWToggled(): void {
+        if (this.defaultCampus == this.SGW) {
+            this.isSGWToggled = true;
+        }
+        else {
+            this.isSGWToggled = false;
+        }
     }
 
 }
