@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { CoreModule } from '../core';
 import { MapService, CalendarService } from '../core/services/';
+import { OutdoorPOIFactoryService } from '../core/factories';
 import { HomePage } from './home.page';
 import { SearchComponent } from '../core/components';
 import { By } from '@angular/platform-browser';
@@ -23,9 +24,26 @@ describe('HomePage', () => {
         panTo() {}
         setZoom() {}
     }
+    class MockOutdoorPOIFactoryService extends OutdoorPOIFactoryService {
+        setMapService() {
+            this['mapService'] = jasmine.createSpyObj('PlaceService', [
+                'loadIndoorMaps'
+            ]);
+        }
+    }
+
+    const abstractPOIFactoryService = jasmine.createSpyObj('AbstractPOIFactoryService', [
+        'createOutdoorPOIFactory',
+        'createIndoorPOIFactory'
+    ]);
+
+    abstractPOIFactoryService.createOutdoorPOIFactory.and.returnValue(new MockOutdoorPOIFactoryService);
 
     beforeEach(async(() => {
-        class MockMapService {
+        class MockMapService extends MapService {
+            constructor(){
+                super(null, null, null, abstractPOIFactoryService, null, null);
+            }
             loadMap(): Promise<google.maps.Map<Element>> {
                 return new Promise(() => {});
             }
