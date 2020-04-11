@@ -73,24 +73,35 @@ Note: Use vscode to program. Android is just to launch the app on a mobile andro
 
 ### How to run the app
 
+#### On a computer
+
 1. go to the application folder in GitBash
 2. ionic serve
    - ionic will indicate the local host address
    - should be localhost:8100
 
-### How to run the app on an android phone
+#### On a mobile device
+
+1. `ionic cap run android`
+2. Build the project (Ctrl + F9)
+3. Press the green play arrow on the top right corner in the Android Studio window that opened
+
+**Note:** You may have to uninstall an older version of the app on your phone for the changes to apply
+
+### How to set up the app on an android phone
 
 1. `npm i -g native-run` (unecessary if the project is already set up)
 2. `ionic build`
-3. `ionic capacitor add android`
+3. `npx cap add android` or `ionic cap add android`
 4. `npx cap open android`
 5. Link firebase to the app. (This only needs to be done once)
-    - From android studio (after setp 4), open the firbase assistant in tools > firebase.
-    - Navigate to Authentication > Email and Password authentication
-    - Complete step-1 "connect to firebase". Do not complete any subsequent steps.
+    - From android studio (after setp 4), open the firbase assistant in `tools > firebase`.
+    - Navigate to `Authentication > Email and Password authentication`
+    - Complete step-1 `connect to firebase`. **Do not complete any subsequent steps.**
 6. The app is now configured and connected to firebase, click run to try. 
-
-**NOTE:** delete `pikaroute/android` and recreate the android folder to see the changes reflected
+7. Open `app/manifests/AndroidManifest.xml` in Android Studio
+    - Enter the <activity> bracket
+    - Add `android:windowSoftInputMode="adjustNothing"` at the end of the bracket (after `android:launchMode="singleTask`)
 
 ### How to run integration tests
 
