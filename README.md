@@ -100,7 +100,7 @@ Note: Use vscode to program. Android is just to launch the app on a mobile andro
     - Complete step-1 `connect to firebase`. **Do not complete any subsequent steps.**
 6. The app is now configured and connected to firebase, click run to try. 
 7. Open `app/manifests/AndroidManifest.xml` in Android Studio
-    - Enter the <activity> bracket
+    - Enter the `<activity>` bracket
     - Add `android:windowSoftInputMode="adjustNothing"` at the end of the bracket (after `android:launchMode="singleTask`)
 
 ### How to run integration tests
