@@ -1,11 +1,10 @@
 import { ElementRef } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { MapService } from './map.service';
-import { OutdoorMap, Campus, Building, POI, IndoorMap, Coordinates } from '../models';
+import { OutdoorMap, Campus, Building, IndoorMap, Coordinates, IndoorRoute, POI, RouteStep, OutdoorRoute } from '../models';
 import { OutdoorPOIFactoryService, IndoorPOIFactoryService } from '../factories';
 import { IndoorPOI } from '../models/indoor-poi';
-import { ShuttleService } from './shuttle.service';
-
+ 
 describe('MapService', () => {
 
     class MockOutdoorPOIFactoryService extends OutdoorPOIFactoryService {
@@ -20,6 +19,10 @@ describe('MapService', () => {
         loadFloorPOIs() {
             return null;
         }
+    }
+
+    class MockMarker {
+        setVisible() {};
     }
 
     function testServiceSetup() {
@@ -45,9 +48,13 @@ describe('MapService', () => {
         const shuttleService = jasmine.createSpyObj('ShuttleService', [
             'displayShuttleRoute'
         ]);
-        const mockIconService  = jasmine.createSpyObj('mockIconService', ['getLocationIcon']);
+        const mockIconService  = jasmine.createSpyObj('mockIconService', [
+            'getLocationIcon',
+            'getStartIcon',
+            'getEndIcon'
+        ]);
 
-
+        googleApisServiceSpy.createMarker.and.returnValue(new MockMarker);
 
         abstractPOIFactoryService.createOutdoorPOIFactory.and.returnValue(new MockOutdoorPOIFactoryService);
         abstractPOIFactoryService.createIndoorPOIFactory.and.returnValue(new MockIndoorPOIFactoryService);
@@ -72,6 +79,8 @@ describe('MapService', () => {
         addListener() {
             return null;
         }
+        setCenter() {}
+        setZoom() {}
         getZoom(): number {
             return null;
         }
@@ -389,5 +398,113 @@ describe('MapService', () => {
             mapService['trackFloorToggleButton(mapObj)'];
             expect(mapService['showToggleFloorButton']).toBeFalsy;
         });
+    });
+
+    describe('createDestinationMarkers() and deleteDestinationMarkers()', () => {
+
+        class MockRouteSameFloor extends IndoorRoute {
+            constructor()
+            {
+                super('H801', 'H803', false, [], 1);
+            }
+        }
+        
+        class MockRouteTwoFloors extends IndoorRoute {
+            constructor()
+            {
+                super('H801', 'H903', false, [], 1);
+            }
+        } 
+
+        class MockIndoorMap extends IndoorMap {
+
+            private createCalled = false;
+            private deleteCalled = false;
+
+            constructor()
+            {
+                super(null, null, null);
+            }
+
+            setDestinationMarkers(){ this.createCalled = true };
+            deleteDestinationMarkers(){ this.deleteCalled = true };
+        } 
+        
+        class MockBuilding extends Building {
+            constructor() {
+                super('Henry F. Hall Building', 'H', null, {8: new MockIndoorMap, 9: new MockIndoorMap});
+            }
+        }   
+
+        it("should create destination markers for the same floor", () => {
+            const { mapService } = testServiceSetup();
+            mapService['outdoorMap']['pois'] = [new MockBuilding()];
+            const mapObj = new MockMaps(null);
+            mapService.createDestinationMarkers(mapObj, new MockRouteSameFloor);
+
+            const mockBuilding = <Building> mapService['outdoorMap']['pois'][0];
+            expect(mockBuilding['indoorMaps'][8]['createCalled']).toBeTruthy;
+        });
+
+        it("should create destination markers for two floors", () => {
+            const { mapService } = testServiceSetup();
+            mapService['outdoorMap']['pois'] = [new MockBuilding()];
+            const mapObj = new MockMaps(null);
+            mapService.createDestinationMarkers(mapObj, new MockRouteTwoFloors);
+
+            const mockBuilding = <Building> mapService['outdoorMap']['pois'][0];
+            expect(mockBuilding['indoorMaps'][8]['createCalled']).toBeTruthy;
+            expect(mockBuilding['indoorMaps'][9]['createCalled']).toBeTruthy;
+        });
+
+        it("should delete destination markers", () => {
+            const { mapService } = testServiceSetup();
+            mapService['outdoorMap']['pois'] = [new MockBuilding()];
+            const mapObj = new MockMaps(null);
+            mapService.createDestinationMarkers(mapObj, new MockRouteTwoFloors);
+
+            mapService.deleteDestinationMarkers();
+
+            const mockBuilding = <Building> mapService['outdoorMap']['pois'][0];
+            expect(mockBuilding['indoorMaps'][8]['deleteCalled']).toBeTruthy;
+            expect(mockBuilding['indoorMaps'][9]['deleteCalled']).toBeTruthy;
+        });
+    });
+
+    describe('displayRoute()', () => {
+        const { mapService } = testServiceSetup();
+        const mockedRouteSteps: RouteStep[] = jasmine.createSpyObj('routeSteps', ['forEach']);
+        class MockIndoorRoute extends IndoorRoute {
+            constructor() {
+                super('H962', 'H841', false, mockedRouteSteps, 10);
+            }
+        }
+
+        class MockOutdoorRoute extends OutdoorRoute {
+            constructor() {
+                super(null, null, null, null, null, null);
+            }
+        }
+
+        const testIndoorRoute: IndoorRoute = new MockIndoorRoute();
+        const testOutdoorRoute: OutdoorRoute = new MockOutdoorRoute();
+        const mockMap = new MockMaps(null);
+        it('should call indoor route display', () => {
+            const spiedIndoorRoute = spyOn(mapService, 'displayIndoorRoute');
+            mapService.displayRoute(mockMap, testIndoorRoute);
+            expect(spiedIndoorRoute).toHaveBeenCalled();
+        });
+
+        it('should call outdoor route display', () => {
+            const spiedOutdoorRoute = spyOn(mapService, 'displayOutdoorRoute');
+            mapService.displayRoute(mockMap, testOutdoorRoute);
+            expect(spiedOutdoorRoute).toHaveBeenCalled();
+        });
+
+        it('should iterate over route steps for an indoor route', () => {
+            mapService.displayRoute(mockMap, testIndoorRoute);
+            expect(mockedRouteSteps.forEach).toHaveBeenCalled();
+        });
+
     });
 });

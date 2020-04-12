@@ -1,17 +1,21 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
+import { BehaviorSubject } from 'rxjs';
 import { AbstractPOIFactoryService } from '../factories';
-import { Building, IndoorMap, IndoorRoute, Map, OutdoorMap, OutdoorRoute, Route } from '../models';
+import { Building, IndoorMap, IndoorRoute, Map, OutdoorMap, OutdoorRoute, Route, Coordinates } from '../models';
 import { GoogleApisService } from './google-apis.service';
+import { IconService } from './icon.service';
 import { LocationService } from './location.service';
 import { PlaceService } from './place.service';
+import { RoutesService } from './routes.service';
 import { ShuttleService } from './shuttle.service';
-import { IconService } from './icon.service';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class MapService {
     private outdoorMap: Map;
+
+    // A persistence variable for indoor polyline tracking
+    private drawnPolyline: google.maps.Polyline = null;
 
     private showToggleFloorButton = new BehaviorSubject(false);
     public showToggleFloorButtonObservable = this.showToggleFloorButton.asObservable();
@@ -95,7 +99,6 @@ export class MapService {
 
     private tilesLoadedHandler(mapObj: google.maps.Map): () => void {
         return () => {
-            console.log('mapObj', mapObj); // debug
             this.trackBuildingsOutlinesDisplay(mapObj.getZoom());
             this.trackBuildingCodeDisplay(mapObj.getZoom());
             this.trackFloorToggleButton(mapObj);
@@ -192,7 +195,7 @@ export class MapService {
      */
     private trackFloorToggleButton(mapObj: google.maps.Map): void {
         const hallBuildingName = 'Henry F. Hall Building';
-        const building = <Building> this.outdoorMap.getPOI(hallBuildingName);
+        const building = <Building>this.outdoorMap.getPOI(hallBuildingName);
         const zoomValue = mapObj.getZoom();
         const inBounds = mapObj.getBounds().contains(building.getMarkerPosition());
 
@@ -201,7 +204,7 @@ export class MapService {
         } else {
             this.showToggleFloorButton.next(false);
         }
-        
+
     }
 
     /**
@@ -237,31 +240,95 @@ export class MapService {
         return this.SGW_COORDINATES;
     }
 
-    displayRoute(map: google.maps.Map, route: Route) {
+    displayRoute(map: google.maps.Map, route: Route, indoorMapLevel?: number) {
         if (route instanceof OutdoorRoute) {
             this.displayOutdoorRoute(map, route);
         } else if (route instanceof IndoorRoute) {
-            // TODO: Render indoor route here
-            return;
+            this.displayIndoorRoute(map, route, indoorMapLevel);
         }
     }
 
-    private displayOutdoorRoute(map: google.maps.Map, route: OutdoorRoute) {
+    /**
+     * Wraps google API request. In addition, filters the resulting list to render only the selected route
+     * @param map map object to render the route on
+     * @param route route to render on the map
+     */
+    displayOutdoorRoute(map: google.maps.Map, route: OutdoorRoute): void {
         const renderer = this.getMapRenderer();
         renderer.setMap(map);
 
         if (this.shuttleService.isShuttleRoute(route)) {
-            this.shuttleService.displayShuttleRoute(map, route)
+            this.shuttleService.displayShuttleRoute(map, route);
         } else {
             this.googleApis
-            .getDirectionsService()
-            .route(route.getDirectionsRequestFromRoute(), (res, status) => {
-                if (status === 'OK') {
-                    renderer.setDirections(res);
-                } else {
-                    console.log('Directions request failed due to ' + status);
-                }
-            });
+                .getDirectionsService()
+                .route(route.getDirectionsRequestFromRoute(), (res: google.maps.DirectionsResult, status) => {
+                    if (status === 'OK') {
+                        renderer.setDirections(res);
+                        const matchingRouteIndex = this.filterOutRoute(res, route.startTime, route.endTime);
+                        renderer.setRouteIndex(matchingRouteIndex);
+                    } else {
+                        console.log('Directions request failed due to ' + status);
+                    }
+                });
+        }
+    }
+
+    /**
+     * Filter method allowing us to display only the route passed from the routes page
+     * @param res result returned by the google API
+     * @param startTime expected true start time
+     * @param endTime expected true end time
+     * @returns index of the route matching start and end times
+     */
+    private filterOutRoute(res: google.maps.DirectionsResult, startTime: Date, endTime: Date): number {
+        for (let i = 0; i < res.routes.length; i++) {
+            if (res.routes[i].legs[0].departure_time.value.getTime() === startTime.getTime()
+                && res.routes[i].legs[0].arrival_time.value.getTime() === endTime.getTime()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Method to display indoor routing using google Polylines. Tracks previous drawing, clearing it out per request
+     * @param map map object to render the route on
+     * @param indoorRoute route to render on the map
+     * @param indoorMapLevel floor for which to draw the polyline
+     */
+    displayIndoorRoute(map: google.maps.Map, indoorRoute: IndoorRoute, indoorMapLevel: number): void {
+        const startCoords: Coordinates = indoorRoute.startCoordinates;
+        const startLocation: google.maps.LatLng =
+            new google.maps.LatLng(startCoords.getLatitude(), startCoords.getLongitude());
+
+        // Clear polylines previously drawn in order to keep the needed polylines per floor only
+        if (this.drawnPolyline != null) {
+            this.drawnPolyline.setMap(null);
+        }
+
+        // If there are route steps for current floor, draw a directions polyline for that floor
+        indoorRoute.routeSteps.forEach(routeStep => {
+            if (routeStep.startCoordinate.getFloorNumber() === indoorMapLevel
+                && routeStep.endCoordinate.getFloorNumber() === indoorMapLevel) {
+                this.drawnPolyline = this.googleApis.createPolyline(mapCoordinatesArrayToLatLng(routeStep.path), true, 'red', 1.0, 2);
+                this.drawnPolyline.setMap(map);
+            }
+        });
+
+        map.setCenter(startLocation);
+        map.setZoom(19);
+
+        function mapCoordinatesArrayToLatLng(coordinates: Coordinates[]): google.maps.LatLng[] {
+            const latLngArray: google.maps.LatLng[] = [];
+            for (const coords of coordinates) {
+                latLngArray.push(coordinatesToLatLng(coords));
+            }
+            return latLngArray;
+        }
+
+        function coordinatesToLatLng(coordinates: Coordinates): google.maps.LatLng {
+            return new google.maps.LatLng(coordinates.getLatitude(), coordinates.getLongitude());
         }
     }
 
@@ -271,5 +338,43 @@ export class MapService {
 
     public getOutdoorMap(): OutdoorMap {
         return this.outdoorMap;
+    }
+
+    public createDestinationMarkers(map: google.maps.Map, route: Route): void {
+
+        const startLocation: google.maps.LatLng =
+            new google.maps.LatLng(route.startCoordinates.getLatitude(), route.startCoordinates.getLongitude());
+
+        const endLocation: google.maps.LatLng =
+            new google.maps.LatLng(route.endCoordinates.getLatitude(), route.endCoordinates.getLongitude());
+
+        const startMarker = this.googleApis.createMarker(startLocation, map, this.iconService.getStartIcon());
+        startMarker.setVisible(false);
+
+        const endMarker = this.googleApis.createMarker(endLocation, map, this.iconService.getEndIcon());
+        endMarker.setVisible(false);
+
+        const destinationMarkers = [startMarker, endMarker];
+
+        const hallBuildingName = 'Henry F. Hall Building';
+        const building = this.outdoorMap.getPOI(hallBuildingName) as Building;
+        const indoorMaps = building.getIndoorMaps();
+
+        if (route.startCoordinates.getFloorNumber() === route.endCoordinates.getFloorNumber()) {
+            indoorMaps[route.startCoordinates.getFloorNumber()].setDestinationMarkers(destinationMarkers);
+        } else {
+            indoorMaps[route.startCoordinates.getFloorNumber()].setDestinationMarkers([startMarker]);
+            indoorMaps[route.endCoordinates.getFloorNumber()].setDestinationMarkers([endMarker]);
+        }
+    }
+
+    public deleteDestinationMarkers(): void {
+        const hallBuildingName = 'Henry F. Hall Building';
+        const building = this.outdoorMap.getPOI(hallBuildingName) as Building;
+        const indoorMaps = building.getIndoorMaps();
+
+        for (const listIndex in indoorMaps) {
+            indoorMaps[listIndex].deleteDestinationMarkers();
+        }
     }
 }

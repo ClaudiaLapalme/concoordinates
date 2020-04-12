@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { RouterTestingModule } from '@angular/router/testing';
 import { CoreModule } from '../core';
+import { OutdoorPOIFactoryService } from '../core/factories';
 import {
     Coordinates,
     OutdoorRoute,
@@ -86,7 +87,27 @@ describe('RenderedRoutesPage', () => {
         }
     }
 
-    class MockMapService {
+    class MockOutdoorPOIFactoryService extends OutdoorPOIFactoryService {
+        setMapService() {
+            this['mapService'] = jasmine.createSpyObj('MapService', [
+                'loadIndoorMaps',
+            ]);
+        }
+    }
+
+    const abstractPOIFactoryService = jasmine.createSpyObj(
+        'AbstractPOIFactoryService',
+        ['createOutdoorPOIFactory', 'createIndoorPOIFactory']
+    );
+
+    abstractPOIFactoryService.createOutdoorPOIFactory.and.returnValue(
+        new MockOutdoorPOIFactoryService()
+    );
+
+    class MockMapService extends MapService {
+        constructor() {
+            super(null, null, null, abstractPOIFactoryService, null, null);
+        }
         map: google.maps.Map = new MockMaps(null);
         displayRoute(map: google.maps.Map, route: OutdoorRoute): void {}
         loadMap(): Promise<google.maps.Map<Element>> {
