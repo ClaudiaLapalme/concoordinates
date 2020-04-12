@@ -23,14 +23,14 @@ export class IconService {
 
   getStartIcon(): google.maps.Icon {
     return {
-      url: '../../../assets/icon/start_marker.png',
+      url: '../../../assets/icon/start_marker.svg',
       scaledSize: new google.maps.Size(30, 30) // scaled size
     };
   }
 
   getEndIcon(): google.maps.Icon {
     return {
-      url: '../../../assets/icon/end_marker.png',
+      url: '../../../assets/icon/end_marker.svg',
       scaledSize: new google.maps.Size(30, 30) // scaled size
     };
   }
