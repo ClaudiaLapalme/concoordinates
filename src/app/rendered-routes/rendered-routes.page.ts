@@ -36,6 +36,8 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
 
     displayRoutes: boolean;
 
+    routeFullDisplay: boolean;
+
     constructor(
         private stateService: StateService,
         private mapService: MapService
@@ -71,6 +73,9 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
 
             // Initial Placement
             this.displayRoutes = false;
+
+            // hides html note needed from component
+            this.routeFullDisplay = false;
         }
     }
 
