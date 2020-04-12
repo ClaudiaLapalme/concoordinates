@@ -39,37 +39,64 @@ describe('RouteStepComponent', () => {
     it('ngonInit test stairs', () => {
         component.step = new RouteStep(
             null,
-            null,
+            new Coordinates(1, 1, 8),
             null,
             null,
             1,
             null,
             new Transport(null, null, TransportMode.STAIRS, null)
         );
+        component.nextStep = new RouteStep(
+            null,
+            new Coordinates(1, 1, 9),
+            null,
+            null,
+            1,
+            null,
+            new Transport(null, null, TransportMode.WALKING, null)
+        );
         component.ngOnInit();
         expect(component.instruction).toBe(
-            'Take the stairs towards your destination floor'
+            'Take the stairs from the 8th floor to the 9th floor'
         );
     });
     it('ngonInit test escalator', () => {
         component.step = new RouteStep(
             null,
-            null,
+            new Coordinates(1, 1, 8),
             null,
             null,
             1,
             null,
             new Transport(null, null, TransportMode.ESCALATOR, null)
         );
+        component.nextStep = new RouteStep(
+            null,
+            new Coordinates(1, 1, 9),
+            null,
+            null,
+            1,
+            null,
+            new Transport(null, null, TransportMode.WALKING, null)
+        );
         component.ngOnInit();
         expect(component.instruction).toBe(
-            'Take escalator towards your destination floor'
+            'Take the escalator from the 8th floor to the 9th floor'
         );
     });
     it('ngonInit test elevator', () => {
         component.step = new RouteStep(
             null,
+            new Coordinates(1, 1, 8),
             null,
+            null,
+            1,
+            null,
+            new Transport(null, null, TransportMode.ELEVATOR, null)
+        );
+        component.nextStep = new RouteStep(
+            null,
+            new Coordinates(1, 1, 9),
             null,
             null,
             1,
@@ -79,13 +106,13 @@ describe('RouteStepComponent', () => {
 
         component.ngOnInit();
         expect(component.instruction).toBe(
-            'Take elevator towards your destination floor'
+            'Take the elevator from the 8th floor to the 9th floor'
         );
     });
     it('ngonInit test walking', () => {
         component.step = new RouteStep(
             null,
-            new Coordinates(1, 1, 1),
+            new Coordinates(1, 1, 8),
             null,
             null,
             1,
@@ -93,6 +120,6 @@ describe('RouteStepComponent', () => {
             new Transport(null, null, TransportMode.WALKING, null)
         );
         component.ngOnInit();
-        expect(component.instruction).toBe('Walk along floor 1');
+        expect(component.instruction).toBe('Walk along the 8th floor');
     });
 });
