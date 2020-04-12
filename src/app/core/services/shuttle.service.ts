@@ -102,11 +102,12 @@ export class ShuttleService {
                 path = path.concat(pathCoord);
             });
 
-            const shuttlePath = this.googleApisService.createPolyline(path, true, '#000000', 1.0, 2);
+            const shuttlePath = this.googleApisService.createPolyline(path, true, 'red', 1.0, 2);
             shuttlePath.setMap(map);
             map.setZoom(13);
             map.setCenter(path[0]);
-            this.googleApisService.createMarker(path[path.length - 1], map, this.iconService.getPlaceIcon());
+            this.googleApisService.createMarker(path[path.length - 1], map, this.iconService.getEndIcon());
+            this.googleApisService.createMarker(path[0], map, this.iconService.getStartIcon());
     }
 
     /**
