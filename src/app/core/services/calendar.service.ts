@@ -55,8 +55,8 @@ export class CalendarService {
     webLogin() {   
         gapi.load('client:auth2', ()=>{
         gapi.client.init({
-              apiKey: 'AIzaSyAeYyzcV47kcRC5r14_KhiOJ6btZvfxMXM',
-              clientId: '575233309428-og3tf29v5utp1ei98324130rd5grlmlc.apps.googleusercontent.com',
+              apiKey: '<API_KEY>',
+              clientId: '<CLIEN_ID>',
               discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
               scope: 'https://www.googleapis.com/auth/calendar'
             })
