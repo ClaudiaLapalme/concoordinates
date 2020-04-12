@@ -4,6 +4,7 @@ import { MapService } from './map.service';
 import { OutdoorMap, Campus, Building, POI, IndoorMap, Coordinates } from '../models';
 import { OutdoorPOIFactoryService, IndoorPOIFactoryService } from '../factories';
 import { IndoorPOI } from '../models/indoor-poi';
+import { ShuttleService } from './shuttle.service';
 
 describe('MapService', () => {
 
@@ -41,6 +42,12 @@ describe('MapService', () => {
             'createOutdoorPOIFactory',
             'createIndoorPOIFactory'
         ]);
+        const shuttleService = jasmine.createSpyObj('ShuttleService', [
+            'displayShuttleRoute'
+        ]);
+        const mockIconService  = jasmine.createSpyObj('mockIconService', ['getLocationIcon']);
+
+
 
         abstractPOIFactoryService.createOutdoorPOIFactory.and.returnValue(new MockOutdoorPOIFactoryService);
         abstractPOIFactoryService.createIndoorPOIFactory.and.returnValue(new MockIndoorPOIFactoryService);
@@ -49,7 +56,9 @@ describe('MapService', () => {
             locationServiceSpy,
             googleApisServiceSpy,
             placeServiceSpy,
-            abstractPOIFactoryService
+            abstractPOIFactoryService,
+            shuttleService,
+            mockIconService
         );
         return { mapService, locationServiceSpy, googleApisServiceSpy, abstractPOIFactoryService };
     }
@@ -182,31 +191,6 @@ describe('MapService', () => {
             const outdoorMap = mapService.getOutdoorMap();
 
             expect(outdoorMap).toBeTruthy();
-        });
-    });
-
-    describe('tilesLoadedHandler()', () => {
-        it('should return a tilesloaded handler', () => {
-            const {
-                mapService,
-                locationServiceSpy,
-                googleApisServiceSpy
-            } = testServiceSetup();
-
-            const mockAddress = 'test address';
-            locationServiceSpy.getAddressFromLatLng.and.returnValue(
-                Promise.resolve(mockAddress)
-            );
-
-            const mockMap = new MockMaps(null);
-
-            const handlerFunction = 'tilesLoadedHandler';
-            const handler = mapService[handlerFunction](mockMap, 12, 34);
-            handler();
-
-            expect(
-                locationServiceSpy.getAddressFromLatLng
-            ).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -357,6 +341,53 @@ describe('MapService', () => {
             for (const indoorMap in indoorMaps) {
                 expect(indoorMap).toBeTruthy();
             }
+        });
+    });
+
+    describe('trackFloorToggleButton()', () => {
+
+        class MockMapObj {
+            
+            private boundsObj;
+
+            constructor(boundsValue: boolean) {
+                this.boundsObj = new MockBounds(boundsValue);
+            }
+
+            getZoom() {
+                return 19;
+            }
+
+            getBounds(){
+                return this.boundsObj;
+            }
+        }
+
+        class MockBounds {
+
+            private value;
+
+            constructor(boundsValue: boolean) {
+                this.value = boundsValue;
+            }
+
+            contains() {
+                return this.value;
+            }
+        }
+
+        it("should show toggle floor button", () => {
+            const { mapService } = testServiceSetup();
+            const mapObj = new MockMapObj(true);
+            mapService['trackFloorToggleButton(mapObj)'];
+            expect(mapService['showToggleFloorButton']).toBeTruthy;
+        });
+
+        it("should hide toggle floor button", () => {
+            const { mapService } = testServiceSetup();
+            const mapObj = new MockMapObj(false);
+            mapService['trackFloorToggleButton(mapObj)'];
+            expect(mapService['showToggleFloorButton']).toBeFalsy;
         });
     });
 });

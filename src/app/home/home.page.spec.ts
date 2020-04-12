@@ -4,10 +4,17 @@ import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { CoreModule } from '../core';
-import { MapService } from '../core/services/';
+import { MapService, CalendarService } from '../core/services/';
+import { OutdoorPOIFactoryService } from '../core/factories';
 import { HomePage } from './home.page';
 import { SearchComponent } from '../core/components';
 import { By } from '@angular/platform-browser';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire';
+
+
 
 describe('HomePage', () => {
     let component: HomePage;
@@ -17,9 +24,26 @@ describe('HomePage', () => {
         panTo() {}
         setZoom() {}
     }
+    class MockOutdoorPOIFactoryService extends OutdoorPOIFactoryService {
+        setMapService() {
+            this['mapService'] = jasmine.createSpyObj('PlaceService', [
+                'loadIndoorMaps'
+            ]);
+        }
+    }
+
+    const abstractPOIFactoryService = jasmine.createSpyObj('AbstractPOIFactoryService', [
+        'createOutdoorPOIFactory',
+        'createIndoorPOIFactory'
+    ]);
+
+    abstractPOIFactoryService.createOutdoorPOIFactory.and.returnValue(new MockOutdoorPOIFactoryService);
 
     beforeEach(async(() => {
-        class MockMapService {
+        class MockMapService extends MapService {
+            constructor(){
+                super(null, null, null, abstractPOIFactoryService, null, null);
+            }
             loadMap(): Promise<google.maps.Map<Element>> {
                 return new Promise(() => {});
             }
@@ -31,9 +55,15 @@ describe('HomePage', () => {
                 IonicModule.forRoot(),
                 RouterModule,
                 CoreModule,
-                RouterTestingModule.withRoutes([])
+                RouterTestingModule.withRoutes([]),
+                [AngularFireModule.initializeApp(environment.config)]
             ],
-            providers: [{ provide: MapService, useClass: MockMapService }],
+            providers: [
+                { provide: MapService, useClass: MockMapService },
+                AngularFireAuth,
+                GooglePlus,
+                CalendarService
+            ],
             schemas: [NO_ERRORS_SCHEMA]
         }).compileComponents();
 
@@ -48,31 +78,33 @@ describe('HomePage', () => {
         expect(component).toBeTruthy();
     });
 
+    it('setCurrentCenter()', () => {
+        const latLng = new google.maps.LatLng(54, 54);
+       component.setCurrentCenter(latLng);
+       expect(component.currentCenter).toEqual(latLng); 
+    });
+
     describe('switchCampus()', () => {
+
         class MockMaps extends google.maps.Map {
             setCenter(): void {}
         }
 
-        it('current center should default to SGW coordinates', () => {
-            const mockLatLng = new google.maps.LatLng(45.4959053, -73.5801141);
-            expect(component.currentCenter).toEqual(mockLatLng);
-        });
+        const SGW = new google.maps.LatLng(45.4959053, -73.5801141);
+        const LOYOLA = new google.maps.LatLng(45.4582, -73.6405);
 
-        it('current center should change from SGW to LOY coordinates', () => {
-            const mockLatLng = new google.maps.LatLng(45.4582, -73.6405);
+        it('should set the current center to SGW if it receives 1', () => {
             const mockMap = new MockMaps(null);
             component.mapModel = mockMap;
-            component.switchCampus();
-            expect(component.currentCenter).toEqual(mockLatLng);
+            component.switchCampus(1);
+            expect(component.currentCenter).toEqual(SGW);
         });
 
-        it('current center change from LOY to SGW coordinates', () => {
-            const mockLatLng = new google.maps.LatLng(45.4959053, -73.5801141);
+        it('should set the current center to LOY if it receives 2', () => {
             const mockMap = new MockMaps(null);
             component.mapModel = mockMap;
-            component.switchCampus();
-            component.switchCampus();
-            expect(component.currentCenter).toEqual(mockLatLng);
+            component.switchCampus(2);
+            expect(component.currentCenter).toEqual(LOYOLA);
         });
     });
 

@@ -5,32 +5,52 @@ import { CoreModule } from '../../../core';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SideMenuComponent } from './side-menu.component';
+import { CalendarService } from '../../services/calendar.service';
+import { environment } from 'src/environments/environment';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
 
-describe('SettingsComponent', () => {
+
+describe('SideMenuComponent', () => {
 
     let component: SideMenuComponent;
     let fixture: ComponentFixture<SideMenuComponent>;
 
     beforeEach(async(() => {
+
         TestBed.configureTestingModule({
             declarations: [
                 SideMenuComponent
             ],
             imports: [
-                IonicModule.forRoot(),
+
+                AngularFireModule.initializeApp(environment.config),
+                IonicModule,
                 RouterModule,
                 CoreModule,
                 RouterTestingModule.withRoutes([])],
             schemas: [
                 NO_ERRORS_SCHEMA,
+            ],
+            providers: [
+                AngularFireAuth,
+                GooglePlus,
+                CalendarService
             ]
         }).compileComponents();
 
-
         fixture = TestBed.createComponent(SideMenuComponent);
         component = fixture.componentInstance;
+
         fixture.detectChanges();
     }));
+
+    const calendarServiceSpy = jasmine.createSpyObj('CalendarService', [
+        'getAuth',
+        'updateSigninStatus',
+        'getUserEmail'
+    ]);
 
     it('should be created', () => {
         expect(component).toBeTruthy();
@@ -51,6 +71,20 @@ describe('SettingsComponent', () => {
 
             expect(component.showSettings).toBeFalsy();
             expect(component.showMenu).toBeTruthy();
+        });
+    });
+
+    describe('authCalendarUser()', () => {
+        it('should call this.calendarService.getAuth()', () => {
+            component.authCalendarUser();
+            expect(!calendarServiceSpy.getAuth()).toBeTruthy();
+        });
+    });
+
+    describe('insertGoogleUserInfo()', () => {
+        it('should insert Google User info into the side menu', () => {
+            component.insertGoogleUserInfo();
+            expect(document.getElementById('loggedInEmail').innerHTML == '').toBeTruthy();
         });
     });
 });

@@ -1,4 +1,4 @@
-<div class="select-floor" title='Click to change floor'>
+<div class="select-floor" title='Click to change floor' *ngIf="visibleFloorButton">
     <div *ngFor="let floorLevel of availableFloors" (click)=selectFloor(floorLevel)>
         <div [class.unselected]="true" [class.selected]="floorLevel===selectedFloorLevel">{{floorLevel}}</div>
     </div>

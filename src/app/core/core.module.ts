@@ -5,6 +5,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { IonicModule } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
+
 import {
     DirectionsButtonComponent,
     IndoorMapComponent,
@@ -16,21 +17,22 @@ import {
     SettingsComponent,
     ToggleCampusComponent,
     ToggleFloorsComponent,
-    TransitLineIndicatorComponent
+    TransitLineIndicatorComponent,
 } from './components';
 import {
     AbstractPOIFactoryService,
     IndoorPOIFactoryService,
     OutdoorPOIFactoryService,
-    RouteFactory
+    RouteFactory,
 } from './factories';
 import {
+    CalendarService,
     GoogleApisService,
     LocationService,
     MapService,
     OverlayViewRenderer,
     PlaceService,
-    SessionService
+    SessionService,
 } from './services';
 
 @NgModule({
@@ -46,14 +48,14 @@ import {
         SettingsComponent,
         RoutesListItemComponent,
         RoutesListItemStepComponent,
-        TransitLineIndicatorComponent
+        TransitLineIndicatorComponent,
     ],
     imports: [
         CommonModule,
         IonicModule,
         IonicStorageModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ],
     providers: [
         LocationService,
@@ -66,7 +68,9 @@ import {
         AbstractPOIFactoryService,
         RouteFactory,
         PlaceService,
-        OverlayViewRenderer
+        LocationButtonComponent,
+        CalendarService,
+        OverlayViewRenderer,
     ],
     exports: [
         ToggleCampusComponent,
@@ -80,8 +84,8 @@ import {
         SettingsComponent,
         RoutesListItemComponent,
         RoutesListItemStepComponent,
-        TransitLineIndicatorComponent
+        TransitLineIndicatorComponent,
     ],
-    entryComponents: []
+    entryComponents: [],
 })
 export class CoreModule {}

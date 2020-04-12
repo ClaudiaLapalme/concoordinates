@@ -1,7 +1,9 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, EventEmitter, Output } from '@angular/core';
-import { GoogleApisService, MapService, SessionService } from '../core';
+import { GoogleApisService, MapService, SessionService, CalendarService } from '../core';
 import { MenuController } from '@ionic/angular';
 import { IndoorFunctionsService } from '../shared/indoor-functions.service';
+import { IconService } from '../core/services/icon.service';
+import { SelectedCampus } from '../core/components/toggle-campus';
 
 // TODO move all this map logic to MapPage and keep all Pages as routes from this page
 @Component({
@@ -23,6 +25,7 @@ export class HomePage implements AfterViewInit {
 
     @ViewChild('directions', { read: ElementRef, static: false })
     directionsButton: ElementRef;
+    
     // Reference to the native toggle campus html element
     @ViewChild('toggle', { read: ElementRef, static: false })
     toggle: ElementRef;
@@ -33,6 +36,7 @@ export class HomePage implements AfterViewInit {
 
     @ViewChild('menuBar', { read: ElementRef, static: false })
     menuBar: ElementRef;
+
     // Reference to the native location button html element
     @ViewChild('userCenter', { read: ElementRef, static: false })
     userCenter: ElementRef;
@@ -57,10 +61,11 @@ export class HomePage implements AfterViewInit {
         private mapService: MapService,
         private googleApisService: GoogleApisService,
         private menu: MenuController,
+        private calendarService: CalendarService,
         private sessionService: SessionService,
-        private indoorFunctionsService: IndoorFunctionsService
+        private indoorFunctionsService: IndoorFunctionsService,
+        private iconService: IconService
     ) {
-        this.currentCenter = this.SGW;
 
         // TODO: Remove initial indoorMap when we will be able to click
         // on the building or zoom in close enough to switch
@@ -81,8 +86,7 @@ export class HomePage implements AfterViewInit {
         this.currentCenter = newCenter;
     }
 
-    private loadMap(): void {
-        
+    private loadMap(): void {        
         try {
             this.mapService.loadMap(this.mapElement)
                 .then(mapObj => {
@@ -90,6 +94,7 @@ export class HomePage implements AfterViewInit {
                     this.sessionService.storeMapRef(mapObj);
                     this.isMapSet = this.sessionService.isMapRefSet();
                     this.mapLoaded = true;
+
                     const toggleButtonNE = this.toggle.nativeElement;
                     const switchFloorsNE = this.switchFloor.nativeElement;
                     const directionsButton = this.directionsButton.nativeElement;
@@ -98,11 +103,11 @@ export class HomePage implements AfterViewInit {
 
 
                     this.mapModel.controls[google.maps.ControlPosition.TOP_CENTER].push(menuBar);
-
                     this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
                     this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(directionsButton);
                     this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(switchFloorsNE);
                     this.mapModel.controls[google.maps.ControlPosition.RIGHT_TOP].push(toggleButtonNE);
+
                     this.controlsShown = true;
 
                 });
@@ -123,13 +128,19 @@ export class HomePage implements AfterViewInit {
         }
     }
 
-    switchCampus(): void {
-        if (this.currentCenter === this.SGW) {
+    /**
+     * Sets the current center to the selected campus
+     * Recenters the map to the selected campus
+     * @param selectedCampus 
+     */
+    switchCampus(selectedCampus: number): void {
+        if (selectedCampus === SelectedCampus.SGW) {
+            this.mapModel.setCenter(this.SGW);
+            this.setCurrentCenter(this.SGW); 
+        }
+        else if (selectedCampus === SelectedCampus.LOY) {
             this.mapModel.setCenter(this.LOYOLA);
             this.setCurrentCenter(this.LOYOLA);
-        } else {
-            this.mapModel.setCenter(this.SGW);
-            this.setCurrentCenter(this.SGW);
         }
     }
 
@@ -146,11 +157,7 @@ export class HomePage implements AfterViewInit {
     createMarker(place: google.maps.places.PlaceResult): void {
 
         const infowindow = new google.maps.InfoWindow();
-        const icon = {
-            url: '../../../assets/icon/place_marker.svg',
-            scaledSize: new google.maps.Size(30, 30), // scaled size
-            animation: google.maps.Animation.DROP
-        };
+        const icon = this.iconService.getPlaceIcon();
 
         // Create marker object based on place parameter
         const placeLoc = place.geometry.location;
@@ -190,13 +197,14 @@ export class HomePage implements AfterViewInit {
             this.searchedPlaceMarker.setMap(null);
         }
     }
+
     recenterToUser(): void {
         this.mapService.getUserLocation().then(userLatLng => {
             this.handleRecenter(userLatLng);
         });
     }
 
-    handleRecenter(userLatLng): void {
+    handleRecenter(userLatLng: google.maps.LatLng): void {
         const latLng: google.maps.LatLng = userLatLng;
 
         if (latLng !== undefined) {
@@ -205,4 +213,5 @@ export class HomePage implements AfterViewInit {
             console.log('the user location is undefined');
         }
     }
+
 }

@@ -18,7 +18,7 @@ export class OutdoorRoute implements Route {
         this.endTime = endTime;
         this.allowedTransportModes = allowedTransportModes;
         this.routeSteps = routeSteps;
-        this.disability = true;
+        this.disability = false;
     }
 
     startCoordinates: Coordinates;

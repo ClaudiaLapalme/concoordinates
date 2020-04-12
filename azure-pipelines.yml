@@ -34,7 +34,14 @@ jobs:
        sed -i 's/G_API_KEY_PLACEHOLDER/'$SECRET_API_KEY'/g' src/index.html
     displayName: 'Update api key for tests'
 
-  - script: ng test --watch=false --code-coverage
+  - task: DownloadSecureFile@1
+    name: 'ci_environment_file'
+    inputs:
+      secureFile: 'ci_environment_configuration.ts'
+
+  - script: |
+      cp $(ci_environment_file.secureFilePath) ./ci_environment_configuration.ts
+      ng test -c ci
     displayName: 'Run ng test'
 
   - script: |

@@ -41,7 +41,7 @@
 
     <app-toggle-campus
         #toggle
-        (toggleChange)="switchCampus()"
+        (toggleChange)="switchCampus($event)"
         [ngClass]="{invisible: !controlsShown}"
     ></app-toggle-campus>
 
@@ -62,3 +62,5 @@
         [ngClass]="{invisible: !controlsShown}"
     ></app-location-button>
 </ion-content>
+
+
