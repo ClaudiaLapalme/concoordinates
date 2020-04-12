@@ -41,7 +41,7 @@
 
     <app-toggle-campus
         #toggle
-        (toggleChange)="switchCampus()"
+        (toggleChange)="switchCampus($event)"
         [ngClass]="{invisible: !controlsShown}"
     ></app-toggle-campus>
 
