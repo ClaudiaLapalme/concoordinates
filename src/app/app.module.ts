@@ -7,12 +7,14 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CoreModule } from './core';
+import { CoreModule, CalendarService } from './core';
 import { SharedModule } from './shared';
 import { environment } from '../environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { RoutesPage } from './routes/routes.page';
+import { SideMenuComponent } from './core/components';
 
 
 @NgModule({
@@ -34,6 +36,8 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
         CoreModule,
         SharedModule,
         GooglePlus,
+        SideMenuComponent,
+        CalendarService,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
     ],
     bootstrap: [AppComponent]

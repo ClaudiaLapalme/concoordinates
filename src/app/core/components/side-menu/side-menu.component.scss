@@ -1,3 +1,9 @@
 .clickable {
     pointer-events: auto !important;
 }
+
+.line {
+    width:100%;
+    border-bottom: 1px solid var(--ion-color-primary-contrast);
+    margin: auto;
+}

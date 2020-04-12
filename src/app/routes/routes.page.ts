@@ -1,15 +1,22 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { Route, RouteFactory, TransportMode } from '../core';
+import { Subject, Subscription, Observable } from 'rxjs';
+import { takeUntil, filter, map } from 'rxjs/operators';
+import { Route, RouteFactory, TransportMode, CalendarService, PlaceService, SessionService, LocationService, MapService } from '../core';
+import { Router, ActivatedRoute, NavigationStart } from '@angular/router'
+import { IndoorFunctionsService } from '../shared/indoor-functions.service';
+import { Coordinates } from '../core';
+import { Geoposition } from '@ionic-native/geolocation/ngx';
+
 
 @Component({
     selector: 'app-routes',
     templateUrl: './routes.page.html',
-    styleUrls: ['./routes.page.scss']
+    styleUrls: ['./routes.page.scss'],
+    providers: [CalendarService],
 })
-export class RoutesPage implements OnInit, OnDestroy {
+export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
+
     /**
      * Form used to generate routes
      *
@@ -44,11 +51,28 @@ export class RoutesPage implements OnInit, OnDestroy {
      * @private
      * @type {Subscription}
      */
+
     private subscription: Subscription;
+    isFromCalendar: boolean;
+    eventFrom: string = 'H801';
+    eventTo: string;
+    //userLocation: string;
 
-
-    constructor(private formBuilder: FormBuilder, private routeFactory: RouteFactory) { }
-
+    constructor(private formBuilder: FormBuilder, 
+                private routeFactory: RouteFactory, 
+                public activatedRoute: ActivatedRoute, 
+                public placesService: PlaceService,
+                public router: Router,
+                private route: ActivatedRoute) 
+                {
+                    this.route.queryParams.subscribe(params => {
+                        if (this.router.getCurrentNavigation().extras.state) {
+                          this.isFromCalendar = this.router.getCurrentNavigation().extras.state.isRouteToEvent
+                          this.eventTo = this.router.getCurrentNavigation().extras.state.location;
+                        }
+                    });
+                }
+                 
     ngOnInit() {
         const currentTime = new Date(Date.now());
         const hourMinutes = currentTime.getHours() + ':' + currentTime.getMinutes();
@@ -66,7 +90,15 @@ export class RoutesPage implements OnInit, OnDestroy {
                 if (this.form.valid) {
                     this.getRoutes();
                 }
-            });
+            }); 
+    }
+
+    ngAfterViewInit() {
+        if(this.isFromCalendar){
+            this.setToString(this.eventTo); 
+            this.setFromString(this.eventFrom);
+            this.isFromCalendar = false; 
+        }
     }
 
     ngOnDestroy() {
@@ -107,7 +139,6 @@ export class RoutesPage implements OnInit, OnDestroy {
         this.transportMode = TransportMode[transportMode];
         this.getRoutes();
     }
-
     /**
      * Set the value of the from input
      *
@@ -116,11 +147,19 @@ export class RoutesPage implements OnInit, OnDestroy {
         this.form.controls.from.setValue(event.formatted_address);
     }
 
+    setFromString(coords: string) {
+        this.form.controls.from.setValue(coords);
+    }
     /**
      * Set the value of the to input
      *
      */
     setTo(event: google.maps.places.PlaceResult): void {
         this.form.controls.to.setValue(event.formatted_address);
+    }
+
+    setToString(formattedAddress: string): void {
+        formattedAddress = formattedAddress.toLocaleUpperCase().replace(/\s/g, ""); //all caps no space
+        this.form.controls.to.setValue(formattedAddress);
     }
 }
