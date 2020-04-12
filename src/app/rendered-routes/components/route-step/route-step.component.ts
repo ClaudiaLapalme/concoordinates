@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RouteStep } from 'src/app/core/models/route-step';
-import { TransportMode } from 'src/app/core/models/transport-mode';
+import { Transport, TransportMode } from 'src/app/core/models/transport-mode';
 
 @Component({
     selector: 'app-route-step',
@@ -17,6 +17,7 @@ export class RouteStepComponent implements OnInit {
     constructor() {}
 
     ngOnInit() {
+        // if there is an input step get its instructions and duration
         if (this.step) {
             this.instruction = this.step.instruction;
             this.stepDuration = this.step.getDuration();

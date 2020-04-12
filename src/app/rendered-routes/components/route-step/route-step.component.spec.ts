@@ -17,7 +17,6 @@ describe('RouteStepComponent', () => {
 
         fixture = TestBed.createComponent(RouteStepComponent);
         component = fixture.componentInstance;
-        component.step = jasmine.createSpyObj('step', ['getDuration']);
         fixture.detectChanges();
     }));
 
@@ -25,8 +24,13 @@ describe('RouteStepComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('ngOnInit', () => {
+    it('ngOnInit with step', () => {
+        component.step = jasmine.createSpyObj('step', ['getDuration']);
         component.ngOnInit();
         expect(component.step.getDuration).toHaveBeenCalled();
+    });
+    it('ngOnInit without step', () => {
+        component.ngOnInit();
+        expect(component.step).toBeUndefined();
     });
 });

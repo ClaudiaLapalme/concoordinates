@@ -24,12 +24,10 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     @ViewChild('userCenter', { read: ElementRef, static: false })
     userCenter: ElementRef;
 
-    @ViewChild('menuBar', { read: ElementRef, static: false })
-    menuBar: ElementRef;
+    // Displays all steps
+    @ViewChild('stepsDisplay', { read: ElementRef, static: false })
+    stepsDisplay: ElementRef;
 
-    // @ViewChild('test', { read: ElementRef, static: false })
-    // test: ElementRef;
-    // Map data
     public mapModel: google.maps.Map;
 
     controlsShown = true;
@@ -47,19 +45,22 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
         this.mapService.loadMap(this.mapElement).then((mapObj) => {
             this.mapModel = mapObj;
             const locationButton = this.userCenter.nativeElement;
-            const menuBar = this.menuBar.nativeElement;
+
+            // places all the html related to steps
+            const entireStepsElement = this.stepsDisplay.nativeElement;
 
             this.mapModel.controls[
                 google.maps.ControlPosition.RIGHT_BOTTOM
             ].push(locationButton);
             this.mapModel.controls[google.maps.ControlPosition.TOP_CENTER].push(
-                menuBar
+                entireStepsElement
             );
             this.mapService.displayRoute(mapObj, this.route);
         });
     }
 
     ngOnInit() {
+        // If there is a service with a route provided by the state service assign attributes
         if (this.stateService.sharedRoute) {
             this.route = this.stateService.sharedRoute;
 
