@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { Transport, TransportMode } from 'src/app/core/models/transport-mode';
 import { RouteStepComponent } from './route-step.component';
-import { RouteStep } from 'src/app/core';
+import { RouteStep, Coordinates } from 'src/app/core';
 
 describe('RouteStepComponent', () => {
     let component: RouteStepComponent;
@@ -82,10 +82,10 @@ describe('RouteStepComponent', () => {
             'Take elevator towards your destination floor'
         );
     });
-    it('ngonInit test stairs', () => {
+    it('ngonInit test walking', () => {
         component.step = new RouteStep(
             null,
-            null,
+            new Coordinates(1, 1, 1),
             null,
             null,
             1,
@@ -93,6 +93,6 @@ describe('RouteStepComponent', () => {
             new Transport(null, null, TransportMode.WALKING, null)
         );
         component.ngOnInit();
-        expect(component.instruction).toBe('Walk');
+        expect(component.instruction).toBe('Walk along floor 1');
     });
 });

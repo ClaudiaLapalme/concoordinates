@@ -22,7 +22,6 @@ export class RouteStepComponent implements OnInit {
         if (this.step) {
             this.instruction = this.step.instruction;
             this.stepDuration = this.step.getDuration();
-            console.log(this.step.instruction);
             if (isNull(this.step.instruction)) {
                 this.indoorRouteInstructionGeneration();
             }
@@ -31,7 +30,9 @@ export class RouteStepComponent implements OnInit {
 
     private indoorRouteInstructionGeneration(): void {
         if (this.step.transport.travelType === 'WALKING') {
-            this.instruction = 'Walk';
+            this.instruction =
+                'Walk along floor ' +
+                this.step.startCoordinate.getFloorNumber();
         } else if (this.step.transport.travelType === 'STAIRS') {
             this.instruction = 'Take the stairs towards your destination floor';
         } else if (this.step.transport.travelType === 'ESCALATOR') {
