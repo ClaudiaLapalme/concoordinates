@@ -10,6 +10,7 @@ import { isNull } from 'util';
 })
 export class RouteStepComponent implements OnInit {
     @Input() step: RouteStep;
+    @Input() nextStep: RouteStep;
     @Input() routeTransportMode: TransportMode;
 
     stepDuration: number;
@@ -30,15 +31,25 @@ export class RouteStepComponent implements OnInit {
 
     private indoorRouteInstructionGeneration(): void {
         if (this.step.transport.travelType === 'WALKING') {
-            this.instruction =
-                'Walk along floor ' +
-                this.step.startCoordinate.getFloorNumber();
+            this.instruction = `Walk along the ${this.step.startCoordinate.getFloorNumber()}th floor`;
         } else if (this.step.transport.travelType === 'STAIRS') {
-            this.instruction = 'Take the stairs towards your destination floor';
+
+            const floorNumber: number = this.step.startCoordinate.getFloorNumber();
+            const floorNumberNext: number = this.nextStep.startCoordinate.getFloorNumber();
+            this.instruction = `Take the stairs from the ${floorNumber}th floor to the ${floorNumberNext}th floor`;
+
         } else if (this.step.transport.travelType === 'ESCALATOR') {
-            this.instruction = 'Take escalator towards your destination floor';
+
+            const floorNumber: number = this.step.startCoordinate.getFloorNumber();
+            const floorNumberNext: number = this.nextStep.startCoordinate.getFloorNumber();
+            this.instruction = `Take the escalator from the ${floorNumber}th floor to the ${floorNumberNext}th floor`;
+
         } else if (this.step.transport.travelType === 'ELEVATOR') {
-            this.instruction = 'Take elevator towards your destination floor';
+
+            const floorNumber: number = this.step.startCoordinate.getFloorNumber();
+            const floorNumberNext: number = this.nextStep.startCoordinate.getFloorNumber();
+            this.instruction = `Take the elevator from the ${floorNumber}th floor to the ${floorNumberNext}th floor`;
+
         }
     }
 }
