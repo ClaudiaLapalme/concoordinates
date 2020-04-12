@@ -194,7 +194,11 @@ describe('HomePage', () => {
             lng = 0;
         }
 
-        // Flaky
+        /**
+         * This test may occasionally fail.
+         * Uknown side effect, occasionally there's an async timeout that occurs.
+         * I would lean towards network instability causing the delays, hence the flakiness.
+         */
         it('should create marker', () => {
             const placeResult: any = new mockPlaceResult;
             component.searchedPlaceMarker = null;

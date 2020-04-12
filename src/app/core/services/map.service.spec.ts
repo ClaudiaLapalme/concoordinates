@@ -48,7 +48,11 @@ describe('MapService', () => {
         const shuttleService = jasmine.createSpyObj('ShuttleService', [
             'displayShuttleRoute'
         ]);
-        const mockIconService  = jasmine.createSpyObj('mockIconService', ['getLocationIcon']);
+        const mockIconService  = jasmine.createSpyObj('mockIconService', [
+            'getLocationIcon',
+            'getStartIcon',
+            'getEndIcon'
+        ]);
 
         googleApisServiceSpy.createMarker.and.returnValue(new MockMarker);
 

@@ -224,7 +224,7 @@ export class MapService {
      * @param map map object to render the route on
      * @param route route to render on the map
      */
-    displayOutdoorRoute(map: google.maps.Map, route: OutdoorRoute) {
+    displayOutdoorRoute(map: google.maps.Map, route: OutdoorRoute): void {
         const renderer = this.getMapRenderer();
         renderer.setMap(map);
 
@@ -268,7 +268,7 @@ export class MapService {
      * @param indoorRoute route to render on the map
      * @param indoorMapLevel floor for which to draw the polyline
      */
-    displayIndoorRoute(map: google.maps.Map, indoorRoute: IndoorRoute, indoorMapLevel: number) {
+    displayIndoorRoute(map: google.maps.Map, indoorRoute: IndoorRoute, indoorMapLevel: number): void {
         const startCoords: Coordinates = indoorRoute.startCoordinates;
         const startLocation: google.maps.LatLng =
             new google.maps.LatLng(startCoords.getLatitude(), startCoords.getLongitude());
@@ -319,22 +319,21 @@ export class MapService {
         const endLocation: google.maps.LatLng =
             new google.maps.LatLng(route.endCoordinates.getLatitude(), route.endCoordinates.getLongitude());
 
-        const startMarker = this.googleApis.createMarker(startLocation, map, null);
+        const startMarker = this.googleApis.createMarker(startLocation, map, this.iconService.getStartIcon());
         startMarker.setVisible(false);
 
-        const endMarker = this.googleApis.createMarker(endLocation, map, null);
+        const endMarker = this.googleApis.createMarker(endLocation, map, this.iconService.getEndIcon());
         endMarker.setVisible(false);
 
         const destinationMarkers = [startMarker, endMarker];
 
         const hallBuildingName = 'Henry F. Hall Building';
-        const building = <Building>this.outdoorMap.getPOI(hallBuildingName);
+        const building = this.outdoorMap.getPOI(hallBuildingName) as Building;
         const indoorMaps = building.getIndoorMaps();
 
-        if (route.startCoordinates.getFloorNumber() == route.endCoordinates.getFloorNumber()) {
+        if (route.startCoordinates.getFloorNumber() === route.endCoordinates.getFloorNumber()) {
             indoorMaps[route.startCoordinates.getFloorNumber()].setDestinationMarkers(destinationMarkers);
-        }
-        else {
+        } else {
             indoorMaps[route.startCoordinates.getFloorNumber()].setDestinationMarkers([startMarker]);
             indoorMaps[route.endCoordinates.getFloorNumber()].setDestinationMarkers([endMarker]);
         }
@@ -342,10 +341,10 @@ export class MapService {
 
     public deleteDestinationMarkers(): void {
         const hallBuildingName = 'Henry F. Hall Building';
-        const building = <Building>this.outdoorMap.getPOI(hallBuildingName);
+        const building = this.outdoorMap.getPOI(hallBuildingName) as Building;
         const indoorMaps = building.getIndoorMaps();
 
-        for (let listIndex in indoorMaps) {
+        for (const listIndex in indoorMaps) {
             indoorMaps[listIndex].deleteDestinationMarkers();
         }
     }
