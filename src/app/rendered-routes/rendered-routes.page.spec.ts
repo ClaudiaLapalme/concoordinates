@@ -1,14 +1,20 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { RenderedRoutesPage } from './rendered-routes.page';
-import { OutdoorRoute, Coordinates, TransportMode } from '../core/models';
-import { RouteStep } from '../core/models/route-step';
-import { StateService } from '../shared/state.service';
-import { MapService } from '../core/services/map.service';
-import { CoreModule } from '../core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ElementRef } from '@angular/core';
+import { CoreModule } from '../core';
+import {
+    Coordinates,
+    OutdoorRoute,
+    Transport,
+    TransportMode,
+} from '../core/models';
+import { RouteStep } from '../core/models/route-step';
+import { MapService } from '../core/services/map.service';
+import { StateService } from '../shared/state.service';
+import { RenderedRoutesPage } from './rendered-routes.page';
 
 describe('RenderedRoutesPage', () => {
     let component: RenderedRoutesPage;
@@ -17,6 +23,9 @@ describe('RenderedRoutesPage', () => {
     class MockStateService {
         sharedRoute: OutdoorRoute;
         constructor() {
+            const mockLine = new mockTransitLine();
+            const details = new mockDetails();
+            details.line = mockLine;
             let routeStep1 = new RouteStep(
                 1,
                 new Coordinates(1, 2, 0),
@@ -24,7 +33,7 @@ describe('RenderedRoutesPage', () => {
                 null,
                 1,
                 'instruction one',
-                null
+                new Transport(null, null, null, details)
             );
             let routeStep2 = new RouteStep(
                 1,
@@ -33,7 +42,7 @@ describe('RenderedRoutesPage', () => {
                 null,
                 1,
                 'instruction two',
-                null
+                new Transport(null, null, null, details)
             );
             let routeStepsSpy = new Array<RouteStep>(routeStep1, routeStep2);
             this.sharedRoute = new OutdoorRoute(
@@ -44,10 +53,30 @@ describe('RenderedRoutesPage', () => {
                 null,
                 routeStepsSpy
             );
-            this.sharedRoute.setCurrentTravelMode(TransportMode.TRANSIT);
+            this.sharedRoute.setCurrentTravelMode(TransportMode.SHUTTLE);
         }
     }
 
+    class mockDetails implements google.maps.TransitDetails {
+        arrival_stop: google.maps.TransitStop;
+        arrival_time: google.maps.Time;
+        departure_stop: google.maps.TransitStop;
+        departure_time: google.maps.Time;
+        headsign: string;
+        headway: number;
+        line: google.maps.TransitLine;
+        num_stops: number;
+    }
+    class mockTransitLine implements google.maps.TransitLine {
+        agencies: google.maps.TransitAgency[];
+        color: string;
+        icon: string;
+        name: string;
+        short_name: string;
+        text_color: string;
+        url: string;
+        vehicle: google.maps.TransitVehicle;
+    }
     class MockMaps extends google.maps.Map {
         addListener() {
             return null;
@@ -73,12 +102,13 @@ describe('RenderedRoutesPage', () => {
             imports: [
                 IonicModule.forRoot(),
                 CoreModule,
-                RouterTestingModule.withRoutes([])
+                RouterTestingModule.withRoutes([]),
             ],
             providers: [
                 { provide: StateService, useClass: MockStateService },
-                { provide: MapService, useClass: MockMapService }
-            ]
+                { provide: MapService, useClass: MockMapService },
+            ],
+            schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
 
         fixture = TestBed.createComponent(RenderedRoutesPage);
@@ -89,6 +119,14 @@ describe('RenderedRoutesPage', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('veryfying initialization ofngOnInit', () => {
+        component.ngOnInit();
+        expect(component.displayRoutes).toBe(false);
+        expect(component.route.disability).toBe(false);
+        expect(component.routeTransportMode).toBe(TransportMode.SHUTTLE);
+    });
+
     describe('handleRecenter(userLatLng)', () => {
         class MockMapsWithLocation extends google.maps.Map {
             setCenter(latLng: google.maps.LatLng): void {}
@@ -120,6 +158,20 @@ describe('RenderedRoutesPage', () => {
 
             component.handleRecenter(undefined);
             expect(component.mapModel.getCenter()).toEqual(latLngSGW);
+        });
+    });
+    describe('displaying boolean for steps', () => {
+        it('revealRoutes() from true to false', () => {
+            component.displayRoutes = true;
+            expect(component.displayRoutes).toBe(true);
+            component.revealRoutes();
+            expect(component.displayRoutes).toBe(false);
+        });
+        it('revealRoutes() from false to true', () => {
+            component.displayRoutes = false;
+            expect(component.displayRoutes).toBe(false);
+            component.revealRoutes();
+            expect(component.displayRoutes).toBe(true);
         });
     });
 });

@@ -17,17 +17,20 @@
             </div>
         </div>
         <div *ngIf="displayRoutes">
-            <div displayRoutes class="parent">
+            <div displayRoutes class="steps-list-container">
                 <div
-                    class="test"
+                    class="step-container"
                     *ngFor="let s of route?.routeSteps; let i = index"
                 >
-                    <app-route-step [step]="s"></app-route-step>
+                    <app-route-step
+                        [routeTransportMode]="routeTransportMode"
+                        [step]="s"
+                    ></app-route-step>
                 </div>
             </div>
             <div class="displayBar">
                 <ion-icon
-                    (click)="hideRoutesFun()"
+                    (click)="revealRoutes()"
                     name="arrow-dropup"
                 ></ion-icon>
             </div>

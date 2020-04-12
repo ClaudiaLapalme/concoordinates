@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Route, TransportMode } from 'src/app/core';
+import { Route, TransportMode } from 'src/app/core/models';
 
 @Component({
     selector: 'app-routes-list-item',
