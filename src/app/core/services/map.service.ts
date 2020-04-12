@@ -89,7 +89,6 @@ export class MapService {
 
     private tilesLoadedHandler(mapObj: google.maps.Map): () => void {
         return () => {
-            console.log('mapObj', mapObj); // debug
             this.trackBuildingsOutlinesDisplay(mapObj.getZoom());
             this.trackBuildingCodeDisplay(mapObj.getZoom());
             this.trackFloorToggleButton(mapObj);
@@ -218,17 +217,16 @@ export class MapService {
         }
     }
 
-    private displayOutdoorRoute(map: google.maps.Map, route: OutdoorRoute) {
+    displayOutdoorRoute(map: google.maps.Map, route: OutdoorRoute) {
         const renderer = this.getMapRenderer();
         renderer.setMap(map);
 
         if (this.shuttleService.isShuttleRoute(route)) {
-            this.shuttleService.displayShuttleRoute(map, route)
+            this.shuttleService.displayShuttleRoute(map, route);
         } else {
             this.googleApis
                 .getDirectionsService()
                 .route(route.getDirectionsRequestFromRoute(), (res: google.maps.DirectionsResult, status) => {
-                    console.log(res);
                     if (status === 'OK') {
                         renderer.setDirections(res);
                         const matchingRouteIndex = this.filterOutRoute(res, route.startTime, route.endTime);
@@ -257,7 +255,7 @@ export class MapService {
         return -1;
     }
 
-    private displayIndoorRoute(map: google.maps.Map, indoorRoute: IndoorRoute, indoorMapLevel: number) {
+    displayIndoorRoute(map: google.maps.Map, indoorRoute: IndoorRoute, indoorMapLevel: number) {
         const startCoords: Coordinates = indoorRoute.startCoordinates;
         const startLocation: google.maps.LatLng =
             new google.maps.LatLng(startCoords.getLatitude(), startCoords.getLongitude());

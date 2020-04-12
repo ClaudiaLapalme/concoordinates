@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { MapService } from './map.service';
-import { OutdoorMap, Campus, Building, IndoorMap, Coordinates, IndoorRoute, POI } from '../models';
+import { OutdoorMap, Campus, Building, IndoorMap, Coordinates, IndoorRoute, POI, RouteStep, OutdoorRoute } from '../models';
 import { OutdoorPOIFactoryService, IndoorPOIFactoryService } from '../factories';
 import { IndoorPOI } from '../models/indoor-poi';
  
@@ -75,6 +75,8 @@ describe('MapService', () => {
         addListener() {
             return null;
         }
+        setCenter() {}
+        setZoom() {}
         getZoom(): number {
             return null;
         }
@@ -463,5 +465,44 @@ describe('MapService', () => {
             expect(mockBuilding['indoorMaps'][8]['deleteCalled']).toBeTruthy;
             expect(mockBuilding['indoorMaps'][9]['deleteCalled']).toBeTruthy;
         });
+    });
+
+    describe('displayRoute()', () => {
+        const { mapService } = testServiceSetup();
+        const mockedRouteSteps: RouteStep[] = jasmine.createSpyObj('routeSteps', ['forEach']);
+        class MockIndoorRoute extends IndoorRoute {
+            constructor() {
+                super('H962', 'H841', false, mockedRouteSteps, 10);
+            }
+        }
+
+        class MockOutdoorRoute extends OutdoorRoute {
+            constructor() {
+                super(null, null, null, null, null, null);
+            }
+        }
+
+        // const testIndoorRoute: IndoorRoute = new IndoorRoute('H962', 'H841', false, testRouteSteps, 10);
+        const testIndoorRoute: IndoorRoute = new MockIndoorRoute();
+        const testOutdoorRoute: OutdoorRoute = new MockOutdoorRoute();
+        // const testIndoorRoute: IndoorRoute = jasmine.createSpyObj('testIndoorRoute', ['']);
+        const mockMap = new MockMaps(null);
+        it('should call indoor route display', () => {
+            const spiedIndoorRoute = spyOn(mapService, 'displayIndoorRoute');
+            mapService.displayRoute(mockMap, testIndoorRoute);
+            expect(spiedIndoorRoute).toHaveBeenCalled();
+        });
+
+        it('should call outdoor route display', () => {
+            const spiedOutdoorRoute = spyOn(mapService, 'displayOutdoorRoute');
+            mapService.displayRoute(mockMap, testOutdoorRoute);
+            expect(spiedOutdoorRoute).toHaveBeenCalled();
+        });
+
+        it('should iterate over route steps for an indoor route', () => {
+            mapService.displayRoute(mockMap, testIndoorRoute);
+            expect(mockedRouteSteps.forEach).toHaveBeenCalled();
+        });
+
     });
 });

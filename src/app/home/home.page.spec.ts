@@ -194,6 +194,7 @@ describe('HomePage', () => {
             lng = 0;
         }
 
+        // Flaky
         it('should create marker', () => {
             const placeResult: any = new mockPlaceResult;
             component.searchedPlaceMarker = null;
