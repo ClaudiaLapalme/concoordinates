@@ -2,12 +2,12 @@ import {
     AfterViewInit,
     Component,
     ElementRef,
-    ViewChild,
-    OnInit,
     EventEmitter,
-    Output
+    OnInit,
+    Output,
+    ViewChild,
 } from '@angular/core';
-import { Route } from '../core/models';
+import { IndoorRoute, Route } from '../core/models';
 import { MapService } from '../core/services/map.service';
 import { StateService } from '../shared/state.service';
 
@@ -72,7 +72,6 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
 
     ngOnInit() {
         this.route = this.stateService.sharedRoute;
-        console.log(this.stateService.sharedRoute);
         this.newSelectedFloor = this.route.startCoordinates.getFloorNumber();
     }
 
@@ -84,7 +83,10 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
 
     switchFloors(newIndoorMapLevel: number): void {
         this.indoorMapLevel = newIndoorMapLevel;
-        this.mapService.displayRoute(this.mapModel, this.route, this.indoorMapLevel);
+        // When floors are switched, the polyline needs to be redrawn for an indoor route, if such exists
+        if ( this.route instanceof IndoorRoute) {
+            this.mapService.displayRoute(this.mapModel, this.route, this.indoorMapLevel);
+        }
     }
 
     handleRecenter(userLatLng): void {

@@ -482,10 +482,8 @@ describe('MapService', () => {
             }
         }
 
-        // const testIndoorRoute: IndoorRoute = new IndoorRoute('H962', 'H841', false, testRouteSteps, 10);
         const testIndoorRoute: IndoorRoute = new MockIndoorRoute();
         const testOutdoorRoute: OutdoorRoute = new MockOutdoorRoute();
-        // const testIndoorRoute: IndoorRoute = jasmine.createSpyObj('testIndoorRoute', ['']);
         const mockMap = new MockMaps(null);
         it('should call indoor route display', () => {
             const spiedIndoorRoute = spyOn(mapService, 'displayIndoorRoute');

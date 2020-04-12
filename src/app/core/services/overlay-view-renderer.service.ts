@@ -16,7 +16,6 @@ export class OverlayViewRenderer extends google.maps.OverlayView {
     // Tile lifecycle method
     public onAdd(): void {
         const panes = this.getPanes();
-        console.log(panes.overlayLayer);
         panes.overlayLayer.appendChild(this.div);
     }
 

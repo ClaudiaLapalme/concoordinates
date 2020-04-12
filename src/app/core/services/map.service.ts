@@ -13,6 +13,8 @@ import { ShuttleService } from './shuttle.service';
 @Injectable()
 export class MapService {
     private outdoorMap: Map;
+
+    // A persistence variable for indoor polyline tracking
     private drawnPolyline: google.maps.Polyline = null;
 
     private showToggleFloorButton = new BehaviorSubject(false);
@@ -217,6 +219,11 @@ export class MapService {
         }
     }
 
+    /**
+     * Wraps google API request. In addition, filters the resulting list to render only the selected route
+     * @param map map object to render the route on
+     * @param route route to render on the map
+     */
     displayOutdoorRoute(map: google.maps.Map, route: OutdoorRoute) {
         const renderer = this.getMapRenderer();
         renderer.setMap(map);
@@ -255,6 +262,12 @@ export class MapService {
         return -1;
     }
 
+    /**
+     * Method to display indoor routing using google Polylines. Tracks previous drawing, clearing it out per request
+     * @param map map object to render the route on
+     * @param indoorRoute route to render on the map
+     * @param indoorMapLevel floor for which to draw the polyline
+     */
     displayIndoorRoute(map: google.maps.Map, indoorRoute: IndoorRoute, indoorMapLevel: number) {
         const startCoords: Coordinates = indoorRoute.startCoordinates;
         const startLocation: google.maps.LatLng =
