@@ -10,14 +10,14 @@ import {
     IndoorMapComponent,
     LoaderComponent,
     LocationButtonComponent,
+    RoutesListItemComponent,
+    RoutesListItemStepComponent,
     SearchComponent,
     SettingsComponent,
     ToggleCampusComponent,
-    ToggleFloorsComponent
+    ToggleFloorsComponent,
+    TransitLineIndicatorComponent
 } from './components';
-import { RoutesListItemStepComponent } from './components/routes-list-item-step/routes-list-item-step.component';
-import { RoutesListItemComponent } from './components/routes-list-item/routes-list-item.component';
-import { TransitLineIndicatorComponent } from './components/transit-line-indicator/transit-line-indicator.component';
 import {
     AbstractPOIFactoryService,
     IndoorPOIFactoryService,

@@ -41,11 +41,11 @@
     }
 }
 
-.parent {
+.steps-list-container {
     background-color: var(--ion-color-primary);
     display: flex;
     flex-direction: column;
-    .test {
+    .step-container {
         padding: 0px 15px;
     }
 }

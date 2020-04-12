@@ -3,23 +3,16 @@ import {
     Component,
     ElementRef,
     ViewChild,
-    OnInit
+    OnInit,
 } from '@angular/core';
-import {
-    Route,
-    RouteStep,
-    TransportMode,
-    Coordinates,
-    OutdoorRoute
-} from '../core/models';
+import { Route, TransportMode } from '../core/models';
 import { MapService } from '../core/services/map.service';
-import { RoutesService } from '../core/services/routes.service';
 import { StateService } from '../shared/state.service';
 
 @Component({
     selector: 'app-rendered-routes',
     templateUrl: './rendered-routes.page.html',
-    styleUrls: ['./rendered-routes.page.scss']
+    styleUrls: ['./rendered-routes.page.scss'],
 })
 export class RenderedRoutesPage implements AfterViewInit, OnInit {
     route: Route;
@@ -51,7 +44,7 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     ) {}
 
     ngAfterViewInit(): void {
-        this.mapService.loadMap(this.mapElement).then(mapObj => {
+        this.mapService.loadMap(this.mapElement).then((mapObj) => {
             this.mapModel = mapObj;
             const locationButton = this.userCenter.nativeElement;
             const menuBar = this.menuBar.nativeElement;
@@ -67,26 +60,27 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     }
 
     ngOnInit() {
-        this.route = this.stateService.sharedRoute;
+        if (this.stateService.sharedRoute) {
+            this.route = this.stateService.sharedRoute;
 
-        this.routeTransportMode = this.stateService.sharedRoute.transportMode;
-        //remove the icon
-        this.route.disability = false;
+            this.routeTransportMode = this.stateService.sharedRoute.transportMode;
 
-        // Initial Placement
-        this.displayRoutes = false;
+            // remove the icon
+            this.route.disability = false;
+
+            // Initial Placement
+            this.displayRoutes = false;
+        }
     }
 
     // Hides routes
     revealRoutes(): void {
         // hide if visible
-        this.displayRoutes = true;
+        this.displayRoutes = !this.displayRoutes;
     }
-    hideRoutesFun(): void {
-        this.displayRoutes = false;
-    }
+
     recenterToUser(): void {
-        this.mapService.getUserLocation().then(userLatLng => {
+        this.mapService.getUserLocation().then((userLatLng) => {
             this.handleRecenter(userLatLng);
         });
     }
