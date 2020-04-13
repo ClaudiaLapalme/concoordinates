@@ -11,25 +11,28 @@ import {
     IndoorMapComponent,
     LoaderComponent,
     LocationButtonComponent,
+    RoutesListItemComponent,
+    RoutesListItemStepComponent,
     SearchComponent,
+    SettingsComponent,
     ToggleCampusComponent,
     ToggleFloorsComponent,
-    SettingsComponent,
+    TransitLineIndicatorComponent,
 } from './components';
 import {
     AbstractPOIFactoryService,
-    OutdoorPOIFactoryService,
     IndoorPOIFactoryService,
+    OutdoorPOIFactoryService,
     RouteFactory,
 } from './factories';
 import {
+    CalendarService,
     GoogleApisService,
     LocationService,
     MapService,
-    PlaceService,
-    CalendarService,
-    SessionService,
     OverlayViewRenderer,
+    PlaceService,
+    SessionService,
 } from './services';
 
 @NgModule({
@@ -42,14 +45,17 @@ import {
         DirectionsButtonComponent,
         IndoorMapComponent,
         LocationButtonComponent,
-        SettingsComponent
+        SettingsComponent,
+        RoutesListItemComponent,
+        RoutesListItemStepComponent,
+        TransitLineIndicatorComponent,
     ],
     imports: [
         CommonModule,
         IonicModule,
         IonicStorageModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ],
     providers: [
         LocationService,
@@ -64,7 +70,7 @@ import {
         PlaceService,
         LocationButtonComponent,
         CalendarService,
-        OverlayViewRenderer
+        OverlayViewRenderer,
     ],
     exports: [
         ToggleCampusComponent,
@@ -75,8 +81,11 @@ import {
         DirectionsButtonComponent,
         IndoorMapComponent,
         LocationButtonComponent,
-        SettingsComponent
+        SettingsComponent,
+        RoutesListItemComponent,
+        RoutesListItemStepComponent,
+        TransitLineIndicatorComponent,
     ],
-    entryComponents: []
+    entryComponents: [],
 })
-export class CoreModule { }
+export class CoreModule {}

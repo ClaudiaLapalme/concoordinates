@@ -11,9 +11,15 @@ import { StateService } from 'src/app/shared/state.service';
 export class RoutesListComponent implements OnInit {
     @Input() routes: Route[];
     @Input() routeTransportMode: TransportMode;
+
+    // Set to true to display route duration and route number
+    routeFullDisplay: boolean;
+
     constructor(private router: Router, private stateService: StateService) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.routeFullDisplay = true;
+    }
     displayRoute(i: number) {
         this.stateService.sharedRoute = this.routes[i];
 

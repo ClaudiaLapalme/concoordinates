@@ -144,7 +144,7 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
      *
      */
     setFrom(event: google.maps.places.PlaceResult): void {
-        this.form.controls.from.setValue(event.formatted_address);
+        this.form.controls.from.setValue(event);
     }
 
     setFromString(coords: string) {
@@ -155,7 +155,7 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
      *
      */
     setTo(event: google.maps.places.PlaceResult): void {
-        this.form.controls.to.setValue(event.formatted_address);
+        this.form.controls.to.setValue(event);
     }
 
     setToString(formattedAddress: string): void {

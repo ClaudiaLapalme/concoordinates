@@ -1,8 +1,9 @@
 import { ElementRef, Injectable } from '@angular/core';
+import { Coordinates } from '../models';
 
 @Injectable()
 export class GoogleApisService {
-    constructor() {}
+    constructor() { }
 
     public createMap(
         mapElement: ElementRef<any>,
@@ -26,6 +27,13 @@ export class GoogleApisService {
         return new google.maps.LatLng(latitude, longitude);
     }
 
+    public computeDistance(firstLocation: Coordinates, secondLocation: Coordinates): number {
+        const firstLocationLatLng = this.createLatLng(firstLocation.getLatitude(), firstLocation.getLongitude());
+        const secondLocationLatLng = this.createLatLng(secondLocation.getLatitude(), secondLocation.getLongitude());
+
+        return google.maps.geometry.spherical.computeDistanceBetween(firstLocationLatLng, secondLocationLatLng);
+    }
+
     public getGoogleMapRoutes(
         dirRequest: google.maps.DirectionsRequest
     ): Promise<google.maps.DirectionsResult> {
@@ -42,6 +50,23 @@ export class GoogleApisService {
             );
         });
     }
+
+    public createPolyline(
+        path: google.maps.LatLng[],
+        geodesic: boolean,
+        strokeColor: string,
+        strokeOpacity: number,
+        strokeWeight: number
+    ): google.maps.Polyline {
+        return new google.maps.Polyline({
+            path,
+            geodesic,
+            strokeColor,
+            strokeOpacity,
+            strokeWeight
+        });
+    }
+
     public getDirectionsService(): google.maps.DirectionsService {
         return new google.maps.DirectionsService();
     }

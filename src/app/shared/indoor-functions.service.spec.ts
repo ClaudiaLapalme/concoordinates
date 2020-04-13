@@ -59,8 +59,8 @@ describe('IndoorFunctionsService', () => {
         const endLocation = 'H841';
         const disabled = false;
         const expectedShortestPath: ShortestPathResult = {
-            distance: 31,
-            path: ['H962', 'H9-W25', 'H9-W24', 'H9-S4', 'H8-S4', 'H8-W32', 'H8-W33', 'H8-W34', 'H8-W35', 'H841']
+            distance: 20,
+            path: ['H962', 'H9-W25', 'H9-W26', 'H9-ESC8D', 'H8-ESC9D', 'H8-W40', 'H8-W39', 'H8-W38', 'H8-W34', 'H8-W35', 'H841']
         };
         expect(service.shortestPath(startLocation, endLocation, disabled)).toEqual(expectedShortestPath);
     });
@@ -75,17 +75,17 @@ describe('IndoorFunctionsService', () => {
     it('should remove escalators and elevators from disability adjacency matrix', () => {
         const disabilityAdjMatrix = service.getDisabilityAdjacencyMatrix();
         expect(disabilityAdjMatrix['H1-ESC2D']).toBeUndefined();
-        expect(disabilityAdjMatrix['H9-S1']).toBeUndefined();
+        expect(disabilityAdjMatrix['H9-S4']).toBeUndefined();
     });
 
     it('should map string path to an array of RouteSteps', () => {
-        const path = ['H859', 'H8-W06', 'H8-W17', 'H8-S1', 'H9-S1'];
+        const path = ['H859', 'H8-W06', 'H8-W17', 'H8-S4', 'H9-S4'];
         const expectedWalkingRouteStep: RouteStep = new RouteStep(
             6,
             service.getIndoorCoordinate('H859'),
-            service.getIndoorCoordinate('H8-S1'),
+            service.getIndoorCoordinate('H8-S4'),
             [service.getIndoorCoordinate('H859'), service.getIndoorCoordinate('H8-W06'),
-            service.getIndoorCoordinate('H8-W17'), service.getIndoorCoordinate('H8-S1')],
+            service.getIndoorCoordinate('H8-W17'), service.getIndoorCoordinate('H8-S4')],
             Math.ceil(6 / 20),
             null,
             new Transport(null, null, TransportMode.WALKING, null)
@@ -93,9 +93,9 @@ describe('IndoorFunctionsService', () => {
 
         const expectedStairsRouteStep: RouteStep = new RouteStep(
             15,
-            service.getIndoorCoordinate('H8-S1'),
-            service.getIndoorCoordinate('H9-S1'),
-            [service.getIndoorCoordinate('H8-S1'), service.getIndoorCoordinate('H9-S1')],
+            service.getIndoorCoordinate('H8-S4'),
+            service.getIndoorCoordinate('H9-S4'),
+            [service.getIndoorCoordinate('H8-S4'), service.getIndoorCoordinate('H9-S4')],
             Math.ceil(15 / 20),
             null,
             new Transport(null, null, TransportMode.STAIRS, null)

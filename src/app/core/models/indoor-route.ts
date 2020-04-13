@@ -1,17 +1,20 @@
-import * as indoorPoiCoordinates from '../data/indoor-poi-to-coordinates.json';
+import { IndoorFunctionsService } from 'src/app/shared/indoor-functions.service';
+import indoorPoiToCoordinates from '../data/indoor-poi-to-coordinates.json';
+import indoorWalkingPathCoordinates from '../data/indoor-walking-path-coordinates.json';
 import { Coordinates } from './coordinates';
+import { IndoorCoordinates } from './indoor-coordinates';
 import { Route } from './route';
 import { RouteStep } from './route-step';
 import { TransportMode } from './transport-mode';
 
 export class IndoorRoute implements Route {
+    private indoorFunctionsService: IndoorFunctionsService = new IndoorFunctionsService();
+    private indoorPoiToCoords: IndoorCoordinates =
+        Object.assign({}, indoorPoiToCoordinates, indoorWalkingPathCoordinates);
 
     constructor(startLocation: string, endLocation: string, disability: boolean, routeSteps: RouteStep[], distance: number) {
-        // TODO fix this
-        const moduleKey = 'default';
-        const coords: {[coordName: string]: Coordinates} = indoorPoiCoordinates[moduleKey];
-        this.startCoordinates = coords[startLocation];
-        this.endCoordinates = coords[endLocation];
+        this.startCoordinates = this.indoorFunctionsService.getIndoorCoordinate(startLocation);
+        this.endCoordinates = this.indoorFunctionsService.getIndoorCoordinate(endLocation);
         this.routeSteps = routeSteps;
         this.distance = distance;
         this.disability = disability;

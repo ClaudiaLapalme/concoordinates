@@ -31,11 +31,18 @@ describe('RoutesService', () => {
             'createOutdoorPOIFactory',
             'createIndoorPOIFactory'
         ]);
+        const shuttleService = jasmine.createSpyObj('ShuttleService', [
+            'displayShuttleRoute'
+        ]);
+        const iconService  = jasmine.createSpyObj('mockIconService', ['getLocationIcon']);
+
         const mapService: MapService = new MapService(
             locationServiceSpy,
             googleApisServiceSpy,
             placeServiceSpy,
-            abstractPOIFactoryService
+            abstractPOIFactoryService,
+            shuttleService,
+            iconService
         );
         return { mapService, locationServiceSpy, googleApisServiceSpy };
     }
