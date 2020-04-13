@@ -21,11 +21,14 @@ export class RouteStepComponent implements OnInit {
     ngOnInit() {
         // if there is an input step get its instructions and duration
         if (this.step) {
-            this.instruction = this.step.instruction;
+            console.log(this.step.instruction);
             this.stepDuration = this.step.getDuration();
             if (isNull(this.step.instruction)) {
                 this.indoorRouteInstructionGeneration();
             }
+
+            // Some instructions have html still inside
+            this.instruction = this.instruction.replace(/<\/?[^>]+(>|$)/g, '');
         }
     }
 
@@ -33,23 +36,17 @@ export class RouteStepComponent implements OnInit {
         if (this.step.transport.travelType === 'WALKING') {
             this.instruction = `Walk along the ${this.step.startCoordinate.getFloorNumber()}th floor`;
         } else if (this.step.transport.travelType === 'STAIRS') {
-
             const floorNumber: number = this.step.startCoordinate.getFloorNumber();
             const floorNumberNext: number = this.nextStep.startCoordinate.getFloorNumber();
             this.instruction = `Take the stairs from the ${floorNumber}th floor to the ${floorNumberNext}th floor`;
-
         } else if (this.step.transport.travelType === 'ESCALATOR') {
-
             const floorNumber: number = this.step.startCoordinate.getFloorNumber();
             const floorNumberNext: number = this.nextStep.startCoordinate.getFloorNumber();
             this.instruction = `Take the escalator from the ${floorNumber}th floor to the ${floorNumberNext}th floor`;
-
         } else if (this.step.transport.travelType === 'ELEVATOR') {
-
             const floorNumber: number = this.step.startCoordinate.getFloorNumber();
             const floorNumberNext: number = this.nextStep.startCoordinate.getFloorNumber();
             this.instruction = `Take the elevator from the ${floorNumber}th floor to the ${floorNumberNext}th floor`;
-
         }
     }
 }
