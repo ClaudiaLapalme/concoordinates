@@ -59,8 +59,8 @@ describe('IndoorFunctionsService', () => {
         const endLocation = 'H841';
         const disabled = false;
         const expectedShortestPath: ShortestPathResult = {
-            distance: 39,
-            path: ['H962', 'H9-W25', 'H9-W24', 'H9-S4', 'H8-S4', 'H8-W17', 'H8-W18', 'H8-W19', 'H8-W20', 'H8-W21', 'H8-W38', 'H8-W34', 'H8-W35', 'H841']
+            distance: 20,
+            path: ['H962', 'H9-W25', 'H9-W26', 'H9-ESC8D', 'H8-ESC9D', 'H8-W40', 'H8-W39', 'H8-W38', 'H8-W34', 'H8-W35', 'H841']
         };
         expect(service.shortestPath(startLocation, endLocation, disabled)).toEqual(expectedShortestPath);
     });
