@@ -20,9 +20,13 @@ export const environment = {
         projectId: "",
         storageBucket: "",
         messagingSenderId: "",
-        appId: "",   
+        appId: "",
+        measurementId: ""
     },
-    CLIENT_ID: ''
+    CLIENT_ID: '',
+    AF_CLIENT_ID: '',
+    API_KEY: '',
+    AF_API_KEY: ''
 };
 
 /*

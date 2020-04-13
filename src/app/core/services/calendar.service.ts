@@ -8,6 +8,7 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import * as firebase from 'firebase/app';
 import { stringify } from 'querystring';
 import { formatDate } from '@angular/common';
+import { auth } from 'firebase/app';
 
 declare let gapi: any;
 
@@ -33,7 +34,7 @@ export class CalendarService {
     constructor(public afAuth: AngularFireAuth,
                 private platform: Platform,
                 private gplus: GooglePlus
-    ) { }
+    ) { gapi.load('client'); }
 
     /**
      * Detects the platform being user 
@@ -55,8 +56,8 @@ export class CalendarService {
     webLogin() {   
         gapi.load('client:auth2', ()=>{
         gapi.client.init({
-              apiKey: '<API_KEY>',
-              clientId: '<CLIEN_ID>',
+              apiKey: environment.API_KEY,
+              clientId: environment.CLIENT_ID,
               discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
               scope: 'https://www.googleapis.com/auth/calendar'
             })
@@ -110,8 +111,7 @@ export class CalendarService {
                     this.eventTime = formattedTime;
                     this.emailUpdatedSource.next();
                     this.eventUpdatedSource.next();
-                });
-                
+                });      
                 return true;  
             }
         }
@@ -126,14 +126,37 @@ export class CalendarService {
      */
     async androidLogin() {
         try {
-            const result = await this.gplus.login({
-                'webClientId': environment.CLIENT_ID,
+            //google plus auth retrieves email, profile picture and an access token
+            const gplusUser = await this.gplus.login({
+                'webClientId': environment.AF_CLIENT_ID,
                 'offline': true,
-                'scopes': 'email https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events'
-            });
-            this.email = result.email;
-            this.emailUpdatedSource.next();
-        } catch (err) {
+                'scopes': 'https://www.googleapis.com/auth/calendar'
+            })
+            
+            this.email = gplusUser.email;
+            this.picture = gplusUser.imageUrl;
+            //authorize call to google calendar api
+            await gapi.client.setToken({ access_token: gplusUser.accessToken});
+            //retrieve calendar event info
+            await gapi.client.load('calendar', 'v3', async () => {                
+                await gapi.client.calendar.events.list({
+                'calendarId': 'primary',
+                'timeMin': (new Date()).toISOString(),
+                'showDeleted': false,
+                'singleEvents': true,
+                'maxResults': 10,
+                'orderBy': 'startTime'
+              })
+              .then((response)=>{
+                const formattedTime = formatDate(response.result.items[0].start.dateTime, 'shortTime', 'en-US')
+                this.eventName = response.result.items[0].summary;
+                this.eventLoc = response.result.items[0].location;
+                this.eventTime = formattedTime;
+                this.emailUpdatedSource.next();
+                this.eventUpdatedSource.next();
+            });})
+        }  
+        catch (err) {
             console.log(err)
         };
     }
