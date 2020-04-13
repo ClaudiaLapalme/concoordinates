@@ -3,21 +3,20 @@ import {
     Component,
     ElementRef,
     EventEmitter,
-    OnInit,
     Output,
     ViewChild,
+    OnInit,
 } from '@angular/core';
-import { IndoorRoute, Route } from '../core/models';
+import { Route, TransportMode, IndoorRoute } from '../core/models';
 import { MapService } from '../core/services/map.service';
 import { StateService } from '../shared/state.service';
 
 @Component({
     selector: 'app-rendered-routes',
     templateUrl: './rendered-routes.page.html',
-    styleUrls: ['./rendered-routes.page.scss']
+    styleUrls: ['./rendered-routes.page.scss'],
 })
 export class RenderedRoutesPage implements AfterViewInit, OnInit {
-
     @Output() changeIndoorMap = new EventEmitter<number>();
 
     route: Route;
@@ -29,8 +28,9 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     @ViewChild('userCenter', { read: ElementRef, static: false })
     userCenter: ElementRef;
 
-    @ViewChild('returnToRoutes', { read: ElementRef, static: false })
-    returnToRoutes: ElementRef;
+    // Displays all steps
+    @ViewChild('stepsDisplay', { read: ElementRef, static: false })
+    stepsDisplay: ElementRef;
 
     // Reference to the native switch floors buttons html element
     @ViewChild('switchFloor', { read: ElementRef, static: false })
@@ -47,6 +47,12 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     controlsShown = true;
     mapLoaded = false;
 
+    routeTransportMode: TransportMode;
+
+    displayRoutes: boolean;
+
+    routeFullDisplay: boolean;
+
     constructor(
         private stateService: StateService,
         private mapService: MapService
@@ -56,27 +62,65 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     }
 
     ngAfterViewInit(): void {
-        this.mapService.loadMap(this.mapElement).then(mapObj => {
+        this.mapService.loadMap(this.mapElement).then((mapObj) => {
             this.mapModel = mapObj;
             const locationButton = this.userCenter.nativeElement;
-            const returnButton = this.returnToRoutes.nativeElement;
+
+            // places all the html related to steps
+            const entireStepsElement = this.stepsDisplay.nativeElement;
+
+            this.mapModel.controls[
+                google.maps.ControlPosition.RIGHT_BOTTOM
+            ].push(locationButton);
+            this.mapModel.controls[google.maps.ControlPosition.TOP_CENTER].push(
+                entireStepsElement
+            );
+            this.mapService.displayRoute(mapObj, this.route);
             const switchFloorsNE = this.switchFloor.nativeElement;
-            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
-            this.mapModel.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(switchFloorsNE);
-            this.mapModel.controls[google.maps.ControlPosition.LEFT_TOP].push(returnButton);
-            this.mapService.displayRoute(this.mapModel, this.route, this.indoorMapLevel);
+            this.mapModel.controls[
+                google.maps.ControlPosition.RIGHT_BOTTOM
+            ].push(locationButton);
+            this.mapModel.controls[
+                google.maps.ControlPosition.RIGHT_BOTTOM
+            ].push(switchFloorsNE);
+            this.mapService.displayRoute(
+                this.mapModel,
+                this.route,
+                this.indoorMapLevel
+            );
             this.mapService.createDestinationMarkers(this.mapModel, this.route);
             this.mapLoaded = true;
         });
     }
 
     ngOnInit() {
-        this.route = this.stateService.sharedRoute;
-        this.newSelectedFloor = this.route.startCoordinates.getFloorNumber();
+        // If there is a service with a route provided by the state service assign attributes
+        if (this.stateService.sharedRoute) {
+            this.route = this.stateService.sharedRoute;
+
+            this.routeTransportMode = this.stateService.sharedRoute.transportMode;
+
+            this.newSelectedFloor = this.route.startCoordinates.getFloorNumber();
+
+            // remove the icon
+            this.route.disability = false;
+
+            // Initial Placement
+            this.displayRoutes = false;
+
+            // hides html note needed from component
+            this.routeFullDisplay = false;
+        }
+    }
+
+    // Hides routes
+    revealRoutes(): void {
+        // hide if visible
+        this.displayRoutes = !this.displayRoutes;
     }
 
     recenterToUser(): void {
-        this.mapService.getUserLocation().then(userLatLng => {
+        this.mapService.getUserLocation().then((userLatLng) => {
             this.handleRecenter(userLatLng);
         });
     }
@@ -84,8 +128,12 @@ export class RenderedRoutesPage implements AfterViewInit, OnInit {
     switchFloors(newIndoorMapLevel: number): void {
         this.indoorMapLevel = newIndoorMapLevel;
         // When floors are switched, the polyline needs to be redrawn for an indoor route, if such exists
-        if ( this.route instanceof IndoorRoute) {
-            this.mapService.displayRoute(this.mapModel, this.route, this.indoorMapLevel);
+        if (this.route instanceof IndoorRoute) {
+            this.mapService.displayRoute(
+                this.mapModel,
+                this.route,
+                this.indoorMapLevel
+            );
         }
     }
 

@@ -1,22 +1,71 @@
 <ion-content>
-    <div #returnToRoutes class="backButton">
-        <ion-icon (click)="eraseRoute()" [routerLink]="['/routes']" name="arrow-round-back">
-        </ion-icon>
+    <div class="stepsDisplayContainer" #stepsDisplay>
+        <div class="rendered-routes-header-container">
+            <div class="back-button-container">
+                <ion-icon
+                    [routerLink]="['/routes']"
+                    name="arrow-back"
+                ></ion-icon>
+            </div>
+            <div>
+                <app-routes-list-item
+                    [route]="route"
+                    [routeNumber]="0"
+                    [routeTransportMode]="routeTransportMode"
+                    [routeFullDisplay]="routeFullDisplay"
+                ></app-routes-list-item>
+            </div>
+        </div>
+        <div *ngIf="displayRoutes">
+            <div displayRoutes class="steps-list-container">
+                <div
+                    class="step-container"
+                    *ngFor="let s of route?.routeSteps; let i = index"
+                >
+                    <app-route-step
+                        [routeTransportMode]="routeTransportMode"
+                        [step]="s"
+                        [nextStep]="route.routeSteps[i+1]"
+                    ></app-route-step>
+                </div>
+            </div>
+            <div class="displayBar">
+                <ion-icon
+                    (click)="revealRoutes()"
+                    name="arrow-dropup"
+                ></ion-icon>
+            </div>
+        </div>
     </div>
 
     <div class="map-wrapper">
         <div #map id="map"></div>
     </div>
 
-    <app-indoor-map *ngIf="mapLoaded" [map]="mapModel" [indoorMapBuildingCode]="indoorMapBuildingCode"
-        [indoorMapLevel]="indoorMapLevel">
+    <app-indoor-map
+        *ngIf="mapLoaded"
+        [map]="mapModel"
+        [indoorMapBuildingCode]="indoorMapBuildingCode"
+        [indoorMapLevel]="indoorMapLevel"
+    >
     </app-indoor-map>
 
-    <app-location-button #userCenter (recenterOnLocation)="recenterToUser()" [ngClass]="{invisible: !controlsShown}">
+    <app-location-button
+        #userCenter
+        (recenterOnLocation)="recenterToUser()"
+        [ngClass]="{invisible: !controlsShown}"
+    >
     </app-location-button>
 
-    <app-toggle-floors #switchFloor [availableFloors]="availableFloors" [selectedFloor]="newSelectedFloor"
-        (toggledFloor)="switchFloors($event)" [ngClass]="{invisible: !controlsShown}">
+    <app-toggle-floors
+        #switchFloor
+        [availableFloors]="availableFloors"
+        [selectedFloor]="newSelectedFloor"
+        (toggledFloor)="switchFloors($event)"
+        [ngClass]="{invisible: !controlsShown}"
+    >
     </app-toggle-floors>
-
 </ion-content>
+<div *ngIf="!displayRoutes" class="displayBarAbsolute">
+    <ion-icon (click)="revealRoutes()" name="arrow-dropdown"></ion-icon>
+</div>

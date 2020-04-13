@@ -1,0 +1,21 @@
+.route-step {
+    display: flex;
+    flex-direction: column;
+    ion-icon {
+        color: var(--ion-color-primary-contrast);
+    }
+    .instruction-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-grow: 1;
+        margin-top: -15px;
+        .instruction {
+            max-width: 90%;
+        }
+    }
+}
+
+p {
+    color: var(--ion-color-primary-contrast);
+}
