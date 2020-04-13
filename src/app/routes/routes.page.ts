@@ -95,7 +95,9 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        if(this.isFromCalendar){
+        this.eventTo = this.eventTo.toLocaleUpperCase().replace(/\s/g, ""); //all caps no spaces
+        
+        if(this.isFromCalendar && this.indoorFunctionsService.coordinateIsIndoors(this.eventTo)){
             this.setToString(this.eventTo); 
             this.setFromString(this.eventFrom);
             this.isFromCalendar = false; 
@@ -170,7 +172,6 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
     setToString(place: string): void {
-        place = place.toLocaleUpperCase().replace(/\s/g, ""); //all caps no spaces
         const coordinate: Coordinates = this.indoorFunctionsService.getIndoorCoordinate(place);
         const placeObj = {
             name: place,
