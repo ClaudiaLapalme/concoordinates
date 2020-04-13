@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { RouteStep } from 'src/app/core/models/route-step';
 import { TransportMode } from 'src/app/core/models/transport-mode';
 import { isNull } from 'util';
+import { isDefined } from '@angular/compiler/src/util';
 
 @Component({
     selector: 'app-route-step',
@@ -21,14 +22,16 @@ export class RouteStepComponent implements OnInit {
     ngOnInit() {
         // if there is an input step get its instructions and duration
         if (this.step) {
-            console.log(this.step.instruction);
             this.stepDuration = this.step.getDuration();
             if (isNull(this.step.instruction)) {
                 this.indoorRouteInstructionGeneration();
+            } else if (!isDefined(this.instruction)) {
+                // Some instructions have html still inside
+                this.instruction = this.step.instruction.replace(
+                    /<\/?[^>]+(>|$)/g,
+                    ''
+                );
             }
-
-            // Some instructions have html still inside
-            this.instruction = this.instruction.replace(/<\/?[^>]+(>|$)/g, '');
         }
     }
 
