@@ -1,12 +1,9 @@
-import { Component, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject, Subscription, Observable } from 'rxjs';
-import { takeUntil, filter, map } from 'rxjs/operators';
-import { Route, RouteFactory, TransportMode, CalendarService, PlaceService, SessionService, LocationService, MapService } from '../core';
-import { Router, ActivatedRoute, NavigationStart } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { CalendarService, Coordinates, PlaceService, Route, RouteFactory, TransportMode } from '../core';
 import { IndoorFunctionsService } from '../shared/indoor-functions.service';
-import { Coordinates } from '../core';
-import { Geoposition } from '@ionic-native/geolocation/ngx';
 
 
 @Component({
@@ -37,7 +34,7 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
      * @type {TransportMode}
      */
     transportMode: TransportMode;
-    
+
     /**
      * Set to true while getting different routes
      *
@@ -54,26 +51,24 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
 
     private subscription: Subscription;
     isFromCalendar: boolean;
-    eventFrom: string = 'H801';
+    eventFrom = 'H801';
     eventTo: string;
-    //userLocation: string;
 
-    constructor(private formBuilder: FormBuilder, 
-                private routeFactory: RouteFactory, 
-                public activatedRoute: ActivatedRoute, 
+    constructor(private formBuilder: FormBuilder,
+                private routeFactory: RouteFactory,
+                public activatedRoute: ActivatedRoute,
                 public placesService: PlaceService,
                 public router: Router,
                 public indoorFunctionsService: IndoorFunctionsService,
-                private route: ActivatedRoute) 
-                {
+                private route: ActivatedRoute) {
                     this.route.queryParams.subscribe(params => {
                         if (this.router.getCurrentNavigation().extras.state) {
-                          this.isFromCalendar = this.router.getCurrentNavigation().extras.state.isRouteToEvent
+                          this.isFromCalendar = this.router.getCurrentNavigation().extras.state.isRouteToEvent;
                           this.eventTo = this.router.getCurrentNavigation().extras.state.location;
                         }
                     });
                 }
-                 
+
     ngOnInit() {
         const currentTime = new Date(Date.now());
         const hourMinutes = currentTime.getHours() + ':' + currentTime.getMinutes();
@@ -91,16 +86,19 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
                 if (this.form.valid) {
                     this.getRoutes();
                 }
-            }); 
+            });
     }
 
     ngAfterViewInit() {
-        this.eventTo = this.eventTo.toLocaleUpperCase().replace(/\s/g, ""); //all caps no spaces
-        
-        if(this.isFromCalendar && this.indoorFunctionsService.coordinateIsIndoors(this.eventTo)){
-            this.setToString(this.eventTo); 
+        try {
+            this.eventTo = this.eventTo.toLocaleUpperCase().replace(/\s/g, '');
+        } catch {}
+
+        if (this.isFromCalendar && this.indoorFunctionsService.coordinateIsIndoors(this.eventTo)) {
+
+            this.setToString(this.eventTo);
             this.setFromString(this.eventFrom);
-            this.isFromCalendar = false; 
+            this.isFromCalendar = false;
         }
     }
 
@@ -151,7 +149,7 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
     setFromString(place: string) {
-        place = place.toLocaleUpperCase().replace(/\s/g, ""); //all caps no spaces
+        place = place.toLocaleUpperCase().replace(/\s/g, ''); // all caps no spaces
         const coordinate: Coordinates = this.indoorFunctionsService.getIndoorCoordinate(place);
         const placeObj = {
             name: place,

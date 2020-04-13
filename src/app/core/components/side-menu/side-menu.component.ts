@@ -1,12 +1,9 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { CalendarService } from '../../services/calendar.service';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { RoutesPage } from '../../../routes/routes.page'
-import {PlaceService } from '../../services/place.service'
-import { Subject, Observable } from 'rxjs';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { Geoposition } from '@ionic-native/geolocation/ngx';
+import { Subscription } from 'rxjs/internal/Subscription';
 import { LocationService, MapService } from '../../services';
+import { CalendarService } from '../../services/calendar.service';
+import { PlaceService } from '../../services/place.service';
 
 @Component({
     selector: 'app-side-menu',
@@ -17,16 +14,16 @@ import { LocationService, MapService } from '../../services';
 export class SideMenuComponent implements OnInit, OnDestroy {
 
     private emailUpdateRef: Subscription = null;
-    showMenu: boolean = true;
-    showSettings: boolean = false;
-    signedIn: boolean = false;
+    showMenu = true;
+    showSettings = false;
+    signedIn = false;
     userEmail: string;
     userPicture: string;
     calEventName: string;
     calEventLocation: string;
     calEventTime: string;
     userLocation: string;
-    isRouteToEvent: boolean = false;
+    isRouteToEvent = false;
 
     mapObj: google.maps.Map;
 
@@ -40,10 +37,6 @@ export class SideMenuComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-        this.locationService.getGeoposition().then(async (geoPos) => {
-          this.setUserLocation(geoPos.coords.latitude.toString() + ' ' + geoPos.coords.longitude.toString());
-        });
-        
         this.emailUpdateRef = this.calendarService.emailUpdated$.subscribe(() => {
             this.zone.run(() => {
                 this.userEmail = this.calendarService.getUserEmail();
@@ -52,10 +45,10 @@ export class SideMenuComponent implements OnInit, OnDestroy {
                 this.calEventLocation = this.calendarService.getEventLocation();
                 this.calEventTime = this.calendarService.getEventTime();
                 this.signedIn = true;
-            })
+            });
 
 
-        })
+        });
     }
 
     ngOnDestroy() {
@@ -82,14 +75,13 @@ export class SideMenuComponent implements OnInit, OnDestroy {
 
     goToEvent() {
         this.isRouteToEvent = true;
-        let navigationExtras: NavigationExtras = {
+        const navigationExtras: NavigationExtras = {
             state: {
               location: this.calEventLocation,
               userLocation: this.userLocation,
               isRouteToEvent: this.isRouteToEvent
             }
           };
-          this.router.navigate(['routes'], navigationExtras);
-        }
-
+        this.router.navigate(['routes'], navigationExtras);
+    }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IndoorFunctionsService } from 'src/app/shared/indoor-functions.service';
-import { IndoorRoute, Route, TransportMode, Coordinates } from '../models';
+import { Coordinates, IndoorRoute, Route, TransportMode } from '../models';
 import { RoutesService } from '../services/routes.service';
 import { ShuttleService } from '../services/shuttle.service';
 
@@ -57,7 +57,7 @@ export class RouteFactory {
             // returns the same route list if the route is not eligible to have a shuttle route option
             routes = this.shuttleService.generateShuttleRoute(startLocationCoord, endLocationCoord, routes);
         }
-        
+
         return routes;
     }
 }
