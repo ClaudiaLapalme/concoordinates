@@ -63,6 +63,7 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
                 public activatedRoute: ActivatedRoute, 
                 public placesService: PlaceService,
                 public router: Router,
+                public indoorFunctionsService: IndoorFunctionsService,
                 private route: ActivatedRoute) 
                 {
                     this.route.queryParams.subscribe(params => {
@@ -147,8 +148,18 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
         this.form.controls.from.setValue(event);
     }
 
-    setFromString(coords: string) {
-        this.form.controls.from.setValue(coords);
+    setFromString(place: string) {
+        place = place.toLocaleUpperCase().replace(/\s/g, ""); //all caps no spaces
+        const coordinate: Coordinates = this.indoorFunctionsService.getIndoorCoordinate(place);
+        const placeObj = {
+            name: place,
+            formatted_address: place,
+            geometry: {
+                location: new google.maps.LatLng(coordinate.getLatitude(), coordinate.getLongitude()),
+                viewport: null,
+            }
+        } as google.maps.places.PlaceResult;
+        this.form.controls.from.setValue(placeObj);
     }
     /**
      * Set the value of the to input
@@ -158,8 +169,17 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
         this.form.controls.to.setValue(event);
     }
 
-    setToString(formattedAddress: string): void {
-        formattedAddress = formattedAddress.toLocaleUpperCase().replace(/\s/g, ""); //all caps no space
-        this.form.controls.to.setValue(formattedAddress);
+    setToString(place: string): void {
+        place = place.toLocaleUpperCase().replace(/\s/g, ""); //all caps no spaces
+        const coordinate: Coordinates = this.indoorFunctionsService.getIndoorCoordinate(place);
+        const placeObj = {
+            name: place,
+            formatted_address: place,
+            geometry: {
+                location: new google.maps.LatLng(coordinate.getLatitude(), coordinate.getLongitude()),
+                viewport: null,
+            }
+        } as google.maps.places.PlaceResult;
+        this.form.controls.to.setValue(placeObj);
     }
 }
