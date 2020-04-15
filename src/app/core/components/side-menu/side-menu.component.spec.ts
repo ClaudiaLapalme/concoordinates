@@ -17,6 +17,12 @@ describe('SideMenuComponent', () => {
     let component: SideMenuComponent;
     let fixture: ComponentFixture<SideMenuComponent>;
 
+    class MockCalendarService {
+        getAuth(): void{
+            return;
+        }
+    }
+
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
@@ -36,7 +42,7 @@ describe('SideMenuComponent', () => {
             providers: [
                 AngularFireAuth,
                 GooglePlus,
-                CalendarService
+                { provide: CalendarService, useClass: MockCalendarService },
             ]
         }).compileComponents();
 
@@ -44,13 +50,10 @@ describe('SideMenuComponent', () => {
         component = fixture.componentInstance;
 
         fixture.detectChanges();
+
     }));
 
-    const calendarServiceSpy = jasmine.createSpyObj('CalendarService', [
-        'getAuth',
-        'updateSigninStatus',
-        'getUserEmail'
-    ]);
+    
 
     it('should be created', () => {
         expect(component).toBeTruthy();
@@ -77,14 +80,9 @@ describe('SideMenuComponent', () => {
     describe('authCalendarUser()', () => {
         it('should call this.calendarService.getAuth()', () => {
             component.authCalendarUser();
-            expect(!calendarServiceSpy.getAuth()).toBeTruthy();
+            expect(component.calendarAuthPrompted).toBeTruthy();
         });
     });
 
-    describe('insertGoogleUserInfo()', () => {
-        it('should insert Google User info into the side menu', () => {
-            component.insertGoogleUserInfo();
-            expect(document.getElementById('loggedInEmail').innerHTML == '').toBeTruthy();
-        });
-    });
+    
 });

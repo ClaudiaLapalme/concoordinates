@@ -61,12 +61,6 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
                 public router: Router,
                 public indoorFunctionsService: IndoorFunctionsService,
                 private route: ActivatedRoute) {
-                    this.route.queryParams.subscribe(params => {
-                        if (this.router.getCurrentNavigation().extras.state) {
-                          this.isFromCalendar = this.router.getCurrentNavigation().extras.state.isRouteToEvent;
-                          this.eventTo = this.router.getCurrentNavigation().extras.state.location;
-                        }
-                    });
                 }
 
     ngOnInit() {
@@ -87,6 +81,15 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
                     this.getRoutes();
                 }
             });
+            
+        let _this = this;
+
+        this.route.queryParams.subscribe(params => {
+            if (this.router.getCurrentNavigation().extras.state) {
+                this.isFromCalendar = this.router.getCurrentNavigation().extras.state.isRouteToEvent;
+                this.eventTo = this.router.getCurrentNavigation().extras.state.location;
+            }
+        });
     }
 
     ngAfterViewInit() {

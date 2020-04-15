@@ -32,7 +32,7 @@ export class CalendarService {
                 private platform: Platform,
                 private gplus: GooglePlus
     ) {
-        gapi.load('client');
+        // gapi.load('client');
     }
 
     /**

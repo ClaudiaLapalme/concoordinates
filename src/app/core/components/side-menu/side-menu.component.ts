@@ -24,6 +24,7 @@ export class SideMenuComponent implements OnInit, OnDestroy {
     calEventTime: string;
     userLocation: string;
     isRouteToEvent = false;
+    calendarAuthPrompted = false;
 
     mapObj: google.maps.Map;
 
@@ -67,6 +68,7 @@ export class SideMenuComponent implements OnInit, OnDestroy {
 
     authCalendarUser(): void {
         this.calendarService.getAuth();
+        this.calendarAuthPrompted = true;
     }
 
     setUserLocation(location: string): void {
