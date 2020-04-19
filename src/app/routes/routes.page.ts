@@ -83,11 +83,11 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
                 }
             });
     
-        if(this.sessionService.areNavigationParamsLoaded()){
+        if (this.sessionService.areNavigationParamsLoaded()) {
             const navigationParams = this.sessionService.getNavigationParams();
-
             this.isFromCalendar = navigationParams.isRouteToEvent;
             this.eventTo = navigationParams.location;
+            this.sessionService.clearNavigationParams();
         }
     }
 

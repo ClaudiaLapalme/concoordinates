@@ -58,4 +58,9 @@ describe('SessionService', () => {
         
     });
 
+    it('should clear the navigation params', () => {
+        service.clearNavigationParams();
+        expect(service.navigationParams).toBeNull();
+    });
+
 });
