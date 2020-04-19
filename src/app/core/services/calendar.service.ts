@@ -32,7 +32,8 @@ export class CalendarService {
                 private platform: Platform,
                 private gplus: GooglePlus
     ) {
-        // gapi.load('client');
+        // needed for android login
+        gapi.load('client');
     }
 
     /**
