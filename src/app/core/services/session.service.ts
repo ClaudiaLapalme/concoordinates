@@ -5,9 +5,10 @@ import _ from 'lodash';
   providedIn: 'root'
 })
 export class SessionService {
-
     map: google.maps.Map;
     mapLoaded = false;
+    navigationParams: any;
+    navigationParamsLoaded = false;
 
   constructor() { }
 
@@ -35,4 +36,36 @@ export class SessionService {
   getMapRef(): google.maps.Map {
     return this.map;
   }
+
+
+  /**
+   * Stores global navigation params object
+   *
+   */
+  storeNavigationParams(params: NavigationParams): void {
+    this.navigationParams = params;
+    this.navigationParamsLoaded = true;
+  }
+
+  /**
+   * Checks if Navigation params are loaded
+   *
+   */
+  areNavigationParamsLoaded(): boolean {
+    return this.navigationParamsLoaded;
+  }
+
+  /**
+   * returns navigation params
+   */
+  getNavigationParams(): NavigationParams {
+    return this.navigationParams;
+  }
+
+
+}
+
+export interface NavigationParams {
+  location: string,
+  isRouteToEvent: boolean
 }

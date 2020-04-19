@@ -14,9 +14,15 @@ describe('CalendarService', () => {
             providers: [
                 AngularFireAuth,
                 GooglePlus,
-                CalendarService
+                CalendarService,
             ]
         });
+
+        window['gapi'] = {
+            load() {
+              return null;
+            }
+        };
     });
 
     it('should be defined', inject([CalendarService], (service: CalendarService) => {
