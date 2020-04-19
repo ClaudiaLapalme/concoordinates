@@ -1,11 +1,11 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { LocationService, MapService, SessionService } from '../../services';
 import { CalendarService } from '../../services/calendar.service';
 import { PlaceService } from '../../services/place.service';
 import { IndoorFunctionsService } from 'src/app/shared/indoor-functions.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, MenuController } from '@ionic/angular';
 
 declare let gapi: any;
 
@@ -41,8 +41,9 @@ export class SideMenuComponent implements OnInit, OnDestroy {
         public zone: NgZone,
         public sessionService: SessionService,
         private indoorFunctionsService: IndoorFunctionsService,
-        private toastController: ToastController
-    ) { }
+        private toastController: ToastController,
+        private menuController: MenuController
+    ) {}
 
     ngOnInit() {
         this.emailUpdateRef = this.calendarService.emailUpdated$.subscribe(() => {
@@ -98,6 +99,7 @@ export class SideMenuComponent implements OnInit, OnDestroy {
                 isRouteToEvent: this.isRouteToEvent
             }
         );
+        this.menuController.close();
         this.router.navigate(['routes']);
     }
 
