@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
+import { IndoorFunctionsService } from 'src/app/shared/indoor-functions.service';
 
 declare let gapi: any;
 
@@ -21,6 +22,16 @@ describe('SideMenuComponent', () => {
     class MockCalendarService {
         getAuth(): void{
             return;
+        }
+    }
+    class MockIndoorFunctionsService {
+        coordinateIsIndoors(loc: string): boolean{
+            if (loc === 'Home') {
+                return false;
+            }
+            if (loc === 'H903') {
+                return true;
+            }
         }
     }
 
@@ -44,6 +55,7 @@ describe('SideMenuComponent', () => {
                 AngularFireAuth,
                 GooglePlus,
                 { provide: CalendarService, useClass: MockCalendarService },
+                { provide: IndoorFunctionsService, useClass: MockIndoorFunctionsService },
             ]
         }).compileComponents();
 
@@ -76,7 +88,7 @@ describe('SideMenuComponent', () => {
     });
 
     describe('closeSettings()', () => {
-        it('should open the settings', () => {
+        it('should close the settings', () => {
             component.closeSettings();
 
             expect(component.showSettings).toBeFalsy();
@@ -93,5 +105,25 @@ describe('SideMenuComponent', () => {
         });
     });
 
+    describe('goToEvent', () => {
+
+        beforeEach(async(() => {
+            spyOn(component, 'presentToast').and.callThrough();
+            spyOn(component, 'navigateToEvent').and.callThrough();
+        }));
+
+        it('should not go to event if location not indoors', () => {
+            component.calEventLocation = 'Home';
+            component.goToEvent();
+            expect(component.presentToast).toHaveBeenCalled();
+        });
+
+        it('should go to event if location is indoors', () => {
+            component.calEventLocation = 'H903';
+            component.goToEvent();
+            expect(component.navigateToEvent).toHaveBeenCalled();
+        });
+        
+    });
     
-});
+})
