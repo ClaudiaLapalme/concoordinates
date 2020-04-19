@@ -23,12 +23,6 @@ export class IndoorPOIFactoryService {
             let indoorPOI = null;
 
             if (IndoorCoordinates[key].fN == floorNumber) {
-                if (
-                    IndoorPOIFactoryService.isCoordinatesFor(key, 'ESC' + (floorNumber + 1) + 'D') ||
-                    IndoorPOIFactoryService.isCoordinatesFor(key, 'ESC' + (floorNumber - 1) + 'U')
-                ) {
-                    continue;
-                }
 
                 const poiCoordinates = new Coordinates(
                     IndoorCoordinates[key].lat,
@@ -80,6 +74,18 @@ export class IndoorPOIFactoryService {
                     IndoorPOIFactoryService.isCoordinatesFor(key, 'ESC' + floorNumber + 'U')
                 ) {
                     const iconPath = '../../../assets/icon/ESC-UP-indoor.svg';
+                    indoorPOI = this.createLink(
+                        key,
+                        poiCoordinates,
+                        iconPath,
+                        'ESC',
+                        []
+                    );
+                } else if (
+                    IndoorPOIFactoryService.isCoordinatesFor(key, 'ESC' + (floorNumber + 1) + 'D') ||
+                    IndoorPOIFactoryService.isCoordinatesFor(key, 'ESC' + (floorNumber - 1) + 'U')
+                ) {
+                    const iconPath = '../../../assets/icon/ESC-normal-indoor.svg';
                     indoorPOI = this.createLink(
                         key,
                         poiCoordinates,
