@@ -4,7 +4,8 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { LocationService, MapService, SessionService } from '../../services';
 import { CalendarService } from '../../services/calendar.service';
 import { PlaceService } from '../../services/place.service';
-import { MenuController } from '@ionic/angular';
+import { IndoorFunctionsService } from 'src/app/shared/indoor-functions.service';
+import { ToastController, MenuController } from '@ionic/angular';
 
 declare let gapi: any;
 
@@ -39,6 +40,8 @@ export class SideMenuComponent implements OnInit, OnDestroy {
         public mapService: MapService,
         public zone: NgZone,
         public sessionService: SessionService,
+        private indoorFunctionsService: IndoorFunctionsService,
+        private toastController: ToastController,
         private menuController: MenuController
     ) {}
 
@@ -81,6 +84,14 @@ export class SideMenuComponent implements OnInit, OnDestroy {
     }
 
     goToEvent() {
+        if (this.indoorFunctionsService.coordinateIsIndoors(this.calEventLocation)) {
+            this.navigateToEvent();
+        } else {
+            this.presentToast();
+        }
+    }
+
+    navigateToEvent() {
         this.isRouteToEvent = true;
         this.sessionService.storeNavigationParams(
             {
@@ -90,5 +101,18 @@ export class SideMenuComponent implements OnInit, OnDestroy {
         );
         this.menuController.close();
         this.router.navigate(['routes']);
+    }
+
+    async presentToast() {
+        const toast = await this.toastController.create({
+            message: 'This functionality is only available for locations in the 8th or 9th floor of the Hall building',
+            position: 'top',
+            buttons: [{
+                    text: 'Dismiss',
+                    role: 'cancel',
+                }
+            ]
+        });
+        toast.present();
     }
 }

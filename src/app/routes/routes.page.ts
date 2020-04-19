@@ -96,7 +96,7 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
             this.eventTo = this.eventTo.toLocaleUpperCase().replace(/\s/g, '');
         } catch {}
 
-        if (this.isFromCalendar && this.indoorFunctionsService.coordinateIsIndoors(this.eventTo)) {
+        if (this.isFromCalendar) {
 
             this.setToPlace(this.eventTo);
             this.setFromPlace(this.eventFrom);
