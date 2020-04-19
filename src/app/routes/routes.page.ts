@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CalendarService, Coordinates, PlaceService, Route, RouteFactory, TransportMode } from '../core';
+import { CalendarService, Coordinates, PlaceService, Route, RouteFactory, TransportMode, SessionService } from '../core';
 import { IndoorFunctionsService } from '../shared/indoor-functions.service';
 
 
@@ -56,11 +56,12 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(private formBuilder: FormBuilder,
                 private routeFactory: RouteFactory,
-                public activatedRoute: ActivatedRoute,
                 public placesService: PlaceService,
                 public router: Router,
                 public indoorFunctionsService: IndoorFunctionsService,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                public sessionService: SessionService) {
+                    
                 }
 
     ngOnInit() {
@@ -81,15 +82,13 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
                     this.getRoutes();
                 }
             });
-            
-        let _this = this;
+    
+        if(this.sessionService.areNavigationParamsLoaded()){
+            const navigationParams = this.sessionService.getNavigationParams();
 
-        this.route.queryParams.subscribe(params => {
-            if (this.router.getCurrentNavigation().extras.state) {
-                this.isFromCalendar = this.router.getCurrentNavigation().extras.state.isRouteToEvent;
-                this.eventTo = this.router.getCurrentNavigation().extras.state.location;
-            }
-        });
+            this.isFromCalendar = navigationParams.isRouteToEvent;
+            this.eventTo = navigationParams.location;
+        }
     }
 
     ngAfterViewInit() {
@@ -99,8 +98,8 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
 
         if (this.isFromCalendar && this.indoorFunctionsService.coordinateIsIndoors(this.eventTo)) {
 
-            this.setToString(this.eventTo);
-            this.setFromString(this.eventFrom);
+            this.setToPlace(this.eventTo);
+            this.setFromPlace(this.eventFrom);
             this.isFromCalendar = false;
         }
     }
@@ -151,7 +150,7 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
         this.form.controls.from.setValue(event);
     }
 
-    setFromString(place: string) {
+    setFromPlace(place: string) {
         place = place.toLocaleUpperCase().replace(/\s/g, ''); // all caps no spaces
         const coordinate: Coordinates = this.indoorFunctionsService.getIndoorCoordinate(place);
         const placeObj = {
@@ -172,7 +171,7 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
         this.form.controls.to.setValue(event);
     }
 
-    setToString(place: string): void {
+    setToPlace(place: string): void {
         const coordinate: Coordinates = this.indoorFunctionsService.getIndoorCoordinate(place);
         const placeObj = {
             name: place,

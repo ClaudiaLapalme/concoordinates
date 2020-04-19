@@ -11,6 +11,7 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 
+declare let gapi: any;
 
 describe('SideMenuComponent', () => {
 
@@ -49,6 +50,15 @@ describe('SideMenuComponent', () => {
         fixture = TestBed.createComponent(SideMenuComponent);
         component = fixture.componentInstance;
 
+        window['gapi'] = {
+            load() {
+              return null;
+            },
+            anotherFunction() {
+              return null;
+            }
+          }
+
         fixture.detectChanges();
 
     }));
@@ -79,7 +89,9 @@ describe('SideMenuComponent', () => {
 
     describe('authCalendarUser()', () => {
         it('should call this.calendarService.getAuth()', () => {
+            
             component.authCalendarUser();
+            
             expect(component.calendarAuthPrompted).toBeTruthy();
         });
     });

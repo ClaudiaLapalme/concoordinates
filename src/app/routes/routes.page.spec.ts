@@ -1,9 +1,9 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
-import { CoreModule, TransportMode } from '../core';
+import { CoreModule, TransportMode, RouteFactory, Route } from '../core';
 import { RoutesPage } from './routes.page';
 import { ActivatedRoute, Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
@@ -12,29 +12,56 @@ describe('RoutesPage', () => {
     let component: RoutesPage;
     let fixture: ComponentFixture<RoutesPage>;
 
-    const mockFactory = jasmine.createSpyObj('mockComponent', ['getRoutes']);
-    const mockFormbuilder = jasmine.createSpyObj('mockFormbuilder', ['group']);
+    // const mockFactory = jasmine.createSpyObj('mockComponent', ['getRoutes']);
+    // const mockFormbuilder = jasmine.createSpyObj('mockFormbuilder', ['group']);
+    const testRoute = {
+        startCoordinates: null,
+        endCoordinates: null,
+        startTime: null,
+        endTime: null,
+        routeSteps: [],
+        transportMode: null,
+        disability: true,
+        computeTotalDuration():number{
+            return 0;
+        } ,
+        computeTotalDistance(): number{
+            return 0;
+        },
 
-    let router: Router;
-    
+        setCurrentTravelMode(transportMode: TransportMode): void{
+
+        },
+        getInstructions(): string[]{
+            return [];
+        }
+    }
+
+    class MockRouteFactory {
+        async getRoutes(): Promise<Route[]>{
+
+            return [testRoute] ;
+        }
+    }
+
+    // class MockRoute implements Route{
+
+    // }
 
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [RoutesPage],
             imports: [IonicModule.forRoot(), ReactiveFormsModule, FormsModule, CoreModule, RouterTestingModule.withRoutes([])],
-            schemas: [NO_ERRORS_SCHEMA]
+            schemas: [NO_ERRORS_SCHEMA],
+            providers: [{provide:RouteFactory, useClass:MockRouteFactory}]
         }).compileComponents();
 
         fixture = TestBed.createComponent(RoutesPage);
         component = fixture.componentInstance;
-        
         fixture.detectChanges();
-        router = TestBed.get(Router);
-        component.router = router;
-
-
     }));
+
 
     it('should create', () => {
         expect(component).toBeTruthy();
@@ -50,16 +77,8 @@ describe('RoutesPage', () => {
         component.form.controls.departAt.setValue(null);
         component.form.controls.from.setValue('Concordia University');
         component.form.controls.to.setValue('Loyola Campus');
-        fixture.detectChanges();
-        const mockedComponent = new RoutesPage(mockFormbuilder, mockFactory, null, null, router, null, null);
-        mockedComponent.form = component.form;
-        const parsedDate = new Date();
-        const actualTime = component.form.controls.time.value.split(':');
-        parsedDate.setHours(actualTime[0]);
-        parsedDate.setMinutes(actualTime[1]);
-
-        await mockedComponent.getRoutes();
-        expect(mockFactory.getRoutes).toHaveBeenCalled();
+        await component.getRoutes();
+        expect(component.routes).toEqual([testRoute]);
 
     });
 
@@ -100,22 +119,48 @@ describe('RoutesPage', () => {
         }
 
 
-        // it('should call setFrom when place selection is emitted', () => {
-        //     const search = fixture.debugElement.query(By.css('.search-from'));
-        //     const searchComponent = search.componentInstance;
-        //     const mockResult = new MockPlaceResult();
-        //     searchComponent.placeSelection.emit(mockResult);
-        //     expect(component.setFrom).toHaveBeenCalledWith(mockResult);
-        // });
-        // it('should call setTo when place selection is emitted', () => {
-        //     const search = fixture.debugElement.query(By.css('.search-to'));
-        //     const searchComponent = search.componentInstance;
-        //     const mockResult = new MockPlaceResult();
-        //     searchComponent.placeSelection.emit(mockResult);
-        //     expect(component.setTo).toHaveBeenCalledWith(mockResult);
-        // });
+        it('should call setFrom when place selection is emitted', () => {
+            const search = fixture.debugElement.query(By.css('.search-from'));
+            const searchComponent = search.componentInstance;
+            const mockResult = new MockPlaceResult();
+            searchComponent.placeSelection.emit(mockResult);
+            expect(component.setFrom).toHaveBeenCalledWith(mockResult);
+        });
+
+        it('should call setTo when place selection is emitted', () => {
+            const search = fixture.debugElement.query(By.css('.search-to'));
+            const searchComponent = search.componentInstance;
+            const mockResult = new MockPlaceResult();
+            searchComponent.placeSelection.emit(mockResult);
+            expect(component.setTo).toHaveBeenCalledWith(mockResult);
+        });
+
+        it('should call setToPlace and set the form \'to\' value to the given string ', () => {
+            component.setToPlace('H820');
+            const mockPlaceObj = {
+                name: 'H820',
+                formatted_address: 'H820',
+                geometry: {
+                    location: new google.maps.LatLng(45.49715839, -73.57899530),
+                    viewport: null,
+                }
+            };
+            expect(component.form.controls.to.value).toEqual(mockPlaceObj);
+        });
+
+        it('should call setFromPlace and set the form \'from\' value to the given string ', () => {
+            component.setFromPlace('H820');
+            const mockPlaceObj = {
+                name: 'H820',
+                formatted_address: 'H820',
+                geometry: {
+                    location: new google.maps.LatLng(45.49715839, -73.57899530),
+                    viewport: null,
+                }
+            };
+            expect(component.form.controls.from.value).toEqual(mockPlaceObj);
+        });
 
 
     });
-
 });

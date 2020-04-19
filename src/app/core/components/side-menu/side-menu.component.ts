@@ -1,9 +1,11 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { LocationService, MapService } from '../../services';
+import { LocationService, MapService, SessionService } from '../../services';
 import { CalendarService } from '../../services/calendar.service';
 import { PlaceService } from '../../services/place.service';
+
+declare let gapi: any;
 
 @Component({
     selector: 'app-side-menu',
@@ -34,7 +36,8 @@ export class SideMenuComponent implements OnInit, OnDestroy {
         public router: Router,
         public locationService: LocationService,
         public mapService: MapService,
-        public zone: NgZone
+        public zone: NgZone,
+        public sessionService: SessionService
     ) {}
 
     ngOnInit() {
@@ -77,13 +80,12 @@ export class SideMenuComponent implements OnInit, OnDestroy {
 
     goToEvent() {
         this.isRouteToEvent = true;
-        const navigationExtras: NavigationExtras = {
-            state: {
-              location: this.calEventLocation,
-              userLocation: this.userLocation,
-              isRouteToEvent: this.isRouteToEvent
+        this.sessionService.storeNavigationParams(
+            {
+                location: this.calEventLocation,
+                isRouteToEvent: this.isRouteToEvent
             }
-          };
-        this.router.navigate(['routes'], navigationExtras);
+        );
+        this.router.navigate(['routes']);
     }
 }
