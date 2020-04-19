@@ -48,6 +48,15 @@ export class SessionService {
   }
 
   /**
+   * Clears global navigation params object
+   *
+   */
+  clearNavigationParams(): void {
+    this.navigationParams = null;
+    this.navigationParamsLoaded = false;
+  }
+
+  /**
    * Checks if Navigation params are loaded
    *
    */
