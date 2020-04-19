@@ -12,8 +12,6 @@ describe('RoutesPage', () => {
     let component: RoutesPage;
     let fixture: ComponentFixture<RoutesPage>;
 
-    // const mockFactory = jasmine.createSpyObj('mockComponent', ['getRoutes']);
-    // const mockFormbuilder = jasmine.createSpyObj('mockFormbuilder', ['group']);
     const testRoute = {
         startCoordinates: null,
         endCoordinates: null,
@@ -44,11 +42,6 @@ describe('RoutesPage', () => {
         }
     }
 
-    // class MockRoute implements Route{
-
-    // }
-
-
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [RoutesPage],
@@ -60,6 +53,7 @@ describe('RoutesPage', () => {
         fixture = TestBed.createComponent(RoutesPage);
         component = fixture.componentInstance;
         fixture.detectChanges();
+        
     }));
 
 

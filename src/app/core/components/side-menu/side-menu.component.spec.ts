@@ -53,9 +53,6 @@ describe('SideMenuComponent', () => {
         window['gapi'] = {
             load() {
               return null;
-            },
-            anotherFunction() {
-              return null;
             }
           }
 

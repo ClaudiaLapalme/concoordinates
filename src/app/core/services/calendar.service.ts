@@ -32,7 +32,12 @@ export class CalendarService {
                 private platform: Platform,
                 private gplus: GooglePlus
     ) {
-        // gapi.load('client');
+        if(this.platform){
+            if (this.platform.is('capacitor')) {
+                gapi.load('client');
+            }
+        }
+     
     }
 
     /**
