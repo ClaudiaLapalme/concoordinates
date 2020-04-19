@@ -1,9 +1,10 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { LocationService, MapService, SessionService } from '../../services';
 import { CalendarService } from '../../services/calendar.service';
 import { PlaceService } from '../../services/place.service';
+import { MenuController } from '@ionic/angular';
 
 declare let gapi: any;
 
@@ -37,7 +38,8 @@ export class SideMenuComponent implements OnInit, OnDestroy {
         public locationService: LocationService,
         public mapService: MapService,
         public zone: NgZone,
-        public sessionService: SessionService
+        public sessionService: SessionService,
+        private menuController: MenuController
     ) {}
 
     ngOnInit() {
@@ -86,6 +88,7 @@ export class SideMenuComponent implements OnInit, OnDestroy {
                 isRouteToEvent: this.isRouteToEvent
             }
         );
+        this.menuController.close();
         this.router.navigate(['routes']);
     }
 }
