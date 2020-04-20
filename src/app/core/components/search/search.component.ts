@@ -61,6 +61,12 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     @Input() topMargin = false;
 
     /**
+     * Initial value of the input
+     *
+     */
+    @Input() value: string; 
+
+    /**
      * Emits a place result to the parent component
      *
      * @type {EventEmitter<
@@ -142,6 +148,9 @@ export class SearchComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     ) { }
 
     ngOnInit() {
+        if (this.value) {
+            this.searchInput.setValue(this.value);
+        }
         this.subscription = this.searchInput.valueChanges
             .subscribe(() => {
                 this.search();

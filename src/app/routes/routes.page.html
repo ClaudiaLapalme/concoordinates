@@ -7,6 +7,7 @@
           <div class="main-input-container">
               <app-search 
               class="search-from"
+                [value]="eventFrom"
                 [colorPrimary]="false" 
                 [showSearchIcon]="false" 
                 [placeholder]="'From'" 
@@ -14,6 +15,7 @@
             </app-search>
             <app-search 
                 class="search-to"
+                [value]="eventTo"
                 [colorPrimary]="false" 
                 [showSearchIcon]="false" 
                 [placeholder]="'To'" 

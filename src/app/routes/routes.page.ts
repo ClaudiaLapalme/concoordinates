@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CalendarService, Coordinates, PlaceService, Route, RouteFactory, TransportMode, SessionService } from '../core';
 import { IndoorFunctionsService } from '../shared/indoor-functions.service';
@@ -51,7 +51,7 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
 
     private subscription: Subscription;
     isFromCalendar: boolean;
-    eventFrom = 'H801';
+    eventFrom: string;
     eventTo: string;
 
     constructor(private formBuilder: FormBuilder,
@@ -59,7 +59,6 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
                 public placesService: PlaceService,
                 public router: Router,
                 public indoorFunctionsService: IndoorFunctionsService,
-                private route: ActivatedRoute,
                 public sessionService: SessionService) {
                     
                 }
@@ -86,6 +85,7 @@ export class RoutesPage implements OnInit, AfterViewInit, OnDestroy {
         if (this.sessionService.areNavigationParamsLoaded()) {
             const navigationParams = this.sessionService.getNavigationParams();
             this.isFromCalendar = navigationParams.isRouteToEvent;
+            this.eventFrom = 'H801';
             this.eventTo = navigationParams.location;
             this.sessionService.clearNavigationParams();
         }
